@@ -1,0 +1,29 @@
+﻿<Window x:Class="TrucoPrueba1.LogIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrucoPrueba1"
+        mc:Ignorable="d"
+        xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+        Title="{x:Static language:Lang.StartTextLogIn}" Height="450" Width="800">
+    <StackPanel>
+        <TextBlock Text=""/>
+        <ComboBox x:Name="cbLanguages" SelectionChanged="Language_Selection_Changed" Cursor="Hand" Width="120" HorizontalAlignment="Right" Margin="20">
+            <ComboBoxItem Content="{x:Static language:Lang.en}"/>
+            <ComboBoxItem Content="{x:Static language:Lang.es}"/>
+        </ComboBox>
+        <StackPanel Margin="50" Width="200">
+            <TextBlock Text="{x:Static language:Lang.StarTextEmailOrUsername}"/>
+            <TextBox x:Name="txtEmailUsername" Cursor="Hand"/>
+            <TextBlock Text=""/>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}"/>
+            <PasswordBox x:Name="txtPassword" Cursor="Hand"/>
+            <TextBlock Text=""/>
+            <Button Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand"/>
+            <Button Click="ClickPlayAsGuest" Content="{x:Static language:Lang.StartTextPlayAsGuest}" Cursor="Hand"/>
+            <TextBlock Text=""/>
+            <Button Click="ClickSingUp" Content="{x:Static language:Lang.StartTextSingUp}" Cursor="Hand" Width="120"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

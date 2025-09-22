@@ -1,0 +1,29 @@
+﻿<Window x:Class="TrucoPrueba1.NewUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrucoPrueba1"
+        mc:Ignorable="d"
+        xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+        Title="{x:Static language:Lang.StartTextSingUp}" Height="450" Width="800">
+    <StackPanel>
+        <Label Content="{x:Static language:Lang.GlobalTextNewUser}" FontSize="30" HorizontalAlignment="Center"/>
+        <StackPanel Margin="30" HorizontalAlignment="Center">
+            <TextBlock Text="{x:Static language:Lang.GlobalTextEmail}"/>
+            <TextBox x:Name="txtEmail" Width="150" Cursor="Hand"/>
+            <TextBlock Text=" "/>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}"/>
+            <TextBox x:Name="txtUsername" Width="150" Cursor="Hand"/>
+            <TextBlock Text=" "/>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}"/>
+            <PasswordBox x:Name="txtPassword" Width="150" Cursor="Hand"/>
+            <TextBlock Text=" "/>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextConfirmPassword}"/>
+            <PasswordBox x:Name="txtPassword2" Width="150" Cursor="Hand"/>
+            <TextBlock Text=" "/>
+            <Button Content= "{x:Static language:Lang.GlobalTextCreateAccount}" Click="ClickButtonRegister" Cursor="Hand"/>
+        </StackPanel>
+        <Button Content="{x:Static language:Lang.GlobalTextExit}" Click="ClickButtonExit" HorizontalAlignment="Right" Width="50" Margin="10" Cursor="Hand"/>
+    </StackPanel>
+</Window>

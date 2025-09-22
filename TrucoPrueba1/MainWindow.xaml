@@ -1,0 +1,17 @@
+﻿<Window x:Class="TrucoPrueba1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrucoPrueba1"
+        mc:Ignorable="d"
+        xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+        Title="{x:Static language:Lang.GlobalTextHome}" Height="450" Width="800">
+    <StackPanel>
+        <Label Content="{x:Static language:Lang.GlobalTextHello}" FontSize="30" HorizontalAlignment="Center"/>
+        <StackPanel Margin="130">
+            <Button Content= "{x:Static language:Lang.GlobalTextRankings}" Click="ClickButtonRankings" Width="150" Cursor="Hand"/>
+        </StackPanel>
+        <Button Content="{x:Static language:Lang.GlobalTextLogOut}" Click="ClickButtonLogOut" HorizontalAlignment="Right" Width="80" Margin="10" Cursor="Hand"/>
+    </StackPanel>
+</Window>
