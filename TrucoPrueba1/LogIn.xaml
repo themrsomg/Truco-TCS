@@ -6,24 +6,56 @@
         xmlns:local="clr-namespace:TrucoPrueba1"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-        Title="{x:Static language:Lang.StartTextLogIn}" Height="450" Width="800">
+        Title="{x:Static language:Lang.StartTextLogIn}" Height="800" Width="600" FontFamily="Book Antiqua" FontSize="30" ResizeMode="NoResize">
+    <Window.Background>
+        <ImageBrush ImageSource="wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+    </Window.Background>
     <StackPanel>
-        <TextBlock Text=""/>
-        <ComboBox x:Name="cbLanguages" SelectionChanged="Language_Selection_Changed" Cursor="Hand" Width="120" HorizontalAlignment="Right" Margin="20">
-            <ComboBoxItem Content="{x:Static language:Lang.en}"/>
-            <ComboBoxItem Content="{x:Static language:Lang.es}"/>
-        </ComboBox>
-        <StackPanel Margin="50" Width="200">
-            <TextBlock Text="{x:Static language:Lang.StarTextEmailOrUsername}"/>
-            <TextBox x:Name="txtEmailUsername" Cursor="Hand"/>
-            <TextBlock Text=""/>
-            <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}"/>
-            <PasswordBox x:Name="txtPassword" Cursor="Hand"/>
-            <TextBlock Text=""/>
-            <Button Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand"/>
-            <Button Click="ClickPlayAsGuest" Content="{x:Static language:Lang.StartTextPlayAsGuest}" Cursor="Hand"/>
-            <TextBlock Text=""/>
-            <Button Click="ClickSingUp" Content="{x:Static language:Lang.StartTextSingUp}" Cursor="Hand" Width="120"/>
+        <Grid Height="350" Width="350">
+            <Grid.Background>
+                <ImageBrush ImageSource="/logo.png"/>
+            </Grid.Background>
+        </Grid>
+        <StackPanel Margin="10,1,10,0" Width="450">
+            <TextBlock Text="{x:Static language:Lang.StarTextEmailOrUsername}" Foreground="White"/>
+            <TextBox x:Name="txtEmailUsername" Cursor="Hand">
+                <TextBox.Template>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="White" CornerRadius="5" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </TextBox.Template>
+            </TextBox>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}" Margin="0,15,0,0" Foreground="White"/>
+            <PasswordBox x:Name="txtPassword" Cursor="Hand">
+                <PasswordBox.Template>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border Background="White" CornerRadius="5" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </PasswordBox.Template>
+            </PasswordBox>
+            <Label MouseRightButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" Width="245" HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
+            <Button Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand" Margin="80,30,80,0" FontSize="40">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,10,0" FontSize="30" HorizontalAlignment="Right">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </StackPanel>
 </Window>

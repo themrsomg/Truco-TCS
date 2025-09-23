@@ -100,6 +100,9 @@
     <Compile Include="Friendship.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Compile Include="InitialWindows.xaml.cs">
+      <DependentUpon>InitialWindows.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Invitation.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
     <Compile Include="Versions.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Page Include="InitialWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LogIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,6 +224,9 @@
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
       <LastGenOutput>baseDatosTruco.cs</LastGenOutput>
     </Content>
+    <Resource Include="logo.png" />
+    <Resource Include="main_wallpaper.png" />
+    <Resource Include="wallpaper.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

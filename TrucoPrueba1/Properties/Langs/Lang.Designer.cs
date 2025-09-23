@@ -511,6 +511,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Back.
+        /// </summary>
+        public static string GlobalTextBack {
+            get {
+                return ResourceManager.GetString("GlobalTextBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ban.
         /// </summary>
         public static string GlobalTextBan {
@@ -934,6 +943,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Argentinian Truco.
+        /// </summary>
+        public static string GlobalTextTrucoArg {
+            get {
+                return ResourceManager.GetString("GlobalTextTrucoArg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a User.
         /// </summary>
         public static string GlobalTextUser {
@@ -1087,7 +1105,16 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Log In.
+        ///   Busca una cadena traducida similar a Forgot password?.
+        /// </summary>
+        public static string StartTextForgotPassword {
+            get {
+                return ResourceManager.GetString("StartTextForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Log in.
         /// </summary>
         public static string StartTextLogIn {
             get {

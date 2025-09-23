@@ -25,17 +25,6 @@ namespace TrucoPrueba1
         {
             InitializeComponent();
         }
-        private void Language_Selection_Changed (object sender, SelectionChangedEventArgs e)
-        {
-            if (cbLanguages.SelectedIndex == 0)
-            {
-                Properties.Settings.Default.languageCode = "en-US";
-            } else
-            {
-                Properties.Settings.Default.languageCode = "es-MX";
-            }
-            Properties.Settings.Default.Save();
-        }
         private void ClickLogIn(object sender, RoutedEventArgs e)
         {
             string usernameOrEmail = txtEmailUsername.Text.Trim();
@@ -80,17 +69,15 @@ namespace TrucoPrueba1
             }
         }
 
-        private void ClickPlayAsGuest(object sender, RoutedEventArgs e)
+        private void ClickForgotPassword(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow(); //CREAR VENTANA DE INVITADOS
-            mainWindow.Show();
-            this.Close();
+            //FORGOT PASSWORD WINDOW
         }
 
-        private void ClickSingUp(object sender, RoutedEventArgs e)
+        private void ClickBack(object sender, RoutedEventArgs e)
         {
-            NewUser newUserWindow = new NewUser();
-            newUserWindow.Show();
+            InitialWindows initialWindows = new InitialWindows();
+            initialWindows.Show();
             this.Close();
         }
     }

@@ -178,7 +178,7 @@
     <value>Email or Username</value>
   </data>
   <data name="StartTextLogIn" xml:space="preserve">
-    <value>Log In</value>
+    <value>Log in</value>
   </data>
   <data name="StartTextPlayAsGuest" xml:space="preserve">
     <value>Play as Guest</value>
@@ -467,5 +467,14 @@
   </data>
   <data name="MenuTextExit" xml:space="preserve">
     <value>Exit</value>
+  </data>
+  <data name="StartTextForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="GlobalTextBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="GlobalTextTrucoArg" xml:space="preserve">
+    <value>Argentinian Truco</value>
   </data>
 </root>
