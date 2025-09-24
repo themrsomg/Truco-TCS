@@ -94,14 +94,22 @@
     <Compile Include="Card.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Compile Include="CreditsPage.xaml.cs">
+      <DependentUpon>CreditsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DealtCard.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
     <Compile Include="Friendship.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
+=======
+    <Compile Include="FriendsPage.xaml.cs">
+      <DependentUpon>FriendsPage.xaml</DependentUpon>
+>>>>>>> 2a15eda970484cfe025a6e58c6a5872e0d94e56c
     </Compile>
     <Compile Include="InitialWindows.xaml.cs">
       <DependentUpon>InitialWindows.xaml</DependentUpon>
@@ -130,11 +138,17 @@
     <Compile Include="NewUserPage.xaml.cs">
       <DependentUpon>NewUserPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlayPage.xaml.cs">
+      <DependentUpon>PlayPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RankingsPage.xaml.cs">
       <DependentUpon>RankingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Round.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
@@ -148,10 +162,21 @@
     <Compile Include="UserProfile.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserProfilePage.xaml.cs">
+      <DependentUpon>UserProfilePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Versions.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Page Include="GamePage.xaml">
+=======
+    <Page Include="CreditsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FriendsPage.xaml">
+>>>>>>> 2a15eda970484cfe025a6e58c6a5872e0d94e56c
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,7 +207,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PlayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RankingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,7 +223,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+<<<<<<< HEAD
     <Page Include="TopTenPage.xaml">
+=======
+    <Page Include="UserProfilePage.xaml">
+>>>>>>> 2a15eda970484cfe025a6e58c6a5872e0d94e56c
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
