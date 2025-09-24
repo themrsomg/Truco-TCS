@@ -427,7 +427,7 @@
     <value>Status</value>
   </data>
   <data name="GlobalTextTop10" xml:space="preserve">
-    <value>Top 10</value>
+    <value>Global Top</value>
   </data>
   <data name="GlobalTextUser" xml:space="preserve">
     <value>User</value>
@@ -448,7 +448,7 @@
     <value>Social networks</value>
   </data>
   <data name="RankingsTextLastGames" xml:space="preserve">
-    <value>Last games</value>
+    <value>Last 5 games</value>
   </data>
   <data name="SettingsTextAbout" xml:space="preserve">
     <value>About</value>

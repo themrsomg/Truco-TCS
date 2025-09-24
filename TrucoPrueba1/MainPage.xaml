@@ -23,7 +23,7 @@
         <Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <StackPanel>
-                    <Button Click="ClickSettings" Cursor="Hand" Margin="30,10,65,0" Width="50" Height="50" FontSize="30">
+                    <Button Click="ClickSettings" Cursor="Hand" Margin="30,10,65,0" Width="60" Height="60" FontSize="30">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="10" BorderThickness="2">
@@ -33,13 +33,13 @@
                         </Button.Template>
                         <Grid>
                             <TextBlock Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-                            <Image Source="Resources/logo_settings.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Image Source="Resources/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
                     <Button Content="{x:Static language:Lang.GlobalTextProfile}" Click="ClickProfile" Cursor="Hand" Margin="30,10,65,0" FontSize="30">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10" Background="#FF39C6FF" BorderThickness="2" BorderBrush="#FF0005FF">
+                                <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
@@ -48,7 +48,7 @@
                     <Button Content="{x:Static language:Lang.GlobalTextFriends}" Click="ClickFriends" Cursor="Hand" Margin="30,10,65,600" FontSize="30">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10" Background="#FF39C6FF" BorderThickness="2" BorderBrush="#FF0005FF">
+                                <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
@@ -74,7 +74,7 @@
                 <Button Click="ClickRankings" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="10" Background="#FFEAF42E" BorderThickness="2" BorderBrush="#FFD1D400">
+                            <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>

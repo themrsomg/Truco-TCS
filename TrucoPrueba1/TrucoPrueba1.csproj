@@ -100,11 +100,17 @@
     <Compile Include="Friendship.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Compile Include="GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InitialWindows.xaml.cs">
       <DependentUpon>InitialWindows.xaml</DependentUpon>
     </Compile>
     <Compile Include="Invitation.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LastMatchPage.xaml.cs">
+      <DependentUpon>LastMatchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lobby.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
@@ -133,6 +139,9 @@
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TopTenPage.xaml.cs">
+      <DependentUpon>TopTenPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
@@ -142,7 +151,15 @@
     <Compile Include="Versions.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Page Include="GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InitialWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LastMatchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TopTenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,6 +251,20 @@
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
       <LastGenOutput>baseDatosTruco.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Cards\1_cup_1.png" />
+    <Resource Include="Resources\Cards\1_cup_2.png" />
+    <Resource Include="Resources\Cards\1_cup_3.png" />
+    <Resource Include="Resources\Cards\1_cup_4.png" />
+    <Resource Include="Resources\Cards\1_cup_5.png" />
+    <Resource Include="Resources\Cards\1_cup_6.png" />
+    <Resource Include="Resources\Cards\1_cup_7.png" />
+    <Resource Include="Resources\Cards\1_sword_1.png" />
+    <Resource Include="Resources\Cards\1_sword_2.png" />
+    <Resource Include="Resources\Cards\1_sword_3.png" />
+    <Resource Include="Resources\Cards\1_sword_4.png" />
+    <Resource Include="Resources\Cards\1_sword_5.png" />
+    <Resource Include="Resources\Cards\1_sword_6.png" />
+    <Resource Include="Resources\Cards\1_sword_7.png" />
     <Resource Include="Resources\logo_settings.png" />
     <Resource Include="Resources\app_logo.ico" />
     <Resource Include="Resources\logo_play_as_guest.png" />

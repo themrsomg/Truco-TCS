@@ -16,27 +16,17 @@ using System.Windows.Shapes;
 namespace TrucoPrueba1
 {
     /// <summary>
-    /// Lógica de interacción para RankingsPage.xaml
+    /// Lógica de interacción para TopTenPage.xaml
     /// </summary>
-    public partial class RankingsPage : Page
+    public partial class TopTenPage : Page
     {
-        public RankingsPage()
+        public TopTenPage()
         {
             InitializeComponent();
         }
-
-        private void ClickTopTen(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new TopTenPage());
-        }
-        private void ClickLastFiveGames(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new LastMatchPage());
-        }
-
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            this.NavigationService.Navigate(new RankingsPage());
         }
     }
 }

@@ -934,7 +934,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Top 10.
+        ///   Busca una cadena traducida similar a Global Top.
         /// </summary>
         public static string GlobalTextTop10 {
             get {
@@ -1051,7 +1051,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Last games.
+        ///   Busca una cadena traducida similar a Last 5 games.
         /// </summary>
         public static string RankingsTextLastGames {
             get {

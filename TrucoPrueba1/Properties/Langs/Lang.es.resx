@@ -427,7 +427,7 @@
     <value>Estado</value>
   </data>
   <data name="GlobalTextTop10" xml:space="preserve">
-    <value>Los 10 mejores</value>
+    <value>Top Global</value>
   </data>
   <data name="GlobalTextUser" xml:space="preserve">
     <value>Usuario</value>
@@ -448,7 +448,7 @@
     <value>Redes sociales</value>
   </data>
   <data name="RankingsTextLastGames" xml:space="preserve">
-    <value>Últimas partidas</value>
+    <value>Últimas 5 partidas</value>
   </data>
   <data name="SettingsTextAbout" xml:space="preserve">
     <value>Acerca de</value>

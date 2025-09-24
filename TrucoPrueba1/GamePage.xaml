@@ -1,0 +1,104 @@
+﻿<Page x:Class="TrucoPrueba1.GamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TrucoPrueba1"
+      mc:Ignorable="d" 
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+    Title="{x:Static language:Lang.GlobalTextTrucoArg}" FontFamily="Book Antiqua" FontSize="20" Height="600" Width="800">
+    <Page.Background>
+        <ImageBrush ImageSource="Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+    </Page.Background>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Parte superior -->
+            <RowDefinition Height="*"/>
+            <!-- Tablero central -->
+            <RowDefinition Height="Auto"/>
+            <!-- Parte inferior -->
+        </Grid.RowDefinitions>
+
+        <!-- =================== MARCADOR Y RIVAL ARRIBA =================== -->
+        <Grid Grid.Row="0" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Marcador -->
+            <Border Background="#DDD" Padding="10" Margin="5">
+                <TextBlock Text="Marcador: 0 - 0" FontSize="18" HorizontalAlignment="Center"/>
+            </Border>
+
+            <!-- Rival -->
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20,0">
+                <TextBlock Text="Rival" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="#CCC" Width="50" Height="70" Margin="2">
+                        <TextBlock Text="Carta"/>
+                    </Border>
+                    <Border Background="#CCC" Width="50" Height="70" Margin="2">
+                        <TextBlock Text="Carta"/>
+                    </Border>
+                    <Border Background="#CCC" Width="50" Height="70" Margin="2">
+                        <TextBlock Text="Carta"/>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Foto rival -->
+            <Border Grid.Column="2" Background="#CCC" Width="60" Height="60" Margin="10">
+                <TextBlock Text="Foto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <!-- =================== TABLERO CENTRAL =================== -->
+        <Grid Grid.Row="1">
+            <TextBlock Text="Tablero" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- =================== JUGADOR (ABAJO) =================== -->
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Columna izquierda: Reacción + Foto -->
+            <StackPanel Grid.Column="0" Margin="5">
+                <!-- Botón Reacción con ContextMenu -->
+                <Button Content="Reacción" Width="80" Height="40">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="👍 Me gusta"/>
+                            <MenuItem Header="😂 Me río"/>
+                            <MenuItem Header="😡 Enojado"/>
+                            <MenuItem Header="👏 Aplausos"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <!-- Foto jugador -->
+                <Border Background="#CCC" Width="60" Height="60" Margin="5">
+                    <TextBlock Text="Foto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Cartas jugador -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0">
+                <Image Source="/Resources/Cards/1_sword_2.png" Width="100" Height="150" Margin="5"/>
+                <Image Source="/Resources/Cards/1_sword_7.png" Width="100" Height="150" Margin="5"/>
+                <Image Source="/Resources/Cards/1_cup_7.png" Width="100" Height="150" Margin="5"/>
+            </StackPanel>
+
+            <!-- Chat -->
+            <Border Grid.Column="2" Background="#CCC" Width="200" Height="150" Margin="5">
+                <TextBlock Text="Chat" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
