@@ -19,9 +19,9 @@ namespace TrucoPrueba1
     /// <summary>
     /// Lógica de interacción para LogIn.xaml
     /// </summary>
-    public partial class LogIn : Window
+    public partial class LogInPage : Page
     {
-        public LogIn()
+        public LogInPage()
         {
             InitializeComponent();
         }
@@ -53,9 +53,8 @@ namespace TrucoPrueba1
                     if (user != null)
                     {
                         MessageBox.Show(Lang.GlobalTextWelcome + " " + user.nickname + "!", Lang.GlobalTextWelcome + "!", MessageBoxButton.OK, MessageBoxImage.Information);
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.Show();
-                        this.Close();
+                        this.NavigationService.Navigate(new MainPage());
+
                     }
                     else
                     {
@@ -72,13 +71,12 @@ namespace TrucoPrueba1
         private void ClickForgotPassword(object sender, RoutedEventArgs e)
         {
             //FORGOT PASSWORD WINDOW
+            //this.NavigationService.Navigate(new ForgotPasswordWindow());
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            InitialWindows initialWindows = new InitialWindows();
-            initialWindows.Show();
-            this.Close();
+            this.NavigationService.Navigate(new StartPage());
         }
     }
 }

@@ -208,7 +208,7 @@
     <value>Confirmar contraseña</value>
   </data>
   <data name="GlobalTextCreateAccount" xml:space="preserve">
-    <value>Crear Cuenta</value>
+    <value>Crear cuenta</value>
   </data>
   <data name="DialogTextWrongCredentials" xml:space="preserve">
     <value>Credenciales Incorrectas</value>

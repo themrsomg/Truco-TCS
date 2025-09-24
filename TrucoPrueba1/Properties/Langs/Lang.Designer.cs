@@ -592,7 +592,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Create Account.
+        ///   Busca una cadena traducida similar a Create account.
         /// </summary>
         public static string GlobalTextCreateAccount {
             get {

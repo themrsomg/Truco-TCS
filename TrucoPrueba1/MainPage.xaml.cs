@@ -10,31 +10,30 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
+using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Lógica de interacción para MainPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainPage : Page
     {
-        public MainWindow()
+        public MainPage()
         {
             InitializeComponent();
         }
         private void ClickButtonRankings(object sender, RoutedEventArgs e)
         {
-            Rankings rankingsWindow = new Rankings();
-            rankingsWindow.Show();
-            this.Close();
+            this.NavigationService.Navigate(new RankingsPage());
+
         }
         private void ClickButtonLogOut(object sender, RoutedEventArgs e)
         {
-            LogIn logInWindow = new LogIn();
-            logInWindow.Show();
-            this.Close();
+            this.NavigationService.Navigate(new StartPage());
+
         }
     }
 }

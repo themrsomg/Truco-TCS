@@ -23,36 +23,25 @@ namespace TrucoPrueba1
         public InitialWindows()
         {
             InitializeComponent();
+            MainFrame.Navigate(new StartPage());
+            MainFrame.Navigated += MainFrame_Navigated;
         }
-        private void Language_Selection_Changed(object sender, SelectionChangedEventArgs e)
+        private void MainFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (cbLanguages.SelectedIndex == 0)
+            Page page = MainFrame.Content as Page;
+
+            if (page != null)
             {
-                Properties.Settings.Default.languageCode = "en-US";
+                if (!string.IsNullOrEmpty(page.Title))
+                {
+                    this.Title = page.Title;
+                }
+                if (!double.IsNaN(page.Height) && !double.IsNaN(page.Width))
+                {
+                    this.Height = page.Height;
+                    this.Width = page.Width;
+                }
             }
-            else
-            {
-                Properties.Settings.Default.languageCode = "es-MX";
-            }
-            Properties.Settings.Default.Save();
-        }
-        private void ClickLogIn(object sender, RoutedEventArgs e)
-        {
-            LogIn logInWindow = new LogIn();
-            logInWindow.Show();
-            this.Close();
-        }
-        private void ClickPlayAsGuest(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow(); //CREAR VENTANA DE INVITADOS
-            mainWindow.Show();
-            this.Close();
-        }
-        private void ClickSingUp(object sender, RoutedEventArgs e)
-        {
-            NewUser newUserWindow = new NewUser();
-            newUserWindow.Show();
-            this.Close();
         }
     }
 }

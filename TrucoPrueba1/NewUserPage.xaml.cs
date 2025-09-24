@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1
 {
-    public partial class NewUser : Window
+    public partial class NewUserPage : Page
     {
-        public NewUser()
+        public NewUserPage()
         {
             InitializeComponent();
         }
@@ -46,10 +56,7 @@ namespace TrucoPrueba1
                     context.SaveChanges();
                 }
                 MessageBox.Show(Lang.DialogTextNewUserSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-
-                MainWindow main = new MainWindow();
-                main.Show();
-                this.Close();
+                this.NavigationService.Navigate(new MainPage());
             }
             catch (Exception ex)
             {
@@ -141,7 +148,7 @@ namespace TrucoPrueba1
                 return true;
             }
         }
-        private void ClickButtonExit(object sender, RoutedEventArgs e)
+        private void ClickBack(object sender, RoutedEventArgs e)
         {
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Password.Trim();
@@ -157,9 +164,7 @@ namespace TrucoPrueba1
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    LogIn logInWindow = new LogIn();
-                    logInWindow.Show();
-                    this.Close();
+                    this.NavigationService.Navigate(new StartPage());
                 } 
                 else
                 {
@@ -168,9 +173,7 @@ namespace TrucoPrueba1
             }
             else
             {
-                LogIn logInWindow = new LogIn();
-                logInWindow.Show();
-                this.Close();
+                this.NavigationService.Navigate(new StartPage());
             }
         }
     }

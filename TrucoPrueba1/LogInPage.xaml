@@ -1,4 +1,4 @@
-﻿<Window x:Class="TrucoPrueba1.LogIn"
+﻿<Page x:Class="TrucoPrueba1.LogInPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:TrucoPrueba1"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-        Title="{x:Static language:Lang.StartTextLogIn}" Height="800" Width="600" FontFamily="Book Antiqua" FontSize="30" ResizeMode="NoResize">
-    <Window.Background>
+        Title="{x:Static language:Lang.StartTextLogIn}" FontFamily="Book Antiqua" FontSize="30" Height="800" Width="600">
+    <Page.Background>
         <ImageBrush ImageSource="wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Window.Background>
+    </Page.Background>
     <StackPanel>
         <Grid Height="350" Width="350">
             <Grid.Background>
@@ -21,7 +21,7 @@
             <TextBox x:Name="txtEmailUsername" Cursor="Hand">
                 <TextBox.Template>
                     <ControlTemplate TargetType="TextBox">
-                        <Border Background="White" CornerRadius="5" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
+                        <Border Background="White" CornerRadius="8" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
                             <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                         </Border>
                     </ControlTemplate>
@@ -31,13 +31,13 @@
             <PasswordBox x:Name="txtPassword" Cursor="Hand">
                 <PasswordBox.Template>
                     <ControlTemplate TargetType="PasswordBox">
-                        <Border Background="White" CornerRadius="5" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
+                        <Border Background="White" CornerRadius="8" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
                             <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                         </Border>
                     </ControlTemplate>
                 </PasswordBox.Template>
             </PasswordBox>
-            <Label MouseRightButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" Width="245" HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
+            <Label MouseRightButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
             <Button Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand" Margin="80,30,80,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -48,7 +48,7 @@
                 </Button.Template>
             </Button>
         </StackPanel>
-        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,10,0" FontSize="30" HorizontalAlignment="Right">
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,0" FontSize="30" HorizontalAlignment="Right">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
@@ -58,4 +58,4 @@
             </Button.Template>
         </Button>
     </StackPanel>
-</Window>
+</Page>
