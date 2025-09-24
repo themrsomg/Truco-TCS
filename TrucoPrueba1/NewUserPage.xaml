@@ -8,12 +8,12 @@
         xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
         Title="{x:Static language:Lang.StartTextSingUp}" FontFamily="Book Antiqua" FontSize="20" Height="800" Width="600">
     <Page.Background>
-        <ImageBrush ImageSource="wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+        <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
             <TextBlock Text="{x:Static language:Lang.GlobalTextNewUser}" FontSize="40" Margin="30,50,0,0" Foreground="White" Width="297" TextWrapping="Wrap"/>
-            <Image Source="/logo.png" Width="200" Height="200" Margin="50,0,0,0"/>
+            <Image Source="Resources/logo.png" Width="200" Height="200" Margin="50,0,0,0"/>
         </StackPanel>
         <StackPanel Margin="10,1,10,0" Width="350">
             <TextBlock Text="{x:Static language:Lang.GlobalTextEmail}" Foreground="White"/>

@@ -230,9 +230,14 @@
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
       <LastGenOutput>baseDatosTruco.cs</LastGenOutput>
     </Content>
-    <Resource Include="logo.png" />
-    <Resource Include="main_wallpaper.png" />
-    <Resource Include="wallpaper.png" />
+    <Resource Include="Resources\logo_settings.png" />
+    <Resource Include="Resources\app_logo.ico" />
+    <Resource Include="Resources\logo_play_as_guest.png" />
+    <Resource Include="Resources\logo_new_user.png" />
+    <Resource Include="Resources\logo_login.png" />
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\main_wallpaper.png" />
+    <Resource Include="Resources\wallpaper.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

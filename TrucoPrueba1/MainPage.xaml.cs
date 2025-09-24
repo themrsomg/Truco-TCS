@@ -25,14 +25,34 @@ namespace TrucoPrueba1
         {
             InitializeComponent();
         }
-        private void ClickButtonRankings(object sender, RoutedEventArgs e)
+        private void ClickMatch(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ClickRankings(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new RankingsPage());
 
         }
-        private void ClickButtonLogOut(object sender, RoutedEventArgs e)
+        private void ClickLogOut(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new StartPage());
+
+        }
+        private void ClickProfile(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ClickExit(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
+        }
+        private void ClickSettings(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ClickFriends(object sender, RoutedEventArgs e)
+        {
 
         }
     }

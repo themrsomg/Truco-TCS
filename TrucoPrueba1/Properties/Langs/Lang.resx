@@ -466,7 +466,7 @@
     <value>Match</value>
   </data>
   <data name="MenuTextExit" xml:space="preserve">
-    <value>Exit</value>
+    <value>Quit game</value>
   </data>
   <data name="StartTextForgotPassword" xml:space="preserve">
     <value>Forgot password?</value>

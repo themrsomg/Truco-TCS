@@ -8,12 +8,12 @@
         xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
         Title="{x:Static language:Lang.StartTextLogIn}" FontFamily="Book Antiqua" FontSize="30" Height="800" Width="600">
     <Page.Background>
-        <ImageBrush ImageSource="wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+        <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel>
         <Grid Height="350" Width="350">
             <Grid.Background>
-                <ImageBrush ImageSource="/logo.png"/>
+                <ImageBrush ImageSource="Resources/logo.png"/>
             </Grid.Background>
         </Grid>
         <StackPanel Margin="10,1,10,0" Width="450">

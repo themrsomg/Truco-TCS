@@ -997,7 +997,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Exit.
+        ///   Busca una cadena traducida similar a Quit game.
         /// </summary>
         public static string MenuTextExit {
             get {
