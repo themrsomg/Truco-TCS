@@ -49,7 +49,7 @@ namespace TrucoPrueba1
         }
         private void ClickSettings(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new SettingsPage());
         }
         private void ClickFriends(object sender, RoutedEventArgs e)
         {

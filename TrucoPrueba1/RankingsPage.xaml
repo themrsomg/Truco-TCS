@@ -17,7 +17,7 @@
                 <ImageBrush ImageSource="Resources/logo.png"/>
             </Grid.Background>
         </Grid>
-        <StackPanel Margin="10,15,10,20" Width="500">
+        <StackPanel Margin="10,15,10,0" Width="500">
             <Button Click="ClickTopTen" Content="{x:Static language:Lang.GlobalTextTop10}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -37,7 +37,7 @@
                 </Button.Template>
             </Button>
         </StackPanel>
-        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,0" FontSize="30" HorizontalAlignment="Right">
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,40" FontSize="30" HorizontalAlignment="Right">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

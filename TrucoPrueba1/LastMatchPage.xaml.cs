@@ -27,7 +27,7 @@ namespace TrucoPrueba1
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new RankingsPage());
         }
     }
 }
