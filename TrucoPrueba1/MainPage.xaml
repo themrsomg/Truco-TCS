@@ -56,7 +56,7 @@
                     </Button>
                 </StackPanel>
             </StackPanel>
-            <TextBlock Text="{x:Static language:Lang.GlobalTextHome}" FontSize="40" Foreground="White" Width="297"/>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextHome}" FontSize="40" Foreground="White" HorizontalAlignment="Center"/>
             <StackPanel Margin="130">
                 <Button Click="ClickMatch" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
                     <Button.Template>
