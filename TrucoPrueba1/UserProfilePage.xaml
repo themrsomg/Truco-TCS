@@ -39,17 +39,23 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="-100,10,-100,0">
                     <TextBlock>
                     <Hyperlink NavigateUri="https://www.facebook.com" RequestNavigate="Hyperlink_RequestNavigate">
-                        Facebook
+                        <InlineUIContainer>
+                            <Image Source="/Resources/SocialNetworks/facebook_logo.png" Width="30" Height="30"/>
+                        </InlineUIContainer>
                     </Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="10,0,0,0">
-                    <Hyperlink NavigateUri="https://www.twitter.com" RequestNavigate="Hyperlink_RequestNavigate">
-                        Twitter
+                    <Hyperlink NavigateUri="https://www.x.com" RequestNavigate="Hyperlink_RequestNavigate">
+                        <InlineUIContainer>
+                            <Image Source="/Resources/SocialNetworks/x_logo.png" Width="30" Height="30"/>
+                        </InlineUIContainer>
                     </Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="10,0,0,0">
                     <Hyperlink NavigateUri="https://www.instagram.com" RequestNavigate="Hyperlink_RequestNavigate">
-                        Instagram
+                        <InlineUIContainer>
+                            <Image Source="/Resources/SocialNetworks/Instagram_logo.png" Width="30" Height="30"/>
+                        </InlineUIContainer>
                     </Hyperlink>
                     </TextBlock>
                     <TextBlock>

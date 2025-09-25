@@ -12,8 +12,7 @@
     </Page.Background>
     <StackPanel>
         <TextBlock Text="Configuración" Margin="0,40,0,0" FontSize="40" Foreground="White" HorizontalAlignment="Center"/>
-        <TextBlock Text=" "/>
-        <StackPanel Margin="10,15,10,20" Width="500">
+        <StackPanel Margin="10,40,10,20" Width="500">
             <Button Click="ClickCredits" Content="Créditos" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -23,8 +22,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBlock Text=" "/>
-            <Button Click="ClickAbout" Content="Acerca de" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
+            <Button Click="ClickAbout" Content="Acerca de" Cursor="Hand" Margin="65,30,65,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
