@@ -29,5 +29,20 @@ namespace TrucoPrueba1
         {
             this.NavigationService.Navigate(new MainPage());
         }
+
+        private void btnPartiV1(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new PreGamePage());
+        }
+
+        private void btnPartiV2(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new PreGamePage());
+        }
+
+        private void btnPlayWFriends(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
