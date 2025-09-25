@@ -24,5 +24,10 @@ namespace TrucoPrueba1
         {
             InitializeComponent();
         }
+
+        private void ClickBack(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new SettingsPage());
+        }
     }
 }

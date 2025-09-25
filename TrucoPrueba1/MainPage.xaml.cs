@@ -27,7 +27,7 @@ namespace TrucoPrueba1
         }
         private void ClickMatch(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new GamePage());
+            this.NavigationService.Navigate(new PlayPage());
         }
         private void ClickRankings(object sender, RoutedEventArgs e)
         {

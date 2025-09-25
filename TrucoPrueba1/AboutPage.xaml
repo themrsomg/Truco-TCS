@@ -11,21 +11,27 @@
         <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <Grid>
-        <Border Background="#AAFFFFFF" CornerRadius="15" Padding="20" Margin="40" 
+        <Border Background="#AAFFFFFF" CornerRadius="25" Padding="40" Margin="40" 
                 BorderBrush="Black" BorderThickness="2" >
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="Acerca de Nosotros" 
-                           FontSize="36" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
+                           FontSize="33" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
                 <TextBlock TextWrapping="Wrap" Foreground="Black" Margin="0,0,0,10">
                     Bienvenido a <Run Text="Truco™"/>.  
                     Proyecto desarrollado con dedicación y pasión por nuestro equipo, con el objetivo de brindar una experiencia divertida y pasar una materia.
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Foreground="Black" Margin="0,0,0,10">
-                    Esperamos que disfruten de este juego :)
-                </TextBlock>
                 <TextBlock Text="© 2025 Lotso Studios® Todos los derechos reservados." 
                            FontStyle="Italic" Foreground="Black" Margin="0,10,0,0" TextWrapping="Wrap"/>
                 <TextBlock Text="Cualquier mal uso de este sistema dará como resultado en una demanda" FontSize="20" Margin="0,10,0,0" FontStyle="Italic" TextWrapping="Wrap"/>
+                <Button Click="ClickBack" Content="Atrás" Cursor="Hand" Margin="0,20,0,0" FontSize="25" HorizontalAlignment="Right">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </StackPanel>
         </Border>
     </Grid>

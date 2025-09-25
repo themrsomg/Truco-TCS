@@ -10,4 +10,16 @@
     <Page.Background>
         <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
+    <StackPanel>
+
+        <Button Click="ClickBack" Content="Atrás" Cursor="Hand" Margin="0,20,30,30" FontSize="25" HorizontalAlignment="Right">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </StackPanel>
 </Page>
