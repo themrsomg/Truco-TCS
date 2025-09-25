@@ -27,12 +27,11 @@ namespace TrucoPrueba1
         }
         private void ClickMatch(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new GamePage());
         }
         private void ClickRankings(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new RankingsPage());
-
         }
         private void ClickLogOut(object sender, RoutedEventArgs e)
         {
@@ -41,7 +40,7 @@ namespace TrucoPrueba1
         }
         private void ClickProfile(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new UserProfilePage());
         }
         private void ClickExit(object sender, RoutedEventArgs e)
         {
@@ -53,7 +52,7 @@ namespace TrucoPrueba1
         }
         private void ClickFriends(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new FriendsPage());
         }
     }
 }

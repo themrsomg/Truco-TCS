@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace TrucoPrueba1
 {
     /// <summary>
-    /// Lógica de interacción para CreditsPage.xaml
+    /// Lógica de interacción para AboutPage.xaml
     /// </summary>
-    public partial class CreditsPage : Page
+    public partial class AboutPage : Page
     {
-        public CreditsPage()
+        public AboutPage()
         {
             InitializeComponent();
-        }
-
-        private void ClickBack(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new SettingsPage());
         }
     }
 }

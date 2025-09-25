@@ -27,22 +27,23 @@ namespace TrucoPrueba1
 
         private void ClickVolume(object sender, RoutedEventArgs e)
         {
-
+            ///TO DO: Implementación de acción de Mute y Unmute
         }
 
         private void ClickAbout(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new AboutPage());
         }
 
         private void ClickCredits(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new CreditsPage());
         }
 
         private void ClickSave(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new MainPage());
+            ///TO DO: Implementación de guardar cambios
         }
     }
 }
