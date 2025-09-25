@@ -24,7 +24,7 @@ namespace TrucoPrueba1
         {
             InitializeComponent();
         }
-
+        ///TO DO: Implementación de lógica necesaria para la página y sus acciones
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new MainPage());

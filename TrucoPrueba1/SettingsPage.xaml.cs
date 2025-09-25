@@ -27,7 +27,7 @@ namespace TrucoPrueba1
 
         private void ClickVolume(object sender, RoutedEventArgs e)
         {
-            ///TO DO: Implementación de acción de Mute y Unmute
+            //TO DO: Implementación de acción de Mute y Unmute
         }
 
         private void ClickAbout(object sender, RoutedEventArgs e)
@@ -43,7 +43,7 @@ namespace TrucoPrueba1
         private void ClickSave(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new MainPage());
-            ///TO DO: Implementación de guardar cambios
+            //TO DO: Implementación de guardar cambios
         }
     }
 }

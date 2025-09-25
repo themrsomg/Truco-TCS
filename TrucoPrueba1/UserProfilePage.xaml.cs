@@ -29,5 +29,16 @@ namespace TrucoPrueba1
         {
             this.NavigationService.Navigate(new MainPage());
         }
+
+        private void ClickSave(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new MainPage());
+            //TO DO: Lógica para guardar cambios en el perfil
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            //TO DO: Lógica necesaria para mostrar el perfil del usuario de determinada red social
+        }
     }
 }
