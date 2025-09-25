@@ -118,6 +118,9 @@
     <Compile Include="Invitation.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
+    <Compile Include="JoinGamePage.xaml.cs">
+      <DependentUpon>JoinGamePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LastMatchPage.xaml.cs">
       <DependentUpon>LastMatchPage.xaml</DependentUpon>
     </Compile>
@@ -189,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InitialWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JoinGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -42,7 +42,7 @@ namespace TrucoPrueba1
 
         private void btnPlayWFriends(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new JoinGamePage());
         }
     }
 }
