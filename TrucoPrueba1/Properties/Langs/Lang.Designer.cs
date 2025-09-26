@@ -61,6 +61,42 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a About Us.
+        /// </summary>
+        public static string AboutTextAboutUs {
+            get {
+                return ResourceManager.GetString("AboutTextAboutUs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a © 2025 Lotso Studios® All rights reserved.
+        /// </summary>
+        public static string AboutTextAllRights {
+            get {
+                return ResourceManager.GetString("AboutTextAllRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Any misuse of this system will result in a lawsuit.
+        /// </summary>
+        public static string AboutTextDisclaimer {
+            get {
+                return ResourceManager.GetString("AboutTextDisclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Welcome to Truco™. A project developed with dedication and passion by our team, with the goal of providing a fun experience and helping you pass a subject..
+        /// </summary>
+        public static string AboutTextMessage {
+            get {
+                return ResourceManager.GetString("AboutTextMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ace.
         /// </summary>
         public static string CardsTextAce {
@@ -183,6 +219,24 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string CardsTextTwo {
             get {
                 return ResourceManager.GetString("CardsTextTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Creative design.
+        /// </summary>
+        public static string CreditsTextCreativeDesign {
+            get {
+                return ResourceManager.GetString("CreditsTextCreativeDesign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Producers.
+        /// </summary>
+        public static string CreditsTextProducers {
+            get {
+                return ResourceManager.GetString("CreditsTextProducers", resourceCulture);
             }
         }
         
@@ -354,6 +408,51 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string es {
             get {
                 return ResourceManager.GetString("es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Add.
+        /// </summary>
+        public static string FriendsTextAdd {
+            get {
+                return ResourceManager.GetString("FriendsTextAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Delete Selected Friend.
+        /// </summary>
+        public static string FriendsTextDeleteFriend {
+            get {
+                return ResourceManager.GetString("FriendsTextDeleteFriend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a My Friends.
+        /// </summary>
+        public static string FriendsTextMyFriends {
+            get {
+                return ResourceManager.GetString("FriendsTextMyFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Search user....
+        /// </summary>
+        public static string FriendsTextSearchUser {
+            get {
+                return ResourceManager.GetString("FriendsTextSearchUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Card.
+        /// </summary>
+        public static string GameTextCard {
+            get {
+                return ResourceManager.GetString("GameTextCard", resourceCulture);
             }
         }
         
@@ -565,6 +664,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Close.
+        /// </summary>
+        public static string GlobalTextClose {
+            get {
+                return ResourceManager.GetString("GlobalTextClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Confirm.
         /// </summary>
         public static string GlobalTextConfirm {
@@ -709,7 +817,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a InviteFriend.
+        ///   Busca una cadena traducida similar a Invite Friend.
         /// </summary>
         public static string GlobalTextInviteFriend {
             get {
@@ -826,6 +934,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Profile picture.
+        /// </summary>
+        public static string GlobalTextProfilePicture {
+            get {
+                return ResourceManager.GetString("GlobalTextProfilePicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Rankings.
         /// </summary>
         public static string GlobalTextRankings {
@@ -876,15 +993,6 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string GlobalTextSave {
             get {
                 return ResourceManager.GetString("GlobalTextSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Score.
-        /// </summary>
-        public static string GlobalTextScore {
-            get {
-                return ResourceManager.GetString("GlobalTextScore", resourceCulture);
             }
         }
         
@@ -997,6 +1105,33 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Enter the code:.
+        /// </summary>
+        public static string JoinGameTextEnterCode {
+            get {
+                return ResourceManager.GetString("JoinGameTextEnterCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Join.
+        /// </summary>
+        public static string JoinGameTextJoin {
+            get {
+                return ResourceManager.GetString("JoinGameTextJoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Join a game.
+        /// </summary>
+        public static string JoinGameTextJoinGame {
+            get {
+                return ResourceManager.GetString("JoinGameTextJoinGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Quit game.
         /// </summary>
         public static string MenuTextExit {
@@ -1011,6 +1146,69 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string MenuTextMatch {
             get {
                 return ResourceManager.GetString("MenuTextMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Games.
+        /// </summary>
+        public static string PlayTextGames {
+            get {
+                return ResourceManager.GetString("PlayTextGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Truco match V1.
+        /// </summary>
+        public static string PlayTextTrucoMatchV1 {
+            get {
+                return ResourceManager.GetString("PlayTextTrucoMatchV1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Truco match V2.
+        /// </summary>
+        public static string PlayTextTrucoMatchV2 {
+            get {
+                return ResourceManager.GetString("PlayTextTrucoMatchV2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Share this code with your friend:.
+        /// </summary>
+        public static string PreGameShareCode {
+            get {
+                return ResourceManager.GetString("PreGameShareCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Game.
+        /// </summary>
+        public static string PreGameTextGame {
+            get {
+                return ResourceManager.GetString("PreGameTextGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a GameVX.
+        /// </summary>
+        public static string PreGameTextGameVX {
+            get {
+                return ResourceManager.GetString("PreGameTextGameVX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Search Game.
+        /// </summary>
+        public static string PreGameTextSearchGame {
+            get {
+                return ResourceManager.GetString("PreGameTextSearchGame", resourceCulture);
             }
         }
         
@@ -1051,11 +1249,29 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a STARTED AND COMPLETED (DATE).
+        /// </summary>
+        public static string RankingsTextDate {
+            get {
+                return ResourceManager.GetString("RankingsTextDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Last 5 games.
         /// </summary>
         public static string RankingsTextLastGames {
             get {
                 return ResourceManager.GetString("RankingsTextLastGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WIN?.
+        /// </summary>
+        public static string RankingsTextWin {
+            get {
+                return ResourceManager.GetString("RankingsTextWin", resourceCulture);
             }
         }
         
@@ -1092,6 +1308,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string SettingsTextSelectLanguage {
             get {
                 return ResourceManager.GetString("SettingsTextSelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Volume.
+        /// </summary>
+        public static string SettingsTextVolume {
+            get {
+                return ResourceManager.GetString("SettingsTextVolume", resourceCulture);
             }
         }
         

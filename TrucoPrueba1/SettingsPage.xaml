@@ -4,16 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TrucoPrueba1"
-      mc:Ignorable="d" 
-      Title="Settings" Height="600" Width="800" FontFamily="Book Antiqua" FontSize="30">
+      mc:Ignorable="d"
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      Title="{x:Static language:Lang.GlobalTextSettings}" Height="600" Width="800" FontFamily="Book Antiqua" FontSize="30">
 
     <Page.Background>
         <ImageBrush ImageSource="Resources/Wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel>
-        <TextBlock Text="Configuración" Margin="0,40,0,0" FontSize="40" Foreground="White" HorizontalAlignment="Center"/>
+        <TextBlock Text="{x:Static language:Lang.GlobalTextSettings}" Margin="0,40,0,0" FontSize="40" Foreground="White" HorizontalAlignment="Center"/>
         <StackPanel Margin="10,40,10,20" Width="500">
-            <Button Click="ClickCredits" Content="Créditos" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
+            <Button Click="ClickCredits" Content="{x:Static language:Lang.SettingsTextCredits}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
@@ -22,7 +23,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Click="ClickAbout" Content="Acerca de" Cursor="Hand" Margin="65,30,65,0" FontSize="40">
+            <Button Click="ClickAbout" Content="{x:Static language:Lang.SettingsTextAbout}" Cursor="Hand" Margin="65,30,65,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
@@ -31,7 +32,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBlock Text="Volumen" FontSize="40" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+            <TextBlock Text="{x:Static language:Lang.SettingsTextVolume}" FontSize="40" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,0"/>
             <Button Click="ClickVolume" Cursor="Hand" Margin="100,10,100,0" FontSize="40" Height="120" Width="120">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -46,7 +47,7 @@
                 <!--Cambiar imagen por Mute / Unmute-->
             </Button>
         </StackPanel>
-        <Button Click="ClickSave" Content="Guardar" Cursor="Hand" Margin="0,0,45,0" FontSize="30" HorizontalAlignment="Right">
+        <Button Click="ClickSave" Content="{x:Static language:Lang.GlobalTextSave}" Cursor="Hand" Margin="0,0,45,0" FontSize="30" HorizontalAlignment="Right">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">

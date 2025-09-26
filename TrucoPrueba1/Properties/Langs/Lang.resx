@@ -382,7 +382,7 @@
     <value>Invitation</value>
   </data>
   <data name="GlobalTextInviteFriend" xml:space="preserve">
-    <value>InviteFriend</value>
+    <value>Invite Friend</value>
   </data>
   <data name="GlobalTextLobby" xml:space="preserve">
     <value>Lobby</value>
@@ -413,9 +413,6 @@
   </data>
   <data name="GlobalTextSave" xml:space="preserve">
     <value>Save</value>
-  </data>
-  <data name="GlobalTextScore" xml:space="preserve">
-    <value>Score</value>
   </data>
   <data name="GlobalTextSettings" xml:space="preserve">
     <value>Settings</value>
@@ -476,5 +473,83 @@
   </data>
   <data name="GlobalTextTrucoArg" xml:space="preserve">
     <value>Argentinian Truco</value>
+  </data>
+  <data name="SettingsTextVolume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="CreditsTextProducers" xml:space="preserve">
+    <value>Producers</value>
+  </data>
+  <data name="CreditsTextCreativeDesign" xml:space="preserve">
+    <value>Creative design</value>
+  </data>
+  <data name="AboutTextAboutUs" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="AboutTextAllRights" xml:space="preserve">
+    <value>© 2025 Lotso Studios® All rights reserved</value>
+  </data>
+  <data name="AboutTextDisclaimer" xml:space="preserve">
+    <value>Any misuse of this system will result in a lawsuit</value>
+  </data>
+  <data name="AboutTextMessage" xml:space="preserve">
+    <value>Welcome to Truco™. A project developed with dedication and passion by our team, with the goal of providing a fun experience and helping you pass a subject.</value>
+  </data>
+  <data name="FriendsTextMyFriends" xml:space="preserve">
+    <value>My Friends</value>
+  </data>
+  <data name="FriendsTextSearchUser" xml:space="preserve">
+    <value>Search user...</value>
+  </data>
+  <data name="FriendsTextAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="FriendsTextDeleteFriend" xml:space="preserve">
+    <value>Delete Selected Friend</value>
+  </data>
+  <data name="PlayTextGames" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="PlayTextTrucoMatchV1" xml:space="preserve">
+    <value>Truco match V1</value>
+  </data>
+  <data name="PlayTextTrucoMatchV2" xml:space="preserve">
+    <value>Truco match V2</value>
+  </data>
+  <data name="PreGameTextSearchGame" xml:space="preserve">
+    <value>Search Game</value>
+  </data>
+  <data name="PreGameTextGame" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="PreGameTextGameVX" xml:space="preserve">
+    <value>GameVX</value>
+  </data>
+  <data name="PreGameShareCode" xml:space="preserve">
+    <value>Share this code with your friend:</value>
+  </data>
+  <data name="GameTextCard" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="GlobalTextProfilePicture" xml:space="preserve">
+    <value>Profile picture</value>
+  </data>
+  <data name="JoinGameTextJoinGame" xml:space="preserve">
+    <value>Join a game</value>
+  </data>
+  <data name="JoinGameTextEnterCode" xml:space="preserve">
+    <value>Enter the code:</value>
+  </data>
+  <data name="JoinGameTextJoin" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="RankingsTextDate" xml:space="preserve">
+    <value>STARTED AND COMPLETED (DATE)</value>
+  </data>
+  <data name="RankingsTextWin" xml:space="preserve">
+    <value>WIN?</value>
+  </data>
+  <data name="GlobalTextClose" xml:space="preserve">
+    <value>Close</value>
   </data>
 </root>

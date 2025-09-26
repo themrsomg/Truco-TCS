@@ -5,14 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d" 
-      Title="PlayPage" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      Title="{x:Static language:Lang.PlayTextGames}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
 
     <Page.Background>
         <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel>
-        <TextBlock Text="Partidas" FontSize="40" Foreground="White" HorizontalAlignment="Center" Margin="0,40,0,0"/>
-        <Button Click="btnPartiV1" Content="Truco partida V1" Width="350" Height="60" Cursor="Hand" Margin="0,70,0,0">
+        <TextBlock Text="{x:Static language:Lang.PlayTextGames}" FontSize="40" Foreground="White" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+        <Button Click="btnPartiV1" Content="{x:Static language:Lang.PlayTextTrucoMatchV1}" Width="350" Height="60" Cursor="Hand" Margin="0,70,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF5FE4FA">
@@ -21,7 +22,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Click="btnPartiV2" Content="Truco partida V2" Width="350" Height="60" Cursor="Hand" Margin="0,30,0,0">
+        <Button Click="btnPartiV2" Content="{x:Static language:Lang.PlayTextTrucoMatchV2}" Width="350" Height="60" Cursor="Hand" Margin="0,30,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF2EF457">
@@ -30,7 +31,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Click="btnPlayWFriends" Content="Jugar con amigos" Width="350" Height="60" Cursor="Hand" Margin="0,30,0,0">
+        <Button Click="btnPlayWFriends" Content="{x:Static language:Lang.GameTextPlayWithFriends}" Width="350" Height="60" Cursor="Hand" Margin="0,30,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFF3C754">
@@ -39,7 +40,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Click="ClickBack" Content="Atrás" Cursor="Hand" Margin="0,60,40,30" FontSize="25" HorizontalAlignment="Right">
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,60,40,30" FontSize="25" HorizontalAlignment="Right">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d" 
-              xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
 Title="{x:Static language:Lang.RankingsTextLastGames}" FontFamily="Book Antiqua" FontSize="20" Height="600" Width="800">
     <Page.Background>
         <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
@@ -23,8 +23,8 @@ Title="{x:Static language:Lang.RankingsTextLastGames}" FontFamily="Book Antiqua"
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="INICIADO Y TERMINADO (FECHA)" Binding="{Binding Username}" Width="*"/>
-                        <DataGridTextColumn Header="GANAR?" Binding="{Binding Wins}" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.RankingsTextDate}" Binding="{Binding Username}" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.RankingsTextWin}" Binding="{Binding Wins}" Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

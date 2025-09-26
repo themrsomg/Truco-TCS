@@ -5,17 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d" 
-      Title="JoinGamePage" FontFamily="Book Antiqua" FontSize="30" Height="400" Width="600">
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      Title="{x:Static language:Lang.JoinGameTextJoinGame}" FontFamily="Book Antiqua" FontSize="30" Height="400" Width="600">
     <Page.Background>
         <ImageBrush ImageSource="Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
-        <TextBlock Text="Unirse a una partida" FontSize="36" FontWeight="Bold" Foreground="White" TextAlignment="Center" Margin="0,0,0,20"/>
-        <TextBlock Text="Ingrese el código:" FontSize="22" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Text="{x:Static language:Lang.JoinGameTextJoinGame}" FontSize="36" FontWeight="Bold" Foreground="White" TextAlignment="Center" Margin="0,0,0,20"/>
+        <TextBlock Text="{x:Static language:Lang.JoinGameTextEnterCode}" FontSize="22" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
         <TextBox x:Name="txtCodigo" Width="300" Height="40" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White"
                  Foreground="Black" TextAlignment="Center" MaxLength="8"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Click="ClickUnirse" Content="Unirse" Cursor="Hand" Width="120" Height="50" FontSize="22" Margin="0,0,20,0">
+            <Button Click="ClickUnirse" Content="{x:Static language:Lang.JoinGameTextJoin}" Cursor="Hand" Width="120" Height="50" FontSize="22" Margin="0,0,20,0">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FF7ED957" BorderThickness="2" BorderBrush="#FF4CAF50">
@@ -24,7 +25,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Click="ClickBack" Content="Atrás" Cursor="Hand" Width="120" Height="50" FontSize="22">
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="120" Height="50" FontSize="22">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TrucoPrueba1"
-      mc:Ignorable="d" 
-      Title="Acerca de" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
+      mc:Ignorable="d"
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      Title="{x:Static language:Lang.SettingsTextAbout}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
 
     <Page.Background>
         <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
@@ -13,14 +14,11 @@
     <Grid>
         <Border Background="#AAFFFFFF" CornerRadius="25" Padding="40" Margin="40" BorderBrush="Black" BorderThickness="2" >
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Acerca de Nosotros" FontSize="33" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
-                <TextBlock TextWrapping="Wrap" Foreground="Black" Margin="0,0,0,10">
-                    Bienvenido a <Run Text="Truco™"/>.  
-                    Proyecto desarrollado con dedicación y pasión por nuestro equipo, con el objetivo de brindar una experiencia divertida y pasar una materia.
-                </TextBlock>
-                <TextBlock Text="© 2025 Lotso Studios® Todos los derechos reservados." FontStyle="Italic" Foreground="Black" Margin="0,10,0,0" TextWrapping="Wrap"/>
-                <TextBlock Text="Cualquier mal uso de este sistema dará como resultado en una demanda" FontSize="20" Margin="0,10,0,0" FontStyle="Italic" TextWrapping="Wrap"/>
-                <Button Click="ClickBack" Content="Atrás" Cursor="Hand" Margin="0,20,0,0" FontSize="25" HorizontalAlignment="Right">
+                <TextBlock Text="{x:Static language:Lang.AboutTextAboutUs}" FontSize="33" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
+                <TextBlock TextWrapping="Wrap" Foreground="Black" Margin="0,0,0,10" Text="{x:Static language:Lang.AboutTextMessage}"/>
+                <TextBlock Text="{x:Static language:Lang.AboutTextAllRights}" FontStyle="Italic" Foreground="Black" Margin="0,10,0,0" TextWrapping="Wrap"/>
+                <TextBlock Text="{x:Static language:Lang.AboutTextDisclaimer}" FontSize="20" Margin="0,10,0,0" FontStyle="Italic" TextWrapping="Wrap"/>
+                <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,20,0,0" FontSize="25" HorizontalAlignment="Right">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

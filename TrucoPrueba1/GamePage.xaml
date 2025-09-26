@@ -30,7 +30,7 @@
 
             <!-- Marcador -->
             <Border Background="#DDD" Padding="10" Margin="5">
-                <TextBlock Text="Marcador: 0 - 0" FontSize="18" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static language:Lang.GameTextScoreboard}" FontSize="18" HorizontalAlignment="Center"/>
             </Border>
 
             <!-- Rival -->
@@ -38,26 +38,26 @@
                 <TextBlock Text="Rival" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal">
                     <Border Background="#CCC" Width="50" Height="70" Margin="2">
-                        <TextBlock Text="Carta"/>
+                        <TextBlock Text="{x:Static language:Lang.GameTextCard}"/>
                     </Border>
                     <Border Background="#CCC" Width="50" Height="70" Margin="2">
-                        <TextBlock Text="Carta"/>
+                        <TextBlock Text="{x:Static language:Lang.GameTextCard}"/>
                     </Border>
                     <Border Background="#CCC" Width="50" Height="70" Margin="2">
-                        <TextBlock Text="Carta"/>
+                        <TextBlock Text="{x:Static language:Lang.GameTextCard}"/>
                     </Border>
                 </StackPanel>
             </StackPanel>
 
             <!-- Foto rival -->
             <Border Grid.Column="2" Background="#CCC" Width="60" Height="60" Margin="10">
-                <TextBlock Text="Foto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Static language:Lang.GlobalTextProfilePicture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
         </Grid>
 
         <!-- =================== TABLERO CENTRAL =================== -->
         <Grid Grid.Row="1">
-            <TextBlock Text="Tablero" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text=" " FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
         <!-- =================== JUGADOR (ABAJO) =================== -->
@@ -71,20 +71,19 @@
             <!-- Columna izquierda: Reacción + Foto -->
             <StackPanel Grid.Column="0" Margin="5">
                 <!-- Botón Reacción con ContextMenu -->
-                <Button Content="Reacción" Width="80" Height="40">
+                <Button Content="{x:Static language:Lang.GameTextGestures}" Width="80" Height="40">
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="👍 Me gusta"/>
-                            <MenuItem Header="😂 Me río"/>
-                            <MenuItem Header="😡 Enojado"/>
-                            <MenuItem Header="👏 Aplausos"/>
+                            <MenuItem Header="👍"/>
+                            <MenuItem Header="😂"/>
+                            <MenuItem Header="😡"/>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
 
                 <!-- Foto jugador -->
                 <Border Background="#CCC" Width="60" Height="60" Margin="5">
-                    <TextBlock Text="Foto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static language:Lang.GlobalTextProfilePicture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </StackPanel>
 
