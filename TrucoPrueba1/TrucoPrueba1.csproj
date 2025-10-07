@@ -49,6 +49,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -96,6 +97,11 @@
     </Compile>
     <Compile Include="Card.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\TrucoServer\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
@@ -286,6 +292,25 @@
     <None Include="baseDatosTruco.edmx.diagram">
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
     </None>
+    <None Include="Connected Services\TrucoServer\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.MatchResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.PlayerStats.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoService.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\User.datasource" />
     <None Include="Properties\Settings.settings">
@@ -307,6 +332,13 @@
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
       <LastGenOutput>baseDatosTruco.cs</LastGenOutput>
     </Content>
+    <None Include="Connected Services\TrucoServer\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
+    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
+    <None Include="Connected Services\TrucoServer\item.disco" />
     <Resource Include="Resources\SocialNetworks\Instagram_logo.png" />
     <Resource Include="Resources\SocialNetworks\facebook_logo.png" />
     <Resource Include="Resources\SocialNetworks\x_logo.png" />
@@ -335,6 +367,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\TrucoServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
