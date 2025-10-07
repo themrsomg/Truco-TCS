@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace TrucoPrueba1
         {
             InitializeComponent();
         }
+
         private void ClickButtonRegister(object sender, RoutedEventArgs e)
         {
             string email = txtEmail.Text.Trim();
@@ -34,20 +36,32 @@ namespace TrucoPrueba1
                 return;
             }
 
+            string hashedPassword;
+
             try
             {
-            using (var context = new baseDatosPruebaEntities())
+                hashedPassword = HashPassword(password);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al hashear la contraseña: {ex.Message}", "Error de Seguridad", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+
+            try
+            {
+                using (var context = new baseDatosPruebaEntities())
                 {
                     if (!EmailAndUsernameVerification())
                     {
                         return;
                     }
 
-                    password = txtPassword.Password;
                     var newUser = new User
                     {
                         email = email,
-                        passwordHash = password, //Falta aplicar el hash
+                        passwordHash = hashedPassword,
                         nickname = username,
                         wins = 0
                     };
@@ -61,6 +75,21 @@ namespace TrucoPrueba1
             catch (Exception ex)
             {
                 MessageBox.Show(Lang.DialogTextNewUserException + $" {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
             }
         }
 
@@ -165,7 +194,7 @@ namespace TrucoPrueba1
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     this.NavigationService.Navigate(new StartPage());
-                } 
+                }
                 else
                 {
                     return;
