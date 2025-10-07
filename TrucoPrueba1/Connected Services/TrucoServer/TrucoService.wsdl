@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="TrucoService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_ITrucoService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TrucoServer" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITrucoService_Register_InputMessage">
+    <wsdl:part name="parameters" element="tns:Register" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_Register_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_Logout_InputMessage">
+    <wsdl:part name="parameters" element="tns:Logout" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetOnlinePlayers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOnlinePlayers" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetOnlinePlayers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOnlinePlayersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_SendFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_SendFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_AcceptFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetFriends_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriends" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetFriends_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_CreateMatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateMatch" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_CreateMatch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateMatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_JoinMatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinMatch" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_JoinMatch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinMatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_LeaveMatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:LeaveMatch" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_PlayCard_InputMessage">
+    <wsdl:part name="parameters" element="tns:PlayCard" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_SendChatMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendChatMessage" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetGlobalRanking_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlobalRanking" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetGlobalRanking_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGlobalRankingResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetLastMatches_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastMatches" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_GetLastMatches_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastMatchesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnPlayerJoined_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnPlayerJoined" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnPlayerLeft_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnPlayerLeft" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnCardPlayed_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnCardPlayed" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnChatMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnChatMessage" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnMatchStarted_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnMatchStarted" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnMatchEnded_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnMatchEnded" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnFriendRequestReceived_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnFriendRequestReceived" />
+  </wsdl:message>
+  <wsdl:message name="ITrucoService_OnFriendRequestAccepted_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnFriendRequestAccepted" />
+  </wsdl:message>
+  <wsdl:portType name="ITrucoService">
+    <wsdl:operation name="Register">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/Register" message="tns:ITrucoService_Register_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/RegisterResponse" message="tns:ITrucoService_Register_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/Login" message="tns:ITrucoService_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/LoginResponse" message="tns:ITrucoService_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/Logout" message="tns:ITrucoService_Logout_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOnlinePlayers">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/GetOnlinePlayers" message="tns:ITrucoService_GetOnlinePlayers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/GetOnlinePlayersResponse" message="tns:ITrucoService_GetOnlinePlayers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/SendFriendRequest" message="tns:ITrucoService_SendFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/SendFriendRequestResponse" message="tns:ITrucoService_SendFriendRequest_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/AcceptFriendRequest" message="tns:ITrucoService_AcceptFriendRequest_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriends">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/GetFriends" message="tns:ITrucoService_GetFriends_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/GetFriendsResponse" message="tns:ITrucoService_GetFriends_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateMatch">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/CreateMatch" message="tns:ITrucoService_CreateMatch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/CreateMatchResponse" message="tns:ITrucoService_CreateMatch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinMatch">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/JoinMatch" message="tns:ITrucoService_JoinMatch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/JoinMatchResponse" message="tns:ITrucoService_JoinMatch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LeaveMatch">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/LeaveMatch" message="tns:ITrucoService_LeaveMatch_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayCard">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/PlayCard" message="tns:ITrucoService_PlayCard_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendChatMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/SendChatMessage" message="tns:ITrucoService_SendChatMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGlobalRanking">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/GetGlobalRanking" message="tns:ITrucoService_GetGlobalRanking_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/GetGlobalRankingResponse" message="tns:ITrucoService_GetGlobalRanking_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastMatches">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITrucoService/GetLastMatches" message="tns:ITrucoService_GetLastMatches_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/GetLastMatchesResponse" message="tns:ITrucoService_GetLastMatches_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnPlayerJoined">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnPlayerJoined" message="tns:ITrucoService_OnPlayerJoined_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnPlayerLeft">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnPlayerLeft" message="tns:ITrucoService_OnPlayerLeft_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnCardPlayed">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnCardPlayed" message="tns:ITrucoService_OnCardPlayed_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnChatMessage">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnChatMessage" message="tns:ITrucoService_OnChatMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnMatchStarted">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnMatchStarted" message="tns:ITrucoService_OnMatchStarted_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnMatchEnded">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnMatchEnded" message="tns:ITrucoService_OnMatchEnded_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnFriendRequestReceived">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnFriendRequestReceived" message="tns:ITrucoService_OnFriendRequestReceived_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnFriendRequestAccepted">
+      <wsdl:output wsaw:Action="http://tempuri.org/ITrucoService/OnFriendRequestAccepted" message="tns:ITrucoService_OnFriendRequestAccepted_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_ITrucoService" type="tns:ITrucoService">
+    <wsp:PolicyReference URI="#NetTcpBinding_ITrucoService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Register">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/Register" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/Logout" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetOnlinePlayers">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/GetOnlinePlayers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/SendFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/AcceptFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriends">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/GetFriends" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateMatch">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/CreateMatch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="JoinMatch">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/JoinMatch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LeaveMatch">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/LeaveMatch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="PlayCard">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/PlayCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="SendChatMessage">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/SendChatMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlobalRanking">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/GetGlobalRanking" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastMatches">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/GetLastMatches" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnPlayerJoined">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnPlayerJoined" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnPlayerLeft">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnPlayerLeft" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnCardPlayed">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnCardPlayed" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnChatMessage">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnChatMessage" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnMatchStarted">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnMatchStarted" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnMatchEnded">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnMatchEnded" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnFriendRequestReceived">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnFriendRequestReceived" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnFriendRequestAccepted">
+      <soap12:operation soapAction="http://tempuri.org/ITrucoService/OnFriendRequestAccepted" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TrucoService">
+    <wsdl:port name="NetTcpBinding_ITrucoService" binding="tns:NetTcpBinding_ITrucoService">
+      <soap12:address location="net.tcp://localhost:8090/TrucoService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8090/TrucoService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>GENARO-BARRADAS\genae</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
