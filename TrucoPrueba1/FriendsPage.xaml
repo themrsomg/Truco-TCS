@@ -9,7 +9,7 @@
       Title="{x:Static language:Lang.GlobalTextFriends}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
 
     <Page.Background>
-        <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+        <ImageBrush ImageSource="Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".8"/>
     </Page.Background>
     <StackPanel>
         <StackPanel HorizontalAlignment="Center">

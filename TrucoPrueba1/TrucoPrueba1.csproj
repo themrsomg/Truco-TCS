@@ -292,25 +292,25 @@
     <None Include="baseDatosTruco.edmx.diagram">
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
     </None>
-    <None Include="Connected Services\TrucoServer\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\TrucoServer\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\TrucoServer\item2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\TrucoServer\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.MatchResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.PlayerStats.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\TrucoServer\TrucoService.wsdl" />
+    <None Include="Connected Services\TrucoServer\TrucoServer.wsdl" />
+    <None Include="Connected Services\TrucoServer\TrucoServiceBase.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoServiceBase1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoServiceBase2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoServiceBase3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\User.datasource" />
     <None Include="Properties\Settings.settings">
@@ -338,7 +338,7 @@
     </None>
     <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
     <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
-    <None Include="Connected Services\TrucoServer\item.disco" />
+    <None Include="Connected Services\TrucoServer\TrucoServiceBase.disco" />
     <Resource Include="Resources\SocialNetworks\Instagram_logo.png" />
     <Resource Include="Resources\SocialNetworks\facebook_logo.png" />
     <Resource Include="Resources\SocialNetworks\x_logo.png" />
