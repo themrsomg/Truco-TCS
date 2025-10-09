@@ -372,11 +372,11 @@
   </wsdl:binding>
   <wsdl:service name="TrucoService">
     <wsdl:port name="NetTcpBinding_ITrucoService" binding="tns:NetTcpBinding_ITrucoService">
-      <soap12:address location="net.tcp://localhost:8090/TrucoService" />
+      <soap12:address location="net.tcp://localhost:8091/TrucoService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://localhost:8090/TrucoService</wsa10:Address>
+        <wsa10:Address>net.tcp://localhost:8091/TrucoService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>GENARO-BARRADAS\genae</Upn>
+          <Upn>VICTUS\themr</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
