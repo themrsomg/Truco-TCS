@@ -184,147 +184,99 @@ namespace TrucoPrueba1.TrucoServer {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TrucoServer.ITrucoService", CallbackContract=typeof(TrucoPrueba1.TrucoServer.ITrucoServiceCallback))]
-    public interface ITrucoService {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TrucoServer.ITrucoUserService", CallbackContract=typeof(TrucoPrueba1.TrucoServer.ITrucoUserServiceCallback))]
+    public interface ITrucoUserService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/Register", ReplyAction="http://tempuri.org/ITrucoService/RegisterResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/Register", ReplyAction="http://tempuri.org/ITrucoUserService/RegisterResponse")]
         bool Register(string username, string password, string email);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/Register", ReplyAction="http://tempuri.org/ITrucoService/RegisterResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/Register", ReplyAction="http://tempuri.org/ITrucoUserService/RegisterResponse")]
         System.Threading.Tasks.Task<bool> RegisterAsync(string username, string password, string email);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/Login", ReplyAction="http://tempuri.org/ITrucoService/LoginResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/Login", ReplyAction="http://tempuri.org/ITrucoUserService/LoginResponse")]
         bool Login(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/Login", ReplyAction="http://tempuri.org/ITrucoService/LoginResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/Login", ReplyAction="http://tempuri.org/ITrucoUserService/LoginResponse")]
         System.Threading.Tasks.Task<bool> LoginAsync(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/Logout")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/Logout")]
         void Logout(string username);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/Logout")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/Logout")]
         System.Threading.Tasks.Task LogoutAsync(string username);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetOnlinePlayers", ReplyAction="http://tempuri.org/ITrucoService/GetOnlinePlayersResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/GetOnlinePlayers", ReplyAction="http://tempuri.org/ITrucoUserService/GetOnlinePlayersResponse")]
         string[] GetOnlinePlayers();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetOnlinePlayers", ReplyAction="http://tempuri.org/ITrucoService/GetOnlinePlayersResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/GetOnlinePlayers", ReplyAction="http://tempuri.org/ITrucoUserService/GetOnlinePlayersResponse")]
         System.Threading.Tasks.Task<string[]> GetOnlinePlayersAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/SendFriendRequest", ReplyAction="http://tempuri.org/ITrucoService/SendFriendRequestResponse")]
-        bool SendFriendRequest(string fromUser, string toUser);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/SendFriendRequest", ReplyAction="http://tempuri.org/ITrucoService/SendFriendRequestResponse")]
-        System.Threading.Tasks.Task<bool> SendFriendRequestAsync(string fromUser, string toUser);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/AcceptFriendRequest")]
-        void AcceptFriendRequest(string fromUser, string toUser);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/AcceptFriendRequest")]
-        System.Threading.Tasks.Task AcceptFriendRequestAsync(string fromUser, string toUser);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetFriends", ReplyAction="http://tempuri.org/ITrucoService/GetFriendsResponse")]
-        string[] GetFriends(string username);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetFriends", ReplyAction="http://tempuri.org/ITrucoService/GetFriendsResponse")]
-        System.Threading.Tasks.Task<string[]> GetFriendsAsync(string username);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/CreateMatch", ReplyAction="http://tempuri.org/ITrucoService/CreateMatchResponse")]
-        string CreateMatch(string hostPlayer);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/CreateMatch", ReplyAction="http://tempuri.org/ITrucoService/CreateMatchResponse")]
-        System.Threading.Tasks.Task<string> CreateMatchAsync(string hostPlayer);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/JoinMatch", ReplyAction="http://tempuri.org/ITrucoService/JoinMatchResponse")]
-        bool JoinMatch(string matchCode, string player);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/JoinMatch", ReplyAction="http://tempuri.org/ITrucoService/JoinMatchResponse")]
-        System.Threading.Tasks.Task<bool> JoinMatchAsync(string matchCode, string player);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/LeaveMatch")]
-        void LeaveMatch(string matchCode, string player);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/LeaveMatch")]
-        System.Threading.Tasks.Task LeaveMatchAsync(string matchCode, string player);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/PlayCard")]
-        void PlayCard(string matchCode, string player, string card);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/PlayCard")]
-        System.Threading.Tasks.Task PlayCardAsync(string matchCode, string player, string card);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/SendChatMessage")]
-        void SendChatMessage(string matchCode, string player, string message);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/SendChatMessage")]
-        System.Threading.Tasks.Task SendChatMessageAsync(string matchCode, string player, string message);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetGlobalRanking", ReplyAction="http://tempuri.org/ITrucoService/GetGlobalRankingResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/GetGlobalRanking", ReplyAction="http://tempuri.org/ITrucoUserService/GetGlobalRankingResponse")]
         TrucoPrueba1.TrucoServer.PlayerStats[] GetGlobalRanking();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetGlobalRanking", ReplyAction="http://tempuri.org/ITrucoService/GetGlobalRankingResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/GetGlobalRanking", ReplyAction="http://tempuri.org/ITrucoUserService/GetGlobalRankingResponse")]
         System.Threading.Tasks.Task<TrucoPrueba1.TrucoServer.PlayerStats[]> GetGlobalRankingAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetLastMatches", ReplyAction="http://tempuri.org/ITrucoService/GetLastMatchesResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/GetLastMatches", ReplyAction="http://tempuri.org/ITrucoUserService/GetLastMatchesResponse")]
         TrucoPrueba1.TrucoServer.MatchResult[] GetLastMatches(string username);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoService/GetLastMatches", ReplyAction="http://tempuri.org/ITrucoService/GetLastMatchesResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoUserService/GetLastMatches", ReplyAction="http://tempuri.org/ITrucoUserService/GetLastMatchesResponse")]
         System.Threading.Tasks.Task<TrucoPrueba1.TrucoServer.MatchResult[]> GetLastMatchesAsync(string username);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ITrucoServiceCallback {
+    public interface ITrucoUserServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnPlayerJoined")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnPlayerJoined")]
         void OnPlayerJoined(string matchCode, string player);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnPlayerLeft")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnPlayerLeft")]
         void OnPlayerLeft(string matchCode, string player);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnCardPlayed")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnCardPlayed")]
         void OnCardPlayed(string matchCode, string player, string card);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnChatMessage")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnChatMessage")]
         void OnChatMessage(string matchCode, string player, string message);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnMatchStarted")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnMatchStarted")]
         void OnMatchStarted(string matchCode);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnMatchEnded")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnMatchEnded")]
         void OnMatchEnded(string matchCode, string winner);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnFriendRequestReceived")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnFriendRequestReceived")]
         void OnFriendRequestReceived(string fromUser);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoService/OnFriendRequestAccepted")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoUserService/OnFriendRequestAccepted")]
         void OnFriendRequestAccepted(string fromUser);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ITrucoServiceChannel : TrucoPrueba1.TrucoServer.ITrucoService, System.ServiceModel.IClientChannel {
+    public interface ITrucoUserServiceChannel : TrucoPrueba1.TrucoServer.ITrucoUserService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class TrucoServiceClient : System.ServiceModel.DuplexClientBase<TrucoPrueba1.TrucoServer.ITrucoService>, TrucoPrueba1.TrucoServer.ITrucoService {
+    public partial class TrucoUserServiceClient : System.ServiceModel.DuplexClientBase<TrucoPrueba1.TrucoServer.ITrucoUserService>, TrucoPrueba1.TrucoServer.ITrucoUserService {
         
-        public TrucoServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+        public TrucoUserServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
                 base(callbackInstance) {
         }
         
-        public TrucoServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+        public TrucoUserServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
                 base(callbackInstance, endpointConfigurationName) {
         }
         
-        public TrucoServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+        public TrucoUserServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
                 base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public TrucoServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public TrucoUserServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public TrucoServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public TrucoUserServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(callbackInstance, binding, remoteAddress) {
         }
         
@@ -360,28 +312,112 @@ namespace TrucoPrueba1.TrucoServer {
             return base.Channel.GetOnlinePlayersAsync();
         }
         
-        public bool SendFriendRequest(string fromUser, string toUser) {
-            return base.Channel.SendFriendRequest(fromUser, toUser);
+        public TrucoPrueba1.TrucoServer.PlayerStats[] GetGlobalRanking() {
+            return base.Channel.GetGlobalRanking();
         }
         
-        public System.Threading.Tasks.Task<bool> SendFriendRequestAsync(string fromUser, string toUser) {
-            return base.Channel.SendFriendRequestAsync(fromUser, toUser);
+        public System.Threading.Tasks.Task<TrucoPrueba1.TrucoServer.PlayerStats[]> GetGlobalRankingAsync() {
+            return base.Channel.GetGlobalRankingAsync();
         }
         
-        public void AcceptFriendRequest(string fromUser, string toUser) {
-            base.Channel.AcceptFriendRequest(fromUser, toUser);
+        public TrucoPrueba1.TrucoServer.MatchResult[] GetLastMatches(string username) {
+            return base.Channel.GetLastMatches(username);
         }
         
-        public System.Threading.Tasks.Task AcceptFriendRequestAsync(string fromUser, string toUser) {
-            return base.Channel.AcceptFriendRequestAsync(fromUser, toUser);
+        public System.Threading.Tasks.Task<TrucoPrueba1.TrucoServer.MatchResult[]> GetLastMatchesAsync(string username) {
+            return base.Channel.GetLastMatchesAsync(username);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TrucoServer.ITrucoMatchService", CallbackContract=typeof(TrucoPrueba1.TrucoServer.ITrucoMatchServiceCallback))]
+    public interface ITrucoMatchService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoMatchService/CreateMatch", ReplyAction="http://tempuri.org/ITrucoMatchService/CreateMatchResponse")]
+        string CreateMatch(string hostPlayer);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoMatchService/CreateMatch", ReplyAction="http://tempuri.org/ITrucoMatchService/CreateMatchResponse")]
+        System.Threading.Tasks.Task<string> CreateMatchAsync(string hostPlayer);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoMatchService/JoinMatch", ReplyAction="http://tempuri.org/ITrucoMatchService/JoinMatchResponse")]
+        bool JoinMatch(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoMatchService/JoinMatch", ReplyAction="http://tempuri.org/ITrucoMatchService/JoinMatchResponse")]
+        System.Threading.Tasks.Task<bool> JoinMatchAsync(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/LeaveMatch")]
+        void LeaveMatch(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/LeaveMatch")]
+        System.Threading.Tasks.Task LeaveMatchAsync(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/PlayCard")]
+        void PlayCard(string matchCode, string player, string card);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/PlayCard")]
+        System.Threading.Tasks.Task PlayCardAsync(string matchCode, string player, string card);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/SendChatMessage")]
+        void SendChatMessage(string matchCode, string player, string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/SendChatMessage")]
+        System.Threading.Tasks.Task SendChatMessageAsync(string matchCode, string player, string message);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ITrucoMatchServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnPlayerJoined")]
+        void OnPlayerJoined(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnPlayerLeft")]
+        void OnPlayerLeft(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnCardPlayed")]
+        void OnCardPlayed(string matchCode, string player, string card);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnChatMessage")]
+        void OnChatMessage(string matchCode, string player, string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnMatchStarted")]
+        void OnMatchStarted(string matchCode);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnMatchEnded")]
+        void OnMatchEnded(string matchCode, string winner);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnFriendRequestReceived")]
+        void OnFriendRequestReceived(string fromUser);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoMatchService/OnFriendRequestAccepted")]
+        void OnFriendRequestAccepted(string fromUser);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ITrucoMatchServiceChannel : TrucoPrueba1.TrucoServer.ITrucoMatchService, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class TrucoMatchServiceClient : System.ServiceModel.DuplexClientBase<TrucoPrueba1.TrucoServer.ITrucoMatchService>, TrucoPrueba1.TrucoServer.ITrucoMatchService {
+        
+        public TrucoMatchServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public string[] GetFriends(string username) {
-            return base.Channel.GetFriends(username);
+        public TrucoMatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public System.Threading.Tasks.Task<string[]> GetFriendsAsync(string username) {
-            return base.Channel.GetFriendsAsync(username);
+        public TrucoMatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public TrucoMatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public TrucoMatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public string CreateMatch(string hostPlayer) {
@@ -423,21 +459,109 @@ namespace TrucoPrueba1.TrucoServer {
         public System.Threading.Tasks.Task SendChatMessageAsync(string matchCode, string player, string message) {
             return base.Channel.SendChatMessageAsync(matchCode, player, message);
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TrucoServer.ITrucoFriendService", CallbackContract=typeof(TrucoPrueba1.TrucoServer.ITrucoFriendServiceCallback))]
+    public interface ITrucoFriendService {
         
-        public TrucoPrueba1.TrucoServer.PlayerStats[] GetGlobalRanking() {
-            return base.Channel.GetGlobalRanking();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoFriendService/SendFriendRequest", ReplyAction="http://tempuri.org/ITrucoFriendService/SendFriendRequestResponse")]
+        bool SendFriendRequest(string fromUser, string toUser);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoFriendService/SendFriendRequest", ReplyAction="http://tempuri.org/ITrucoFriendService/SendFriendRequestResponse")]
+        System.Threading.Tasks.Task<bool> SendFriendRequestAsync(string fromUser, string toUser);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/AcceptFriendRequest")]
+        void AcceptFriendRequest(string fromUser, string toUser);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/AcceptFriendRequest")]
+        System.Threading.Tasks.Task AcceptFriendRequestAsync(string fromUser, string toUser);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoFriendService/GetFriends", ReplyAction="http://tempuri.org/ITrucoFriendService/GetFriendsResponse")]
+        string[] GetFriends(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoFriendService/GetFriends", ReplyAction="http://tempuri.org/ITrucoFriendService/GetFriendsResponse")]
+        System.Threading.Tasks.Task<string[]> GetFriendsAsync(string username);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ITrucoFriendServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnPlayerJoined")]
+        void OnPlayerJoined(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnPlayerLeft")]
+        void OnPlayerLeft(string matchCode, string player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnCardPlayed")]
+        void OnCardPlayed(string matchCode, string player, string card);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnChatMessage")]
+        void OnChatMessage(string matchCode, string player, string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnMatchStarted")]
+        void OnMatchStarted(string matchCode);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnMatchEnded")]
+        void OnMatchEnded(string matchCode, string winner);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnFriendRequestReceived")]
+        void OnFriendRequestReceived(string fromUser);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoFriendService/OnFriendRequestAccepted")]
+        void OnFriendRequestAccepted(string fromUser);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ITrucoFriendServiceChannel : TrucoPrueba1.TrucoServer.ITrucoFriendService, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class TrucoFriendServiceClient : System.ServiceModel.DuplexClientBase<TrucoPrueba1.TrucoServer.ITrucoFriendService>, TrucoPrueba1.TrucoServer.ITrucoFriendService {
+        
+        public TrucoFriendServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public System.Threading.Tasks.Task<TrucoPrueba1.TrucoServer.PlayerStats[]> GetGlobalRankingAsync() {
-            return base.Channel.GetGlobalRankingAsync();
+        public TrucoFriendServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public TrucoPrueba1.TrucoServer.MatchResult[] GetLastMatches(string username) {
-            return base.Channel.GetLastMatches(username);
+        public TrucoFriendServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public System.Threading.Tasks.Task<TrucoPrueba1.TrucoServer.MatchResult[]> GetLastMatchesAsync(string username) {
-            return base.Channel.GetLastMatchesAsync(username);
+        public TrucoFriendServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public TrucoFriendServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
+        }
+        
+        public bool SendFriendRequest(string fromUser, string toUser) {
+            return base.Channel.SendFriendRequest(fromUser, toUser);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SendFriendRequestAsync(string fromUser, string toUser) {
+            return base.Channel.SendFriendRequestAsync(fromUser, toUser);
+        }
+        
+        public void AcceptFriendRequest(string fromUser, string toUser) {
+            base.Channel.AcceptFriendRequest(fromUser, toUser);
+        }
+        
+        public System.Threading.Tasks.Task AcceptFriendRequestAsync(string fromUser, string toUser) {
+            return base.Channel.AcceptFriendRequestAsync(fromUser, toUser);
+        }
+        
+        public string[] GetFriends(string username) {
+            return base.Channel.GetFriends(username);
+        }
+        
+        public System.Threading.Tasks.Task<string[]> GetFriendsAsync(string username) {
+            return base.Channel.GetFriendsAsync(username);
         }
     }
 }

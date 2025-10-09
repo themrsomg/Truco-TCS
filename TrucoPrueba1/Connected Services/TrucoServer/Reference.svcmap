@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="74491a16-3da8-411b-a1e8-e269e1a54106" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="29253949-9344-4d10-bcfb-e58868af0549" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8080" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8080/TrucoServiceBase" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="e1a43f91-0c64-4fa9-a6d4-f4d36e62e118" SourceId="1" SourceUrl="http://localhost:8080/?disco" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="07062c2b-0e4b-4485-a6bc-13bf91fbaa3e" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd2" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="759dbba4-c1b1-43d6-be30-7a30697eccd9" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd3" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="fd16e025-0026-4857-b35c-b3205d189a2b" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd0" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="0ab69078-4512-4df9-bb91-683bc09d3255" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd1" />
-    <MetadataFile FileName="TrucoService.wsdl" MetadataType="Wsdl" ID="e557b780-9a88-423f-8dde-97a537c8f138" SourceId="1" SourceUrl="http://localhost:8080/?wsdl" />
+    <MetadataFile FileName="TrucoServiceBase.disco" MetadataType="Disco" ID="a834fff0-1695-4da9-baa6-26e96cf91edc" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?disco" />
+    <MetadataFile FileName="TrucoServiceBase.xsd" MetadataType="Schema" ID="d9ae85d4-a364-4593-a59d-c580d315d2c1" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd1" />
+    <MetadataFile FileName="TrucoServiceBase1.xsd" MetadataType="Schema" ID="90ef8cff-f931-4bbe-9a7f-1965b2ceca89" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd0" />
+    <MetadataFile FileName="TrucoServiceBase2.xsd" MetadataType="Schema" ID="35bada26-f037-4bc8-a7ea-3d799c70d749" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd3" />
+    <MetadataFile FileName="TrucoServiceBase3.xsd" MetadataType="Schema" ID="ebcd6a48-e081-4999-99f2-4efb5a08b115" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd2" />
+    <MetadataFile FileName="TrucoServer.wsdl" MetadataType="Wsdl" ID="94d66bb6-d264-4452-8c2e-cf466e68bfe1" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

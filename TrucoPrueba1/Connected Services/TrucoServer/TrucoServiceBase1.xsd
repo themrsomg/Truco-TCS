@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TrucoServer" />
+  <xs:import schemaLocation="http://localhost:8080/TrucoServiceBase?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:8080/TrucoServiceBase?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TrucoServer" />
   <xs:element name="Register">
     <xs:complexType>
       <xs:sequence>
@@ -52,98 +52,6 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="SendFriendRequest">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="fromUser" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="toUser" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SendFriendRequestResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="SendFriendRequestResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AcceptFriendRequest">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="fromUser" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="toUser" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetFriends">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetFriendsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetFriendsResult" nillable="true" type="q2:ArrayOfstring" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="CreateMatch">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="hostPlayer" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="CreateMatchResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="CreateMatchResult" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="JoinMatch">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="JoinMatchResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="JoinMatchResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="LeaveMatch">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="PlayCard">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="card" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SendChatMessage">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="GetGlobalRanking">
     <xs:complexType>
       <xs:sequence />
@@ -152,7 +60,7 @@
   <xs:element name="GetGlobalRankingResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TrucoServer" minOccurs="0" name="GetGlobalRankingResult" nillable="true" type="q3:ArrayOfPlayerStats" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/TrucoServer" minOccurs="0" name="GetGlobalRankingResult" nillable="true" type="q2:ArrayOfPlayerStats" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -166,7 +74,7 @@
   <xs:element name="GetLastMatchesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TrucoServer" minOccurs="0" name="GetLastMatchesResult" nillable="true" type="q4:ArrayOfMatchResult" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TrucoServer" minOccurs="0" name="GetLastMatchesResult" nillable="true" type="q3:ArrayOfMatchResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -230,6 +138,98 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="fromUser" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateMatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="hostPlayer" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateMatchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CreateMatchResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="JoinMatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="JoinMatchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="JoinMatchResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LeaveMatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlayCard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="card" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendChatMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="matchCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="player" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendFriendRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fromUser" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="toUser" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendFriendRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendFriendRequestResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AcceptFriendRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fromUser" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="toUser" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFriends">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFriendsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetFriendsResult" nillable="true" type="q4:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
