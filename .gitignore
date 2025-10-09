@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#Server files
+TrucoPrueba1/Connected Services/
+
 # User-specific files
 App.config
 *.rsuser
