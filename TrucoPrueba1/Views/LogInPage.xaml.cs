@@ -40,7 +40,7 @@ namespace TrucoPrueba1
             usernameOrEmail = txtEmailUsername.Text;
             password = txtPassword.Password;
 
-            try
+            /*try
             {
                 using (var context = new baseDatosPruebaEntities())
                 {
@@ -65,7 +65,7 @@ namespace TrucoPrueba1
             catch (Exception ex)
             {
                 MessageBox.Show(Lang.DialogTextError + ex.Message);
-            }
+            }*/
         }
 
         private void ClickForgotPassword(object sender, RoutedEventArgs e)

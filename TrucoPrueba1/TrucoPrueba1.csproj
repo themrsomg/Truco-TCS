@@ -44,6 +44,7 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -68,13 +69,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Connected Services\TrucoServer\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="TrucoUserCallback.cs" />
+    <Compile Include="Views\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
@@ -297,13 +299,6 @@
     <Resource Include="Resources\Cards\sword_5.png" />
     <Resource Include="Resources\Cards\sword_6.png" />
     <Resource Include="Resources\Cards\sword_7.png" />
-    <None Include="Connected Services\TrucoServer\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
-    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
-    <None Include="Connected Services\TrucoServer\TrucoServiceBase.disco" />
     <Resource Include="Resources\SocialNetworks\Instagram_logo.png" />
     <Resource Include="Resources\SocialNetworks\facebook_logo.png" />
     <Resource Include="Resources\SocialNetworks\x_logo.png" />
@@ -324,7 +319,18 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\TrucoServer\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\TrucoServer\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

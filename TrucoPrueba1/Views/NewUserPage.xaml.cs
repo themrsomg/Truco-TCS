@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
+using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1
 {
@@ -30,51 +31,59 @@ namespace TrucoPrueba1
             string password = txtPassword.Password.Trim();
             string password2 = txtPassword2.Password.Trim();
             string username = txtUsername.Text.Trim();
-
+            
             if (!FieldsValidation())
             {
                 return;
             }
-
-            string hashedPassword;
-
+            
             try
             {
-                hashedPassword = HashPassword(password);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al hashear la contraseña: {ex.Message}", "Error de Seguridad", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+                var callback = new TrucoUserCallback();
+                var context = new System.ServiceModel.InstanceContext(callback);
+                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
 
 
-            try
-            {
-                using (var context = new baseDatosPruebaEntities())
+                bool sent = client.RequestEmailVerification(email);
+                if (!sent)
                 {
-                    if (!EmailAndUsernameVerification())
-                    {
-                        return;
-                    }
-
-                    var newUser = new User
-                    {
-                        email = email,
-                        passwordHash = hashedPassword,
-                        nickname = username,
-                        wins = 0
-                    };
-
-                    context.User.Add(newUser);
-                    context.SaveChanges();
+                    MessageBox.Show("No se pudo enviar el correo de verificación.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
-                MessageBox.Show(Lang.DialogTextNewUserSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-                this.NavigationService.Navigate(new MainPage());
+
+                string code = Microsoft.VisualBasic.Interaction.InputBox("Ingresa el código de verificación enviado a tu correo:", "Verificación de correo", "");
+
+                if (string.IsNullOrEmpty(code))
+                {
+                    MessageBox.Show("Debes ingresar el código.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                bool confirmed = client.ConfirmEmailVerification(email, code);
+                if (!confirmed)
+                {
+                    MessageBox.Show("Código incorrecto o expirado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                string hashedPassword = HashPassword(password);
+
+                bool registered = client.Register(username, hashedPassword, email);
+                if (registered)
+                {
+                    MessageBox.Show("Usuario registrado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.NavigationService.Navigate(new MainPage());
+                }
+                else
+                {
+                    MessageBox.Show("Error al registrar usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                client.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Lang.DialogTextNewUserException + $" {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error de conexión o servidor: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -154,7 +163,7 @@ namespace TrucoPrueba1
             return true;
         }
 
-        private bool EmailAndUsernameVerification()
+        /*private bool EmailAndUsernameVerification()
         {
             string email = txtEmail.Text.Trim();
             string username = txtUsername.Text.Trim();
@@ -176,7 +185,7 @@ namespace TrucoPrueba1
                 }
                 return true;
             }
-        }
+        }*/
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             string email = txtEmail.Text.Trim();
