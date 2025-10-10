@@ -68,7 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AboutPage.xaml.cs">
+    <Compile Include="Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AuthToken.cs">
@@ -103,7 +103,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="CreditsPage.xaml.cs">
+    <Compile Include="Views\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="DealtCard.cs">
@@ -112,10 +112,10 @@
     <Compile Include="Friendship.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Compile Include="GamePage.xaml.cs">
+    <Compile Include="Views\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FriendsPage.xaml.cs">
+    <Compile Include="Views\FriendsPage.xaml.cs">
       <DependentUpon>FriendsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="InitialWindows.xaml.cs">
@@ -124,10 +124,10 @@
     <Compile Include="Invitation.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Compile Include="JoinGamePage.xaml.cs">
+    <Compile Include="Views\JoinGamePage.xaml.cs">
       <DependentUpon>JoinGamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LastMatchPage.xaml.cs">
+    <Compile Include="Views\LastMatchPage.xaml.cs">
       <DependentUpon>LastMatchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lobby.cs">
@@ -136,7 +136,7 @@
     <Compile Include="LobbyMember.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Match.cs">
@@ -145,28 +145,28 @@
     <Compile Include="MatchPlayer.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Compile Include="NewUserPage.xaml.cs">
+    <Compile Include="Views\NewUserPage.xaml.cs">
       <DependentUpon>NewUserPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlayPage.xaml.cs">
+    <Compile Include="Views\PlayPage.xaml.cs">
       <DependentUpon>PlayPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreGamePage.xaml.cs">
+    <Compile Include="Views\PreGamePage.xaml.cs">
       <DependentUpon>PreGamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RankingsPage.xaml.cs">
+    <Compile Include="Views\RankingsPage.xaml.cs">
       <DependentUpon>RankingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Round.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPage.xaml.cs">
+    <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartPage.xaml.cs">
+    <Compile Include="Views\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TopTenPage.xaml.cs">
+    <Compile Include="Views\TopTenPage.xaml.cs">
       <DependentUpon>TopTenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
@@ -175,25 +175,25 @@
     <Compile Include="UserProfile.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserProfilePage.xaml.cs">
+    <Compile Include="Views\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Versions.cs">
       <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
-    <Page Include="AboutPage.xaml">
+    <Page Include="Views\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GamePage.xaml">
+    <Page Include="Views\GamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreditsPage.xaml">
+    <Page Include="Views\CreditsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FriendsPage.xaml">
+    <Page Include="Views\FriendsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,15 +201,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JoinGamePage.xaml">
+    <Page Include="Views\JoinGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LastMatchPage.xaml">
+    <Page Include="Views\LastMatchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogInPage.xaml">
+    <Page Include="Views\LogInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,42 +217,42 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LogInPage.xaml.cs">
+    <Compile Include="Views\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainPage.xaml">
+    <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewUserPage.xaml">
+    <Page Include="Views\NewUserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlayPage.xaml">
+    <Page Include="Views\PlayPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PreGamePage.xaml">
+    <Page Include="Views\PreGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RankingsPage.xaml">
+    <Page Include="Views\RankingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPage.xaml">
+    <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartPage.xaml">
+    <Page Include="Views\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TopTenPage.xaml">
+    <Page Include="Views\TopTenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserProfilePage.xaml">
+    <Page Include="Views\UserProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -332,6 +332,48 @@
       <DependentUpon>baseDatosTruco.edmx</DependentUpon>
       <LastGenOutput>baseDatosTruco.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\app_logo.ico" />
+    <Resource Include="Resources\back_card.png" />
+    <Resource Include="Resources\Cards\club_1.png" />
+    <Resource Include="Resources\Cards\club_10.png" />
+    <Resource Include="Resources\Cards\club_11.png" />
+    <Resource Include="Resources\Cards\club_12.png" />
+    <Resource Include="Resources\Cards\club_2.png" />
+    <Resource Include="Resources\Cards\club_3.png" />
+    <Resource Include="Resources\Cards\club_4.png" />
+    <Resource Include="Resources\Cards\club_5.png" />
+    <Resource Include="Resources\Cards\club_6.png" />
+    <Resource Include="Resources\Cards\club_7.png" />
+    <Resource Include="Resources\Cards\cup_1.png" />
+    <Resource Include="Resources\Cards\cup_10.png" />
+    <Resource Include="Resources\Cards\cup_11.png" />
+    <Resource Include="Resources\Cards\cup_12.png" />
+    <Resource Include="Resources\Cards\cup_2.png" />
+    <Resource Include="Resources\Cards\cup_3.png" />
+    <Resource Include="Resources\Cards\cup_4.png" />
+    <Resource Include="Resources\Cards\cup_5.png" />
+    <Resource Include="Resources\Cards\cup_6.png" />
+    <Resource Include="Resources\Cards\cup_7.png" />
+    <Resource Include="Resources\Cards\gold_1.png" />
+    <Resource Include="Resources\Cards\gold_10.png" />
+    <Resource Include="Resources\Cards\gold_11.png" />
+    <Resource Include="Resources\Cards\gold_12.png" />
+    <Resource Include="Resources\Cards\gold_2.png" />
+    <Resource Include="Resources\Cards\gold_3.png" />
+    <Resource Include="Resources\Cards\gold_4.png" />
+    <Resource Include="Resources\Cards\gold_5.png" />
+    <Resource Include="Resources\Cards\gold_6.png" />
+    <Resource Include="Resources\Cards\gold_7.png" />
+    <Resource Include="Resources\Cards\sword_1.png" />
+    <Resource Include="Resources\Cards\sword_10.png" />
+    <Resource Include="Resources\Cards\sword_11.png" />
+    <Resource Include="Resources\Cards\sword_12.png" />
+    <Resource Include="Resources\Cards\sword_2.png" />
+    <Resource Include="Resources\Cards\sword_3.png" />
+    <Resource Include="Resources\Cards\sword_4.png" />
+    <Resource Include="Resources\Cards\sword_5.png" />
+    <Resource Include="Resources\Cards\sword_6.png" />
+    <Resource Include="Resources\Cards\sword_7.png" />
     <None Include="Connected Services\TrucoServer\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -342,22 +384,7 @@
     <Resource Include="Resources\SocialNetworks\Instagram_logo.png" />
     <Resource Include="Resources\SocialNetworks\facebook_logo.png" />
     <Resource Include="Resources\SocialNetworks\x_logo.png" />
-    <Resource Include="Resources\Cards\1_cup_1.png" />
-    <Resource Include="Resources\Cards\1_cup_2.png" />
-    <Resource Include="Resources\Cards\1_cup_3.png" />
-    <Resource Include="Resources\Cards\1_cup_4.png" />
-    <Resource Include="Resources\Cards\1_cup_5.png" />
-    <Resource Include="Resources\Cards\1_cup_6.png" />
-    <Resource Include="Resources\Cards\1_cup_7.png" />
-    <Resource Include="Resources\Cards\1_sword_1.png" />
-    <Resource Include="Resources\Cards\1_sword_2.png" />
-    <Resource Include="Resources\Cards\1_sword_3.png" />
-    <Resource Include="Resources\Cards\1_sword_4.png" />
-    <Resource Include="Resources\Cards\1_sword_5.png" />
-    <Resource Include="Resources\Cards\1_sword_6.png" />
-    <Resource Include="Resources\Cards\1_sword_7.png" />
     <Resource Include="Resources\logo_settings.png" />
-    <Resource Include="Resources\app_logo.ico" />
     <Resource Include="Resources\logo_play_as_guest.png" />
     <Resource Include="Resources\logo_new_user.png" />
     <Resource Include="Resources\logo_login.png" />
@@ -374,6 +401,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\TrucoServer\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

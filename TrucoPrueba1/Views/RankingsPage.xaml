@@ -1,0 +1,50 @@
+﻿<Page x:Class="TrucoPrueba1.RankingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TrucoPrueba1"
+      mc:Ignorable="d"
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+    Title="{x:Static language:Lang.GlobalTextRankings}" FontFamily="Book Antiqua" FontSize="20" Height="600" Width="800">
+    <Page.Background>
+        <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+    </Page.Background>
+    <StackPanel>
+        <Label Content="{x:Static language:Lang.GlobalTextRankings}" FontSize="40" HorizontalAlignment="Center" Margin="0,15,0,0" Foreground="White"/>
+        <Grid Height="280" Width="280">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/logo.png"/>
+            </Grid.Background>
+        </Grid>
+        <StackPanel Margin="10,15,10,0" Width="500">
+            <Button Click="ClickTopTen" Content="{x:Static language:Lang.GlobalTextTop10}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Click="ClickLastFiveGames" Content="{x:Static language:Lang.RankingsTextLastGames}" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,40" FontSize="30" HorizontalAlignment="Right">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </StackPanel>
+</Page>
