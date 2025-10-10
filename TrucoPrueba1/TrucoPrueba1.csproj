@@ -71,33 +71,6 @@
     <Compile Include="Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AuthToken.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Ban.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BannedWord.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="baseDatosTruco.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>baseDatosTruco.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="baseDatosTruco.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="baseDatosTruco.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>baseDatosTruco.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Card.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
     <Compile Include="Connected Services\TrucoServer\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,12 +78,6 @@
     </Compile>
     <Compile Include="Views\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DealtCard.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Friendship.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
@@ -121,29 +88,14 @@
     <Compile Include="InitialWindows.xaml.cs">
       <DependentUpon>InitialWindows.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Invitation.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
     <Compile Include="Views\JoinGamePage.xaml.cs">
       <DependentUpon>JoinGamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LastMatchPage.xaml.cs">
       <DependentUpon>LastMatchPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Lobby.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LobbyMember.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Match.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MatchPlayer.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
     <Compile Include="Views\NewUserPage.xaml.cs">
       <DependentUpon>NewUserPage.xaml</DependentUpon>
@@ -157,9 +109,6 @@
     <Compile Include="Views\RankingsPage.xaml.cs">
       <DependentUpon>RankingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Round.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -169,17 +118,8 @@
     <Compile Include="Views\TopTenPage.xaml.cs">
       <DependentUpon>TopTenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserProfile.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Versions.cs">
-      <DependentUpon>baseDatosTruco.tt</DependentUpon>
     </Compile>
     <Page Include="Views\AboutPage.xaml">
       <SubType>Designer</SubType>
@@ -285,13 +225,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="baseDatosTruco.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>baseDatosTruco.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="baseDatosTruco.edmx.diagram">
-      <DependentUpon>baseDatosTruco.edmx</DependentUpon>
-    </None>
     <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.MatchResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -322,16 +255,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="baseDatosTruco.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>baseDatosTruco.edmx</DependentUpon>
-      <LastGenOutput>baseDatosTruco.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="baseDatosTruco.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>baseDatosTruco.edmx</DependentUpon>
-      <LastGenOutput>baseDatosTruco.cs</LastGenOutput>
-    </Content>
     <Resource Include="Resources\app_logo.ico" />
     <Resource Include="Resources\back_card.png" />
     <Resource Include="Resources\Cards\club_1.png" />
