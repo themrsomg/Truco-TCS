@@ -66,9 +66,7 @@ namespace TrucoPrueba1
                     return;
                 }
 
-                string hashedPassword = HashPassword(password);
-
-                bool registered = client.Register(username, hashedPassword, email);
+                bool registered = client.Register(username, password, email);
                 if (registered)
                 {
                     MessageBox.Show("Usuario registrado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -84,21 +82,6 @@ namespace TrucoPrueba1
             catch (Exception ex)
             {
                 MessageBox.Show($"Error de conexión o servidor: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private string HashPassword(string password)
-        {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
             }
         }
 

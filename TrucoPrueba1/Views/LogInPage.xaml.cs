@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
+using TrucoPrueba1.TrucoServer; 
+using System.Windows.Navigation;
 
 namespace TrucoPrueba1
 {
@@ -25,7 +27,8 @@ namespace TrucoPrueba1
         {
             InitializeComponent();
         }
-        private void ClickLogIn(object sender, RoutedEventArgs e)
+
+        private async void ClickLogIn(object sender, RoutedEventArgs e)
         {
             string usernameOrEmail = txtEmailUsername.Text.Trim();
             string password = txtPassword.Password.Trim();
@@ -37,41 +40,32 @@ namespace TrucoPrueba1
                 return;
             }
 
-            usernameOrEmail = txtEmailUsername.Text;
-            password = txtPassword.Password;
-
-            /*try
+            try
             {
-                using (var context = new baseDatosPruebaEntities())
+                bool success = await SessionManager.UserClient.LoginAsync(usernameOrEmail, password);
+
+                if (success)
                 {
-                    var user = context.User
-                        .FirstOrDefault(u =>
-                            (u.email == usernameOrEmail || u.nickname == usernameOrEmail) &&
-                            u.passwordHash == password
-                        );
+                    SessionManager.CurrentUsername = usernameOrEmail;
 
-                    if (user != null)
-                    {
-                        MessageBox.Show(Lang.GlobalTextWelcome + " " + user.nickname + "!", Lang.GlobalTextWelcome + "!", MessageBoxButton.OK, MessageBoxImage.Information);
-                        this.NavigationService.Navigate(new MainPage());
+                    MessageBox.Show(Lang.GlobalTextWelcome + " " + SessionManager.CurrentUsername + "!", Lang.GlobalTextWelcome + "!", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    }
-                    else
-                    {
-                        MessageBox.Show(Lang.DialogTextInvalidUserPass, Lang.DialogTextWrongCredentials, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
+                    this.NavigationService.Navigate(new MainPage());
+                }
+                else
+                {
+                    MessageBox.Show(Lang.DialogTextInvalidUserPass, Lang.DialogTextWrongCredentials, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Lang.DialogTextError + ex.Message);
-            }*/
+                MessageBox.Show(Lang.DialogTextError + ex.Message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClickForgotPassword(object sender, RoutedEventArgs e)
         {
-            //FORGOT PASSWORD WINDOW
-            //this.NavigationService.Navigate(new ForgotPasswordWindow());
+            // this.NavigationService.Navigate(new ForgotPasswordWindow()); 
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
