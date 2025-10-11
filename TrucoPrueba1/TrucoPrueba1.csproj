@@ -74,6 +74,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ITrucoCallback.cs" />
+    <Compile Include="TrucoCallbackHandler.cs" />
     <Compile Include="TrucoUserCallback.cs" />
     <Compile Include="Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
@@ -231,6 +233,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.PlayerStats.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.UserProfileData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\TrucoServer\TrucoServer.wsdl" />

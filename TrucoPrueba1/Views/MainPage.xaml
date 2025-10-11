@@ -33,7 +33,7 @@
                         </Button.Template>
                         <Grid>
                             <TextBlock Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-                            <Image Source="Resources/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Image Source="/Resources/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
                     <Button Content="{x:Static language:Lang.GlobalTextProfile}" Click="ClickProfile" Cursor="Hand" Margin="30,10,65,0" FontSize="30">
