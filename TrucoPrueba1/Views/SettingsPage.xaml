@@ -42,7 +42,7 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <Image Source="/Resources/app_logo.ico" Width="120" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image x:Name="VolumeIcon" Source="/Resources/app_logo.ico" Width="120" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
                 <!--Cambiar imagen por Mute / Unmute-->
             </Button>

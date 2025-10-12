@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TrucoPrueba1.Properties;
 
 namespace TrucoPrueba1
 {
@@ -23,19 +24,26 @@ namespace TrucoPrueba1
         public SettingsPage()
         {
             InitializeComponent();
-            string trackPath = System.IO.Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Resources",
-                "Songs",
-                "music_in_menus.mp3"
-            );
-            MusicManager.Play(trackPath);
-            MusicManager.Volume = 0.3;
+            MusicInitializer.InitializeMenuMusic();
+            if (Settings.Default.IsMusicMuted)
+            {
+                MusicManager.ToggleMute();
+            }
+            UpdateVolumeIcon();
+        }
+        private void UpdateVolumeIcon()
+        {
+            string iconPath = MusicManager.IsMuted
+                ? "/Resources/logo_muted.png"
+                : "/Resources/logo_volume.png";
+
+            VolumeIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
         }
 
         private void ClickVolume(object sender, RoutedEventArgs e)
         {
-            //TO DO: Implementación de acción de Mute y Unmute
+            MusicManager.ToggleMute();
+            UpdateVolumeIcon();
         }
 
         private void ClickAbout(object sender, RoutedEventArgs e)
@@ -50,8 +58,11 @@ namespace TrucoPrueba1
 
         private void ClickSave(object sender, RoutedEventArgs e)
         {
+            Settings.Default.IsMusicMuted = MusicManager.IsMuted;
+
+            Settings.Default.Save();
+
             this.NavigationService.Navigate(new MainPage());
-            //TO DO: Implementación de guardar cambios
         }
     }
 }

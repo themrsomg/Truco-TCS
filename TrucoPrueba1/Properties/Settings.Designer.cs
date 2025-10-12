@@ -34,5 +34,17 @@ namespace TrucoPrueba1.Properties {
                 this["languageCode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsMusicMuted {
+            get {
+                return ((bool)(this["IsMusicMuted"]));
+            }
+            set {
+                this["IsMusicMuted"] = value;
+            }
+        }
     }
 }

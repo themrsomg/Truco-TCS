@@ -367,6 +367,8 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\logo_muted.png" />
+    <Resource Include="Resources\logo_volume.png" />
     <Content Include="Resources\Songs\music_in_game.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

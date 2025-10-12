@@ -23,14 +23,7 @@ namespace TrucoPrueba1
         public JoinGamePage()
         {
             InitializeComponent();
-            string trackPath = System.IO.Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Resources",
-                "Songs",
-                "music_in_menus.mp3"
-            );
-            MusicManager.Play(trackPath);
-            MusicManager.Volume = 0.3;
+            MusicInitializer.InitializeMenuMusic();
         }
 
         private void ClickUnirse(object sender, RoutedEventArgs e)

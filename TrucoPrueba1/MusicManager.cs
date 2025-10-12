@@ -1,43 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Media;
 
 namespace TrucoPrueba1
 {
     public static class MusicManager
     {
-        private static MediaPlayer _player = new MediaPlayer();
-        private static string _currentTrack = "";
+        private static MediaPlayer player = new MediaPlayer();
+        private static string currentTrack = "";
+        private static double lastVolume = 0.3;
 
         public static double Volume
         {
-            get => _player.Volume;
+            get => player.Volume;
             set
             {
-                _player.Volume = Clamp(value, 0.0, 1.0);
+                player.Volume = Clamp(value, 0.0, 1.0);
+                if (value > 0)
+                {
+                    lastVolume = player.Volume;
+                }
             }
         }
-
+        public static bool IsMuted
+        {
+            get => player.Volume == 0.0;
+        }
+        public static void ToggleMute()
+        {
+            if (IsMuted)
+            {
+                player.Volume = lastVolume;
+            }
+            else
+            {
+                lastVolume = player.Volume;
+                player.Volume = 0.0;
+            }
+        }
         public static void Play(string resourcePath)
         {
             if (string.IsNullOrEmpty(resourcePath))
+            { 
                 return;
+            }
 
-            if (_currentTrack == resourcePath)
+            if (currentTrack == resourcePath)
+            {
                 return;
+            }
 
-            _currentTrack = resourcePath;
+            currentTrack = resourcePath;
 
             try
             {
-                _player.Open(new Uri(resourcePath, UriKind.Absolute));
-                _player.Volume = 0.5;
-                _player.MediaEnded -= LoopHandler;
-                _player.MediaEnded += LoopHandler;
-                _player.Play();
+                player.Open(new Uri(resourcePath, UriKind.Absolute));
+                player.Volume = 0.5;
+                player.MediaEnded -= LoopHandler;
+                player.MediaEnded += LoopHandler;
+                player.Play();
             }
             catch (Exception ex)
             {
@@ -45,10 +67,15 @@ namespace TrucoPrueba1
             }
         }
 
+        public static bool IsMenuMusicPlaying()
+        {
+            return player.Source != null && player.Source.AbsolutePath.EndsWith("music_in_menus.mp3", StringComparison.OrdinalIgnoreCase);
+        }
+
         public static void Stop()
         {
-            _player.Stop();
-            _currentTrack = "";
+            player.Stop();
+            currentTrack = "";
         }
 
         public static void ChangeTrack(string resourcePath)
@@ -59,8 +86,8 @@ namespace TrucoPrueba1
 
         private static void LoopHandler(object sender, EventArgs e)
         {
-            _player.Position = TimeSpan.Zero;
-            _player.Play();
+            player.Position = TimeSpan.Zero;
+            player.Play();
         }
 
         private static double Clamp(double value, double min, double max)
@@ -68,6 +95,35 @@ namespace TrucoPrueba1
             if (value < min) return min;
             if (value > max) return max;
             return value;
+        }
+    }
+
+    public static class MusicInitializer
+    {
+        private const string MenuMusicFileName = "music_in_menus.mp3";
+        private const double DefaultVolume = 0.3;
+
+        public static void InitializeMenuMusic()
+        {
+            if (MusicManager.IsMenuMusicPlaying())
+            {
+                return;
+            }
+
+            string trackPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "Songs",
+                MenuMusicFileName
+            );
+
+            MusicManager.Play(trackPath);
+            MusicManager.Volume = DefaultVolume;
+
+            if (Properties.Settings.Default.IsMusicMuted)
+            {
+                MusicManager.ToggleMute();
+            }
         }
     }
 }

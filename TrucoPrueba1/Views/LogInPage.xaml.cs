@@ -29,14 +29,7 @@ namespace TrucoPrueba1
         public LogInPage()
         {
             InitializeComponent();
-            string trackPath = System.IO.Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Resources",
-                "Songs",
-                "music_in_menus.mp3"
-            );
-            MusicManager.Play(trackPath);
-            MusicManager.Volume = 0.3;
+            MusicInitializer.InitializeMenuMusic();
         }
 
         private async void ClickLogIn(object sender, RoutedEventArgs e)
