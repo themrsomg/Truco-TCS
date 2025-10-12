@@ -35,6 +35,14 @@ namespace TrucoPrueba1.Views
             CurrentAvatarId = currentId;
             SelectAvatarCommand = new RelayCommand(ExecuteSelectAvatar);
             DataContext = this;
+            string trackPath = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "Songs",
+                "music_in_menus.mp3"
+            );
+            MusicManager.Play(trackPath);
+            MusicManager.Volume = 0.3;
         }
 
         private void ExecuteSelectAvatar(object parameter)

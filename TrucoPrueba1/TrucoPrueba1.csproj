@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MusicManager.cs" />
     <Compile Include="Views\AvatarIdToImageConverter.cs" />
     <Compile Include="Views\AvatarMatchToVisibilityConverter.cs" />
     <Compile Include="Connected Services\TrucoServer\Reference.cs">
@@ -359,6 +360,14 @@
     <Resource Include="Resources\Avatars\avatar_rose.png" />
     <Resource Include="Resources\Avatars\avatar_shark.png" />
     <Resource Include="Resources\Avatars\avatar_valkirya.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Songs\music_in_game.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Songs\music_in_menus.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

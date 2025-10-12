@@ -24,6 +24,14 @@ namespace TrucoPrueba1
         public PreGamePage()
         {
             InitializeComponent();
+            string trackPath = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "Songs",
+                "music_in_menus.mp3"
+            );
+            MusicManager.Play(trackPath);
+            MusicManager.Volume = 0.3;
         }
 
         private void ClickBuscarPartida(object sender, RoutedEventArgs e)

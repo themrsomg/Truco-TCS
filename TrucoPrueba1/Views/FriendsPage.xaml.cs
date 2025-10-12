@@ -23,6 +23,14 @@ namespace TrucoPrueba1
         public FriendsPage()
         {
             InitializeComponent();
+            string trackPath = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "Songs",
+                "music_in_menus.mp3"
+            );
+            MusicManager.Play(trackPath);
+            MusicManager.Volume = 0.3;
         }
         ///TO DO: Implementación de lógica necesaria para la página y sus acciones
         private void ClickBack(object sender, RoutedEventArgs e)

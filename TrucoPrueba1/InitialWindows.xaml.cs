@@ -25,6 +25,14 @@ namespace TrucoPrueba1
             InitializeComponent();
             MainFrame.Navigate(new StartPage());
             MainFrame.Navigated += MainFrame_Navigated;
+            string trackPath = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "Songs",
+                "music_in_menus.mp3"
+            );
+            MusicManager.Play(trackPath);
+            MusicManager.Volume = 0.3;
         }
         private void MainFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {

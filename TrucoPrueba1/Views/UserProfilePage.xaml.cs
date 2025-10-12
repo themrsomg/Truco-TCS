@@ -14,40 +14,31 @@ using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1
 {
-    // --- LÓGICA DE SESIÓN Y CLIENTE WCF ---
     public static class SessionManager
     {
-        // NOTA: Se asume que TrucoCallbackHandler y InstanceContext están definidos.
         private static readonly TrucoCallbackHandler callbackHandler = new TrucoCallbackHandler();
         private static readonly InstanceContext userContext = new InstanceContext(callbackHandler);
         private static TrucoUserServiceClient _userClient;
 
-        // Propiedad robusta que repara el cliente WCF si falla (Faulted) o si es null.
-        // **Esta es la implementación recomendada para mejorar la estabilidad de la conexión.**
         public static TrucoUserServiceClient UserClient
         {
             get
             {
-                // Recrea el cliente solo si es nulo o si la conexión está fallida
                 if (_userClient == null || _userClient.State == CommunicationState.Faulted)
                 {
-                    // Debes asegurarte de que el nombre del endpoint coincida con tu App.config
                     _userClient = new TrucoUserServiceClient(userContext, "NetTcpBinding_ITrucoUserService");
                 }
                 return _userClient;
             }
         }
 
-        // Se asume que esta propiedad se establece al iniciar sesión
         public static string CurrentUsername { get; set; } = "UsuarioActual";
     }
 
-    // --- CÓDIGO DE LA PÁGINA ---
     public partial class UserProfilePage : Page
     {
         private UserProfileData _currentUserData;
 
-        // La lista de avatares disponibles es necesaria para la navegación
         private readonly List<string> AvailableAvatars = new List<string>
         {
             "avatar_default", "avatar_acewolf", "avatar_cthulu", "avatar_elaoctopus",
@@ -61,17 +52,22 @@ namespace TrucoPrueba1
         public UserProfilePage()
         {
             InitializeComponent();
-            // Llama a la carga del perfil al iniciar la página
             LoadUserProfile();
+            string trackPath = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "Songs",
+                "music_in_menus.mp3"
+            );
+            MusicManager.Play(trackPath);
+            MusicManager.Volume = 0.3;
         }
 
-        // Se convierte a async void para no bloquear la UI
         private async void LoadUserProfile()
         {
             if (string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) ||
                 SessionManager.CurrentUsername == "UsuarioActual")
             {
-                // Podrías redirigir a LoginPage si no hay sesión
                 return;
             }
 
@@ -80,19 +76,15 @@ namespace TrucoPrueba1
             {
                 var client = SessionManager.UserClient;
 
-                // Cargar perfil
-                // Se usa GetUserProfileAsync que se genera al actualizar la referencia del servicio
                 _currentUserData = await client.GetUserProfileAsync(SessionManager.CurrentUsername);
 
                 if (_currentUserData == null) return;
 
-                // Establecer el DataContext para que funcione el Binding del Avatar (AvatarId)
                 this.DataContext = _currentUserData;
                 _originalUsername = _currentUserData.Username;
 
-                // Asignar valores a TextBoxes (no usan Binding para edición)
                 txtUsername.Text = _currentUserData.Username;
-                txtEmail.Text = _currentUserData.Email; // Es de solo lectura en XAML
+                txtEmail.Text = _currentUserData.Email; 
                 txtFacebookLink.Text = _currentUserData.FacebookHandle;
                 txtXLink.Text = _currentUserData.XHandle;
                 txtInstagramLink.Text = _currentUserData.InstagramHandle;
@@ -102,7 +94,6 @@ namespace TrucoPrueba1
             }
             catch (Exception ex)
             {
-                // Muestra un error claro si la conexión falla (Común en WCF)
                 MessageBox.Show($"Error de conexión al cargar el perfil: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
@@ -111,7 +102,6 @@ namespace TrucoPrueba1
             }
         }
 
-        // Lógica de guardado asincrónica
         private async void ClickSave(object sender, RoutedEventArgs e)
         {
             if (_currentUserData == null) return;
@@ -134,7 +124,6 @@ namespace TrucoPrueba1
                     return;
                 }
 
-                // 1. Actualizar el objeto local para enviarlo
                 string oldUsername = _currentUserData.Username;
                 int oldChangeCount = _currentUserData.NameChangeCount;
 
@@ -143,21 +132,18 @@ namespace TrucoPrueba1
                 _currentUserData.XHandle = txtXLink.Text.Trim();
                 _currentUserData.InstagramHandle = txtInstagramLink.Text.Trim();
 
-                // Si el nombre cambió, incrementamos el contador antes de enviarlo al servidor para que el servidor lo valide.
                 if (usernameChanged)
                 {
                     _currentUserData.NameChangeCount++;
                 }
 
                 var client = SessionManager.UserClient;
-                // Se usa SaveUserProfileAsync, generado al actualizar la referencia
                 bool success = await client.SaveUserProfileAsync(_currentUserData);
 
                 if (success)
                 {
-                    // 2. Actualizar estado local y sesión solo si el servidor fue exitoso
                     _originalUsername = newUsername;
-                    SessionManager.CurrentUsername = newUsername; // Actualizar la sesión global
+                    SessionManager.CurrentUsername = newUsername; 
                     UpdateUsernameWarning(_currentUserData.NameChangeCount);
                     UpdateSocialMediaLinks();
 
@@ -165,10 +151,8 @@ namespace TrucoPrueba1
                 }
                 else
                 {
-                    // Revertir los cambios si el servidor falla (ej: el nombre ya estaba tomado)
                     MessageBox.Show("Hubo un error al guardar el perfil. El nombre de usuario puede estar en uso o ya no quedan cambios.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                    // Revertir el estado local
                     _currentUserData.Username = oldUsername;
                     _currentUserData.NameChangeCount = oldChangeCount;
                     txtUsername.Text = _originalUsername;
@@ -185,7 +169,6 @@ namespace TrucoPrueba1
             }
         }
 
-        // Método que se llama al seleccionar un avatar en la página AvatarSelectionPage
         private async void AvatarPage_AvatarSelected(object sender, string newAvatarId)
         {
             if (sender is Views.AvatarSelectionPage avatarPage)
@@ -198,15 +181,12 @@ namespace TrucoPrueba1
             {
                 var client = SessionManager.UserClient;
 
-                // 1. Intentar actualizar en el servidor
                 bool success = await client.UpdateUserAvatarAsync(SessionManager.CurrentUsername, newAvatarId);
 
                 if (success)
                 {
-                    // 2. CORRECCIÓN CLAVE: Actualizamos la propiedad local
                     _currentUserData.AvatarId = newAvatarId;
 
-                    // 3. Forzar el refresco del DataContext (el truco anti-caché)
                     this.DataContext = null;
                     this.DataContext = _currentUserData;
 
@@ -227,7 +207,6 @@ namespace TrucoPrueba1
             }
         }
 
-        // --- Métodos Auxiliares y Handlers de Clic ---
 
         private void UpdateUsernameWarning(int count)
         {
@@ -247,13 +226,12 @@ namespace TrucoPrueba1
             }
             else
             {
-                txtUsernameWarning.Foreground = new SolidColorBrush(Colors.White); // Cambiado a blanco para mejor contraste en fondo oscuro
+                txtUsernameWarning.Foreground = new SolidColorBrush(Colors.White); 
             }
         }
 
         private void UpdateSocialMediaLinks()
         {
-            // Lógica para mostrar/ocultar los iconos de enlace si hay o no contenido en los TextBoxes
             linkFacebookContainer.Visibility = string.IsNullOrWhiteSpace(txtFacebookLink.Text.Trim()) ? Visibility.Collapsed : Visibility.Visible;
             linkXContainer.Visibility = string.IsNullOrWhiteSpace(txtXLink.Text.Trim()) ? Visibility.Collapsed : Visibility.Visible;
             linkInstagramContainer.Visibility = string.IsNullOrWhiteSpace(txtInstagramLink.Text.Trim()) ? Visibility.Collapsed : Visibility.Visible;
@@ -267,16 +245,13 @@ namespace TrucoPrueba1
 
         private void ClickChangePassword(object sender, RoutedEventArgs e)
         {
-            // NOTA: La implementación completa del cambio de contraseña requiere más lógica.
             MessageBox.Show("Funcionalidad de cambio de contraseña pendiente de implementación en el servidor.", "Pendiente", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ClickChangeAvatar(object sender, RoutedEventArgs e)
         {
-            // Navegar a la página de selección de avatar
             if (_currentUserData == null) return;
 
-            // 🚨 CORRECCIÓN: Usar el namespace completo o el using que tienes (TrucoPrueba1.Views)
             var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, _currentUserData.AvatarId);
             avatarPage.AvatarSelected += AvatarPage_AvatarSelected;
             NavigationService.Navigate(avatarPage);
@@ -284,9 +259,6 @@ namespace TrucoPrueba1
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            // Lógica para abrir enlaces de redes sociales en el navegador
-            // ... (El código anterior para esta función es correcto, no necesita cambios)
-            // Ya que el XAML solo tiene el RequestNavigate, asumo que la implementación está bien.
             string handle = "";
             string baseUrl = "";
 
