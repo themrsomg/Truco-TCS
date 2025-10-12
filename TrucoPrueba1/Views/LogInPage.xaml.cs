@@ -10,11 +10,12 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.TrucoServer; 
-using System.Windows.Navigation;
+using TrucoPrueba1.Views;
 
 namespace TrucoPrueba1
 {
@@ -73,7 +74,7 @@ namespace TrucoPrueba1
 
         private void ClickForgotPassword(object sender, RoutedEventArgs e)
         {
-            // this.NavigationService.Navigate(new ForgotPasswordWindow()); 
+            this.NavigationService.Navigate(new ForgotPasswordPage()); 
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
