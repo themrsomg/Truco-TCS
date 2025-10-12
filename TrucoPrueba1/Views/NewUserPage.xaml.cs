@@ -50,9 +50,9 @@ namespace TrucoPrueba1
                 var callback = new TrucoUserCallback();
                 var context = new System.ServiceModel.InstanceContext(callback);
                 var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
+                string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-
-                bool sent = client.RequestEmailVerification(email);
+                bool sent = client.RequestEmailVerification(email, languageCode);
                 if (!sent)
                 {
                     MessageBox.Show("No se pudo enviar el correo de verificación.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

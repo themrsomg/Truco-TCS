@@ -24,6 +24,8 @@ namespace TrucoPrueba1
     /// </summary>
     public partial class LogInPage : Page
     {
+        private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
         public LogInPage()
         {
             InitializeComponent();
@@ -51,7 +53,7 @@ namespace TrucoPrueba1
 
             try
             {
-                bool success = await SessionManager.UserClient.LoginAsync(usernameOrEmail, password);
+                bool success = await SessionManager.UserClient.LoginAsync(usernameOrEmail, password, languageCode);
 
                 if (success)
                 {
@@ -74,7 +76,7 @@ namespace TrucoPrueba1
 
         private void ClickForgotPassword(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new ForgotPasswordPage()); 
+            this.NavigationService.Navigate(new ForgotPasswordStepOnePage()); 
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)

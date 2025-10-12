@@ -37,12 +37,66 @@ namespace TrucoPrueba1.Views
 
         private void ClickButtonSendCode(object sender, RoutedEventArgs e)
         {
+            string email = txtEmail.Text.Trim();
 
+            if (!FieldsValidation())
+                return;
+
+            try
+            {
+                var callback = new TrucoUserCallback();
+                var context = new System.ServiceModel.InstanceContext(callback);
+                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
+
+                string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                bool sent = client.RequestEmailVerification(email, languageCode);
+
+                if (sent)
+                {
+                    MessageBox.Show("Se ha enviado un código de verificación a tu correo.", "Recuperación de contraseña", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.NavigationService.Navigate(new ForgotPasswordStepTwoPage(email));
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo enviar el correo. Verifica que el email esté registrado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                client.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new StartPage());
+        }
+
+        private bool FieldsValidation()
+        {
+            string email = txtEmail.Text.Trim();
+
+            if (string.IsNullOrEmpty(email))
+            {
+                MessageBox.Show(Lang.DialogTextFillFields, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (email.Length < 5)
+            {
+                MessageBox.Show(Lang.DialogTextShortEmail, Lang.DialogTextShortEmail, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (email.Length > 250)
+            {
+                MessageBox.Show(Lang.DialogTextLongEmail, Lang.DialogTextLongEmail, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
         }
     }
 }

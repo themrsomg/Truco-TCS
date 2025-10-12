@@ -37,7 +37,7 @@
                     </ControlTemplate>
                 </PasswordBox.Template>
             </PasswordBox>
-            <Label MouseRightButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
+            <Label MouseLeftButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
             <Button Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand" Margin="80,30,80,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
