@@ -31,13 +31,12 @@ namespace TrucoPrueba1
         {
             if (cbLanguages.SelectedIndex == 0)
             {
-                Properties.Settings.Default.languageCode = "en-US";
+                LanguageManager.ChangeLanguage("en-US");
             }
             else
             {
-                Properties.Settings.Default.languageCode = "es-MX";
+                LanguageManager.ChangeLanguage("es-MX");
             }
-            Properties.Settings.Default.Save();
         }
         private void ClickLogIn(object sender, RoutedEventArgs e)
         {

@@ -74,7 +74,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="LanguageManager.cs" />
     <Compile Include="MusicManager.cs" />
+    <Compile Include="Properties\Langs\LocExtension.cs" />
     <Compile Include="Views\AvatarIdToImageConverter.cs" />
     <Compile Include="Views\AvatarMatchToVisibilityConverter.cs" />
     <Compile Include="EqualityConverter.cs" />

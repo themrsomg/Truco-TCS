@@ -1051,7 +1051,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Argentinian Truco.
+        ///   Busca una cadena traducida similar a Truco Argentino.
         /// </summary>
         public static string GlobalTextTrucoArg {
             get {

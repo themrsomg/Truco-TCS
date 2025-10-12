@@ -6,15 +6,15 @@
       xmlns:local="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-      Title="{x:Static language:Lang.GlobalTextTrucoArg}" Height="800" Width="600" FontFamily="Book Antiqua">
+      Title="{language:Loc GlobalTextTrucoArg}" Height="800" Width="600" FontFamily="Book Antiqua">
 
     <Page.Background>
         <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel>
         <ComboBox x:Name="cbLanguages" SelectionChanged="Language_Selection_Changed" Cursor="" Width="110" HorizontalAlignment="Right" Margin="10,20,30,10" FontSize="14" Opacity=".8">
-            <ComboBoxItem Content="{x:Static language:Lang.en}"/>
-            <ComboBoxItem Content="{x:Static language:Lang.es}"/>
+            <ComboBoxItem Content="{language:Loc en}"/>
+            <ComboBoxItem Content="{language:Loc es}"/>
         </ComboBox>
         <Grid Height="380" Width="380">
             <Grid.Background>
@@ -31,7 +31,7 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <TextBlock Text="{x:Static language:Lang.StartTextLogIn}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <TextBlock Text="{language:Loc StartTextLogIn}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
                     <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -44,7 +44,7 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <TextBlock Text="{x:Static language:Lang.StartTextPlayAsGuest}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <TextBlock Text="{language:Loc StartTextPlayAsGuest}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
                     <Image Source="/Resources/logo_play_as_guest.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -57,7 +57,7 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <TextBlock Text="{x:Static language:Lang.StartTextSingUp}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <TextBlock Text="{language:Loc StartTextSingUp}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
                     <Image Source="/Resources/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
