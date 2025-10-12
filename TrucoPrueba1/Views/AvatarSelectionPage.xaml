@@ -58,6 +58,7 @@
 
         <TextBlock Grid.Row="0"
                    Text="Selección de Avatar"
+                   FontFamily="Book Antiqua"
                    FontSize="40"
                    FontWeight="Bold"
                    Foreground="White"
@@ -112,6 +113,7 @@
                 Click="ClickBack"
                 Content="Atrás"
                 Cursor="Hand"
+                FontFamily="Book Antiqua"
                 FontSize="25"
                 Width="120" Height="40"
                 HorizontalAlignment="Right"

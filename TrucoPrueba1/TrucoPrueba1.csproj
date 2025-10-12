@@ -69,14 +69,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MusicManager.cs" />
-    <Compile Include="Views\AvatarIdToImageConverter.cs" />
-    <Compile Include="Views\AvatarMatchToVisibilityConverter.cs" />
     <Compile Include="Connected Services\TrucoServer\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="MusicManager.cs" />
+    <Compile Include="Views\AvatarIdToImageConverter.cs" />
+    <Compile Include="Views\AvatarMatchToVisibilityConverter.cs" />
     <Compile Include="EqualityConverter.cs" />
     <Compile Include="ITrucoCallback.cs" />
     <Compile Include="RelayCommand.cs" />
@@ -334,21 +334,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\TrucoServer\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\TrucoServer\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Avatars\avatar_acewolf.png" />
     <Resource Include="Resources\Avatars\avatar_cthulu.png" />
     <Resource Include="Resources\Avatars\avatar_default.png" />
@@ -362,12 +347,21 @@
     <Resource Include="Resources\Avatars\avatar_valkirya.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
+    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
+    <None Include="Connected Services\TrucoServer\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Resources\Songs\music_in_game.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Songs\music_in_menus.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\TrucoServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
