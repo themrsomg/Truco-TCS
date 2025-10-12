@@ -32,5 +32,14 @@ namespace TrucoPrueba1.TrucoServer
                 MessageBox.Show($"¡{fromUser} aceptó tu solicitud de amistad!", "Amistad Aceptada", MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
+        public void MatchFound(string matchDetails)
+        {
+            // Lógica para cuando se encuentra una partida
+        }
+
+        public void PlayerJoined(string username)
+        {
+            // Lógica para cuando un jugador se une
+        }
     }
 }
