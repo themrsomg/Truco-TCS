@@ -552,4 +552,103 @@
   <data name="GlobalTextClose" xml:space="preserve">
     <value>Cerrar</value>
   </data>
+  <data name="StartTextRegisterCodeSended" xml:space="preserve">
+    <value>No se pudo enviar el correo de verificación.</value>
+  </data>
+  <data name="StartTextRegisterEmailVerification" xml:space="preserve">
+    <value>Verificación de correo</value>
+  </data>
+  <data name="StartTextRegisterIntroduceCode" xml:space="preserve">
+    <value>Ingresa el código de verificación enviado a tu correo:</value>
+  </data>
+  <data name="StartTextRegisterMustEnterCode" xml:space="preserve">
+    <value>Debes ingresar el código.</value>
+  </data>
+  <data name="StartTextRegisterIncorrectCode" xml:space="preserve">
+    <value>Código incorrecto o expirado.</value>
+  </data>
+  <data name="StartTextRegisterSuccess" xml:space="preserve">
+    <value>Usuario registrado correctamente.</value>
+  </data>
+  <data name="StartTextRegisterError" xml:space="preserve">
+    <value>Error al registrar usuario.</value>
+  </data>
+  <data name="GlobalTextConnectionError" xml:space="preserve">
+    <value>Error de Conexión</value>
+  </data>
+  <data name="UserProfileTextTwoChanges" xml:space="preserve">
+    <value>No puedes cambiar tu nombre de usuario. Has alcanzado el límite de 2 cambios.</value>
+  </data>
+  <data name="UserProfileTextError" xml:space="preserve">
+    <value>Error de Perfil</value>
+  </data>
+  <data name="UserProfileTextSuccess" xml:space="preserve">
+    <value>Perfil guardado exitosamente.</value>
+  </data>
+  <data name="UserProfileTextErrorSaving" xml:space="preserve">
+    <value>Hubo un error al guardar el perfil. El nombre de usuario puede estar en uso o ya no quedan cambios.</value>
+  </data>
+  <data name="UserProfileTextAvatarSuccess" xml:space="preserve">
+    <value>Tu avatar ha sido actualizado con éxito.</value>
+  </data>
+  <data name="UserProfileTextAvatarError" xml:space="preserve">
+    <value>No se pudo actualizar el avatar en el servidor.</value>
+  </data>
+  <data name="UserProfileTextUsernameChangesWarning" xml:space="preserve">
+    <value>Te quedan {0} cambios de nombre. (Máximo {1})</value>
+  </data>
+  <data name="UserProfileTextChangesError" xml:space="preserve">
+    <value>¡Ya no puedes cambiar tu nombre de usuario!</value>
+  </data>
+  <data name="ForgotPasswordTextSent" xml:space="preserve">
+    <value>Escribe el código de verificación enviado a {0}</value>
+  </data>
+  <data name="ForgotPasswordTextSuccess" xml:space="preserve">
+    <value>Tu contraseña ha sido restablecida correctamente.</value>
+  </data>
+  <data name="ForgotPasswordTextError" xml:space="preserve">
+    <value>Código incorrecto o expirado, o el correo no existe.</value>
+  </data>
+  <data name="ForgotPasswordTextSent2" xml:space="preserve">
+    <value>Se ha enviado un código de verificación a tu correo.</value>
+  </data>
+  <data name="ForgotPasswordRecovery" xml:space="preserve">
+    <value>Recuperación de contraseña</value>
+  </data>
+  <data name="ForgotPasswordTextError2" xml:space="preserve">
+    <value>No se pudo enviar el correo. Verifica que el email esté registrado.</value>
+  </data>
+  <data name="UserProfileTextTitle" xml:space="preserve">
+    <value>Perfil de Usuario</value>
+  </data>
+  <data name="UserProfileChangeAvatar" xml:space="preserve">
+    <value>Cambiar Avatar</value>
+  </data>
+  <data name="UserProfileEmailReadOnly" xml:space="preserve">
+    <value>Email (Sólo lectura)</value>
+  </data>
+  <data name="AvatarSelection" xml:space="preserve">
+    <value>Selección de Avatar</value>
+  </data>
+  <data name="ForgotPasswordTextTitle" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="ForgotPasswordTextReturnAccount" xml:space="preserve">
+    <value>Vuelve a tu cuenta</value>
+  </data>
+  <data name="ForgotPasswordTextInstructions" xml:space="preserve">
+    <value>Para recuperar tu cuenta, comienza ingresando tu correo electrónico a continuación. Se te enviará un código de confirmación.</value>
+  </data>
+  <data name="ForgotPasswordTextSendEmail" xml:space="preserve">
+    <value>Enviar código de confirmación</value>
+  </data>
+  <data name="ForgotPasswordTextEnterCode" xml:space="preserve">
+    <value>Escribe el código de verifiación</value>
+  </data>
+  <data name="ForgotPasswordTextVerificationCode" xml:space="preserve">
+    <value>Código de verificación</value>
+  </data>
+  <data name="ForgotPasswordTextChoosePasswd" xml:space="preserve">
+    <value>Escoge una nueva contraseña</value>
+  </data>
 </root>

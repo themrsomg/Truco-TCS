@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
       mc:Ignorable="d"
-      Title="AvatarSelectionPage"
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      Title="{x:Static language:Lang.AvatarSelection}"
       Background="#002135"
       Width="800" Height="600">
 
@@ -57,7 +58,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
-                   Text="Selección de Avatar"
+                   Text="{x:Static language:Lang.AvatarSelection}"
                    FontFamily="Book Antiqua"
                    FontSize="40"
                    FontWeight="Bold"
@@ -111,7 +112,7 @@
 
         <Button Grid.Row="2"
                 Click="ClickBack"
-                Content="Atrás"
+                Content="{x:Static language:Lang.GlobalTextBack}"
                 Cursor="Hand"
                 FontFamily="Book Antiqua"
                 FontSize="25"

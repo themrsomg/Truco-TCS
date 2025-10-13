@@ -28,7 +28,7 @@ namespace TrucoPrueba1.Views
             InitializeComponent();
             this.email = email;
             MusicInitializer.InitializeMenuMusic();
-            blckVerificationCodeText.Text = string.Format($"Escribe el código de verificación enviado a {email}");
+            blckVerificationCodeText.Text = string.Format(Lang.ForgotPasswordTextSent, email);
         }
 
         private void ClickButtonSave(object sender, RoutedEventArgs e)
@@ -51,19 +51,19 @@ namespace TrucoPrueba1.Views
 
                 if (success)
                 {
-                    MessageBox.Show("Tu contraseña ha sido restablecida correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.ForgotPasswordTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    MessageBox.Show("Código incorrecto o expirado, o el correo no existe.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.ForgotPasswordTextError, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
                 client.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

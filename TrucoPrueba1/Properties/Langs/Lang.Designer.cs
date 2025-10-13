@@ -97,6 +97,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Avatar Selection.
+        /// </summary>
+        public static string AvatarSelection {
+            get {
+                return ResourceManager.GetString("AvatarSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ace.
         /// </summary>
         public static string CardsTextAce {
@@ -412,6 +421,123 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Password recovery.
+        /// </summary>
+        public static string ForgotPasswordRecovery {
+            get {
+                return ResourceManager.GetString("ForgotPasswordRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Choose a new password.
+        /// </summary>
+        public static string ForgotPasswordTextChoosePasswd {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextChoosePasswd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter the verification code.
+        /// </summary>
+        public static string ForgotPasswordTextEnterCode {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextEnterCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Incorrect or expired code, or the email does not exist..
+        /// </summary>
+        public static string ForgotPasswordTextError {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The email could not be sent. Please check that the email address is registered..
+        /// </summary>
+        public static string ForgotPasswordTextError2 {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextError2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a To recover your account, start by entering your email address below. A confirmation code will be sent to you..
+        /// </summary>
+        public static string ForgotPasswordTextInstructions {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Return to your account.
+        /// </summary>
+        public static string ForgotPasswordTextReturnAccount {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextReturnAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Send confirmation code.
+        /// </summary>
+        public static string ForgotPasswordTextSendEmail {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextSendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter the verification code sent to {0}.
+        /// </summary>
+        public static string ForgotPasswordTextSent {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a A verification code has been sent to your email..
+        /// </summary>
+        public static string ForgotPasswordTextSent2 {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextSent2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your password has been successfully reset..
+        /// </summary>
+        public static string ForgotPasswordTextSuccess {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Forgot your password?.
+        /// </summary>
+        public static string ForgotPasswordTextTitle {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Verification Code.
+        /// </summary>
+        public static string ForgotPasswordTextVerificationCode {
+            get {
+                return ResourceManager.GetString("ForgotPasswordTextVerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Add.
         /// </summary>
         public static string FriendsTextAdd {
@@ -696,6 +822,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string GlobalTextConfirmPassword {
             get {
                 return ResourceManager.GetString("GlobalTextConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Connection Error.
+        /// </summary>
+        public static string GlobalTextConnectionError {
+            get {
+                return ResourceManager.GetString("GlobalTextConnectionError", resourceCulture);
             }
         }
         
@@ -1357,11 +1492,173 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The verification email could not be sent..
+        /// </summary>
+        public static string StartTextRegisterCodeSended {
+            get {
+                return ResourceManager.GetString("StartTextRegisterCodeSended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Email verification.
+        /// </summary>
+        public static string StartTextRegisterEmailVerification {
+            get {
+                return ResourceManager.GetString("StartTextRegisterEmailVerification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error registering user..
+        /// </summary>
+        public static string StartTextRegisterError {
+            get {
+                return ResourceManager.GetString("StartTextRegisterError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Incorrect or expired code..
+        /// </summary>
+        public static string StartTextRegisterIncorrectCode {
+            get {
+                return ResourceManager.GetString("StartTextRegisterIncorrectCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter the verification code sent to your email:.
+        /// </summary>
+        public static string StartTextRegisterIntroduceCode {
+            get {
+                return ResourceManager.GetString("StartTextRegisterIntroduceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the code..
+        /// </summary>
+        public static string StartTextRegisterMustEnterCode {
+            get {
+                return ResourceManager.GetString("StartTextRegisterMustEnterCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Successfully registered user..
+        /// </summary>
+        public static string StartTextRegisterSuccess {
+            get {
+                return ResourceManager.GetString("StartTextRegisterSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Sing up for free.
         /// </summary>
         public static string StartTextSingUp {
             get {
                 return ResourceManager.GetString("StartTextSingUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Change Avatar.
+        /// </summary>
+        public static string UserProfileChangeAvatar {
+            get {
+                return ResourceManager.GetString("UserProfileChangeAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Email (Read-only).
+        /// </summary>
+        public static string UserProfileEmailReadOnly {
+            get {
+                return ResourceManager.GetString("UserProfileEmailReadOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The avatar could not be updated on the server..
+        /// </summary>
+        public static string UserProfileTextAvatarError {
+            get {
+                return ResourceManager.GetString("UserProfileTextAvatarError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your avatar has been successfully updated..
+        /// </summary>
+        public static string UserProfileTextAvatarSuccess {
+            get {
+                return ResourceManager.GetString("UserProfileTextAvatarSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You can no longer change your username!.
+        /// </summary>
+        public static string UserProfileTextChangesError {
+            get {
+                return ResourceManager.GetString("UserProfileTextChangesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Profile Error.
+        /// </summary>
+        public static string UserProfileTextError {
+            get {
+                return ResourceManager.GetString("UserProfileTextError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a There was an error saving the profile. The username may be in use or there are no changes left..
+        /// </summary>
+        public static string UserProfileTextErrorSaving {
+            get {
+                return ResourceManager.GetString("UserProfileTextErrorSaving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Profile saved successfully..
+        /// </summary>
+        public static string UserProfileTextSuccess {
+            get {
+                return ResourceManager.GetString("UserProfileTextSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a User Profile.
+        /// </summary>
+        public static string UserProfileTextTitle {
+            get {
+                return ResourceManager.GetString("UserProfileTextTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You cannot change your username. You have reached the limit of 2 changes..
+        /// </summary>
+        public static string UserProfileTextTwoChanges {
+            get {
+                return ResourceManager.GetString("UserProfileTextTwoChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You have {0} name changes remaining. (Maximum {1}).
+        /// </summary>
+        public static string UserProfileTextUsernameChangesWarning {
+            get {
+                return ResourceManager.GetString("UserProfileTextUsernameChangesWarning", resourceCulture);
             }
         }
     }

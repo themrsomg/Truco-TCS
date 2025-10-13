@@ -46,19 +46,19 @@ namespace TrucoPrueba1.Views
 
                 if (sent)
                 {
-                    MessageBox.Show("Se ha enviado un código de verificación a tu correo.", "Recuperación de contraseña", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.ForgotPasswordTextSent2, Lang.ForgotPasswordRecovery, MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new ForgotPasswordStepTwoPage(email));
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo enviar el correo. Verifica que el email esté registrado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.ForgotPasswordTextError2, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
                 client.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

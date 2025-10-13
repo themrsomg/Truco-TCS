@@ -48,41 +48,41 @@ namespace TrucoPrueba1
                 bool sent = client.RequestEmailVerification(email, languageCode);
                 if (!sent)
                 {
-                    MessageBox.Show("No se pudo enviar el correo de verificación.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.StartTextRegisterCodeSended, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                string code = Microsoft.VisualBasic.Interaction.InputBox("Ingresa el código de verificación enviado a tu correo:", "Verificación de correo", "");
+                string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
 
                 if (string.IsNullOrEmpty(code))
                 {
-                    MessageBox.Show("Debes ingresar el código.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 bool confirmed = client.ConfirmEmailVerification(email, code);
                 if (!confirmed)
                 {
-                    MessageBox.Show("Código incorrecto o expirado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.StartTextRegisterIncorrectCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 bool registered = client.Register(username, password, email);
                 if (registered)
                 {
-                    MessageBox.Show("Usuario registrado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new MainPage());
                 }
                 else
                 {
-                    MessageBox.Show("Error al registrar usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.StartTextRegisterError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 client.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión o servidor: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

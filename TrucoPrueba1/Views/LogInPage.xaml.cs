@@ -63,7 +63,7 @@ namespace TrucoPrueba1
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Lang.DialogTextError + ex.Message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Lang.DialogTextError + ex.Message, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

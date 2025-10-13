@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TrucoPrueba1.TrucoServer;
+using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1
 {
@@ -87,7 +88,7 @@ namespace TrucoPrueba1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión al cargar el perfil: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -112,7 +113,7 @@ namespace TrucoPrueba1
 
                 if (usernameChanged && _currentUserData.NameChangeCount >= MAX_CHANGES)
                 {
-                    MessageBox.Show("No puedes cambiar tu nombre de usuario. Has alcanzado el límite de 2 cambios.", "Error de Perfil", MessageBoxButton.OK, MessageBoxImage.Stop);
+                    MessageBox.Show(Lang.UserProfileTextTwoChanges, Lang.UserProfileTextError, MessageBoxButton.OK, MessageBoxImage.Stop);
                     txtUsername.Text = _originalUsername;
                     return;
                 }
@@ -140,11 +141,11 @@ namespace TrucoPrueba1
                     UpdateUsernameWarning(_currentUserData.NameChangeCount);
                     UpdateSocialMediaLinks();
 
-                    MessageBox.Show("Perfil guardado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Hubo un error al guardar el perfil. El nombre de usuario puede estar en uso o ya no quedan cambios.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     _currentUserData.Username = oldUsername;
                     _currentUserData.NameChangeCount = oldChangeCount;
@@ -153,7 +154,7 @@ namespace TrucoPrueba1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión al guardar: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -183,16 +184,16 @@ namespace TrucoPrueba1
                     this.DataContext = null;
                     this.DataContext = _currentUserData;
 
-                    MessageBox.Show("Tu avatar ha sido actualizado con éxito.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo actualizar el avatar en el servidor.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.UserProfileTextAvatarError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión al actualizar el avatar: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -204,12 +205,12 @@ namespace TrucoPrueba1
         private void UpdateUsernameWarning(int count)
         {
             int remaining = MAX_CHANGES - count;
-            txtUsernameWarning.Text = $"Te quedan {remaining} cambios de nombre. (Máximo {MAX_CHANGES})";
+            txtUsernameWarning.Text = string.Format(Lang.UserProfileTextUsernameChangesWarning, remaining, MAX_CHANGES);
             txtUsernameWarning.Visibility = Visibility.Visible;
 
             if (remaining <= 0)
             {
-                txtUsernameWarning.Text = "¡Ya no puedes cambiar tu nombre de usuario!";
+                txtUsernameWarning.Text = Lang.UserProfileTextChangesError;
                 txtUsernameWarning.Foreground = new SolidColorBrush(Colors.Red);
                 txtUsername.IsReadOnly = true;
             }
@@ -282,7 +283,7 @@ namespace TrucoPrueba1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"No se pudo abrir el enlace: {ex.Message}", "Error de Navegación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show($"{ex.Message}", "Error de Navegación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
