@@ -257,6 +257,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.FriendData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.MatchResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -363,14 +366,14 @@
     <Resource Include="Resources\Avatars\avatar_valkirya.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\logo_muted.png" />
+    <Resource Include="Resources\logo_volume.png" />
     <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
     <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
     <None Include="Connected Services\TrucoServer\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\logo_muted.png" />
-    <Resource Include="Resources\logo_volume.png" />
     <Content Include="Resources\Songs\music_in_game.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
