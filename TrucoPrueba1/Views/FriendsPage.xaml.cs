@@ -1,39 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1
 {
-    /// <summary>
-    /// Lógica de interacción para FriendsPage.xaml
-    /// </summary>
-    /// 
     public class FriendDisplayData
     {
         public string Username { get; set; }
         public string AvatarId { get; set; }
     }
+
     public partial class FriendsPage : Page
     {
         public ObservableCollection<FriendDisplayData> FriendsList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public ObservableCollection<FriendDisplayData> PendingList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public FriendDisplayData SelectedFriend { get; set; }
         public FriendDisplayData SelectedPending { get; set; }
+
         private TrucoFriendServiceClient friendClient;
+
         public FriendsPage()
         {
             InitializeComponent();
@@ -42,63 +33,48 @@ namespace TrucoPrueba1
             InitializeFriendClient();
             _ = LoadDataAsync();
         }
+
         private void InitializeFriendClient()
         {
-            if (friendClient == null || friendClient.State == CommunicationState.Faulted)
+            try
             {
-                try
+                if (friendClient == null || friendClient.State == CommunicationState.Faulted)
                 {
-                    InstanceContext userContext = new InstanceContext(new TrucoCallbackHandler());
-                    friendClient = new TrucoFriendServiceClient(userContext, "NetTcpBinding_ITrucoFriendService");
+                    InstanceContext context = new InstanceContext(new TrucoCallbackHandler());
+                    friendClient = new TrucoFriendServiceClient(context, "NetTcpBinding_ITrucoFriendService");
                     if (friendClient.State == CommunicationState.Created)
-                    {
                         friendClient.Open();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error inicializando el cliente de amigos: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inicializando el cliente de amigos: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
         private async Task LoadDataAsync()
         {
             InitializeFriendClient();
-
-            if (friendClient == null || friendClient.State != CommunicationState.Opened)
-            {
-                return;
-            }
+            if (friendClient == null || friendClient.State != CommunicationState.Opened) return;
 
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                var friendsData = await friendClient.GetAcceptedFriendsDataAsync(SessionManager.CurrentUsername);
-                var pendingData = await friendClient.GetPendingFriendRequestsDataAsync(SessionManager.CurrentUsername);
+                var friendsData = await Task.Run(() => friendClient.GetFriends(SessionManager.CurrentUsername));
+                var pendingData = await Task.Run(() => friendClient.GetPendingFriendRequests(SessionManager.CurrentUsername));
+
                 FriendsList.Clear();
                 if (friendsData != null)
                 {
-                    foreach (var friend in friendsData)
-                    {
-                        FriendsList.Add(new FriendDisplayData
-                        {
-                            Username = friend.Username,
-                            AvatarId = friend.AvatarId
-                        });
-                    }
+                    foreach (var f in friendsData)
+                        FriendsList.Add(new FriendDisplayData { Username = f.Username, AvatarId = f.AvatarId });
                 }
 
                 PendingList.Clear();
                 if (pendingData != null)
                 {
-                    foreach (var request in pendingData)
-                    {
-                        PendingList.Add(new FriendDisplayData
-                        {
-                            Username = request.Username,
-                            AvatarId = request.AvatarId
-                        });
-                    }
+                    foreach (var p in pendingData)
+                        PendingList.Add(new FriendDisplayData { Username = p.Username, AvatarId = p.AvatarId });
                 }
             }
             catch (Exception ex)
@@ -110,6 +86,7 @@ namespace TrucoPrueba1
                 Mouse.OverrideCursor = null;
             }
         }
+
         private async void ClickAddFriend(object sender, RoutedEventArgs e)
         {
             string friendUsername = txtSearch.Text.Trim();
@@ -120,16 +97,13 @@ namespace TrucoPrueba1
             }
 
             InitializeFriendClient();
-
             try
             {
-                bool success = await friendClient.SendFriendRequestAsync(SessionManager.CurrentUsername, friendUsername);
+                bool success = await Task.Run(() => friendClient.SendFriendRequest(SessionManager.CurrentUsername, friendUsername));
                 if (success)
                 {
                     MessageBox.Show($"Solicitud de amistad enviada a {friendUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                     txtSearch.Text = "Buscar nombre de usuario...";
-                    txtSearch.LostFocus -= TxtSearch_LostFocus;
-                    txtSearch.LostFocus += TxtSearch_LostFocus;
                 }
                 else
                 {
@@ -153,20 +127,16 @@ namespace TrucoPrueba1
             if (MessageBox.Show($"¿Estás seguro de que quieres eliminar a {SelectedFriend.Username} de tus amigos?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 InitializeFriendClient();
-
                 try
                 {
-                    bool success = await friendClient.RemoveFriendOrRequestAsync(SessionManager.CurrentUsername, SelectedFriend.Username);
-
+                    bool success = await Task.Run(() => friendClient.RemoveFriendOrRequest(SessionManager.CurrentUsername, SelectedFriend.Username));
                     if (success)
                     {
                         MessageBox.Show($"{SelectedFriend.Username} ha sido eliminado.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                        await LoadDataAsync(); 
+                        await LoadDataAsync();
                     }
                     else
-                    {
                         MessageBox.Show("No se pudo eliminar el amigo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -177,17 +147,14 @@ namespace TrucoPrueba1
 
         private async void ClickAcceptRequest(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            string requesterUsername = btn?.Tag as string;
-
+            if (!(sender is Button btn)) return;
+            string requesterUsername = btn.Tag as string;
             if (string.IsNullOrEmpty(requesterUsername)) return;
 
             InitializeFriendClient();
-
             try
             {
-                await friendClient.AcceptFriendRequestAsync(requesterUsername, SessionManager.CurrentUsername);
-
+                await Task.Run(() => friendClient.AcceptFriendRequest(requesterUsername, SessionManager.CurrentUsername));
                 MessageBox.Show($"Has aceptado la solicitud de {requesterUsername}.", "Solicitud Aceptada", MessageBoxButton.OK, MessageBoxImage.Information);
                 await LoadDataAsync();
             }
@@ -199,50 +166,43 @@ namespace TrucoPrueba1
 
         private async void ClickRejectRequest(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            string requesterUsername = btn?.Tag as string;
-
+            if (!(sender is Button btn)) return;
+            string requesterUsername = btn.Tag as string;
             if (string.IsNullOrEmpty(requesterUsername)) return;
 
             InitializeFriendClient();
-
             try
             {
-                bool success = await friendClient.RemoveFriendOrRequestAsync(requesterUsername, SessionManager.CurrentUsername);
-
+                bool success = await Task.Run(() => friendClient.RemoveFriendOrRequest(requesterUsername, SessionManager.CurrentUsername));
                 if (success)
                 {
                     MessageBox.Show($"Has rechazado la solicitud de {requesterUsername}.", "Solicitud Rechazada", MessageBoxButton.OK, MessageBoxImage.Information);
-                    await LoadDataAsync(); 
+                    await LoadDataAsync();
                 }
                 else
-                {
                     MessageBox.Show("No se pudo rechazar la solicitud.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error de conexión al rechazar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new MainPage());
         }
+
         private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
         {
             if (txtSearch.Text == "Buscar nombre de usuario...")
-            {
                 txtSearch.Text = string.Empty;
-            }
         }
 
         private void TxtSearch_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
-            {
                 txtSearch.Text = "Buscar nombre de usuario...";
-            }
         }
     }
 }
