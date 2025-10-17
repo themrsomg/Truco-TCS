@@ -592,6 +592,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Are you sure you want to leave the game? The game will count as a loss..
+        /// </summary>
+        public static string GameTextExitGameConfirmation {
+            get {
+                return ResourceManager.GetString("GameTextExitGameConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Falta Envido.
         /// </summary>
         public static string GameTextFaltaEnvido {

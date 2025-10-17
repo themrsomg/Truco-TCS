@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Diagnostics;
 
-namespace TrucoPrueba1.Views
+namespace TrucoPrueba1
 {
     public class AvatarIdToImageConverter : IValueConverter
     {
@@ -13,7 +13,9 @@ namespace TrucoPrueba1.Views
         {
             string avatarId = value as string;
             if (string.IsNullOrWhiteSpace(avatarId))
+            {
                 avatarId = "avatar_default";
+            }
 
             string imagePath = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
 

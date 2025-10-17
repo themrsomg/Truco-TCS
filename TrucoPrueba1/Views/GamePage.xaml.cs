@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1
 {
@@ -23,6 +24,97 @@ namespace TrucoPrueba1
         public GamePage()
         {
             InitializeComponent();
+            DataContext = new TrucoPrueba1.TrucoServer.UserProfileData
+            {
+                AvatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_default"
+            };
+
+        }
+        private void AddChatMessage(string senderName, string message)
+        {
+            Border messageBubble = new Border
+            {
+                Padding = new Thickness(5),
+                Margin = new Thickness(2)
+            };
+
+            TextBlock messageText = new TextBlock
+            {
+                Text = $"{senderName}: {message}",
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 13
+            };
+
+            messageBubble.Child = messageText;
+
+            ChatMessagesPanel.Children.Add(messageBubble);
+        }
+
+        private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (PlaceholderText != null)
+                PlaceholderText.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+        }
+        private void ClickSendMessage(object sender, RoutedEventArgs e)
+        {
+            string messageText = txtChatMessage.Text.Trim();
+            if (string.IsNullOrEmpty(messageText))
+            {
+                return;
+            }
+
+            AddChatMessage("Tú", messageText); ///////CAMBIAR
+
+            txtChatMessage.Clear();
+
+            // SessionManager.MatchClient.SendChatMessage(currentMatchId, currentPlayer, messageText);
+        }
+
+        private void ClickOpenGesturesMenu(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.ContextMenu != null)
+            {
+                button.ContextMenu.PlacementTarget = button;
+                button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                button.ContextMenu.IsOpen = true;
+            }
+        }
+        private void ClickGesture(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item)
+            {
+                string emoji = item.Header.ToString();
+                AddMessageToChat($"Tú: {emoji}"); ////CAMBIAR
+            }
+        }
+
+        private void AddMessageToChat(string message)
+        {
+            TextBlock msg = new TextBlock
+            {
+                Text = message,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(5),
+                FontSize = 13
+            };
+            ChatMessagesPanel.Children.Add(msg);
+        }
+
+        private void ClickBack(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                Lang.GameTextExitGameConfirmation,
+                Lang.GlobalTextConfirmation,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                this.NavigationService.Navigate(new MainPage());
+            }
         }
     }
 }

@@ -50,7 +50,9 @@ namespace TrucoPrueba1
 
                 if (success)
                 {
-                    SessionManager.CurrentUsername = usernameOrEmail;
+                    string resolvedUsername = await SessionManager.ResolveUsernameAsync(usernameOrEmail);
+                    SessionManager.CurrentUsername = resolvedUsername;
+                    SessionManager.CurrentUserData = await SessionManager.UserClient.GetUserProfileAsync(resolvedUsername);
 
                     MessageBox.Show(Lang.GlobalTextWelcome + " " + SessionManager.CurrentUsername + "!", Lang.GlobalTextWelcome + "!", MessageBoxButton.OK, MessageBoxImage.Information);
 

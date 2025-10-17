@@ -19,26 +19,47 @@ namespace TrucoPrueba1
     {
         private static readonly TrucoCallbackHandler callbackHandler = new TrucoCallbackHandler();
         private static readonly InstanceContext userContext = new InstanceContext(callbackHandler);
-        private static TrucoUserServiceClient _userClient;
+        private static TrucoUserServiceClient userClient;
+        public static UserProfileData CurrentUserData { get; set; }
+
 
         public static TrucoUserServiceClient UserClient
         {
             get
             {
-                if (_userClient == null || _userClient.State == CommunicationState.Faulted)
+                if (userClient == null || userClient.State == CommunicationState.Faulted)
                 {
-                    _userClient = new TrucoUserServiceClient(userContext, "NetTcpBinding_ITrucoUserService");
+                    userClient = new TrucoUserServiceClient(userContext, "NetTcpBinding_ITrucoUserService");
                 }
-                return _userClient;
+                return userClient;
             }
         }
-
         public static string CurrentUsername { get; set; } = "UsuarioActual";
+        public static async Task<string> ResolveUsernameAsync(string usernameOrEmail)
+        {
+            try
+            {
+                if (usernameOrEmail.Contains("@"))
+                {
+                    var profile = await UserClient.GetUserProfileByEmailAsync(usernameOrEmail);
+                    if (profile != null) 
+                    {
+                        return profile.Username;
+                    }
+                }
+
+                return usernameOrEmail;
+            }
+            catch
+            {
+                return usernameOrEmail;
+            }
+        }
     }
 
     public partial class UserProfilePage : Page
     {
-        private UserProfileData _currentUserData;
+        private UserProfileData currentUserData;
 
         private readonly List<string> AvailableAvatars = new List<string>
         {
@@ -48,7 +69,7 @@ namespace TrucoPrueba1
         };
 
         private const int MAX_CHANGES = 2;
-        private string _originalUsername;
+        private string originalUsername;
 
         public UserProfilePage()
         {
@@ -59,46 +80,51 @@ namespace TrucoPrueba1
 
         private async void LoadUserProfile()
         {
-            if (string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) ||
-                SessionManager.CurrentUsername == "UsuarioActual")
+            if (SessionManager.CurrentUserData != null)
             {
-                return;
+                currentUserData = SessionManager.CurrentUserData;
+                this.DataContext = currentUserData;
             }
-
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
+            else if (!string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) &&
+                     SessionManager.CurrentUsername != "UsuarioActual")
             {
-                var client = SessionManager.UserClient;
 
-                _currentUserData = await client.GetUserProfileAsync(SessionManager.CurrentUsername);
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    var client = SessionManager.UserClient;
 
-                if (_currentUserData == null) return;
+                    currentUserData = await client.GetUserProfileAsync(SessionManager.CurrentUsername);
 
-                this.DataContext = _currentUserData;
-                _originalUsername = _currentUserData.Username;
+                    if (currentUserData == null) return;
 
-                txtUsername.Text = _currentUserData.Username;
-                txtEmail.Text = _currentUserData.Email; 
-                txtFacebookLink.Text = _currentUserData.FacebookHandle;
-                txtXLink.Text = _currentUserData.XHandle;
-                txtInstagramLink.Text = _currentUserData.InstagramHandle;
+                    this.DataContext = currentUserData;
+                    originalUsername = currentUserData.Username;
 
-                UpdateUsernameWarning(_currentUserData.NameChangeCount);
-                UpdateSocialMediaLinks();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
+                    txtUsername.Text = currentUserData.Username;
+                    txtEmail.Text = currentUserData.Email;
+                    txtFacebookLink.Text = currentUserData.FacebookHandle;
+                    txtXLink.Text = currentUserData.XHandle;
+                    txtInstagramLink.Text = currentUserData.InstagramHandle;
+
+                    SessionManager.CurrentUserData = currentUserData;
+                    UpdateUsernameWarning(currentUserData.NameChangeCount);
+                    UpdateSocialMediaLinks();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
+                }
             }
         }
 
         private async void ClickSave(object sender, RoutedEventArgs e)
         {
-            if (_currentUserData == null) return;
+            if (currentUserData == null) return;
 
             string newUsername = txtUsername.Text.Trim();
             if (string.IsNullOrWhiteSpace(newUsername)) return;
@@ -109,36 +135,36 @@ namespace TrucoPrueba1
 
             try
             {
-                bool usernameChanged = newUsername != _originalUsername;
+                bool usernameChanged = newUsername != originalUsername;
 
-                if (usernameChanged && _currentUserData.NameChangeCount >= MAX_CHANGES)
+                if (usernameChanged && currentUserData.NameChangeCount >= MAX_CHANGES)
                 {
                     MessageBox.Show(Lang.UserProfileTextTwoChanges, Lang.UserProfileTextError, MessageBoxButton.OK, MessageBoxImage.Stop);
-                    txtUsername.Text = _originalUsername;
+                    txtUsername.Text = originalUsername;
                     return;
                 }
 
-                string oldUsername = _currentUserData.Username;
-                int oldChangeCount = _currentUserData.NameChangeCount;
+                string oldUsername = currentUserData.Username;
+                int oldChangeCount = currentUserData.NameChangeCount;
 
-                _currentUserData.Username = newUsername;
-                _currentUserData.FacebookHandle = txtFacebookLink.Text.Trim();
-                _currentUserData.XHandle = txtXLink.Text.Trim();
-                _currentUserData.InstagramHandle = txtInstagramLink.Text.Trim();
+                currentUserData.Username = newUsername;
+                currentUserData.FacebookHandle = txtFacebookLink.Text.Trim();
+                currentUserData.XHandle = txtXLink.Text.Trim();
+                currentUserData.InstagramHandle = txtInstagramLink.Text.Trim();
 
                 if (usernameChanged)
                 {
-                    _currentUserData.NameChangeCount++;
+                    currentUserData.NameChangeCount++;
                 }
 
                 var client = SessionManager.UserClient;
-                bool success = await client.SaveUserProfileAsync(_currentUserData);
+                bool success = await client.SaveUserProfileAsync(currentUserData);
 
                 if (success)
                 {
-                    _originalUsername = newUsername;
+                    originalUsername = newUsername;
                     SessionManager.CurrentUsername = newUsername; 
-                    UpdateUsernameWarning(_currentUserData.NameChangeCount);
+                    UpdateUsernameWarning(currentUserData.NameChangeCount);
                     UpdateSocialMediaLinks();
 
                     MessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -147,9 +173,9 @@ namespace TrucoPrueba1
                 {
                     MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                    _currentUserData.Username = oldUsername;
-                    _currentUserData.NameChangeCount = oldChangeCount;
-                    txtUsername.Text = _originalUsername;
+                    currentUserData.Username = oldUsername;
+                    currentUserData.NameChangeCount = oldChangeCount;
+                    txtUsername.Text = originalUsername;
                 }
             }
             catch (Exception ex)
@@ -168,7 +194,7 @@ namespace TrucoPrueba1
             if (sender is Views.AvatarSelectionPage avatarPage)
                 avatarPage.AvatarSelected -= AvatarPage_AvatarSelected;
 
-            if (newAvatarId == _currentUserData.AvatarId) return;
+            if (newAvatarId == currentUserData.AvatarId) return;
 
             Mouse.OverrideCursor = Cursors.Wait;
             try
@@ -179,10 +205,10 @@ namespace TrucoPrueba1
 
                 if (success)
                 {
-                    _currentUserData.AvatarId = newAvatarId;
+                    currentUserData.AvatarId = newAvatarId;
 
                     this.DataContext = null;
-                    this.DataContext = _currentUserData;
+                    this.DataContext = currentUserData;
 
                     MessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -244,9 +270,9 @@ namespace TrucoPrueba1
 
         private void ClickChangeAvatar(object sender, RoutedEventArgs e)
         {
-            if (_currentUserData == null) return;
+            if (currentUserData == null) return;
 
-            var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, _currentUserData.AvatarId);
+            var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, currentUserData.AvatarId);
             avatarPage.AvatarSelected += AvatarPage_AvatarSelected;
             NavigationService.Navigate(avatarPage);
         }

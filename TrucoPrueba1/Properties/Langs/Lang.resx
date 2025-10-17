@@ -651,4 +651,7 @@
   <data name="ForgotPasswordTextChoosePasswd" xml:space="preserve">
     <value>Choose a new password</value>
   </data>
+  <data name="GameTextExitGameConfirmation" xml:space="preserve">
+    <value>Are you sure you want to leave the game? The game will count as a loss.</value>
+  </data>
 </root>

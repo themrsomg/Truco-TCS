@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
+      xmlns:conv="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       Title="{x:Static language:Lang.UserProfileTextTitle}"
@@ -14,7 +15,7 @@
         <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <Page.Resources>
-        <local:AvatarIdToImageConverter x:Key="AvatarConverter"/>
+        <conv:AvatarIdToImageConverter x:Key="AvatarConverter"/>
 
         <Style TargetType="TextBox">
             <Setter Property="Padding" Value="5"/>
@@ -97,11 +98,10 @@
 
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
                     <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Style="{StaticResource LabelStyle}"/>
-                    <TextBox x:Name="txtUsername" MaxLength="20"/>
+                    <TextBox x:Name="txtUsername" MaxLength="20" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock x:Name="txtUsernameWarning" Foreground="White" FontSize="14" Margin="5,0,0,10" Visibility="Collapsed"/>
-
                     <TextBlock Text="{x:Static language:Lang.UserProfileEmailReadOnly}" Style="{StaticResource LabelStyle}"/>
-                    <TextBox x:Name="txtEmail" IsReadOnly="True" Opacity="0.7"/>
+                    <TextBox x:Name="txtEmail" IsReadOnly="True" Opacity="0.7" Text="{Binding Email}"/>
 
                     <Button Content="{x:Static language:Lang.GlobalTextChangePassword}"
                             Style="{StaticResource MainButtonStyle}"
@@ -127,7 +127,7 @@
 
                         <!-- Facebook -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Facebook:" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtFacebookLink" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtFacebookLink" VerticalAlignment="Center" Text="{Binding FacebookHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Border Grid.Row="0" Grid.Column="2" x:Name="linkFacebookContainer" Visibility="Collapsed" Margin="10,0,0,0" Width="30" Height="30">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Hyperlink x:Name="linkFacebook" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF5FE4FA">
@@ -138,7 +138,7 @@
 
                         <!-- X/Twitter -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="X (Twitter):" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,10,10,0"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtXLink" VerticalAlignment="Center" Margin="0,10,0,0"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtXLink" VerticalAlignment="Center" Margin="0,10,0,0" Text="{Binding XHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Border Grid.Row="1" Grid.Column="2" x:Name="linkXContainer" Visibility="Collapsed" Margin="10,10,0,0" Width="30" Height="30">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Hyperlink x:Name="linkX" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF5FE4FA">
@@ -149,7 +149,7 @@
 
                         <!-- Instagram -->
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Instagram:" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,10,10,0"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInstagramLink" VerticalAlignment="Center" Margin="0,10,0,0"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInstagramLink" VerticalAlignment="Center" Margin="0,10,0,0" Text="{Binding InstagramHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Border Grid.Row="2" Grid.Column="2" x:Name="linkInstagramContainer" Visibility="Collapsed" Margin="10,10,0,0" Width="30" Height="30">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Hyperlink x:Name="linkInstagram" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF5FE4FA">

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
+      xmlns:conv="clr-namespace:TrucoPrueba1"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       mc:Ignorable="d"
       Title="{x:Static language:Lang.GlobalTextFriends}"
@@ -17,7 +18,7 @@
     </Page.Background>
 
     <Page.Resources>
-        <local:AvatarIdToImageConverter x:Key="AvatarConverter"/>
+        <conv:AvatarIdToImageConverter x:Key="AvatarConverter"/>
     </Page.Resources>
 
     <StackPanel HorizontalAlignment="Center">

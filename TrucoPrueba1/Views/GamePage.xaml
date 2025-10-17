@@ -6,22 +6,39 @@
       xmlns:local="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d" 
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-    Title="{x:Static language:Lang.GlobalTextTrucoArg}" FontFamily="Book Antiqua" FontSize="20" Height="600" Width="800">
+      Title="{x:Static language:Lang.GlobalTextTrucoArg}" FontFamily="Book Antiqua" FontSize="20" Height="700" Width="900">
     <Page.Background>
         <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
+    <Page.Resources>
+        <local:AvatarIdToImageConverter x:Key="AvatarConverter"/>
+    </Page.Resources>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Parte superior -->
             <RowDefinition Height="*"/>
-            <!-- Tablero central -->
             <RowDefinition Height="Auto"/>
-            <!-- Parte inferior -->
         </Grid.RowDefinitions>
-
+        
+        <Button Click="ClickBack"
+        Content="{x:Static language:Lang.GlobalTextBack}"
+        Cursor="Hand"
+        Margin="10"
+        FontSize="20"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        
         <!-- =================== MARCADOR Y RIVAL ARRIBA =================== -->
-        <Grid Grid.Row="0" Margin="5">
+        <Grid Grid.Row="0" Margin="75,5,5,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -35,17 +52,10 @@
 
             <!-- Rival -->
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20,0">
-                <TextBlock Text="Rival" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal">
-                    <Border Background="#CCC" Width="50" Height="70" Margin="2">
-                        <TextBlock Text="{x:Static language:Lang.GameTextCard}"/>
-                    </Border>
-                    <Border Background="#CCC" Width="50" Height="70" Margin="2">
-                        <TextBlock Text="{x:Static language:Lang.GameTextCard}"/>
-                    </Border>
-                    <Border Background="#CCC" Width="50" Height="70" Margin="2">
-                        <TextBlock Text="{x:Static language:Lang.GameTextCard}"/>
-                    </Border>
+                    <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2"/>
+                    <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2"/>
+                    <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2"/>
                 </StackPanel>
             </StackPanel>
 
@@ -61,42 +71,76 @@
         </Grid>
 
         <!-- =================== JUGADOR (ABAJO) =================== -->
-        <Grid Grid.Row="2" Margin="10">
+        <Grid Grid.Row="2" Margin="10,10,10,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Columna izquierda: Reacción + Foto -->
-            <StackPanel Grid.Column="0" Margin="5">
-                <!-- Botón Reacción con ContextMenu -->
-                <Button Content="{x:Static language:Lang.GameTextGestures}" Width="80" Height="40">
+            <!-- Reacciones y foto -->
+            <StackPanel Grid.Column="0" Margin="5,70,5,5">
+                <!-- Botón Reacciones -->
+                <Button Content="{x:Static language:Lang.GameTextGestures}" Width="80" Height="40" Click="ClickOpenGesturesMenu">
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="👍"/>
-                            <MenuItem Header="😂"/>
-                            <MenuItem Header="😡"/>
+                            <MenuItem Header="👍" Click="ClickGesture"/>
+                            <MenuItem Header="😂" Click="ClickGesture"/>
+                            <MenuItem Header="😡" Click="ClickGesture"/>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-
+                
                 <!-- Foto jugador -->
-                <Border Background="#CCC" Width="60" Height="60" Margin="5">
-                    <TextBlock Text="{x:Static language:Lang.GlobalTextProfilePicture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border Background="#CCC" Width="60" Height="60" Margin="5" CornerRadius="30" BorderBrush="#FFD700" BorderThickness="2">
+                    <Image Source="{Binding AvatarId, Converter={StaticResource AvatarConverter}}"
+                        Stretch="UniformToFill">
+                        <Image.Clip>
+                            <EllipseGeometry Center="30,30" RadiusX="30" RadiusY="30"/>
+                        </Image.Clip>
+                    </Image>
                 </Border>
             </StackPanel>
 
             <!-- Cartas jugador -->
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0">
-                <Image Source="/Resources/Cards/sword_2.png" Width="100" Height="150" Margin="5"/>
-                <Image Source="/Resources/Cards/sword_7.png" Width="100" Height="150" Margin="5"/>
-                <Image Source="/Resources/Cards/cup_7.png" Width="100" Height="150" Margin="5"/>
+                <Image Source="/Resources/Cards/sword_2.png" Width="150" Height="225" Margin="5"/>
+                <Image Source="/Resources/Cards/sword_7.png" Width="150" Height="225" Margin="5"/>
+                <Image Source="/Resources/Cards/cup_7.png" Width="150" Height="225" Margin="5"/>
             </StackPanel>
 
-            <!-- Chat -->
-            <Border Grid.Column="2" Background="#CCC" Width="200" Height="150" Margin="5">
-                <TextBlock Text="Chat" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <!-- CHAT -->
+            <Border Grid.Column="2" Background="#EEE" Width="220" Height="200" CornerRadius="10" Padding="5" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Lista de mensajes -->
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="ChatMessagesPanel" />
+                    </ScrollViewer>
+
+                    <!-- Entrada de mensaje -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Grid Width="135" Height="25" Margin="0,0,5,0">
+                            <TextBox x:Name="txtChatMessage"
+                                VerticalAlignment="Center"
+                                TextChanged="txtChatMessageTextChanged"
+                                Background="White"
+                                Padding="5,0,0,0"/>
+                            <TextBlock x:Name="PlaceholderText"
+                                Text="Escribe aquí..."
+                                Foreground="Gray"
+                                VerticalAlignment="Center"
+                                Margin="8,0,0,0"
+                                IsHitTestVisible="False"
+                                Visibility="Visible"/>
+                        </Grid>
+                        <Button Content="Enviar" Width="65" Height="25" Click="ClickSendMessage"/>
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Grid>
