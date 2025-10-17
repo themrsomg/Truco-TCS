@@ -26,7 +26,7 @@ namespace TrucoPrueba1
             InitializeComponent();
             DataContext = new TrucoPrueba1.TrucoServer.UserProfileData
             {
-                AvatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_default"
+                AvatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_aaa_default"
             };
 
         }
