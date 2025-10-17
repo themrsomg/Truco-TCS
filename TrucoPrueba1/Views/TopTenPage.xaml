@@ -23,7 +23,7 @@ Title="{x:Static language:Lang.GlobalTextTop10}" FontFamily="Book Antiqua" FontS
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static language:Lang.GlobalTextPlayer}" Binding="{Binding Username}" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.GlobalTextPlayer}" Binding="{Binding PlayerName}" Width="*"/>
                         <DataGridTextColumn Header="{x:Static language:Lang.GlobalTextWins}" Binding="{Binding Wins}" Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
