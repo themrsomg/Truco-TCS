@@ -654,4 +654,25 @@
   <data name="GameTextExitGameConfirmation" xml:space="preserve">
     <value>Are you sure you want to leave the game? The game will count as a loss.</value>
   </data>
+  <data name="DialogTextEnterNewPassword" xml:space="preserve">
+    <value>Enter your new password:</value>
+  </data>
+  <data name="DialogTextNewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="DialogTextConfirmPassword" xml:space="preserve">
+    <value>Confirm your new password:</value>
+  </data>
+  <data name="DialogTextEmptyPassword" xml:space="preserve">
+    <value>Password cannot be empty.</value>
+  </data>
+  <data name="DialogTextPasswordChangedSuccess" xml:space="preserve">
+    <value>Your password has been changed successfully.</value>
+  </data>
+  <data name="DialogTextPasswordChangeError" xml:space="preserve">
+    <value>Could not change the password. Please verify the code or try again later.</value>
+  </data>
+  <data name="DialogTextPasswordChangeErrorTwo" xml:space="preserve">
+    <value>The current user's email was not found.</value>
+  </data>
 </root>

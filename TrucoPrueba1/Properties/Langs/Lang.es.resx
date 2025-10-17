@@ -654,4 +654,25 @@
   <data name="GameTextExitGameConfirmation" xml:space="preserve">
     <value>¿Seguro que deseas salir de la partida? La partida contará como perdida.</value>
   </data>
+  <data name="DialogTextEnterNewPassword" xml:space="preserve">
+    <value>Ingresa tu nueva contraseña:</value>
+  </data>
+  <data name="DialogTextNewPassword" xml:space="preserve">
+    <value>Nueva contraseña</value>
+  </data>
+  <data name="DialogTextConfirmPassword" xml:space="preserve">
+    <value>Confirma tu nueva contraseña:</value>
+  </data>
+  <data name="DialogTextEmptyPassword" xml:space="preserve">
+    <value>La contraseña no puede estar vacía.</value>
+  </data>
+  <data name="DialogTextPasswordChangedSuccess" xml:space="preserve">
+    <value>Tu contraseña se ha cambiado correctamente.</value>
+  </data>
+  <data name="DialogTextPasswordChangeError" xml:space="preserve">
+    <value>No se pudo cambiar la contraseña. Verifica el código o inténtalo más tarde.</value>
+  </data>
+  <data name="DialogTextPasswordChangeErrorTwo" xml:space="preserve">
+    <value>No se encontró el correo del usuario actual.</value>
+  </data>
 </root>

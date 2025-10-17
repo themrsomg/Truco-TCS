@@ -50,7 +50,9 @@ namespace TrucoPrueba1.Views
         {
             AvatarSelected?.Invoke(this, CurrentAvatarId);
             if (NavigationService?.CanGoBack == true)
+            {
                 NavigationService.GoBack();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

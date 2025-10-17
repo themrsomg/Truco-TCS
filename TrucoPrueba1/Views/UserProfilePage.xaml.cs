@@ -27,8 +27,19 @@ namespace TrucoPrueba1
         {
             get
             {
-                if (userClient == null || userClient.State == CommunicationState.Faulted)
+                if (userClient == null ||
+                    userClient.State == CommunicationState.Faulted ||
+                    userClient.State == CommunicationState.Closed)
                 {
+                    try
+                    {
+                        if (userClient != null)
+                        {
+                            userClient.Abort();
+                        }
+                    }
+                    catch { }
+
                     userClient = new TrucoUserServiceClient(userContext, "NetTcpBinding_ITrucoUserService");
                 }
                 return userClient;
@@ -129,7 +140,10 @@ namespace TrucoPrueba1
 
                     currentUserData = await client.GetUserProfileAsync(SessionManager.CurrentUsername);
 
-                    if (currentUserData == null) return;
+                    if (currentUserData == null)
+                    {
+                        return;
+                    }
 
                     this.DataContext = currentUserData;
                     originalUsername = currentUserData.Username;
@@ -157,10 +171,17 @@ namespace TrucoPrueba1
 
         private async void ClickSave(object sender, RoutedEventArgs e)
         {
-            if (currentUserData == null) return;
+            if (currentUserData == null)
+            {
+                return;
+            }
 
             string newUsername = txtUsername.Text.Trim();
-            if (string.IsNullOrWhiteSpace(newUsername)) return;
+
+            if (string.IsNullOrWhiteSpace(newUsername))
+            {
+                return;
+            }
 
             Button saveButton = sender as Button;
             saveButton.IsEnabled = false;
@@ -225,9 +246,14 @@ namespace TrucoPrueba1
         private async void AvatarPage_AvatarSelected(object sender, string newAvatarId)
         {
             if (sender is Views.AvatarSelectionPage avatarPage)
+            {
                 avatarPage.AvatarSelected -= AvatarPage_AvatarSelected;
+            }
 
-            if (newAvatarId == currentUserData.AvatarId) return;
+            if (newAvatarId == currentUserData.AvatarId)
+            {
+                return;
+            }
 
             Mouse.OverrideCursor = Cursors.Wait;
             try
@@ -293,17 +319,100 @@ namespace TrucoPrueba1
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             if (NavigationService.CanGoBack)
+            {
                 NavigationService.GoBack();
+            }
         }
 
         private void ClickChangePassword(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Funcionalidad de cambio de contraseña pendiente de implementación en el servidor.", "Pendiente", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                if (currentUserData == null || string.IsNullOrWhiteSpace(currentUserData.Email))
+                {
+                    MessageBox.Show(Lang.DialogTextPasswordChangeErrorTwo, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string email = currentUserData.Email;
+                string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var client = SessionManager.UserClient;
+
+                bool sent = client.RequestEmailVerification(email, languageCode);
+                if (!sent)
+                {
+                    MessageBox.Show(Lang.StartTextRegisterCodeSended, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string code = Microsoft.VisualBasic.Interaction.InputBox(
+                    Lang.StartTextRegisterIntroduceCode,
+                    Lang.StartTextRegisterEmailVerification,
+                    ""
+                );
+
+                if (string.IsNullOrWhiteSpace(code))
+                {
+                    MessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                string newPassword = Microsoft.VisualBasic.Interaction.InputBox(
+                    Lang.DialogTextEnterNewPassword,
+                    Lang.DialogTextNewPassword,
+                    ""
+                );
+
+                if (string.IsNullOrWhiteSpace(newPassword))
+                {
+                    MessageBox.Show(Lang.DialogTextEmptyPassword, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                string confirmPassword = Microsoft.VisualBasic.Interaction.InputBox(
+                    Lang.DialogTextConfirmPassword,
+                    Lang.DialogTextNewPassword,
+                    ""
+                );
+
+                if (newPassword != confirmPassword)
+                {
+                    MessageBox.Show(Lang.DialogTextPasswordsDontMatch, Lang.DialogTextPasswordsDontMatch, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (newPassword.Length < 8)
+                {
+                    MessageBox.Show(Lang.DialogTextShortPassword, Lang.DialogTextShortPassword, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                bool changed = client.PasswordReset(email, code, newPassword);
+
+                if (changed)
+                {
+                    MessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.NavigationService.Navigate(new LogInPage());
+                }
+                else
+                {
+                    MessageBox.Show(Lang.DialogTextPasswordChangeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                client.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClickChangeAvatar(object sender, RoutedEventArgs e)
         {
-            if (currentUserData == null) return;
+            if (currentUserData == null)
+            {
+                return;
+            }
 
             var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, currentUserData.AvatarId);
             avatarPage.AvatarSelected += AvatarPage_AvatarSelected;
@@ -337,7 +446,9 @@ namespace TrucoPrueba1
                 try
                 {
                     if (Uri.IsWellFormedUriString(finalUrl, UriKind.Absolute))
+                    {
                         Process.Start(new ProcessStartInfo(finalUrl) { UseShellExecute = true });
+                    }
                     e.Handled = true;
                 }
                 catch (Exception ex)

@@ -259,11 +259,38 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Confirm your new password:.
+        /// </summary>
+        public static string DialogTextConfirmPassword {
+            get {
+                return ResourceManager.GetString("DialogTextConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a This email address is already in use.
         /// </summary>
         public static string DialogTextEmailAlreadyExists {
             get {
                 return ResourceManager.GetString("DialogTextEmailAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Password cannot be empty..
+        /// </summary>
+        public static string DialogTextEmptyPassword {
+            get {
+                return ResourceManager.GetString("DialogTextEmptyPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your new password:.
+        /// </summary>
+        public static string DialogTextEnterNewPassword {
+            get {
+                return ResourceManager.GetString("DialogTextEnterNewPassword", resourceCulture);
             }
         }
         
@@ -322,6 +349,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a New Password.
+        /// </summary>
+        public static string DialogTextNewPassword {
+            get {
+                return ResourceManager.GetString("DialogTextNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a An error occurred while registering, please try again later.
         /// </summary>
         public static string DialogTextNewUserException {
@@ -336,6 +372,33 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string DialogTextNewUserSuccess {
             get {
                 return ResourceManager.GetString("DialogTextNewUserSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your password has been changed successfully..
+        /// </summary>
+        public static string DialogTextPasswordChangedSuccess {
+            get {
+                return ResourceManager.GetString("DialogTextPasswordChangedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Could not change the password. Please verify the code or try again later..
+        /// </summary>
+        public static string DialogTextPasswordChangeError {
+            get {
+                return ResourceManager.GetString("DialogTextPasswordChangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The current user&apos;s email was not found..
+        /// </summary>
+        public static string DialogTextPasswordChangeErrorTwo {
+            get {
+                return ResourceManager.GetString("DialogTextPasswordChangeErrorTwo", resourceCulture);
             }
         }
         
