@@ -36,6 +36,7 @@ namespace TrucoPrueba1
         }
         private void ClickLogOut(object sender, RoutedEventArgs e)
         {
+            SessionManager.ClearSession();
             this.NavigationService.Navigate(new StartPage());
 
         }

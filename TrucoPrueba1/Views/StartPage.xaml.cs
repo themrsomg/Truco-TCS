@@ -24,6 +24,7 @@ namespace TrucoPrueba1
         public StartPage()
         {
             InitializeComponent();
+            SessionManager.ClearSession();
             MusicInitializer.InitializeMenuMusic();
         }
 

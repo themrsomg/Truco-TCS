@@ -29,6 +29,7 @@ namespace TrucoPrueba1
         public LogInPage()
         {
             InitializeComponent();
+            SessionManager.ClearSession();
             MusicInitializer.InitializeMenuMusic();
         }
 

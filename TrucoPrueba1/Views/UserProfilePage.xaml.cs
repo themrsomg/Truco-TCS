@@ -66,6 +66,28 @@ namespace TrucoPrueba1
                 return usernameOrEmail;
             }
         }
+        public static void ClearSession()
+        {
+            try
+            {
+                if (userClient != null)
+                {
+                    if (userClient.State == System.ServiceModel.CommunicationState.Opened)
+                        userClient.Close();
+                    else
+                        userClient.Abort();
+
+                    userClient = null;
+                }
+            }
+            catch
+            {
+                userClient = null;
+            }
+
+            CurrentUserData = null;
+            CurrentUsername = "UsuarioActual";
+        }
     }
 
     public partial class UserProfilePage : Page
