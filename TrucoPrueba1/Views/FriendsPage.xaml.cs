@@ -23,7 +23,6 @@ namespace TrucoPrueba1
         public FriendDisplayData SelectedFriend { get; set; }
         public FriendDisplayData SelectedPending { get; set; }
 
-        private TrucoFriendServiceClient friendClient;
         private const string SearchPlaceholder = "Buscar nombre de usuario...";
 
         public FriendsPage()
@@ -31,26 +30,9 @@ namespace TrucoPrueba1
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
             this.DataContext = this;
-            InitializeFriendClient();
             _ = LoadDataAsync();
         }
 
-        private void InitializeFriendClient()
-        {
-            try
-            {
-                if (friendClient == null || friendClient.State == CommunicationState.Faulted)
-                {
-                    InstanceContext context = new InstanceContext(new TrucoCallbackHandler());
-                    friendClient = new TrucoFriendServiceClient(context, "NetTcpBinding_ITrucoFriendService");
-                    friendClient.Open();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al inicializar el cliente de amigos: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
 
         private async Task LoadDataAsync()
         {
@@ -61,40 +43,33 @@ namespace TrucoPrueba1
 
             if (string.IsNullOrEmpty(currentUsername)) return;
 
-            InitializeFriendClient();
-
-            try
+            using (var friendClient = new TrucoFriendServiceClient(new InstanceContext(new TrucoCallbackHandler())))
             {
-                var friends = await friendClient.GetFriendsAsync(currentUsername);
-                Application.Current.Dispatcher.Invoke(() =>
+                try
                 {
-                    foreach (var friend in friends)
+                    var friends = await friendClient.GetFriendsAsync(currentUsername);
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        FriendsList.Add(new FriendDisplayData { Username = friend.Username, AvatarId = friend.AvatarId });
-                    }
-                });
+                        foreach (var friend in friends)
+                        {
+                            FriendsList.Add(new FriendDisplayData { Username = friend.Username, AvatarId = friend.AvatarId });
+                        }
+                    });
 
-                var pending = await friendClient.GetPendingFriendRequestsAsync(currentUsername);
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    foreach (var req in pending)
+                    var pending = await friendClient.GetPendingFriendRequestsAsync(currentUsername);
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        PendingList.Add(new FriendDisplayData { Username = req.Username, AvatarId = req.AvatarId });
-                    }
-                });
+                        foreach (var req in pending)
+                        {
+                            PendingList.Add(new FriendDisplayData { Username = req.Username, AvatarId = req.AvatarId });
+                        }
+                    });
 
-                if (friendClient.State != CommunicationState.Closed)
-                {
-                    friendClient.Close();
                 }
-            }
-            catch (Exception ex)
-            {
-                if (friendClient.State != CommunicationState.Closed)
+                catch (Exception ex)
                 {
-                    friendClient.Abort();
+                    MessageBox.Show($"Error al cargar datos de amigos: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                MessageBox.Show($"Error al cargar datos de amigos: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -115,67 +90,55 @@ namespace TrucoPrueba1
                 return;
             }
 
-            InitializeFriendClient();
-            try
+            using (var friendClient = new TrucoFriendServiceClient(new InstanceContext(new TrucoCallbackHandler())))
             {
-                bool success = await friendClient.SendFriendRequestAsync(currentUsername, targetUsername);
+                try
+                {
+                    bool success = await friendClient.SendFriendRequestAsync(currentUsername, targetUsername);
 
-                if (success)
-                {
-                    MessageBox.Show($"Solicitud de amistad enviada a {targetUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (success)
+                    {
+                        MessageBox.Show($"Solicitud de amistad enviada a {targetUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"No se pudo enviar la solicitud. El usuario no existe, ya son amigos, o ya hay una solicitud pendiente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show($"No se pudo enviar la solicitud. El usuario no existe, ya son amigos, o ya hay una solicitud pendiente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Error de conexión al enviar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-                if (friendClient.State != CommunicationState.Closed)
-                {
-                    friendClient.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                if (friendClient.State != CommunicationState.Closed)
-                {
-                    friendClient.Abort();
-                }
-                MessageBox.Show($"Error de conexión al enviar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+
         private async void ClickAcceptRequest(object sender, RoutedEventArgs e)
         {
             string requesterUsername = (sender as Button)?.Tag?.ToString();
             if (string.IsNullOrEmpty(requesterUsername)) return;
 
-            InitializeFriendClient();
-            try
-            {
-                bool success = await friendClient.AcceptFriendRequestAsync(requesterUsername, SessionManager.CurrentUsername);
+            string currentUsername = SessionManager.CurrentUsername;
 
-                if (success)
-                {
-                    MessageBox.Show($"Has aceptado la solicitud de {requesterUsername}. Ahora son amigos.", "Solicitud Aceptada", MessageBoxButton.OK, MessageBoxImage.Information);
-                    await LoadDataAsync();
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo aceptar la solicitud.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-                if (friendClient.State != CommunicationState.Closed)
-                {
-                    friendClient.Close();
-                }
-            }
-            catch (Exception ex)
+            using (var friendClient = new TrucoFriendServiceClient(new InstanceContext(new TrucoCallbackHandler())))
             {
-                if (friendClient.State != CommunicationState.Closed)
+                try
                 {
-                    friendClient.Abort();
+                    bool success = await friendClient.AcceptFriendRequestAsync(requesterUsername, currentUsername);
+
+                    if (success)
+                    {
+                        MessageBox.Show($"Has aceptado la solicitud de {requesterUsername}. Ahora son amigos.", "Solicitud Aceptada", MessageBoxButton.OK, MessageBoxImage.Information);
+                        await LoadDataAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo aceptar la solicitud.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                MessageBox.Show($"Error de conexión al aceptar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error de conexión al aceptar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -184,34 +147,28 @@ namespace TrucoPrueba1
             string targetUsername = (sender as Button)?.Tag?.ToString();
             if (string.IsNullOrEmpty(targetUsername)) return;
 
-            InitializeFriendClient();
-            try
-            {
-                // Este método maneja tanto el rechazo de solicitudes como la eliminación de amigos
-                bool success = await friendClient.RemoveFriendOrRequestAsync(targetUsername, SessionManager.CurrentUsername);
+            string currentUsername = SessionManager.CurrentUsername;
 
-                if (success)
-                {
-                    MessageBox.Show($"Se ha completado la acción con {targetUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                    await LoadDataAsync();
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo completar la acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-                if (friendClient.State != CommunicationState.Closed)
-                {
-                    friendClient.Close();
-                }
-            }
-            catch (Exception ex)
+            using (var friendClient = new TrucoFriendServiceClient(new InstanceContext(new TrucoCallbackHandler())))
             {
-                if (friendClient.State != CommunicationState.Closed)
+                try
                 {
-                    friendClient.Abort();
+                    bool success = await friendClient.RemoveFriendOrRequestAsync(targetUsername, currentUsername);
+
+                    if (success)
+                    {
+                        MessageBox.Show($"Se ha completado la acción con {targetUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                        await LoadDataAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo completar la acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error de conexión: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
