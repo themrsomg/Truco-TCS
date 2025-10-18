@@ -150,6 +150,9 @@ namespace TrucoPrueba1
             {
                 currentUserData = SessionManager.CurrentUserData;
                 this.DataContext = currentUserData;
+                UpdateUsernameWarning(currentUserData.NameChangeCount);
+                UpdateSocialMediaLinks();
+                return;
             }
             else if (!string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) &&
                      SessionManager.CurrentUsername != "UsuarioActual")

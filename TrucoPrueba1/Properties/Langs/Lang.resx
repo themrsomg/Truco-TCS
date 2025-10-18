@@ -621,10 +621,10 @@
   <data name="UserProfileTextTitle" xml:space="preserve">
     <value>User Profile</value>
   </data>
-  <data name="UserProfileChangeAvatar" xml:space="preserve">
+  <data name="UserProfileTextChangeAvatar" xml:space="preserve">
     <value>Change Avatar</value>
   </data>
-  <data name="UserProfileEmailReadOnly" xml:space="preserve">
+  <data name="UserProfileTextEmailReadOnly" xml:space="preserve">
     <value>Email (Read-only)</value>
   </data>
   <data name="AvatarSelection" xml:space="preserve">
@@ -674,5 +674,24 @@
   </data>
   <data name="DialogTextPasswordChangeErrorTwo" xml:space="preserve">
     <value>The current user's email was not found.</value>
+  </data>
+  <data name="GlobalTextNoThanks" xml:space="preserve">
+    <value>No thanks, continue as a guest</value>
+  </data>
+  <data name="UserProfileGuestTextTitle" xml:space="preserve">
+    <value>The profile is waiting for you!</value>
+  </data>
+  <data name="UserProfileGuestTextInstructions" xml:space="preserve">
+    <value>To view and create your profile, you need to log in or create an account!
+
+⭐ Log in (or register in seconds) and unlock everything!
+
+⭐ Customize Your Photo: Choose your photo for everyone at the table to see.
+
+⭐ The Table is with Friends: Join or create private rooms and invite your friends.
+
+⭐ Level Up: Appear in the World Rankings and challenge the best.
+
+Don't miss out!</value>
   </data>
 </root>

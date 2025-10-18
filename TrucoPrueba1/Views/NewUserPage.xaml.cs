@@ -71,7 +71,7 @@ namespace TrucoPrueba1
                 if (registered)
                 {
                     MessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.NavigationService.Navigate(new MainPage());
+                    this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {

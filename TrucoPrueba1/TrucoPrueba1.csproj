@@ -108,6 +108,9 @@
     <Compile Include="InitialWindows.xaml.cs">
       <DependentUpon>InitialWindows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GuestProfilePage.xaml.cs">
+      <DependentUpon>GuestProfilePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\JoinGamePage.xaml.cs">
       <DependentUpon>JoinGamePage.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InitialWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuestProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

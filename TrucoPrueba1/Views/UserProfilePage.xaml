@@ -90,7 +90,7 @@
                         </Image>
                     </Border>
 
-                    <Button Content="{x:Static language:Lang.UserProfileChangeAvatar}"
+                    <Button Content="{x:Static language:Lang.UserProfileTextChangeAvatar}"
                             Style="{StaticResource MainButtonStyle}"
                             Margin="0,20,0,0"
                             Click="ClickChangeAvatar"/>
@@ -100,7 +100,7 @@
                     <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Style="{StaticResource LabelStyle}"/>
                     <TextBox x:Name="txtUsername" MaxLength="20" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock x:Name="txtUsernameWarning" Foreground="White" FontSize="14" Margin="5,0,0,10" Visibility="Collapsed"/>
-                    <TextBlock Text="{x:Static language:Lang.UserProfileEmailReadOnly}" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{x:Static language:Lang.UserProfileTextEmailReadOnly}" Style="{StaticResource LabelStyle}"/>
                     <TextBox x:Name="txtEmail" IsReadOnly="True" Opacity="0.7" Text="{Binding Email}"/>
 
                     <Button Content="{x:Static language:Lang.GlobalTextChangePassword}"

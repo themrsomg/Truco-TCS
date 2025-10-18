@@ -1087,6 +1087,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No thanks, continue as a guest.
+        /// </summary>
+        public static string GlobalTextNoThanks {
+            get {
+                return ResourceManager.GetString("GlobalTextNoThanks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Owner.
         /// </summary>
         public static string GlobalTextOwner {
@@ -1636,20 +1645,30 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Change Avatar.
+        ///   Busca una cadena traducida similar a To view and create your profile, you need to log in or create an account!
+        ///
+        ///⭐ Log in (or register in seconds) and unlock everything!
+        ///
+        ///⭐ Customize Your Photo: Choose your photo for everyone at the table to see.
+        ///
+        ///⭐ The Table is with Friends: Join or create private rooms and invite your friends.
+        ///
+        ///⭐ Level Up: Appear in the World Rankings and challenge the best.
+        ///
+        ///Don&apos;t miss out!.
         /// </summary>
-        public static string UserProfileChangeAvatar {
+        public static string UserProfileGuestTextInstructions {
             get {
-                return ResourceManager.GetString("UserProfileChangeAvatar", resourceCulture);
+                return ResourceManager.GetString("UserProfileGuestTextInstructions", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Email (Read-only).
+        ///   Busca una cadena traducida similar a The profile is waiting for you!.
         /// </summary>
-        public static string UserProfileEmailReadOnly {
+        public static string UserProfileGuestTextTitle {
             get {
-                return ResourceManager.GetString("UserProfileEmailReadOnly", resourceCulture);
+                return ResourceManager.GetString("UserProfileGuestTextTitle", resourceCulture);
             }
         }
         
@@ -1672,11 +1691,29 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Change Avatar.
+        /// </summary>
+        public static string UserProfileTextChangeAvatar {
+            get {
+                return ResourceManager.GetString("UserProfileTextChangeAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a You can no longer change your username!.
         /// </summary>
         public static string UserProfileTextChangesError {
             get {
                 return ResourceManager.GetString("UserProfileTextChangesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Email (Read-only).
+        /// </summary>
+        public static string UserProfileTextEmailReadOnly {
+            get {
+                return ResourceManager.GetString("UserProfileTextEmailReadOnly", resourceCulture);
             }
         }
         

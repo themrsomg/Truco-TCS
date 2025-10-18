@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
+using TrucoPrueba1.Views;
 
 namespace TrucoPrueba1
 {
@@ -42,7 +43,14 @@ namespace TrucoPrueba1
         }
         private void ClickProfile(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new UserProfilePage());
+            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername == "UsuarioActual")
+            {
+                this.NavigationService.Navigate(new GuestProfilePage());
+            }
+            else
+            {
+                this.NavigationService.Navigate(new UserProfilePage());
+            }
         }
         private void ClickExit(object sender, RoutedEventArgs e)
         {

@@ -621,10 +621,10 @@
   <data name="UserProfileTextTitle" xml:space="preserve">
     <value>Perfil de Usuario</value>
   </data>
-  <data name="UserProfileChangeAvatar" xml:space="preserve">
+  <data name="UserProfileTextChangeAvatar" xml:space="preserve">
     <value>Cambiar Avatar</value>
   </data>
-  <data name="UserProfileEmailReadOnly" xml:space="preserve">
+  <data name="UserProfileTextEmailReadOnly" xml:space="preserve">
     <value>Email (Sólo lectura)</value>
   </data>
   <data name="AvatarSelection" xml:space="preserve">
@@ -674,5 +674,24 @@
   </data>
   <data name="DialogTextPasswordChangeErrorTwo" xml:space="preserve">
     <value>No se encontró el correo del usuario actual.</value>
+  </data>
+  <data name="GlobalTextNoThanks" xml:space="preserve">
+    <value>No gracias, continuar como invitado</value>
+  </data>
+  <data name="UserProfileGuestTextTitle" xml:space="preserve">
+    <value>¡El perfil te espera!</value>
+  </data>
+  <data name="UserProfileGuestTextInstructions" xml:space="preserve">
+    <value>Para ver y crear tu perfil, ¡necesitas iniciar sesión o crear tu cuenta!
+
+⭐ ¡Inicia sesión (o regístrate en segundos) y desbloquea todo!
+
+⭐ Personaliza tu Foto: Elige tu foto para que todos vean en la mesa.
+
+⭐ La Mesa es con Amigos: Únete o crea salas privadas e invita a tu gente.
+
+⭐ Sube de Nivel: Aparece en los Rankings Mundiales y desafía a los mejores.
+
+¡No te quedes afuera!</value>
   </data>
 </root>
