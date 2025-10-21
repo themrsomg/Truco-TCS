@@ -108,6 +108,9 @@
     <Compile Include="InitialWindows.xaml.cs">
       <DependentUpon>InitialWindows.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GuestFriendsPage.xaml.cs">
+      <DependentUpon>GuestFriendsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GuestProfilePage.xaml.cs">
       <DependentUpon>GuestProfilePage.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InitialWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuestFriendsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -362,12 +369,6 @@
   <ItemGroup>
     <Resource Include="Resources\logo_muted.png" />
     <Resource Include="Resources\logo_volume.png" />
-    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
-    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
-    <None Include="Connected Services\TrucoServer\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Resource Include="Resources\Avatars\avatar_aaa_default.png" />
     <Resource Include="Resources\Avatars\avatar_c_hr_rallycarback.png" />
     <Resource Include="Resources\Avatars\avatar_c_hr_rallycarfront.png" />
@@ -493,6 +494,12 @@
     <Resource Include="Resources\Avatars\avatar_t_txt_soap.png" />
     <Resource Include="Resources\Avatars\avatar_t_txt_softwaresquad.png" />
     <Resource Include="Resources\Avatars\avatar_t_txt_sq.png" />
+    <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
+    <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
+    <None Include="Connected Services\TrucoServer\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Resources\Songs\music_in_game.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

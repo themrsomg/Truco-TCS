@@ -601,6 +601,36 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Truco Argentino is best when playing with people you know. As a guest, you can only join public games.
+        ///
+        ///Don&apos;t miss out on challenging your teammates!
+        ///
+        ///⭐ Create your account (it&apos;s quick!) and unlock all the social power:
+        ///
+        ///👥 Find and Add Friends: Find your rivals or teammates with a simple tap.
+        ///
+        ///🔒 Custom Private Rooms: Create your own table, just for you and your guests, with the rules you choose.
+        ///
+        ///🗣️ Chat: Communicate with your friends in-game.
+        ///
+        ///Sign up today and set up a proper match!.
+        /// </summary>
+        public static string FriendsGuestTextInstructions {
+            get {
+                return ResourceManager.GetString("FriendsGuestTextInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your friends are waiting for you!.
+        /// </summary>
+        public static string FriendsGuestTextTitle {
+            get {
+                return ResourceManager.GetString("FriendsGuestTextTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Add.
         /// </summary>
         public static string FriendsTextAdd {
@@ -1649,11 +1679,11 @@ namespace TrucoPrueba1.Properties.Langs {
         ///
         ///⭐ Log in (or register in seconds) and unlock everything!
         ///
-        ///⭐ Customize Your Photo: Choose your photo for everyone at the table to see.
+        ///📸 Customize Your Photo: Choose your photo for everyone at the table to see.
         ///
-        ///⭐ The Table is with Friends: Join or create private rooms and invite your friends.
+        ///🤝 Table with Friends: Join or create private rooms and invite your friends.
         ///
-        ///⭐ Level Up: Appear in the World Rankings and challenge the best.
+        ///🏆 Level Up: Appear in the World Rankings and challenge the best.
         ///
         ///Don&apos;t miss out!.
         /// </summary>

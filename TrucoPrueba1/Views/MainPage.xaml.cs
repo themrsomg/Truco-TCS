@@ -62,7 +62,14 @@ namespace TrucoPrueba1
         }
         private void ClickFriends(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new FriendsPage());
+            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername == "UsuarioActual")
+            {
+                this.NavigationService.Navigate(new GuestFriendsPage());
+            }
+            else
+            {
+                this.NavigationService.Navigate(new FriendsPage());
+            }
         }
     }
 }

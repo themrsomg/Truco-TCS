@@ -686,12 +686,30 @@
 
 ⭐ ¡Inicia sesión (o regístrate en segundos) y desbloquea todo!
 
-⭐ Personaliza tu Foto: Elige tu foto para que todos vean en la mesa.
+📸 Personaliza tu Foto: Elige tu foto para que todos vean en la mesa.
 
-⭐ La Mesa es con Amigos: Únete o crea salas privadas e invita a tu gente.
+🤝 Mesa con Amigos: Únete o crea salas privadas e invita a tu gente.
 
-⭐ Sube de Nivel: Aparece en los Rankings Mundiales y desafía a los mejores.
+🏆 Sube de Nivel: Aparece en los Rankings Mundiales y desafía a los mejores.
 
 ¡No te quedes afuera!</value>
+  </data>
+  <data name="FriendsGuestTextInstructions" xml:space="preserve">
+    <value>Truco Argentino es mejor cuando se juega con gente conocida. Como invitado, solo puedes entrar a partidas públicas.
+
+¡No te quedes con las ganas de desafiar a tus compañeros!
+
+⭐ Crea tu cuenta (¡es rápido!) y desbloquea todo el poder social:
+
+👥 Busca y Agrega Amigos: Encuentra a tus rivales o compañeros con un simple toque.
+
+🔒 Salas Privadas Personalizadas: Crea tu propia mesa, solo para ti y tus invitados, con las reglas que elijan.
+
+🗣️ Chatea: Comunícate con tus amigos dentro del juego.
+
+¡Registrate hoy y arma una partida como se debe!</value>
+  </data>
+  <data name="FriendsGuestTextTitle" xml:space="preserve">
+    <value>¡Tus amigos te están esperando!</value>
   </data>
 </root>
