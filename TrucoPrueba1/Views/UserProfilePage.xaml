@@ -16,7 +16,6 @@
     </Page.Background>
     <Page.Resources>
         <conv:AvatarIdToImageConverter x:Key="AvatarConverter"/>
-
         <Style TargetType="TextBox">
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="0,5"/>
@@ -27,13 +26,11 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-
         <Style TargetType="TextBlock" x:Key="LabelStyle">
             <Setter Property="Foreground" Value="#CCCCCC"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Margin" Value="0,15,0,0"/>
         </Style>
-
         <Style x:Key="MainButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Padding" Value="10,5"/>
@@ -58,29 +55,21 @@
             </Setter>
         </Style>
     </Page.Resources>
-
     <Grid Margin="0,0,0,24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
         <TextBlock Grid.Row="0" 
-                   Text="{x:Static language:Lang.UserProfileTextTitle}" 
-                   FontSize="40" 
-                   FontWeight="Bold" 
-                   Foreground="White" 
-                   HorizontalAlignment="Center" 
-                   Margin="0,20,0,30"/>
-
+                   Text="{x:Static language:Lang.UserProfileTextTitle}" FontSize="40" 
+                   FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,30"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,103,0,10" Grid.RowSpan="2">
             <Grid Margin="30">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
                 <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,20,0">
                     <Border CornerRadius="100" Width="180" Height="180" BorderBrush="#FFFFD700" BorderThickness="4">
                         <Image Source="{Binding AvatarId, Converter={StaticResource AvatarConverter}}" Stretch="UniformToFill">
@@ -89,30 +78,20 @@
                             </Image.Clip>
                         </Image>
                     </Border>
-
-                    <Button Content="{x:Static language:Lang.UserProfileTextChangeAvatar}"
-                            Style="{StaticResource MainButtonStyle}"
-                            Margin="0,20,0,0"
-                            Click="ClickChangeAvatar"/>
+                    <Button Content="{x:Static language:Lang.UserProfileTextChangeAvatar}" Style="{StaticResource MainButtonStyle}"
+                            Margin="0,20,0,0" Click="ClickChangeAvatar"/>
                 </StackPanel>
-
                 <StackPanel Grid.Column="1" Margin="30,0,0,0">
                     <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Style="{StaticResource LabelStyle}"/>
                     <TextBox x:Name="txtUsername" MaxLength="20" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock x:Name="txtUsernameWarning" Foreground="White" FontSize="14" Margin="5,0,0,10" Visibility="Collapsed"/>
                     <TextBlock Text="{x:Static language:Lang.UserProfileTextEmailReadOnly}" Style="{StaticResource LabelStyle}"/>
                     <TextBox x:Name="txtEmail" IsReadOnly="True" Opacity="0.7" Text="{Binding Email}"/>
-
                     <Button Content="{x:Static language:Lang.GlobalTextChangePassword}"
                             Style="{StaticResource MainButtonStyle}"
-                            Background="#FF5FE4FA"
-                            Foreground="Black"
-                            Margin="0,20,0,20"
-                            HorizontalAlignment="Left"
+                            Background="#FF5FE4FA" Foreground="Black" Margin="0,20,0,20" HorizontalAlignment="Left"
                             Click="ClickChangePassword"/>
-
                     <TextBlock Text="{x:Static language:Lang.ProfileTextSocialNetworks}" FontSize="22" FontWeight="Bold" Foreground="#FFFFD700" Margin="0,30,0,10"/>
-
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -124,7 +103,6 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-
                         <!-- Facebook -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Facebook:" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtFacebookLink" VerticalAlignment="Center" Text="{Binding FacebookHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -135,7 +113,6 @@
                                 </Hyperlink>
                             </TextBlock>
                         </Border>
-
                         <!-- X/Twitter -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="X (Twitter):" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,10,10,0"/>
                         <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtXLink" VerticalAlignment="Center" Margin="0,10,0,0" Text="{Binding XHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -146,7 +123,6 @@
                                 </Hyperlink>
                             </TextBlock>
                         </Border>
-
                         <!-- Instagram -->
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Instagram:" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,10,10,0"/>
                         <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInstagramLink" VerticalAlignment="Center" Margin="0,10,0,0" Text="{Binding InstagramHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -161,7 +137,6 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-
         <Grid Grid.Row="2" Margin="0,10,30,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -170,7 +145,6 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
-
             <Button Grid.Column="1" Content="{x:Static language:Lang.GlobalTextSave}" FontSize="25" Width="120" Height="40" Click="ClickSave" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -180,7 +154,6 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-
             <Button Grid.Column="3" Content="{x:Static language:Lang.GlobalTextBack}" FontSize="25" Width="120" Height="40" Click="ClickBack" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">

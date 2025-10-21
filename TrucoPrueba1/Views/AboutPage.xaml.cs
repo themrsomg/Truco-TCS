@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace TrucoPrueba1
 {
-    /// <summary>
-    /// Lógica de interacción para AboutPage.xaml
-    /// </summary>
     public partial class AboutPage : Page
     {
         public AboutPage()

@@ -5,6 +5,10 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Windows.Data;
+using System.Text;
+using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using TrucoPrueba1.TrucoServer;
 
