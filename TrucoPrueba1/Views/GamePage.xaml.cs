@@ -24,10 +24,8 @@ namespace TrucoPrueba1
         public GamePage()
         {
             InitializeComponent();
-            DataContext = new TrucoPrueba1.TrucoServer.UserProfileData
-            {
-                AvatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_aaa_default"
-            };
+            string avatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_aaa_default";
+            LoadAvatarImage(avatarId);
 
         }
         private void AddChatMessage(string senderName, string message)
@@ -46,16 +44,17 @@ namespace TrucoPrueba1
             };
 
             messageBubble.Child = messageText;
-
             ChatMessagesPanel.Children.Add(messageBubble);
         }
 
         private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
         {
             if (PlaceholderText != null)
+            {
                 PlaceholderText.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
                     ? Visibility.Visible
                     : Visibility.Collapsed;
+            }
         }
         private void ClickSendMessage(object sender, RoutedEventArgs e)
         {
@@ -69,7 +68,7 @@ namespace TrucoPrueba1
 
             txtChatMessage.Clear();
 
-            // SessionManager.MatchClient.SendChatMessage(currentMatchId, currentPlayer, messageText);
+            ////// SessionManager.MatchClient.SendChatMessage(currentMatchId, currentPlayer, messageText);
         }
 
         private void ClickOpenGesturesMenu(object sender, RoutedEventArgs e)
@@ -114,6 +113,25 @@ namespace TrucoPrueba1
             if (result == MessageBoxResult.Yes)
             {
                 this.NavigationService.Navigate(new MainPage());
+            }
+        }
+
+        private void LoadAvatarImage(string avatarId)
+        {
+            if (string.IsNullOrWhiteSpace(avatarId))
+            {
+                avatarId = "avatar_aaa_default";
+            }
+
+            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+
+            try
+            {
+                imgPlayerAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+            }
+            catch
+            {
+                imgPlayerAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
             }
         }
     }

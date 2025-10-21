@@ -4,7 +4,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
-      xmlns:conv="clr-namespace:TrucoPrueba1"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       mc:Ignorable="d"
       Title="{x:Static language:Lang.GlobalTextFriends}"
@@ -16,17 +15,10 @@
     <Page.Background>
         <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity="0.7"/>
     </Page.Background>
-    <Page.Resources>
-        <conv:AvatarIdToImageConverter x:Key="AvatarConverter"/>
-    </Page.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock Text="{x:Static language:Lang.FriendsTextMyFriends}"
-                       FontSize="32" Foreground="Wheat" FontWeight="Bold" HorizontalAlignment="Center"
-                       Margin="0,30,0,10"/>
-            <ListBox x:Name="lstFriends"
-                     Margin="10" SelectionMode="Single" Width="600" Height="150"
-                     ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
+            <TextBlock Text="{x:Static language:Lang.FriendsTextMyFriends}" FontSize="32" Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,10"/>
+            <ListBox x:Name="lstFriends" Margin="10" SelectionMode="Single" Width="600" Height="150" ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -35,27 +27,20 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
-                                <Image Width="30" Height="30" Margin="0,0,10,0"
-                                       Source="{Binding AvatarId, Converter={StaticResource AvatarConverter}}"/>
-                                <TextBlock Text="{Binding Username}"
-                                           FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
+                                <Image Width="30" Height="30" Margin="0,0,10,0" Source="{Binding AvatarImagePath}" Stretch="UniformToFill">
+                                    <Image.Clip>
+                                        <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15"/>
+                                    </Image.Clip>
+                                </Image>
+                                <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Grid.Column="1"
-                                    Content="{x:Static language:Lang.FriendsTextDeleteFriend}"
-                                    Background="#CC0000" Foreground="White"
-                                    FontWeight="Bold" Width="120" Height="30" Margin="10,0" 
-                                    Click="ClickRejectRequest" Tag="{Binding Username}"/>
+                            <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextDeleteFriend}" Background="#CC0000" Foreground="White" FontWeight="Bold" Width="120" Height="30" Margin="10,0" Click="ClickRejectRequest" Tag="{Binding Username}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBlock Text="Solicitudes Pendientes Recibidas"
-                       FontSize="28" Foreground="LightYellow"
-                       FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10"/>
-            <ListBox x:Name="lstPending"
-                     Margin="10" SelectionMode="Single"
-                     Width="600" Height="100" ItemsSource="{Binding PendingList}"
-                     SelectedItem="{Binding SelectedPending, Mode=TwoWay}">
+            <TextBlock Text="Solicitudes Pendientes Recibidas" FontSize="28" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+            <ListBox x:Name="lstPending" Margin="10" SelectionMode="Single" Width="600" Height="100" ItemsSource="{Binding PendingList}" SelectedItem="{Binding SelectedPending, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -65,33 +50,24 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
-                                <Image Width="30" Height="30" Margin="0,0,10,0"
-                                       Source="{Binding AvatarId, Converter={StaticResource AvatarConverter}}"/>
-                                <TextBlock Text="{Binding Username}"
-                                           FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
+                                <Image Width="30" Height="30" Margin="0,0,10,0" Source="{Binding AvatarImagePath}" Stretch="UniformToFill">
+                                    <Image.Clip>
+                                        <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15"/>
+                                    </Image.Clip>
+                                </Image>
+                                <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Grid.Column="1"
-                                    Content="Aceptar" Margin="10,0"
-                                    Click="ClickAcceptRequest" Tag="{Binding Username}"/>
-                            <Button Grid.Column="2"
-                                    Content="Rechazar" Margin="10,0" Background="#FFA07A"
-                                    Click="ClickRejectRequest" Tag="{Binding Username}"/>
+                            <Button Grid.Column="1" Content="Aceptar" Margin="10,0" Click="ClickAcceptRequest" Tag="{Binding Username}"/>
+                            <Button Grid.Column="2" Content="Rechazar" Margin="10,0" Background="#FFA07A" Click="ClickRejectRequest" Tag="{Binding Username}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-                <TextBox x:Name="txtSearch"
-                         Width="300" Height="40" Text="Buscar nombre de usuario..." Margin="0,0,10,0"
-                         GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
-                <Button x:Name="btnAdd"
-                        Content="{x:Static language:Lang.FriendsTextAdd}"
-                        Background="#228B22" Foreground="White"
-                        FontWeight="Bold" Width="120" Height="40" Click="ClickAddFriend"/>
+                <TextBox x:Name="txtSearch" Width="300" Height="40" Text="Buscar nombre de usuario..." Margin="0,0,10,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                <Button x:Name="btnAdd" Content="{x:Static language:Lang.FriendsTextAdd}" Background="#228B22" Foreground="White" Width="120" Height="40" Click="ClickAddFriend"/>
             </StackPanel>
-            <Button Click="ClickBack" 
-                    Content="{x:Static language:Lang.GlobalTextBack}" 
-                    Cursor="Hand" Margin="0,30,30,30" FontSize="25" HorizontalAlignment="Right">
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" FontSize="25" HorizontalAlignment="Right">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

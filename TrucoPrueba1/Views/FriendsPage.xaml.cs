@@ -18,6 +18,24 @@ namespace TrucoPrueba1
     {
         public string Username { get; set; }
         public string AvatarId { get; set; }
+
+        public string AvatarImagePath
+        {
+            get
+            {
+                string id = string.IsNullOrWhiteSpace(AvatarId) ? "avatar_aaa_default" : AvatarId;
+                string path = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{id}.png";
+                try
+                {
+                    var test = new BitmapImage(new Uri(path));
+                    return path;
+                }
+                catch
+                {
+                    return "pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png";
+                }
+            }
+        }
     }
 
     public partial class FriendsPage : Page
@@ -45,7 +63,10 @@ namespace TrucoPrueba1
 
             string currentUsername = SessionManager.CurrentUsername;
 
-            if (string.IsNullOrEmpty(currentUsername)) return;
+            if (string.IsNullOrEmpty(currentUsername))
+            {
+                return;
+            }
 
             using (var friendClient = new TrucoFriendServiceClient(new InstanceContext(new TrucoCallbackHandler())))
             {
@@ -119,7 +140,10 @@ namespace TrucoPrueba1
         private async void ClickAcceptRequest(object sender, RoutedEventArgs e)
         {
             string requesterUsername = (sender as Button)?.Tag?.ToString();
-            if (string.IsNullOrEmpty(requesterUsername)) return;
+            if (string.IsNullOrEmpty(requesterUsername))
+            {
+                return;
+            }
 
             string currentUsername = SessionManager.CurrentUsername;
 
@@ -149,7 +173,10 @@ namespace TrucoPrueba1
         private async void ClickRejectRequest(object sender, RoutedEventArgs e)
         {
             string targetUsername = (sender as Button)?.Tag?.ToString();
-            if (string.IsNullOrEmpty(targetUsername)) return;
+            if (string.IsNullOrEmpty(targetUsername))
+            {
+                return;
+            }
 
             string currentUsername = SessionManager.CurrentUsername;
 
@@ -184,13 +211,17 @@ namespace TrucoPrueba1
         private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
         {
             if (txtSearch.Text == SearchPlaceholder)
+            {
                 txtSearch.Text = string.Empty;
+            }
         }
 
         private void TxtSearch_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
                 txtSearch.Text = SearchPlaceholder;
+            }
         }
     }
 }

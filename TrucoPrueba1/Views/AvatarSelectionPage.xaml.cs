@@ -1,64 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
+using System.Windows.Media.Imaging;
 
 namespace TrucoPrueba1.Views
 {
-    public partial class AvatarSelectionPage : Page, INotifyPropertyChanged
+    public partial class AvatarSelectionPage : Page
     {
+        // Evento que devuelve el avatar seleccionado al volver
         public event EventHandler<string> AvatarSelected;
-        public List<string> Avatars { get; private set; }
 
-        private string _currentAvatarId;
-        public string CurrentAvatarId
-        {
-            get => _currentAvatarId;
-            set
-            {
-                if (_currentAvatarId != value)
-                {
-                    _currentAvatarId = value;
-                    OnPropertyChanged(nameof(CurrentAvatarId));
-                }
-            }
-        }
-
-        public ICommand SelectAvatarCommand { get; private set; }
+        private readonly List<string> avatars;
+        private string currentSelectedId;
 
         public AvatarSelectionPage(List<string> availableAvatars, string currentId)
         {
             InitializeComponent();
-            Avatars = availableAvatars ?? new List<string>();
-            CurrentAvatarId = currentId;
-            SelectAvatarCommand = new RelayCommand(ExecuteSelectAvatar);
-            DataContext = this;
-            MusicInitializer.InitializeMenuMusic();
+            avatars = availableAvatars ?? new List<string>();
+            currentSelectedId = currentId;
+            PopulateAvatars();
         }
 
-        private void ExecuteSelectAvatar(object parameter)
+        private void PopulateAvatars()
         {
-            if (parameter is string selectedId)
+            AvatarsPanel.Children.Clear();
+
+            foreach (var avatarId in avatars)
             {
-                CurrentAvatarId = selectedId;
+                var btn = new Button
+                {
+                    Width = 80,
+                    Height = 80,
+                    Margin = new Thickness(6),
+                    Padding = new Thickness(0),
+                    Tag = avatarId,
+                    Cursor = Cursors.Hand,
+                    Background = System.Windows.Media.Brushes.Transparent,
+                    BorderThickness = new Thickness(0)
+                };
+
+                string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+
+                var img = new System.Windows.Controls.Image
+                {
+                    Width = 80,
+                    Height = 80,
+                    Stretch = System.Windows.Media.Stretch.UniformToFill
+                };
+
+                try
+                {
+                    img.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+                }
+                catch
+                {
+                    try
+                    {
+                        img.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_default.png", UriKind.Absolute));
+                    }
+                    catch 
+                    {
+
+                    }
+                }
+
+                btn.Content = img;
+
+                if (!string.IsNullOrEmpty(currentSelectedId) && currentSelectedId == avatarId)
+                {
+                    btn.Background = System.Windows.Media.Brushes.LightGray;
+                }
+
+                btn.Click += AvatarButton_Click;
+                AvatarsPanel.Children.Add(btn);
             }
         }
 
-        private void ClickBack(object sender, System.Windows.RoutedEventArgs e)
+        private void AvatarButton_Click(object sender, RoutedEventArgs e)
         {
-            AvatarSelected?.Invoke(this, CurrentAvatarId);
+            if (sender is Button b && b.Tag is string id)
+            {
+                currentSelectedId = id;
+
+                foreach (var child in AvatarsPanel.Children)
+                {
+                    if (child is Button btn)
+                    {
+                        btn.Background = System.Windows.Media.Brushes.Transparent;
+                    }
+                }
+                b.Background = System.Windows.Media.Brushes.LightGray;
+            }
+        }
+        private void ClickBack(object sender, RoutedEventArgs e)
+        {
+            AvatarSelected?.Invoke(this, currentSelectedId);
             if (NavigationService?.CanGoBack == true)
             {
                 NavigationService.GoBack();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

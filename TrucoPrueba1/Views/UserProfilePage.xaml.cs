@@ -8,10 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TrucoPrueba1.TrucoServer;
 using TrucoPrueba1.Properties.Langs;
+using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1
 {
@@ -21,8 +22,6 @@ namespace TrucoPrueba1
         private static readonly InstanceContext userContext = new InstanceContext(callbackHandler);
         private static TrucoUserServiceClient userClient;
         public static UserProfileData CurrentUserData { get; set; }
-
-
         public static TrucoUserServiceClient UserClient
         {
             get
@@ -38,8 +37,10 @@ namespace TrucoPrueba1
                             userClient.Abort();
                         }
                     }
-                    catch { }
+                    catch 
+                    { 
 
+                    }
                     userClient = new TrucoUserServiceClient(userContext, "NetTcpBinding_ITrucoUserService");
                 }
                 return userClient;
@@ -58,7 +59,6 @@ namespace TrucoPrueba1
                         return profile.Username;
                     }
                 }
-
                 return usernameOrEmail;
             }
             catch
@@ -73,10 +73,13 @@ namespace TrucoPrueba1
                 if (userClient != null)
                 {
                     if (userClient.State == System.ServiceModel.CommunicationState.Opened)
+                    {
                         userClient.Close();
+                    }
                     else
+                    {
                         userClient.Abort();
-
+                    }
                     userClient = null;
                 }
             }
@@ -150,6 +153,7 @@ namespace TrucoPrueba1
             {
                 currentUserData = SessionManager.CurrentUserData;
                 this.DataContext = currentUserData;
+                LoadAvatarImage(currentUserData.AvatarId);
                 UpdateUsernameWarning(currentUserData.NameChangeCount);
                 UpdateSocialMediaLinks();
                 return;
@@ -171,6 +175,7 @@ namespace TrucoPrueba1
                     }
 
                     this.DataContext = currentUserData;
+                    LoadAvatarImage(currentUserData.AvatarId);
                     originalUsername = currentUserData.Username;
 
                     txtUsername.Text = currentUserData.Username;
@@ -293,6 +298,7 @@ namespace TrucoPrueba1
 
                     this.DataContext = null;
                     this.DataContext = currentUserData;
+                    LoadAvatarImage(newAvatarId);
 
                     MessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -482,5 +488,25 @@ namespace TrucoPrueba1
                 }
             }
         }
+
+        private void LoadAvatarImage(string avatarId)
+        {
+            if (string.IsNullOrWhiteSpace(avatarId))
+            {
+                avatarId = "avatar_aaa_default";
+            }
+
+            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+
+            try
+            {
+                imgAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+            }
+            catch
+            {
+                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+            }
+        }
+
     }
 }

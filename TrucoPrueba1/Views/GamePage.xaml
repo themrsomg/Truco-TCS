@@ -10,9 +10,6 @@
     <Page.Background>
         <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
-    <Page.Resources>
-        <local:AvatarIdToImageConverter x:Key="AvatarConverter"/>
-    </Page.Resources>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -21,13 +18,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <Button Click="ClickBack"
-        Content="{x:Static language:Lang.GlobalTextBack}"
-        Cursor="Hand"
-        Margin="10"
-        FontSize="20"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top">
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="10" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
@@ -93,8 +84,7 @@
                 
                 <!-- Foto jugador -->
                 <Border Background="#CCC" Width="60" Height="60" Margin="5" CornerRadius="30" BorderBrush="#FFD700" BorderThickness="2">
-                    <Image Source="{Binding AvatarId, Converter={StaticResource AvatarConverter}}"
-                        Stretch="UniformToFill">
+                    <Image x:Name="imgPlayerAvatar" Stretch="UniformToFill">
                         <Image.Clip>
                             <EllipseGeometry Center="30,30" RadiusX="30" RadiusY="30"/>
                         </Image.Clip>
@@ -125,18 +115,8 @@
                     <!-- Entrada de mensaje -->
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                         <Grid Width="135" Height="25" Margin="0,0,5,0">
-                            <TextBox x:Name="txtChatMessage"
-                                VerticalAlignment="Center"
-                                TextChanged="txtChatMessageTextChanged"
-                                Background="White"
-                                Padding="5,0,0,0"/>
-                            <TextBlock x:Name="PlaceholderText"
-                                Text="Escribe aquí..."
-                                Foreground="Gray"
-                                VerticalAlignment="Center"
-                                Margin="8,0,0,0"
-                                IsHitTestVisible="False"
-                                Visibility="Visible"/>
+                            <TextBox x:Name="txtChatMessage" VerticalAlignment="Center" TextChanged="txtChatMessageTextChanged" Background="White" Padding="5,0,0,0"/>
+                            <TextBlock x:Name="PlaceholderText" Text="Escribe aquí..." Foreground="Gray" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
                         </Grid>
                         <Button Content="Enviar" Width="65" Height="25" Click="ClickSendMessage"/>
                     </StackPanel>

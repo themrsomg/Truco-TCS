@@ -7,94 +7,29 @@
       xmlns:conv="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-      Title="{x:Static language:Lang.AvatarSelection}"
-      Background="#002135"
-      Width="800" Height="600">
+      Title="{x:Static language:Lang.AvatarSelection}" Background="#002135" Width="800" Height="600" FontFamily="Book Antiqua">
 
-    <Page.Resources>
-        <conv:AvatarIdToImageConverter x:Key="AvatarConverter"/>
-        <conv:AvatarMatchToVisibilityConverter x:Key="AvatarMatchToVisibility"/>
-
-        <Style x:Key="AvatarButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Height" Value="100"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="50" Background="#DDD" BorderBrush="Transparent" BorderThickness="5">
-                            <Image Source="{Binding Converter={StaticResource AvatarConverter}}" Stretch="UniformToFill"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Image.Clip>
-                                    <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
-                                </Image.Clip>
-                            </Image>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#FF5FE4FA"/>
-                                <Setter TargetName="Border" Property="BorderThickness" Value="5"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Page.Resources>
-
-    <Grid Margin="0,10,0,46">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <TextBlock Grid.Row="0"
-                   Text="{x:Static language:Lang.AvatarSelection}" FontFamily="Book Antiqua" FontSize="40" 
-                   FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,20"/>
+        <TextBlock Grid.Row="0" Text="{x:Static language:Lang.AvatarSelection}" FontSize="30" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,10"/>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Avatars}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="10" Width="100" Height="100">
-                            <Button Style="{StaticResource AvatarButtonStyle}"
-                            Command="{Binding DataContext.SelectAvatarCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                            CommandParameter="{Binding}" />
-                            <Border x:Name="SelectedBorder" CornerRadius="50" BorderBrush="#FFFFD700" BorderThickness="5"
-                            Background="Transparent">
-                                <Border.Visibility>
-                                    <MultiBinding Converter="{StaticResource AvatarMatchToVisibility}">
-                                        <Binding />
-                                        <Binding Path="DataContext.CurrentAvatarId" RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
-                                    </MultiBinding>
-                                </Border.Visibility>
-                                <Path Data="M0,10 L5,15 L15,0"
-                              Fill="#FFFFD700" Stretch="Uniform" Width="25" Height="25" VerticalAlignment="Bottom"
-                              HorizontalAlignment="Right" Margin="5"/>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <!-- Aquí se rellenará dinámicamente con imágenes dentro de un WrapPanel -->
+            <WrapPanel x:Name="AvatarsPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" />
         </ScrollViewer>
-        <Button Grid.Row="2"
-                Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" FontFamily="Book Antiqua"
-                FontSize="25" Width="120" Height="40" HorizontalAlignment="Right" Margin="0,10,30,10">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,30">
+            <Button x:Name="btnBack" Grid.Column="3" Content="{x:Static language:Lang.GlobalTextAccept}" FontSize="20" Width="90" Height="35" Click="ClickBack" Cursor="Hand" Margin="0,0,15,0">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF5FE4FA">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

@@ -77,11 +77,7 @@
     <Compile Include="LanguageManager.cs" />
     <Compile Include="MusicManager.cs" />
     <Compile Include="Properties\Langs\LocExtension.cs" />
-    <Compile Include="AvatarIdToImageConverter.cs" />
-    <Compile Include="AvatarMatchToVisibilityConverter.cs" />
-    <Compile Include="EqualityConverter.cs" />
     <Compile Include="ITrucoCallback.cs" />
-    <Compile Include="RelayCommand.cs" />
     <Compile Include="TrucoCallbackHandler.cs" />
     <Compile Include="TrucoUserCallback.cs" />
     <Compile Include="Views\AboutPage.xaml.cs">
