@@ -143,30 +143,38 @@ namespace TrucoPrueba1
         public UserProfilePage()
         {
             InitializeComponent();
+            originalUsername = string.Empty;
             LoadUserProfile();
             MusicInitializer.InitializeMenuMusic();
         }
 
         private async void LoadUserProfile()
         {
-            if (SessionManager.CurrentUserData != null)
-            {
-                currentUserData = SessionManager.CurrentUserData;
-                this.DataContext = currentUserData;
-                LoadAvatarImage(currentUserData.AvatarId);
-                UpdateUsernameWarning(currentUserData.NameChangeCount);
-                UpdateSocialMediaLinks();
-                return;
-            }
-            else if (!string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) &&
-                     SessionManager.CurrentUsername != "UsuarioActual")
-            {
+            Mouse.OverrideCursor = Cursors.Wait;
 
-                Mouse.OverrideCursor = Cursors.Wait;
-                try
+            try
+            {
+                if (SessionManager.CurrentUserData != null)
+                {
+                    currentUserData = SessionManager.CurrentUserData;
+                    originalUsername = currentUserData.Username ?? string.Empty;
+
+                    this.DataContext = currentUserData;
+                    LoadAvatarImage(currentUserData.AvatarId);
+
+                    txtUsername.Text = currentUserData.Username;
+                    txtEmail.Text = currentUserData.Email;
+                    txtFacebookLink.Text = currentUserData.FacebookHandle;
+                    txtXLink.Text = currentUserData.XHandle;
+                    txtInstagramLink.Text = currentUserData.InstagramHandle;
+
+                    UpdateUsernameWarning(currentUserData.NameChangeCount);
+                    UpdateSocialMediaLinks();
+                }
+                else if (!string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) &&
+                         SessionManager.CurrentUsername != "UsuarioActual")
                 {
                     var client = SessionManager.UserClient;
-
                     currentUserData = await client.GetUserProfileAsync(SessionManager.CurrentUsername);
 
                     if (currentUserData == null)
@@ -176,7 +184,8 @@ namespace TrucoPrueba1
 
                     this.DataContext = currentUserData;
                     LoadAvatarImage(currentUserData.AvatarId);
-                    originalUsername = currentUserData.Username;
+
+                    originalUsername = currentUserData.Username ?? string.Empty;
 
                     txtUsername.Text = currentUserData.Username;
                     txtEmail.Text = currentUserData.Email;
@@ -188,14 +197,14 @@ namespace TrucoPrueba1
                     UpdateUsernameWarning(currentUserData.NameChangeCount);
                     UpdateSocialMediaLinks();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                finally
-                {
-                    Mouse.OverrideCursor = null;
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
             }
         }
 
@@ -207,8 +216,42 @@ namespace TrucoPrueba1
             }
 
             string newUsername = txtUsername.Text.Trim();
+            string newFacebook = txtFacebookLink.Text.Trim();
+            string newX = txtXLink.Text.Trim();
+            string newInstagram = txtInstagramLink.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(newUsername))
+            bool usernameChanged = !string.IsNullOrWhiteSpace(originalUsername) && !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
+            bool facebookChanged = !string.Equals(newFacebook, currentUserData.FacebookHandle, StringComparison.Ordinal);
+            bool xChanged = !string.Equals(newX, currentUserData.XHandle, StringComparison.Ordinal);
+            bool instagramChanged = !string.Equals(newInstagram, currentUserData.InstagramHandle, StringComparison.Ordinal);
+
+            if (!usernameChanged && !facebookChanged && !xChanged && !instagramChanged)
+            {
+                MessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges, MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (usernameChanged && newUsername.Length < 4)
+            {
+                MessageBox.Show(Lang.DialogTextShortUsername, Lang.DialogTextShortUsername, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (usernameChanged && currentUserData.NameChangeCount >= MAX_CHANGES)
+            {
+                MessageBox.Show(Lang.UserProfileTextTwoChanges, Lang.UserProfileTextError, MessageBoxButton.OK, MessageBoxImage.Stop);
+                txtUsername.Text = originalUsername;
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                Lang.UserProfileTextConfirmChanges,
+                Lang.GlobalTextConfirmation,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (confirm != MessageBoxResult.Yes)
             {
                 return;
             }
@@ -219,26 +262,27 @@ namespace TrucoPrueba1
 
             try
             {
-                bool usernameChanged = newUsername != originalUsername;
-
-                if (usernameChanged && currentUserData.NameChangeCount >= MAX_CHANGES)
-                {
-                    MessageBox.Show(Lang.UserProfileTextTwoChanges, Lang.UserProfileTextError, MessageBoxButton.OK, MessageBoxImage.Stop);
-                    txtUsername.Text = originalUsername;
-                    return;
-                }
-
                 string oldUsername = currentUserData.Username;
                 int oldChangeCount = currentUserData.NameChangeCount;
-
-                currentUserData.Username = newUsername;
-                currentUserData.FacebookHandle = txtFacebookLink.Text.Trim();
-                currentUserData.XHandle = txtXLink.Text.Trim();
-                currentUserData.InstagramHandle = txtInstagramLink.Text.Trim();
+                string oldFacebook = currentUserData.FacebookHandle;
+                string oldX = currentUserData.XHandle;
+                string oldInstagram = currentUserData.InstagramHandle;
 
                 if (usernameChanged)
                 {
-                    currentUserData.NameChangeCount++;
+                    currentUserData.Username = newUsername;
+                }
+                if (facebookChanged)
+                {
+                    currentUserData.FacebookHandle = newFacebook;
+                }
+                if (xChanged)
+                {
+                    currentUserData.XHandle = newX;
+                }
+                if (instagramChanged)
+                {
+                    currentUserData.InstagramHandle = newInstagram;
                 }
 
                 var client = SessionManager.UserClient;
@@ -246,8 +290,13 @@ namespace TrucoPrueba1
 
                 if (success)
                 {
-                    originalUsername = newUsername;
-                    SessionManager.CurrentUsername = newUsername; 
+                    if (usernameChanged)
+                    {
+                        currentUserData.NameChangeCount++;
+                        originalUsername = newUsername;
+                        SessionManager.CurrentUsername = newUsername;
+                    }
+
                     UpdateUsernameWarning(currentUserData.NameChangeCount);
                     UpdateSocialMediaLinks();
 
@@ -255,16 +304,20 @@ namespace TrucoPrueba1
                 }
                 else
                 {
-                    MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
                     currentUserData.Username = oldUsername;
                     currentUserData.NameChangeCount = oldChangeCount;
-                    txtUsername.Text = originalUsername;
+                    currentUserData.FacebookHandle = oldFacebook;
+                    currentUserData.XHandle = oldX;
+                    currentUserData.InstagramHandle = oldInstagram;
+                    txtUsername.Text = oldUsername;
+
+                    MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtUsername.Text = originalUsername;
             }
             finally
             {
@@ -272,6 +325,7 @@ namespace TrucoPrueba1
                 Mouse.OverrideCursor = null;
             }
         }
+
 
         private async void AvatarPage_AvatarSelected(object sender, string newAvatarId)
         {
@@ -484,7 +538,7 @@ namespace TrucoPrueba1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}", "Error de Navegación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
@@ -507,6 +561,5 @@ namespace TrucoPrueba1
                 imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
             }
         }
-
     }
 }
