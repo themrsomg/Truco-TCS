@@ -1045,6 +1045,24 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Email is already in use..
+        /// </summary>
+        public static string GlobalTextEmailAlreadyInUse {
+            get {
+                return ResourceManager.GetString("GlobalTextEmailAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a There is no account linked to this email..
+        /// </summary>
+        public static string GlobalTextEmailDoesntExist {
+            get {
+                return ResourceManager.GetString("GlobalTextEmailDoesntExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Enter code.
         /// </summary>
         public static string GlobalTextEnterCode {
@@ -1419,6 +1437,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string GlobalTextUsername {
             get {
                 return ResourceManager.GetString("GlobalTextUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The username is already in use. Please choose another..
+        /// </summary>
+        public static string GlobalTextUsernameAlreadyInUse {
+            get {
+                return ResourceManager.GetString("GlobalTextUsernameAlreadyInUse", resourceCulture);
             }
         }
         

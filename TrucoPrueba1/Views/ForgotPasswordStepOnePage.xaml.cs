@@ -33,7 +33,14 @@ namespace TrucoPrueba1.Views
             string email = txtEmail.Text.Trim();
 
             if (!FieldsValidation())
+            {
                 return;
+            }
+
+            if (EmailVerification())
+            {
+                return;
+            }
 
             try
             {
@@ -90,6 +97,33 @@ namespace TrucoPrueba1.Views
             }
 
             return true;
+        }
+
+        private bool EmailVerification()
+        {
+            string email = txtEmail.Text.Trim();
+
+            try
+            {
+                var callback = new TrucoUserCallback();
+                var context = new System.ServiceModel.InstanceContext(callback);
+                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
+
+                bool emailExists = client.EmailExists(email);
+
+                if (!emailExists)
+                {
+                    MessageBox.Show(Lang.GlobalTextEmailDoesntExist, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                return true;
+            }
         }
     }
 }

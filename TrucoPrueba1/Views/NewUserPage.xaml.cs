@@ -38,7 +38,12 @@ namespace TrucoPrueba1
             {
                 return;
             }
-            
+
+            if (EmailAndUsernameVerification())
+            {
+                return;
+            }
+
             try
             {
                 var callback = new TrucoUserCallback();
@@ -147,29 +152,41 @@ namespace TrucoPrueba1
             return true;
         }
 
-        /*private bool EmailAndUsernameVerification()
+        private bool EmailAndUsernameVerification()
         {
             string email = txtEmail.Text.Trim();
             string username = txtUsername.Text.Trim();
 
-            using (var context = new baseDatosPruebaEntities())
+            try
             {
-                bool existsEmail = context.User.Any(u => u.email == email);
-                if (existsEmail)
+                var callback = new TrucoUserCallback();
+                var context = new System.ServiceModel.InstanceContext(callback);
+                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
+
+                bool emailExists = client.EmailExists(email);
+                bool usernameExists = client.UsernameExists(username);
+
+                if (emailExists)
                 {
-                    MessageBox.Show(Lang.DialogTextEmailAlreadyExists, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
+                    MessageBox.Show(Lang.GlobalTextEmailAlreadyInUse, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return true;
                 }
 
-                bool existsUsername = context.User.Any(u => u.nickname == username);
-                if (existsUsername)
+                if (usernameExists)
                 {
-                    MessageBox.Show(Lang.DialogTextUserAlreadyExists, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
+                    MessageBox.Show(Lang.GlobalTextUsernameAlreadyInUse, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return true;
                 }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 return true;
             }
-        }*/
+        }
+
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             string email = txtEmail.Text.Trim();

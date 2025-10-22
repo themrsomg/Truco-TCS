@@ -286,6 +286,18 @@ namespace TrucoPrueba1
                 }
 
                 var client = SessionManager.UserClient;
+
+                if (usernameChanged)
+                {
+                    bool usernameExists = await Task.Run(() => client.UsernameExists(newUsername));
+                    if (usernameExists)
+                    {
+                        MessageBox.Show(Lang.GlobalTextUsernameAlreadyInUse, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        txtUsername.Text = originalUsername;
+                        return;
+                    }
+                }
+
                 bool success = await client.SaveUserProfileAsync(currentUserData);
 
                 if (success)

@@ -760,4 +760,13 @@ Sign up today and set up a proper match!</value>
   <data name="GlobalTextSend" xml:space="preserve">
     <value>Send</value>
   </data>
+  <data name="GlobalTextUsernameAlreadyInUse" xml:space="preserve">
+    <value>The username is already in use. Please choose another.</value>
+  </data>
+  <data name="GlobalTextEmailDoesntExist" xml:space="preserve">
+    <value>There is no account linked to this email.</value>
+  </data>
+  <data name="GlobalTextEmailAlreadyInUse" xml:space="preserve">
+    <value>Email is already in use.</value>
+  </data>
 </root>

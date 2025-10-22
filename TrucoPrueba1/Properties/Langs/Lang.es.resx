@@ -760,4 +760,13 @@
   <data name="GlobalTextSend" xml:space="preserve">
     <value>Enviar</value>
   </data>
+  <data name="GlobalTextUsernameAlreadyInUse" xml:space="preserve">
+    <value>El nombre de usuario ya está en uso. Por favor, elige otro.</value>
+  </data>
+  <data name="GlobalTextEmailDoesntExist" xml:space="preserve">
+    <value>No existe una cuenta vinculada a este correo.</value>
+  </data>
+  <data name="GlobalTextEmailAlreadyInUse" xml:space="preserve">
+    <value>El correo electrónico ya está en uso.</value>
+  </data>
 </root>
