@@ -39,7 +39,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBlock Text="Solicitudes Pendientes Recibidas" FontSize="28" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+            <TextBlock Text="{x:Static language:Lang.FriendsTextRequestsReceived}" FontSize="28" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,10"/>
             <ListBox x:Name="lstPending" Margin="10" SelectionMode="Single" Width="600" Height="100" ItemsSource="{Binding PendingList}" SelectedItem="{Binding SelectedPending, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -64,7 +64,10 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-                <TextBox x:Name="txtSearch" Width="300" Height="40" Text="Buscar nombre de usuario..." Margin="0,0,10,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                <Grid Width="300" Height="40" Margin="0,0,5,0">
+                    <TextBox x:Name="txtSearch" VerticalAlignment="Center" TextChanged="txtSearchTextChanged" Background="White" Padding="5,0,0,0"/>
+                    <TextBlock x:Name="PlaceholderText" Text="{x:Static language:Lang.FriendsTextSearchUser}" Foreground="Gray" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
+                </Grid>
                 <Button x:Name="btnAdd" Content="{x:Static language:Lang.FriendsTextAdd}" Background="#228B22" Foreground="White" Width="120" Height="40" Click="ClickAddFriend"/>
             </StackPanel>
             <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" FontSize="25" HorizontalAlignment="Right">

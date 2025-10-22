@@ -658,6 +658,96 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You have accepted {0}&apos;s request. You are now friends..
+        /// </summary>
+        public static string FriendsTextRequestAccepted {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The request could not be accepted.
+        /// </summary>
+        public static string FriendsTextRequestAcceptedError {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestAcceptedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Request Accepted.
+        /// </summary>
+        public static string FriendsTextRequestAcceptedTitle {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestAcceptedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The request could not be sent. The user doesn&apos;t exist, you&apos;re already friends, or there&apos;s already a pending request..
+        /// </summary>
+        public static string FriendsTextRequestError {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Please enter a valid username..
+        /// </summary>
+        public static string FriendsTextRequestInvalidUser {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestInvalidUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The action with {0} has been completed..
+        /// </summary>
+        public static string FriendsTextRequestRejected {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestRejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The action could not be completed.
+        /// </summary>
+        public static string FriendsTextRequestRejectedError {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestRejectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You cannot send a request to yourself..
+        /// </summary>
+        public static string FriendsTextRequestSelf {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Friend requests received.
+        /// </summary>
+        public static string FriendsTextRequestsReceived {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestsReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Friend request sent to {0}..
+        /// </summary>
+        public static string FriendsTextRequestSuccess {
+            get {
+                return ResourceManager.GetString("FriendsTextRequestSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Search user....
         /// </summary>
         public static string FriendsTextSearchUser {
@@ -1243,6 +1333,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Send.
+        /// </summary>
+        public static string GlobalTextSend {
+            get {
+                return ResourceManager.GetString("GlobalTextSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Settings.
         /// </summary>
         public static string GlobalTextSettings {
@@ -1324,6 +1423,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Warning.
+        /// </summary>
+        public static string GlobalTextWarning {
+            get {
+                return ResourceManager.GetString("GlobalTextWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Welcome.
         /// </summary>
         public static string GlobalTextWelcome {
@@ -1347,6 +1455,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string GlobalTextWins {
             get {
                 return ResourceManager.GetString("GlobalTextWins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Write here....
+        /// </summary>
+        public static string GlobalTextWriteHere {
+            get {
+                return ResourceManager.GetString("GlobalTextWriteHere", resourceCulture);
             }
         }
         
@@ -1739,6 +1856,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Do you want to save the changes made to your profile?.
+        /// </summary>
+        public static string UserProfileTextConfirmChanges {
+            get {
+                return ResourceManager.GetString("UserProfileTextConfirmChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Email (Read-only).
         /// </summary>
         public static string UserProfileTextEmailReadOnly {
@@ -1762,6 +1888,24 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string UserProfileTextErrorSaving {
             get {
                 return ResourceManager.GetString("UserProfileTextErrorSaving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No changes.
+        /// </summary>
+        public static string UserProfileTextNoChanges {
+            get {
+                return ResourceManager.GetString("UserProfileTextNoChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a There are no changes to save..
+        /// </summary>
+        public static string UserProfileTextSaveNoChanges {
+            get {
+                return ResourceManager.GetString("UserProfileTextSaveNoChanges", resourceCulture);
             }
         }
         

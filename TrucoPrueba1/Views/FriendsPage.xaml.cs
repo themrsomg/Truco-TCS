@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using TrucoPrueba1.TrucoServer;
+using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1
 {
@@ -44,8 +45,6 @@ namespace TrucoPrueba1
         public ObservableCollection<FriendDisplayData> PendingList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public FriendDisplayData SelectedFriend { get; set; }
         public FriendDisplayData SelectedPending { get; set; }
-
-        private const string SearchPlaceholder = "Buscar nombre de usuario...";
 
         public FriendsPage()
         {
@@ -93,7 +92,7 @@ namespace TrucoPrueba1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al cargar datos de amigos: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -103,15 +102,15 @@ namespace TrucoPrueba1
             string targetUsername = txtSearch.Text.Trim();
             string currentUsername = SessionManager.CurrentUsername;
 
-            if (string.IsNullOrEmpty(targetUsername) || targetUsername == SearchPlaceholder)
+            if (string.IsNullOrEmpty(targetUsername))
             {
-                MessageBox.Show("Ingresa un nombre de usuario válido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.FriendsTextRequestInvalidUser, Lang.GlobalTextWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (targetUsername.Equals(currentUsername, StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("No puedes enviarte una solicitud a ti mismo.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.FriendsTextRequestSelf, Lang.GlobalTextWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -123,16 +122,16 @@ namespace TrucoPrueba1
 
                     if (success)
                     {
-                        MessageBox.Show($"Solicitud de amistad enviada a {targetUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show($"No se pudo enviar la solicitud. El usuario no existe, ya son amigos, o ya hay una solicitud pendiente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.FriendsTextRequestError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error de conexión al enviar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -155,17 +154,17 @@ namespace TrucoPrueba1
 
                     if (success)
                     {
-                        MessageBox.Show($"Has aceptado la solicitud de {requesterUsername}. Ahora son amigos.", "Solicitud Aceptada", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername), Lang.FriendsTextRequestAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo aceptar la solicitud.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.FriendsTextRequestAcceptedError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error de conexión al aceptar solicitud: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -188,17 +187,17 @@ namespace TrucoPrueba1
 
                     if (success)
                     {
-                        MessageBox.Show($"Se ha completado la acción con {targetUsername}.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(string.Format(Lang.FriendsTextRequestRejected, targetUsername), Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo completar la acción.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.FriendsTextRequestRejectedError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error de conexión: {ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -207,20 +206,13 @@ namespace TrucoPrueba1
         {
             this.NavigationService.Navigate(new MainPage());
         }
-
-        private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
+        private void txtSearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (txtSearch.Text == SearchPlaceholder)
+            if (PlaceholderText != null)
             {
-                txtSearch.Text = string.Empty;
-            }
-        }
-
-        private void TxtSearch_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtSearch.Text))
-            {
-                txtSearch.Text = SearchPlaceholder;
+                PlaceholderText.Visibility = string.IsNullOrEmpty(txtSearch.Text)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
             }
         }
     }

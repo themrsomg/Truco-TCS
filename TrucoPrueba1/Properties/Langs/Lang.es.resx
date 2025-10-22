@@ -712,4 +712,52 @@
   <data name="FriendsGuestTextTitle" xml:space="preserve">
     <value>¡Tus amigos te están esperando!</value>
   </data>
+  <data name="UserProfileTextSaveNoChanges" xml:space="preserve">
+    <value>No hay cambios para guardar.</value>
+  </data>
+  <data name="UserProfileTextNoChanges" xml:space="preserve">
+    <value>Sin cambios</value>
+  </data>
+  <data name="UserProfileTextConfirmChanges" xml:space="preserve">
+    <value>¿Deseas guardar los cambios realizados en tu perfil?</value>
+  </data>
+  <data name="FriendsTextRequestsReceived" xml:space="preserve">
+    <value>Solicitudes de amistad recibidas</value>
+  </data>
+  <data name="GlobalTextWarning" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="FriendsTextRequestError" xml:space="preserve">
+    <value>No se pudo enviar la solicitud. El usuario no existe, ya son amigos, o ya hay una solicitud pendiente.</value>
+  </data>
+  <data name="FriendsTextRequestSuccess" xml:space="preserve">
+    <value>Solicitud de amistad enviada a {0}.</value>
+  </data>
+  <data name="FriendsTextRequestSelf" xml:space="preserve">
+    <value>No puedes enviarte una solicitud a ti mismo.</value>
+  </data>
+  <data name="FriendsTextRequestInvalidUser" xml:space="preserve">
+    <value>Ingresa un nombre de usuario válido.</value>
+  </data>
+  <data name="FriendsTextRequestAccepted" xml:space="preserve">
+    <value>Has aceptado la solicitud de {0}. Ahora son amigos.</value>
+  </data>
+  <data name="FriendsTextRequestAcceptedTitle" xml:space="preserve">
+    <value>Solicitud Aceptada</value>
+  </data>
+  <data name="FriendsTextRequestAcceptedError" xml:space="preserve">
+    <value>No se pudo aceptar la solicitud</value>
+  </data>
+  <data name="FriendsTextRequestRejected" xml:space="preserve">
+    <value>Se ha completado la acción con {0}.</value>
+  </data>
+  <data name="FriendsTextRequestRejectedError" xml:space="preserve">
+    <value>No se pudo completar la acción</value>
+  </data>
+  <data name="GlobalTextWriteHere" xml:space="preserve">
+    <value>Escribe aquí...</value>
+  </data>
+  <data name="GlobalTextSend" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
 </root>
