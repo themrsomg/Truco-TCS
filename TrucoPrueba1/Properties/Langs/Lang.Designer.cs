@@ -631,6 +631,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Accept.
+        /// </summary>
+        public static string FriendsTextAcceptRequest {
+            get {
+                return ResourceManager.GetString("FriendsTextAcceptRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Add.
         /// </summary>
         public static string FriendsTextAdd {
@@ -640,7 +649,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Delete Selected Friend.
+        ///   Busca una cadena traducida similar a Delete Friend.
         /// </summary>
         public static string FriendsTextDeleteFriend {
             get {
@@ -654,6 +663,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string FriendsTextMyFriends {
             get {
                 return ResourceManager.GetString("FriendsTextMyFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reject.
+        /// </summary>
+        public static string FriendsTextRejectRequest {
+            get {
+                return ResourceManager.GetString("FriendsTextRejectRequest", resourceCulture);
             }
         }
         

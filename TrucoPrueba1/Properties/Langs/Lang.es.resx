@@ -505,7 +505,7 @@
     <value>Agregar</value>
   </data>
   <data name="FriendsTextDeleteFriend" xml:space="preserve">
-    <value>Eliminar Amigo Seleccionado</value>
+    <value>Eliminar Amigo</value>
   </data>
   <data name="PlayTextGames" xml:space="preserve">
     <value>Partidas</value>
@@ -768,5 +768,11 @@
   </data>
   <data name="GlobalTextEmailAlreadyInUse" xml:space="preserve">
     <value>El correo electrónico ya está en uso.</value>
+  </data>
+  <data name="FriendsTextAcceptRequest" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="FriendsTextRejectRequest" xml:space="preserve">
+    <value>Rechazar</value>
   </data>
 </root>
