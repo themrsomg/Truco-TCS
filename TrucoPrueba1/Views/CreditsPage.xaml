@@ -34,5 +34,14 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Button Click="ClickEgg" Content="^" Cursor="Hand" Margin="20,-45,0,30" FontSize="5" HorizontalAlignment="Left">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="0" Background="#FAF49535" BorderThickness="2" BorderBrush="#FAF49535">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </StackPanel>
 </Page>

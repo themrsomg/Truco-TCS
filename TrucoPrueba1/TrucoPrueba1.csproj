@@ -496,6 +496,9 @@
     <Resource Include="Resources\Avatars\avatar_t_txt_soap.png" />
     <Resource Include="Resources\Avatars\avatar_t_txt_softwaresquad.png" />
     <Resource Include="Resources\Avatars\avatar_t_txt_sq.png" />
+    <Content Include="Resources\NobodyBeatsTheHammer.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Songs\music_in_game.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
