@@ -25,7 +25,7 @@ namespace TrucoPrueba1
             get
             {
                 string id = string.IsNullOrWhiteSpace(AvatarId) ? "avatar_aaa_default" : AvatarId;
-                string path = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{id}.png";
+                string path = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{id}.webp";
                 try
                 {
                     var test = new BitmapImage(new Uri(path));
@@ -33,7 +33,7 @@ namespace TrucoPrueba1
                 }
                 catch
                 {
-                    return "pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png";
+                    return "pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.webp";
                 }
             }
         }

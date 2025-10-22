@@ -41,7 +41,7 @@ namespace TrucoPrueba1.Views
                     BorderThickness = new Thickness(0)
                 };
 
-                string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+                string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.webp";
 
                 var img = new System.Windows.Controls.Image
                 {
@@ -58,7 +58,7 @@ namespace TrucoPrueba1.Views
                 {
                     try
                     {
-                        img.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_default.png", UriKind.Absolute));
+                        img.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_default.webp", UriKind.Absolute));
                     }
                     catch 
                     {

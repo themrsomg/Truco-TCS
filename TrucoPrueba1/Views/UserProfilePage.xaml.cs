@@ -562,7 +562,7 @@ namespace TrucoPrueba1
                 avatarId = "avatar_aaa_default";
             }
 
-            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.webp";
 
             try
             {
@@ -570,7 +570,7 @@ namespace TrucoPrueba1
             }
             catch
             {
-                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.webp", UriKind.Absolute));
             }
         }
     }
