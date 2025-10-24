@@ -120,6 +120,16 @@ namespace TrucoPrueba1
             {
                 string emoji = item.Header.ToString();
                 AddChatMessage(Lang.ChatTextYou, emoji);
+
+                try
+                {
+                    var client = SessionManager.MatchClient;
+                    client.SendChatMessage(currentMatchId, currentPlayer, emoji);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         public void ReceiveChatMessage(string senderName, string message)
