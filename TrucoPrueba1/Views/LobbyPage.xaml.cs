@@ -80,15 +80,30 @@ namespace TrucoPrueba1.Views
 
         private void AddChatMessage(string senderName, string message)
         {
-            TextBlock msg = new TextBlock
+            TextBlock messageText = new TextBlock();
+
+            if (senderName.Equals(" "))
             {
-                Text = senderName == " " ? message : $"{senderName}: {message}",
-                TextWrapping = TextWrapping.Wrap,
-                Foreground = senderName == " " ? System.Windows.Media.Brushes.Gray : System.Windows.Media.Brushes.White,
-                FontStyle = senderName == " " ? FontStyles.Italic : FontStyles.Normal,
-                Margin = new Thickness(5)
-            };
-            ChatMessagesPanel.Children.Add(msg);
+                messageText = new TextBlock
+                {
+                    Text = $"{message}",
+                    TextWrapping = TextWrapping.Wrap,
+                    FontSize = 13
+                };
+
+                messageText.Foreground = Brushes.DarkGray;
+                messageText.FontStyle = FontStyles.Italic;
+            }
+            else
+            {
+                messageText = new TextBlock
+                {
+                    Text = $"{senderName}: {message}",
+                    TextWrapping = TextWrapping.Wrap,   
+                    FontSize = 13
+                };
+            }
+            ChatMessagesPanel.Children.Add(messageText);
         }
 
         private void ClickSendMessage(object sender, RoutedEventArgs e)
