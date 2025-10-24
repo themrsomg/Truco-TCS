@@ -10,7 +10,6 @@
     <Page.Background>
         <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
-
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -28,7 +27,6 @@
             </Button.Template>
         </Button>
         
-        <!-- =================== MARCADOR Y RIVAL ARRIBA =================== -->
         <Grid Grid.Row="0" Margin="75,5,5,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -36,12 +34,10 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Marcador -->
             <Border Background="#DDD" Padding="10" Margin="5">
                 <TextBlock Text="{x:Static language:Lang.GameTextScoreboard}" FontSize="18" HorizontalAlignment="Center"/>
             </Border>
 
-            <!-- Rival -->
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20,0">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2"/>
@@ -49,19 +45,15 @@
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2"/>
                 </StackPanel>
             </StackPanel>
-
-            <!-- Foto rival -->
             <Border Grid.Column="2" Background="#CCC" Width="60" Height="60" Margin="10">
                 <TextBlock Text="{x:Static language:Lang.GlobalTextProfilePicture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
         </Grid>
 
-        <!-- =================== TABLERO CENTRAL =================== -->
         <Grid Grid.Row="1">
             <TextBlock Text=" " FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
-        <!-- =================== JUGADOR (ABAJO) =================== -->
         <Grid Grid.Row="2" Margin="10,10,10,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -69,9 +61,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Reacciones y foto -->
             <StackPanel Grid.Column="0" Margin="5,70,5,5">
-                <!-- Botón Reacciones -->
                 <Button Content="{x:Static language:Lang.GameTextGestures}" Width="80" Height="40" Click="ClickOpenGesturesMenu">
                     <Button.ContextMenu>
                         <ContextMenu>
@@ -81,8 +71,6 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                
-                <!-- Foto jugador -->
                 <Border Background="#CCC" Width="60" Height="60" Margin="5" CornerRadius="30" BorderBrush="#FFD700" BorderThickness="2">
                     <Image x:Name="imgPlayerAvatar" Stretch="UniformToFill">
                         <Image.Clip>
@@ -91,34 +79,36 @@
                     </Image>
                 </Border>
             </StackPanel>
-
-            <!-- Cartas jugador -->
+            
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0">
                 <Image Source="/Resources/Cards/sword_2.png" Width="150" Height="225" Margin="5"/>
                 <Image Source="/Resources/Cards/sword_7.png" Width="150" Height="225" Margin="5"/>
                 <Image Source="/Resources/Cards/cup_7.png" Width="150" Height="225" Margin="5"/>
             </StackPanel>
-
-            <!-- CHAT -->
+            
             <Border Grid.Column="2" Background="#EEE" Width="220" Height="200" CornerRadius="10" Padding="5" Margin="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
-                    <!-- Lista de mensajes -->
                     <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel x:Name="ChatMessagesPanel" />
                     </ScrollViewer>
-
-                    <!-- Entrada de mensaje -->
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                         <Grid Width="135" Height="25" Margin="0,0,5,0">
                             <TextBox x:Name="txtChatMessage" VerticalAlignment="Center" TextChanged="txtChatMessageTextChanged" Background="White" Padding="5,0,0,0"/>
                             <TextBlock x:Name="PlaceholderText" Text="{x:Static language:Lang.GlobalTextWriteHere}" Foreground="Gray" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
                         </Grid>
-                        <Button Content="{x:Static language:Lang.GlobalTextSend}" Width="65" Height="25" Click="ClickSendMessage"/>
+                        <Button Content="{x:Static language:Lang.GlobalTextSend}" Width="65" Height="25" Click="ClickSendMessage" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="8" Background="#FF5FE4FA" BorderThickness="1" BorderBrush="#FF5FE4FA">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>

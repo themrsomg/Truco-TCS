@@ -14,7 +14,7 @@
     <StackPanel Margin="0,50,0,0">
         <TextBlock Text="{x:Static language:Lang.PreGameTextGameVX}" FontSize="40" FontWeight="Bold" Foreground="White" TextAlignment="Center" Margin="0,0,0,20"/>
         <StackPanel>
-            <Button Click="ClickBuscarPartida" Content="{x:Static language:Lang.PreGameTextSearchGame}" Cursor="Hand" Width="350" Height="50" FontSize="24" Margin="0,50,0,0">
+            <Button Click="ClickSearchMatch" Content="{x:Static language:Lang.PreGameTextSearchGame}" Cursor="Hand" Width="350" Height="50" FontSize="24" Margin="0,50,0,0">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FF7ED957" BorderThickness="2" BorderBrush="#FF4CAF50">
@@ -23,7 +23,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button Click="ClickInvitarAmigo" Content="{x:Static language:Lang.GlobalTextInviteFriend}" Cursor="Hand" Width="350" Height="50" FontSize="24" Margin="0,40,0,0">
+            <Button Click="ClickInviteFriend" Content="{x:Static language:Lang.GlobalTextInviteFriend}" Cursor="Hand" Width="350" Height="50" FontSize="24" Margin="0,40,0,0">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FF70B8F0" BorderThickness="2" BorderBrush="#FF1565C0">
@@ -32,12 +32,12 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Popup x:Name="popupCodigo" Placement="Center" StaysOpen="False" AllowsTransparency="True">
+            <Popup x:Name="popupCode" Placement="Center" StaysOpen="False" AllowsTransparency="True">
                 <Border Background="#CC1E1E1E" CornerRadius="15" Padding="20" BorderBrush="White" BorderThickness="2">
                     <StackPanel Width="350" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock Text="{x:Static language:Lang.PreGameShareCode}" FontSize="20" Foreground="White" TextAlignment="Center"/>
-                        <TextBlock x:Name="txtCodigoGenerado" FontSize="28" FontWeight="Bold" Foreground="#FF7ED957" TextAlignment="Center"/>
-                        <Button Content="{x:Static language:Lang.GlobalTextClose}" Width="100" Height="40" FontSize="18" HorizontalAlignment="Center" Click="ClickCerrarPopup"/>
+                        <TextBlock x:Name="txtGeneratedCode" FontSize="28" FontWeight="Bold" Foreground="#FF7ED957" TextAlignment="Center"/>
+                        <Button Content="{x:Static language:Lang.GlobalTextClose}" Width="100" Height="40" FontSize="18" HorizontalAlignment="Center" Click="ClickClosePopup"/>
                     </StackPanel>
                 </Border>
             </Popup>

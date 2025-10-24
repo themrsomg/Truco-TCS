@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TrucoPrueba1.Views;
 
 namespace TrucoPrueba1
 {
@@ -27,20 +28,20 @@ namespace TrucoPrueba1
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private void ClickBuscarPartida(object sender, RoutedEventArgs e)
+        private void ClickSearchMatch(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new GamePage());
+            this.NavigationService.Navigate(new SearchMatchPage());
         }
 
-        private void ClickInvitarAmigo(object sender, RoutedEventArgs e)
+        private void ClickInviteFriend(object sender, RoutedEventArgs e)
         {
-            string codigo = GenerarCodigo(6);
-            txtCodigoGenerado.Text = codigo;
-            popupCodigo.IsOpen = true;
+            string codigo = GenerateCode(6);
+            txtGeneratedCode.Text = codigo;
+            popupCode.IsOpen = true;
         }
-        private void ClickCerrarPopup(object sender, RoutedEventArgs e)
+        private void ClickClosePopup(object sender, RoutedEventArgs e)
         {
-            popupCodigo.IsOpen = false;
+            popupCode.IsOpen = false;
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
@@ -48,7 +49,7 @@ namespace TrucoPrueba1
             this.NavigationService.Navigate(new PlayPage());
         }
 
-        private string GenerarCodigo(int longitud)
+        private string GenerateCode(int longitud)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             char[] buffer = new char[longitud];

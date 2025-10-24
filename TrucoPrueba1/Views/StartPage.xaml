@@ -12,7 +12,7 @@
         <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
     </Page.Background>
     <StackPanel>
-        <ComboBox x:Name="cbLanguages" SelectionChanged="Language_Selection_Changed" Cursor="" Width="110" HorizontalAlignment="Right" Margin="10,20,30,10" FontSize="14" Opacity=".8">
+        <ComboBox x:Name="cbLanguages" SelectionChanged="LanguageSelectionChanged" Cursor="" Width="110" HorizontalAlignment="Right" Margin="10,20,30,10" FontSize="14" Opacity=".8">
             <ComboBoxItem Content="{language:Loc en}"/>
             <ComboBoxItem Content="{language:Loc es}"/>
         </ComboBox>

@@ -1,0 +1,52 @@
+﻿<Page x:Class="TrucoPrueba1.Views.SearchMatchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TrucoPrueba1.Views"
+      mc:Ignorable="d" 
+      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      Title="{x:Static language:Lang.PreGameTextGame}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
+    
+    <Page.Background>
+        <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
+    </Page.Background>
+    <Grid>
+        <StackPanel Margin="0,50,0,0">
+            <TextBlock Text="{x:Static language:Lang.PreGameTextGameVX}" FontSize="40" FontWeight="Bold" Foreground="White" TextAlignment="Center" Margin="0,0,0,20"/>
+            <ListBox x:Name="MatchesList" Background="#2E2E2E" Foreground="White" BorderThickness="0" ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="0,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding MatchName}" FontSize="16" VerticalAlignment="Center"/>
+                                <Button Grid.Column="3" Content="Unirse" FontSize="18" Width="90" Height="25" Click="ClickJoinMatch" Cursor="" Margin="10,0,0,0">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF5FE4FA">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="150" Height="50" FontSize="20" Margin="0,100,40,0" HorizontalAlignment="Right">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

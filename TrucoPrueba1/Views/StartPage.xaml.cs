@@ -28,7 +28,7 @@ namespace TrucoPrueba1
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private void Language_Selection_Changed(object sender, SelectionChangedEventArgs e)
+        private void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cbLanguages.SelectedIndex == 0)
             {
