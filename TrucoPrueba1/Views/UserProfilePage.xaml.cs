@@ -11,88 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TrucoPrueba1;
 using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1
 {
-    public static class SessionManager
-    {
-        private static readonly TrucoCallbackHandler callbackHandler = new TrucoCallbackHandler();
-        private static readonly InstanceContext userContext = new InstanceContext(callbackHandler);
-        private static TrucoUserServiceClient userClient;
-        public static UserProfileData CurrentUserData { get; set; }
-        public static TrucoUserServiceClient UserClient
-        {
-            get
-            {
-                if (userClient == null ||
-                    userClient.State == CommunicationState.Faulted ||
-                    userClient.State == CommunicationState.Closed)
-                {
-                    try
-                    {
-                        if (userClient != null)
-                        {
-                            userClient.Abort();
-                        }
-                    }
-                    catch 
-                    { 
-
-                    }
-                    userClient = new TrucoUserServiceClient(userContext, "NetTcpBinding_ITrucoUserService");
-                }
-                return userClient;
-            }
-        }
-        public static string CurrentUsername { get; set; } = "UsuarioActual";
-        public static async Task<string> ResolveUsernameAsync(string usernameOrEmail)
-        {
-            try
-            {
-                if (usernameOrEmail.Contains("@"))
-                {
-                    var profile = await UserClient.GetUserProfileByEmailAsync(usernameOrEmail);
-                    if (profile != null) 
-                    {
-                        return profile.Username;
-                    }
-                }
-                return usernameOrEmail;
-            }
-            catch
-            {
-                return usernameOrEmail;
-            }
-        }
-        public static void ClearSession()
-        {
-            try
-            {
-                if (userClient != null)
-                {
-                    if (userClient.State == System.ServiceModel.CommunicationState.Opened)
-                    {
-                        userClient.Close();
-                    }
-                    else
-                    {
-                        userClient.Abort();
-                    }
-                    userClient = null;
-                }
-            }
-            catch
-            {
-                userClient = null;
-            }
-
-            CurrentUserData = null;
-            CurrentUsername = "UsuarioActual";
-        }
-    }
-
     public partial class UserProfilePage : Page
     {
         private UserProfileData currentUserData;

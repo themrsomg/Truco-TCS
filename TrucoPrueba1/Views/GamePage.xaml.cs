@@ -27,7 +27,16 @@ namespace TrucoPrueba1
             string avatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_aaa_default";
             LoadAvatarImage(avatarId);
 
+            try
+            {
+                var client = SessionManager.MatchClient;
+                client.JoinMatchChat("SalaTruco001", SessionManager.CurrentUsername);
+            }
+            catch { }
         }
+
+        private string currentMatchId = "SalaTruco001"; //////TODO Hay que generar codigo especial para cada partida
+        private string currentPlayer => SessionManager.CurrentUsername;
         private void AddChatMessage(string senderName, string message)
         {
             Border messageBubble = new Border
@@ -36,12 +45,29 @@ namespace TrucoPrueba1
                 Margin = new Thickness(2)
             };
 
-            TextBlock messageText = new TextBlock
+            TextBlock messageText = new TextBlock();
+
+            if (senderName.Equals(" "))
             {
-                Text = $"{senderName}: {message}",
-                TextWrapping = TextWrapping.Wrap,
-                FontSize = 13
-            };
+                messageText = new TextBlock
+                {
+                    Text = $"{message}",
+                    TextWrapping = TextWrapping.Wrap,
+                    FontSize = 13
+                };
+
+                messageText.Foreground = Brushes.DarkGray;
+                messageText.FontStyle = FontStyles.Italic;
+            }
+            else
+            {
+                messageText = new TextBlock
+                {
+                    Text = $"{senderName}: {message}",
+                    TextWrapping = TextWrapping.Wrap,
+                    FontSize = 13
+                };
+            }
 
             messageBubble.Child = messageText;
             ChatMessagesPanel.Children.Add(messageBubble);
@@ -56,7 +82,7 @@ namespace TrucoPrueba1
                     : Visibility.Collapsed;
             }
         }
-        private void ClickSendMessage(object sender, RoutedEventArgs e)
+        private void ClickSendMessage(object sender, RoutedEventArgs e) /////////////TODO agregar filtros de chat
         {
             string messageText = txtChatMessage.Text.Trim();
             if (string.IsNullOrEmpty(messageText))
@@ -64,11 +90,19 @@ namespace TrucoPrueba1
                 return;
             }
 
-            AddChatMessage("Tú", messageText); ///////CAMBIAR
+            AddChatMessage(Lang.ChatTextYou, messageText);
 
             txtChatMessage.Clear();
 
-            ////// SessionManager.MatchClient.SendChatMessage(currentMatchId, currentPlayer, messageText);
+            try
+            {
+                var client = SessionManager.MatchClient;
+                client.SendChatMessage(currentMatchId, currentPlayer, messageText);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClickOpenGesturesMenu(object sender, RoutedEventArgs e)
@@ -85,21 +119,14 @@ namespace TrucoPrueba1
             if (sender is MenuItem item)
             {
                 string emoji = item.Header.ToString();
-                AddMessageToChat($"Tú: {emoji}"); ////CAMBIAR
+                AddChatMessage(Lang.ChatTextYou, emoji);
             }
         }
-
-        private void AddMessageToChat(string message)
+        public void ReceiveChatMessage(string senderName, string message)
         {
-            TextBlock msg = new TextBlock
-            {
-                Text = message,
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5),
-                FontSize = 13
-            };
-            ChatMessagesPanel.Children.Add(msg);
+            AddChatMessage(senderName, message);
         }
+
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
@@ -112,6 +139,15 @@ namespace TrucoPrueba1
 
             if (result == MessageBoxResult.Yes)
             {
+                try
+                {
+                    var client = SessionManager.MatchClient;
+                    client.LeaveMatchChat("SalaTruco001", SessionManager.CurrentUsername);
+                }
+                catch 
+                { 
+
+                }
                 this.NavigationService.Navigate(new MainPage());
             }
         }

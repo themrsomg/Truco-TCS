@@ -775,4 +775,25 @@
   <data name="FriendsTextRejectRequest" xml:space="preserve">
     <value>Rechazar</value>
   </data>
+  <data name="NotificactionDialogTextFriendAccepted" xml:space="preserve">
+    <value>¡{0} aceptó tu solicitud de amistad!</value>
+  </data>
+  <data name="NotificactionDialogTextFriendAcceptedTitle" xml:space="preserve">
+    <value>Amigo Aceptado</value>
+  </data>
+  <data name="NotificactionDialogTextFriendRequest" xml:space="preserve">
+    <value>Tienes una nueva solicitud de amistad de {0}.</value>
+  </data>
+  <data name="NotificactionDialogTextFriendRequestTitle" xml:space="preserve">
+    <value>Nueva Solicitud de Amistad</value>
+  </data>
+  <data name="ChatTextPlayerLeft" xml:space="preserve">
+    <value>{0} ha salido de la sala</value>
+  </data>
+  <data name="ChatTextPlayerJoined" xml:space="preserve">
+    <value>{0} se ha unido a la sala</value>
+  </data>
+  <data name="ChatTextYou" xml:space="preserve">
+    <value>Tú</value>
+  </data>
 </root>

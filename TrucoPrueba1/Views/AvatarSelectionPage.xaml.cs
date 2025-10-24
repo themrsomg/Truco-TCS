@@ -9,7 +9,6 @@ namespace TrucoPrueba1.Views
 {
     public partial class AvatarSelectionPage : Page
     {
-        // Evento que devuelve el avatar seleccionado al volver
         public event EventHandler<string> AvatarSelected;
 
         private readonly List<string> avatars;

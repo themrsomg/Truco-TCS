@@ -78,6 +78,7 @@
     <Compile Include="MusicManager.cs" />
     <Compile Include="Properties\Langs\LocExtension.cs" />
     <Compile Include="ITrucoCallback.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="TrucoCallbackHandler.cs" />
     <Compile Include="TrucoUserCallback.cs" />
     <Compile Include="Views\AboutPage.xaml.cs">

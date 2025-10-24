@@ -54,7 +54,6 @@ namespace TrucoPrueba1
             _ = LoadDataAsync();
         }
 
-
         private async Task LoadDataAsync()
         {
             FriendsList.Clear();

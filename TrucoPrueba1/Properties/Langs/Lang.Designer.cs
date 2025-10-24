@@ -232,6 +232,33 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a {0} has joined the room.
+        /// </summary>
+        public static string ChatTextPlayerJoined {
+            get {
+                return ResourceManager.GetString("ChatTextPlayerJoined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} has left the room.
+        /// </summary>
+        public static string ChatTextPlayerLeft {
+            get {
+                return ResourceManager.GetString("ChatTextPlayerLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You.
+        /// </summary>
+        public static string ChatTextYou {
+            get {
+                return ResourceManager.GetString("ChatTextYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Creative design.
         /// </summary>
         public static string CreditsTextCreativeDesign {
@@ -1554,6 +1581,42 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string MenuTextMatch {
             get {
                 return ResourceManager.GetString("MenuTextMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} accepted your friend request!.
+        /// </summary>
+        public static string NotificactionDialogTextFriendAccepted {
+            get {
+                return ResourceManager.GetString("NotificactionDialogTextFriendAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Accepted Friend.
+        /// </summary>
+        public static string NotificactionDialogTextFriendAcceptedTitle {
+            get {
+                return ResourceManager.GetString("NotificactionDialogTextFriendAcceptedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You have a new friend request from {0}..
+        /// </summary>
+        public static string NotificactionDialogTextFriendRequest {
+            get {
+                return ResourceManager.GetString("NotificactionDialogTextFriendRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New Friend Request.
+        /// </summary>
+        public static string NotificactionDialogTextFriendRequestTitle {
+            get {
+                return ResourceManager.GetString("NotificactionDialogTextFriendRequestTitle", resourceCulture);
             }
         }
         

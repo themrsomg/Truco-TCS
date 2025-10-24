@@ -775,4 +775,25 @@ Sign up today and set up a proper match!</value>
   <data name="FriendsTextRejectRequest" xml:space="preserve">
     <value>Reject</value>
   </data>
+  <data name="NotificactionDialogTextFriendAccepted" xml:space="preserve">
+    <value>{0} accepted your friend request!</value>
+  </data>
+  <data name="NotificactionDialogTextFriendAcceptedTitle" xml:space="preserve">
+    <value>Accepted Friend</value>
+  </data>
+  <data name="NotificactionDialogTextFriendRequest" xml:space="preserve">
+    <value>You have a new friend request from {0}.</value>
+  </data>
+  <data name="NotificactionDialogTextFriendRequestTitle" xml:space="preserve">
+    <value>New Friend Request</value>
+  </data>
+  <data name="ChatTextPlayerLeft" xml:space="preserve">
+    <value>{0} has left the room</value>
+  </data>
+  <data name="ChatTextPlayerJoined" xml:space="preserve">
+    <value>{0} has joined the room</value>
+  </data>
+  <data name="ChatTextYou" xml:space="preserve">
+    <value>You</value>
+  </data>
 </root>

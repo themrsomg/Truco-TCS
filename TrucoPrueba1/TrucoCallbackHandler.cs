@@ -4,16 +4,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
+using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1.TrucoServer
 {
     public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
     {
-        public void OnPlayerJoined(string matchCode, string player) { }
-        public void OnPlayerLeft(string matchCode, string player) { }
+        public void OnPlayerJoined(string matchCode, string player)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Application.Current.MainWindow is InitialWindows main &&
+                    main.MainFrame.Content is GamePage gamePage)
+                {
+                    gamePage.ReceiveChatMessage(" ", string.Format(Lang.ChatTextPlayerJoined, player));
+                }
+            });
+        }
+
+        public void OnPlayerLeft(string matchCode, string player)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Application.Current.MainWindow is InitialWindows main &&
+                    main.MainFrame.Content is GamePage gamePage)
+                {
+                    gamePage.ReceiveChatMessage(" ", string.Format(Lang.ChatTextPlayerLeft, player));
+                }
+            });
+        }
         public void OnCardPlayed(string matchCode, string player, string card) { }
-        public void OnChatMessage(string matchCode, string player, string message) { }
+        public void OnChatMessage(string matchCode, string player, string message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Application.Current.MainWindow is InitialWindows main)
+                {
+                    if (main.MainFrame.Content is GamePage gamePage)
+                    {
+                        gamePage.ReceiveChatMessage(player, message);
+                    }
+                }
+            });
+        }
+
         public void OnMatchStarted(string matchCode) { }
         public void OnMatchEnded(string matchCode, string winner) { }
 
@@ -21,7 +57,7 @@ namespace TrucoPrueba1.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show($"Tienes una nueva solicitud de amistad de {fromUser}.", "Nueva Solicitud", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser), Lang.NotificactionDialogTextFriendRequestTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
@@ -29,7 +65,7 @@ namespace TrucoPrueba1.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show($"¡{fromUser} aceptó tu solicitud de amistad!", "Amistad Aceptada", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendAccepted, fromUser), Lang.NotificactionDialogTextFriendAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
         public void MatchFound(string matchDetails)
