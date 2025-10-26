@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml;
 using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.Views;
 
@@ -219,6 +220,11 @@ namespace TrucoPrueba1
             {
                 ShowError(passwordBox, Lang.DialogTextLongPassword);
             }
+
+            if (passwordBox == txtPassword && txtVisiblePassword.Visibility == Visibility.Visible)
+            {
+                txtVisiblePassword.Text = txtPassword.Password;
+            }
         }
 
         private void PasswordLostFocus(object sender, RoutedEventArgs e)
@@ -230,6 +236,32 @@ namespace TrucoPrueba1
             if (string.IsNullOrWhiteSpace(passwordBox.Password))
             {
                 ShowError(passwordBox, Lang.GlobalTextRequieredField);
+            }
+        }
+
+        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
+        {
+            if (txtPassword.Visibility == Visibility.Visible)
+            {
+                txtVisiblePassword.Text = txtPassword.Password;
+
+                txtPassword.Visibility = Visibility.Collapsed;
+                txtVisiblePassword.Visibility = Visibility.Visible;
+                txtVisiblePassword.Focus();
+
+                blckEyeEmoji.Foreground = new SolidColorBrush(Colors.White);
+                txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
+            }
+            else
+            {
+                txtPassword.Password = txtVisiblePassword.Text;
+
+                txtPassword.Visibility = Visibility.Visible;
+                txtVisiblePassword.Visibility = Visibility.Collapsed;
+                txtPassword.Focus();
+
+                blckEyeEmoji.Foreground = new SolidColorBrush(Colors.Black);
+                txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
             }
         }
     }

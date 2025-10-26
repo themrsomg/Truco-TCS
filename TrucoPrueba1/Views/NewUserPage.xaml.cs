@@ -458,6 +458,15 @@ namespace TrucoPrueba1
                 }
             }
 
+            if (passwordBox == txtPassword && txtVisiblePassword.Visibility == Visibility.Visible)
+            {
+                txtVisiblePassword.Text = txtPassword.Password;
+            }
+            else if (passwordBox == txtPasswordConfirm && txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
+            {
+                txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
+            }
+
             CheckFormStatusAndToggleRegisterButton();
         }
 
@@ -482,6 +491,7 @@ namespace TrucoPrueba1
 
             CheckFormStatusAndToggleRegisterButton();
         }
+
         private void CheckFormStatusAndToggleRegisterButton()
         {
             bool hasErrorMessages = blckEmailError.Text.Trim().Length > 0 ||
@@ -497,6 +507,63 @@ namespace TrucoPrueba1
             bool canEnable = !hasErrorMessages && allFieldsFilled;
 
             btnRegister.IsEnabled = canEnable;
+        }
+
+        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
+        {
+            if (sender == btnToggleVisibility)
+            {
+                if (txtPassword.Visibility == Visibility.Visible)
+                {
+                    txtVisiblePassword.Text = txtPassword.Password;
+
+                    txtPassword.Visibility = Visibility.Collapsed;
+                    txtVisiblePassword.Visibility = Visibility.Visible;
+                    txtVisiblePassword.Focus();
+
+                    blckEyeEmoji.Foreground = new SolidColorBrush(Colors.White);
+                    txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
+                }
+                else
+                {
+                    txtPassword.Password = txtVisiblePassword.Text;
+
+                    txtPassword.Visibility = Visibility.Visible;
+                    txtVisiblePassword.Visibility = Visibility.Collapsed;
+                    txtPassword.Focus();
+
+                    blckEyeEmoji.Foreground = new SolidColorBrush(Colors.Black);
+                    txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
+                }
+                return;
+            }
+
+            if (sender == btnToggleVisibilityConfirm)
+            {
+                if (txtPasswordConfirm.Visibility == Visibility.Visible)
+                {
+                    txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
+
+                    txtPasswordConfirm.Visibility = Visibility.Collapsed;
+                    txtVisiblePasswordConfirm.Visibility = Visibility.Visible;
+                    txtVisiblePasswordConfirm.Focus();
+
+                    blckEyeEmojiConfirm.Foreground = new SolidColorBrush(Colors.White);
+                    txtVisiblePasswordConfirm.BorderBrush = txtPassword.BorderBrush;
+                }
+                else
+                {
+                    txtPasswordConfirm.Password = txtVisiblePasswordConfirm.Text;
+
+                    txtPasswordConfirm.Visibility = Visibility.Visible;
+                    txtVisiblePasswordConfirm.Visibility = Visibility.Collapsed;
+                    txtPasswordConfirm.Focus();
+
+                    blckEyeEmojiConfirm.Foreground = new SolidColorBrush(Colors.Black);
+                    txtVisiblePasswordConfirm.BorderBrush = txtPassword.BorderBrush;
+                }
+                return;
+            }
         }
     }
 }

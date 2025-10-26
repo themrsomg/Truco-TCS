@@ -36,17 +36,40 @@
                 </TextBox>
                 <TextBlock x:Name="blckEmailUsernameError" Text=" " Foreground="Red" FontSize=" 15"/>
                 <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}" Margin="0,15,0,0" Foreground="White"/>
-                <PasswordBox x:Name="txtPassword" Cursor="Hand" PasswordChanged="PasswordChanged" LostFocus="PasswordLostFocus"
-                             KeyDown="EnterKeyDown">
-                    <PasswordBox.Template>
-                        <ControlTemplate TargetType="PasswordBox">
-                            <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="2" Padding="5">
-                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                            </Border>
-                        </ControlTemplate>
-                    </PasswordBox.Template>
-                </PasswordBox>
+                <Grid x:Name="PasswordContainer">
+                    <PasswordBox x:Name="txtPassword" Cursor="Hand" PasswordChanged="PasswordChanged" LostFocus="PasswordLostFocus"
+                                KeyDown="EnterKeyDown">
+                        <PasswordBox.Template>
+                            <ControlTemplate TargetType="PasswordBox">
+                                <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="2" Padding="5" Visibility="Visible">
+                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </PasswordBox.Template>
+                    </PasswordBox>
+                    <TextBox x:Name="txtVisiblePassword" Visibility="Collapsed">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="2" Padding="5" Visibility="Visible">
+                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <Button x:Name="btnToggleVisibility" Click="ClickToggleVisibility" HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" Width="35" Height="30" Margin="0,0,10,0">
+                        <TextBlock x:Name="blckEyeEmoji" Text="👁️" FontSize="21" Foreground="Black"/>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="14" BorderThickness="2" BorderBrush="Black">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
                 <TextBlock x:Name="blckPasswordError" Text=" " Foreground="Red" FontSize=" 15"/>
                 <Label MouseLeftButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" 
                        HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
