@@ -8,40 +8,47 @@
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       Title="{x:Static language:Lang.SettingsTextCredits}" Height="500" Width="700" FontFamily="Book Antiqua" FontSize="30">
 
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
-    <StackPanel>
-        <TextBlock Text="{x:Static language:Lang.SettingsTextCredits}" FontSize="40" Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,0"/>
-        <TextBlock Text="{x:Static language:Lang.CreditsTextProducers}" FontSize="35" Foreground="#cdd634" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
-        <TextBlock Text="Genaro Alejandro Barradas Sánchez" FontSize="25" Foreground="#cdd6b8" 
-           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
-        <TextBlock Text="Omar Morales García" FontSize="25" Foreground="#cdd6b8" 
-           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap"/>
-        <TextBlock Text="{x:Static language:Lang.CreditsTextCreativeDesign}" FontSize="35" Foreground="#cdd634" 
-           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
-        <TextBlock Text="Chat-GPT" FontSize="25" Foreground="#cdd6b8" 
-           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
-        <TextBlock Text="Gemini" FontSize="25" Foreground="#cdd6b8" 
-           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap"/>
-        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,20,30,30" FontSize="25" HorizontalAlignment="Right">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Button Click="ClickEgg" Content="^" Cursor="Hand" Margin="20,-45,0,30" FontSize="5" HorizontalAlignment="Left">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="0" Background="#FAF49535" BorderThickness="2" BorderBrush="#FAF49535">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </StackPanel>
+    <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
+        </Border.Effect>
+        <StackPanel>
+            <TextBlock Text="{x:Static language:Lang.SettingsTextCredits}" FontSize="40" Foreground="White" 
+                       HorizontalAlignment="Center" Margin="0,30,0,0"/>
+            <TextBlock Text="{x:Static language:Lang.CreditsTextProducers}" FontSize="35" Foreground="#cdd634" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="Genaro Alejandro Barradas Sánchez" FontSize="25" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="Omar Morales García" FontSize="25" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="{x:Static language:Lang.CreditsTextCreativeDesign}" FontSize="35" Foreground="#cdd634" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="Chat-GPT" FontSize="25" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
+            <TextBlock Text="Gemini" FontSize="25" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,20,30,30" 
+                    FontSize="25" HorizontalAlignment="Right">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Click="ClickEgg" Content="^" Cursor="Hand" Margin="20,-45,0,30" FontSize="5" HorizontalAlignment="Left">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="0" Background="#FAF49535" BorderThickness="2" BorderBrush="#FAF49535">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+    </Border>
 </Page>

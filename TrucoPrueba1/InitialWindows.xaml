@@ -8,7 +8,7 @@
         Title="First" Height="1080" Width="1920" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="False" WindowStartupLocation="CenterScreen" Background="#FF6B6A6A" Icon="/Resources/app_logo.ico">
     <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
         <Border.Background>
-            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="0.9"/>
+            <ImageBrush ImageSource="/Resources/wallpaper_main.png" Stretch="UniformToFill" Opacity="1"/>
         </Border.Background>
         <Border.Effect>
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>

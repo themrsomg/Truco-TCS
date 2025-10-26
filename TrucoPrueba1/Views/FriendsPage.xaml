@@ -6,19 +6,14 @@
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       mc:Ignorable="d"
-      Title="{x:Static language:Lang.GlobalTextFriends}"
-      FontFamily="Book Antiqua"
-      FontSize="30"
-      Height="600"
-      Width="800">
-
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity="0.7"/>
-    </Page.Background>
+      Title="{x:Static language:Lang.GlobalTextFriends}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock Text="{x:Static language:Lang.FriendsTextMyFriends}" FontSize="32" Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,10"/>
-            <ListBox x:Name="lstFriends" Margin="10" SelectionMode="Single" Width="600" Height="150" ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
+            <TextBlock Text="{x:Static language:Lang.FriendsTextMyFriends}" FontSize="32" Foreground="White" 
+                       HorizontalAlignment="Center" Margin="0,30,0,10"/>
+            <ListBox x:Name="lstFriends" Margin="10" SelectionMode="Single" Width="600" Height="150" 
+                     ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -27,20 +22,25 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
-                                <Image Width="30" Height="30" Margin="0,0,10,0" Source="{Binding AvatarImagePath}" Stretch="UniformToFill">
+                                <Image Width="30" Height="30" Margin="0,0,10,0" Source="{Binding AvatarImagePath}" 
+                                       Stretch="UniformToFill">
                                     <Image.Clip>
                                         <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15"/>
                                     </Image.Clip>
                                 </Image>
                                 <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextDeleteFriend}" FontSize="20" Background="#CC0000" Foreground="White" Width="150" Height="30" Margin="10,0" Click="ClickRejectRequest" Tag="{Binding Username}"/>
+                            <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextDeleteFriend}" FontSize="20" 
+                                    Background="#CC0000" Foreground="White" Width="150" Height="30" Margin="10,0" 
+                                    Click="ClickRejectRequest" Tag="{Binding Username}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBlock Text="{x:Static language:Lang.FriendsTextRequestsReceived}" FontSize="28" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,10"/>
-            <ListBox x:Name="lstPending" Margin="10" SelectionMode="Single" Width="600" Height="100" ItemsSource="{Binding PendingList}" SelectedItem="{Binding SelectedPending, Mode=TwoWay}">
+            <TextBlock Text="{x:Static language:Lang.FriendsTextRequestsReceived}" FontSize="28" Foreground="White" 
+                       HorizontalAlignment="Center" Margin="0,20,0,10"/>
+            <ListBox x:Name="lstPending" Margin="10" SelectionMode="Single" Width="600" Height="100" ItemsSource="{Binding PendingList}" 
+                     SelectedItem="{Binding SelectedPending, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -57,20 +57,48 @@
                                 </Image>
                                 <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextAcceptRequest}" FontSize="20" Width="110" Height="30" Margin="10,0" Click="ClickAcceptRequest" Tag="{Binding Username}"/>
-                            <Button Grid.Column="2" Content="{x:Static language:Lang.FriendsTextRejectRequest}" FontSize="20" Width="110" Height="30" Margin="10,0" Background="#FFA07A" Click="ClickRejectRequest" Tag="{Binding Username}"/>
+                            <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextAcceptRequest}" FontSize="20" 
+                                    Width="110" Height="30" Margin="10,0" Click="ClickAcceptRequest" Tag="{Binding Username}"/>
+                            <Button Grid.Column="2" Content="{x:Static language:Lang.FriendsTextRejectRequest}" FontSize="20" 
+                                    Width="110" Height="30" Margin="10,0" Background="#FFA07A" Click="ClickRejectRequest" Tag="{Binding Username}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-                <Grid Width="300" Height="40" Margin="0,0,5,0">
-                    <TextBox x:Name="txtSearch" VerticalAlignment="Center" TextChanged="txtSearchTextChanged" Background="White" Padding="5,0,0,0"/>
-                    <TextBlock x:Name="PlaceholderText" Text="{x:Static language:Lang.FriendsTextSearchUser}" Foreground="Gray" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
+                <Grid>
+                    <TextBox x:Name="txtSearch" Foreground="Gray" 
+                                 VerticalAlignment="Center" Margin="8,0,0,0" Cursor="Hand" Width="280"
+                                 TextChanged="SearchTextChanged" Background="White" Padding="5,0,0,0">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="2" Padding="5">
+                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.FriendsTextSearchUser}" 
+                               Foreground="Gray" VerticalAlignment="Center" Margin="20,0,0,0" IsHitTestVisible="False" 
+                               Visibility="Visible"/>
                 </Grid>
-                <Button x:Name="btnAdd" Content="{x:Static language:Lang.FriendsTextAdd}" FontSize="28" Background="#228B22" Foreground="White" Width="120" Height="40" Click="ClickAddFriend"/>
+                <Button x:Name="btnAdd" Click="ClickAddFriend" Content="{x:Static language:Lang.FriendsTextAdd}" Cursor="Hand" 
+                        Margin="15,0,0,0" FontSize="28" Width="120" Height="40">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </StackPanel>
-            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" FontSize="25" HorizontalAlignment="Right">
+            <StackPanel>
+                <TextBlock x:Name="blckFriendError" Text=" " Foreground="Red" FontSize=" 15" Width="425"/>
+            </StackPanel>
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" 
+                    FontSize="25" HorizontalAlignment="Right">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

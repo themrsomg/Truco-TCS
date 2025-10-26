@@ -7,29 +7,37 @@
       xmlns:conv="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-      Title="{x:Static language:Lang.AvatarSelection}" Background="#002135" Width="800" Height="600" FontFamily="Book Antiqua">
-
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="{x:Static language:Lang.AvatarSelection}" FontSize="30" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,10"/>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <!-- Aquí se rellenará dinámicamente con imágenes dentro de un WrapPanel -->
-            <WrapPanel x:Name="AvatarsPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" />
-        </ScrollViewer>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,30">
-            <Button x:Name="btnBack" Grid.Column="3" Content="{x:Static language:Lang.GlobalTextAccept}" FontSize="20" Width="90" Height="35" Click="ClickBack" Cursor="Hand" Margin="0,0,15,0">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF5FE4FA">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </StackPanel>
-    </Grid>
+      Title="{x:Static language:Lang.AvatarSelection}" Width="800" Height="600" FontFamily="Book Antiqua">
+    <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".8"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
+        </Border.Effect>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{x:Static language:Lang.AvatarSelection}" FontSize="30" Foreground="White" 
+                       HorizontalAlignment="Center" Margin="0,10"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="AvatarsPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" />
+            </ScrollViewer>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,30">
+                <Button x:Name="btnBack" Grid.Column="3" Content="{x:Static language:Lang.GlobalTextAccept}" FontSize="20" 
+                        Width="90" Height="35" Click="ClickBack" Cursor="Hand" Margin="0,0,15,0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Page>

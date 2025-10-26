@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,16 +8,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using TrucoPrueba1;
 using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.TrucoServer;
+using TrucoPrueba1.Views;
 
 namespace TrucoPrueba1
 {
     public partial class UserProfilePage : Page
     {
         private UserProfileData currentUserData;
+        private const int MAX_CHANGES = 2;
+        private string originalUsername;
 
         private readonly List<string> AvailableAvatars = new List<string>
         {
@@ -61,9 +60,6 @@ namespace TrucoPrueba1
             "avatar_tt_dragon", "avatar_tt_lilbird", "avatar_tt_revolver", "avatar_tt_twentydollars",
         };
 
-        private const int MAX_CHANGES = 2;
-        private string originalUsername;
-
         public UserProfilePage()
         {
             InitializeComponent();
@@ -72,7 +68,183 @@ namespace TrucoPrueba1
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private async void LoadUserProfile()
+        private async void ClickSave(object sender, RoutedEventArgs e)
+        {
+            if (currentUserData == null)
+            {
+                return;
+            }
+
+            string newUsername = txtUsername.Text.Trim();
+            string newFacebook = txtFacebookLink.Text.Trim();
+            string newX = txtXLink.Text.Trim();
+            string newInstagram = txtInstagramLink.Text.Trim();
+
+            if (HasUnsavedChanges(newUsername, newFacebook, newX, newInstagram))
+            {
+                var confirm = MessageBox.Show(
+                    Lang.UserProfileTextConfirmChanges,
+                    Lang.GlobalTextConfirmation,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+                if (confirm != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            Button saveButton = sender as Button;
+            saveButton.IsEnabled = false;
+            Mouse.OverrideCursor = Cursors.Wait;
+
+            try
+            {
+                string oldUsername = currentUserData.Username;
+                int oldChangeCount = currentUserData.NameChangeCount;
+                string oldFacebook = currentUserData.FacebookHandle;
+                string oldX = currentUserData.XHandle;
+                string oldInstagram = currentUserData.InstagramHandle;
+
+                var userClient = ClientManager.UserClient;
+
+                UpdateCurrentUserDataFromFields(newUsername, newFacebook, newX, newInstagram);
+
+                if (!NewUserValidation(newUsername))
+                {
+                    return;
+                }
+
+                if (await UsernameExists(newUsername, userClient))
+                {
+                    currentUserData.Username = oldUsername;
+                    txtUsername.Text = oldUsername;
+                    return;
+                }
+
+                bool success = await userClient.SaveUserProfileAsync(currentUserData);
+
+                if (success)
+                {
+                    if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal))
+                    {
+                        currentUserData.NameChangeCount++;
+                    }
+
+                    LoadUserProfile();
+
+                    MessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    SessionManager.CurrentUserData = currentUserData;
+                    SessionManager.CurrentUsername = currentUserData.Username;
+                    originalUsername = currentUserData.Username;
+
+                }
+                else
+                {
+                    currentUserData.Username = oldUsername;
+                    currentUserData.NameChangeCount = oldChangeCount;
+                    currentUserData.FacebookHandle = oldFacebook;
+                    currentUserData.XHandle = oldX;
+                    currentUserData.InstagramHandle = oldInstagram;
+                    txtUsername.Text = oldUsername;
+
+                    MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (System.ServiceModel.EndpointNotFoundException ex)
+            {
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                saveButton.IsEnabled = true;
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private void ClickChangeAvatar(object sender, RoutedEventArgs e)
+        {
+            if (currentUserData == null)
+            {
+                return;
+            }
+
+            var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, currentUserData.AvatarId);
+            avatarPage.AvatarSelected += AvatarPage_AvatarSelected;
+            NavigationService.Navigate(avatarPage);
+        }
+
+        private async void AvatarPage_AvatarSelected(object sender, string newAvatarId)
+        {
+            if (sender is Views.AvatarSelectionPage avatarPage)
+            {
+                avatarPage.AvatarSelected -= AvatarPage_AvatarSelected;
+            }
+
+            if (newAvatarId == currentUserData.AvatarId)
+            {
+                return;
+            }
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                var userClient = ClientManager.UserClient;
+
+                bool success = await userClient.UpdateUserAvatarAsync(SessionManager.CurrentUsername, newAvatarId);
+
+                if (success)
+                {
+                    currentUserData.AvatarId = newAvatarId;
+
+                    this.DataContext = null;
+                    this.DataContext = currentUserData;
+                    LoadAvatarImage(newAvatarId);
+
+                    MessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show(Lang.UserProfileTextAvatarError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (System.ServiceModel.EndpointNotFoundException ex)
+            {
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+        private void ClickChangePassword(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new ChangePasswordPage());
+        }
+
+        private void ClickBack(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+        }
+
+        private void LoadUserProfile()
         {
             Mouse.OverrideCursor = Cursors.Wait;
 
@@ -95,36 +267,10 @@ namespace TrucoPrueba1
                     UpdateUsernameWarning(currentUserData.NameChangeCount);
                     UpdateSocialMediaLinks();
                 }
-                else if (!string.IsNullOrWhiteSpace(SessionManager.CurrentUsername) &&
-                         SessionManager.CurrentUsername != "UsuarioActual")
-                {
-                    var client = SessionManager.UserClient;
-                    currentUserData = await client.GetUserProfileAsync(SessionManager.CurrentUsername);
-
-                    if (currentUserData == null)
-                    {
-                        return;
-                    }
-
-                    this.DataContext = currentUserData;
-                    LoadAvatarImage(currentUserData.AvatarId);
-
-                    originalUsername = currentUserData.Username ?? string.Empty;
-
-                    txtUsername.Text = currentUserData.Username;
-                    txtEmail.Text = currentUserData.Email;
-                    txtFacebookLink.Text = currentUserData.FacebookHandle;
-                    txtXLink.Text = currentUserData.XHandle;
-                    txtInstagramLink.Text = currentUserData.InstagramHandle;
-
-                    SessionManager.CurrentUserData = currentUserData;
-                    UpdateUsernameWarning(currentUserData.NameChangeCount);
-                    UpdateSocialMediaLinks();
-                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -132,181 +278,38 @@ namespace TrucoPrueba1
             }
         }
 
-        private async void ClickSave(object sender, RoutedEventArgs e)
+        private void LoadAvatarImage(string avatarId)
         {
-            if (currentUserData == null)
+            if (string.IsNullOrWhiteSpace(avatarId))
             {
-                return;
+                avatarId = "avatar_aaa_default";
             }
 
-            string newUsername = txtUsername.Text.Trim();
-            string newFacebook = txtFacebookLink.Text.Trim();
-            string newX = txtXLink.Text.Trim();
-            string newInstagram = txtInstagramLink.Text.Trim();
-
-            bool usernameChanged = !string.IsNullOrWhiteSpace(originalUsername) && !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
-            bool facebookChanged = !string.Equals(newFacebook, currentUserData.FacebookHandle, StringComparison.Ordinal);
-            bool xChanged = !string.Equals(newX, currentUserData.XHandle, StringComparison.Ordinal);
-            bool instagramChanged = !string.Equals(newInstagram, currentUserData.InstagramHandle, StringComparison.Ordinal);
-
-            if (!usernameChanged && !facebookChanged && !xChanged && !instagramChanged)
-            {
-                MessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges, MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            if (usernameChanged && newUsername.Length < 4)
-            {
-                MessageBox.Show(Lang.DialogTextShortUsername, Lang.DialogTextShortUsername, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (usernameChanged && currentUserData.NameChangeCount >= MAX_CHANGES)
-            {
-                MessageBox.Show(Lang.UserProfileTextTwoChanges, Lang.UserProfileTextError, MessageBoxButton.OK, MessageBoxImage.Stop);
-                txtUsername.Text = originalUsername;
-                return;
-            }
-
-            var confirm = MessageBox.Show(
-                Lang.UserProfileTextConfirmChanges,
-                Lang.GlobalTextConfirmation,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question
-            );
-
-            if (confirm != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            Button saveButton = sender as Button;
-            saveButton.IsEnabled = false;
-            Mouse.OverrideCursor = Cursors.Wait;
+            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
 
             try
             {
-                string oldUsername = currentUserData.Username;
-                int oldChangeCount = currentUserData.NameChangeCount;
-                string oldFacebook = currentUserData.FacebookHandle;
-                string oldX = currentUserData.XHandle;
-                string oldInstagram = currentUserData.InstagramHandle;
-
-                if (usernameChanged)
-                {
-                    currentUserData.Username = newUsername;
-                }
-                if (facebookChanged)
-                {
-                    currentUserData.FacebookHandle = newFacebook;
-                }
-                if (xChanged)
-                {
-                    currentUserData.XHandle = newX;
-                }
-                if (instagramChanged)
-                {
-                    currentUserData.InstagramHandle = newInstagram;
-                }
-
-                var client = SessionManager.UserClient;
-
-                if (usernameChanged)
-                {
-                    bool usernameExists = await Task.Run(() => client.UsernameExists(newUsername));
-                    if (usernameExists)
-                    {
-                        MessageBox.Show(Lang.GlobalTextUsernameAlreadyInUse, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        txtUsername.Text = originalUsername;
-                        return;
-                    }
-                }
-
-                bool success = await client.SaveUserProfileAsync(currentUserData);
-
-                if (success)
-                {
-                    if (usernameChanged)
-                    {
-                        currentUserData.NameChangeCount++;
-                        originalUsername = newUsername;
-                        SessionManager.CurrentUsername = newUsername;
-                    }
-
-                    UpdateUsernameWarning(currentUserData.NameChangeCount);
-                    UpdateSocialMediaLinks();
-
-                    MessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    currentUserData.Username = oldUsername;
-                    currentUserData.NameChangeCount = oldChangeCount;
-                    currentUserData.FacebookHandle = oldFacebook;
-                    currentUserData.XHandle = oldX;
-                    currentUserData.InstagramHandle = oldInstagram;
-                    txtUsername.Text = oldUsername;
-
-                    MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                imgAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+            }
+        }
+
+        private async Task<bool> UsernameExists(string username, TrucoUserServiceClient userClient)
+        {
+            bool usernameExists = await Task.Run(() => userClient.UsernameExists(username));
+
+            if (usernameExists)
+            {
+                ShowError(txtUsername, Lang.GlobalTextUsernameAlreadyInUse);
                 txtUsername.Text = originalUsername;
             }
-            finally
-            {
-                saveButton.IsEnabled = true;
-                Mouse.OverrideCursor = null;
-            }
+
+            return usernameExists;
+            
         }
-
-
-        private async void AvatarPage_AvatarSelected(object sender, string newAvatarId)
-        {
-            if (sender is Views.AvatarSelectionPage avatarPage)
-            {
-                avatarPage.AvatarSelected -= AvatarPage_AvatarSelected;
-            }
-
-            if (newAvatarId == currentUserData.AvatarId)
-            {
-                return;
-            }
-
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                var client = SessionManager.UserClient;
-
-                bool success = await client.UpdateUserAvatarAsync(SessionManager.CurrentUsername, newAvatarId);
-
-                if (success)
-                {
-                    currentUserData.AvatarId = newAvatarId;
-
-                    this.DataContext = null;
-                    this.DataContext = currentUserData;
-                    LoadAvatarImage(newAvatarId);
-
-                    MessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show(Lang.UserProfileTextAvatarError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
-        }
-
 
         private void UpdateUsernameWarning(int count)
         {
@@ -337,107 +340,78 @@ namespace TrucoPrueba1
             linkInstagramContainer.Visibility = string.IsNullOrWhiteSpace(txtInstagramLink.Text.Trim()) ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private void ClickBack(object sender, RoutedEventArgs e)
+        private void UpdateCurrentUserDataFromFields(string newUsername, string newFacebook, string newX, string newInstagram)
         {
-            if (NavigationService.CanGoBack)
+            bool usernameChanged = !string.IsNullOrWhiteSpace(originalUsername) && !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
+            bool facebookChanged = !string.Equals(newFacebook, currentUserData.FacebookHandle, StringComparison.Ordinal);
+            bool xChanged = !string.Equals(newX, currentUserData.XHandle, StringComparison.Ordinal);
+            bool instagramChanged = !string.Equals(newInstagram, currentUserData.InstagramHandle, StringComparison.Ordinal);
+
+            if (usernameChanged)
             {
-                NavigationService.GoBack();
+                currentUserData.Username = newUsername;
+            }
+            if (facebookChanged)
+            {
+                currentUserData.FacebookHandle = newFacebook;
+            }
+            if (xChanged)
+            {
+                currentUserData.XHandle = newX;
+            }
+            if (instagramChanged)
+            {
+                currentUserData.InstagramHandle = newInstagram;
             }
         }
 
-        private void ClickChangePassword(object sender, RoutedEventArgs e)
+        private bool HasUnsavedChanges(string newUsername, string newFacebook, string newX, string newInstagram)
         {
-            try
+            bool hasUnsavedChanges = true;
+
+            bool usernameChanged = !string.IsNullOrWhiteSpace(originalUsername) && !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
+            bool facebookChanged = !string.Equals(newFacebook, currentUserData.FacebookHandle, StringComparison.Ordinal);
+            bool xChanged = !string.Equals(newX, currentUserData.XHandle, StringComparison.Ordinal);
+            bool instagramChanged = !string.Equals(newInstagram, currentUserData.InstagramHandle, StringComparison.Ordinal);
+
+            if (!usernameChanged && !facebookChanged && !xChanged && !instagramChanged)
             {
-                if (currentUserData == null || string.IsNullOrWhiteSpace(currentUserData.Email))
-                {
-                    MessageBox.Show(Lang.DialogTextPasswordChangeErrorTwo, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+                MessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges, MessageBoxButton.OK, MessageBoxImage.Information);
 
-                string email = currentUserData.Email;
-                string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var client = SessionManager.UserClient;
-
-                bool sent = client.RequestEmailVerification(email, languageCode);
-                if (!sent)
-                {
-                    MessageBox.Show(Lang.StartTextRegisterCodeSended, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                string code = Microsoft.VisualBasic.Interaction.InputBox(
-                    Lang.StartTextRegisterIntroduceCode,
-                    Lang.StartTextRegisterEmailVerification,
-                    ""
-                );
-
-                if (string.IsNullOrWhiteSpace(code))
-                {
-                    MessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                string newPassword = Microsoft.VisualBasic.Interaction.InputBox(
-                    Lang.DialogTextEnterNewPassword,
-                    Lang.DialogTextNewPassword,
-                    ""
-                );
-
-                if (string.IsNullOrWhiteSpace(newPassword))
-                {
-                    MessageBox.Show(Lang.DialogTextEmptyPassword, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                string confirmPassword = Microsoft.VisualBasic.Interaction.InputBox(
-                    Lang.DialogTextConfirmPassword,
-                    Lang.DialogTextNewPassword,
-                    ""
-                );
-
-                if (newPassword != confirmPassword)
-                {
-                    MessageBox.Show(Lang.DialogTextPasswordsDontMatch, Lang.DialogTextPasswordsDontMatch, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (newPassword.Length < 8)
-                {
-                    MessageBox.Show(Lang.DialogTextShortPassword, Lang.DialogTextShortPassword, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                bool changed = client.PasswordReset(email, code, newPassword);
-
-                if (changed)
-                {
-                    MessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.NavigationService.Navigate(new LogInPage());
-                }
-                else
-                {
-                    MessageBox.Show(Lang.DialogTextPasswordChangeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-                client.Close();
+                hasUnsavedChanges = false;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            return hasUnsavedChanges;
         }
 
-        private void ClickChangeAvatar(object sender, RoutedEventArgs e)
+        private bool NewUserValidation (string newUsername)
         {
-            if (currentUserData == null)
+            ClearAllErrors();
+
+            bool isValid = true;
+
+            bool usernameChanged = !string.IsNullOrWhiteSpace(originalUsername) && !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
+
+            if (usernameChanged && newUsername.Length < 4)
             {
-                return;
+                ShowError(txtUsername, Lang.DialogTextShortUsername);
+                isValid = false;
             }
 
-            var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, currentUserData.AvatarId);
-            avatarPage.AvatarSelected += AvatarPage_AvatarSelected;
-            NavigationService.Navigate(avatarPage);
+            if (usernameChanged && newUsername.Length > 20)
+            {
+                ShowError(txtUsername, Lang.DialogTextLongUsername);
+                isValid = false;
+            }
+
+            if (usernameChanged && currentUserData.NameChangeCount >= MAX_CHANGES)
+            {
+                ShowError(txtUsername, Lang.UserProfileTextChangesError);
+                txtUsername.Text = originalUsername;
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -479,22 +453,93 @@ namespace TrucoPrueba1
             }
         }
 
-        private void LoadAvatarImage(string avatarId)
+        private TextBlock GetErrorTextBlock(Control field)
         {
-            if (string.IsNullOrWhiteSpace(avatarId))
+            TextBlock errorBlock = null;
+
+            if (field == txtUsername)
             {
-                avatarId = "avatar_aaa_default";
+                errorBlock = blckUsernameError;
+            }
+            /*if (field == txtFacebookLink)
+            {
+                errorBlock = blckFacebookError;
+            }
+            if (field == txtXLink)
+            {
+                errorBlock = blckXError;
+            }
+            if (field == txtInstagramLink)
+            {
+                return blckInstagramError;
+            }*/
+
+            return errorBlock;
+        }
+
+        private void ShowError(Control field, string errorMessage)
+        {
+            TextBlock errorBlock = GetErrorTextBlock(field);
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = errorMessage;
             }
 
-            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+            field.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
 
-            try
+        private void ClearSpecificError(Control field)
+        {
+            TextBlock errorBlock = GetErrorTextBlock(field);
+
+            if (errorBlock != null)
             {
-                imgAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+                errorBlock.Text = " ";
             }
-            catch
+
+            field.ClearValue(Border.BorderBrushProperty);
+        }
+
+        private void ClearAllErrors()
+        {
+            ClearSpecificError(txtUsername);
+            /*ClearSpecificError(txtFacebookLink);
+            ClearSpecificError(txtXLink);
+            ClearSpecificError(txtInstagramLink);*/
+        }
+
+        private void TextBoxChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            ClearSpecificError(textBox);
+            string text = textBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(text))
             {
-                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                return;
+            }
+
+            if (textBox == txtUsername)
+            {
+                if (text.Length < 4)
+                {
+                    ShowError(txtUsername, Lang.DialogTextShortUsername);
+                }
+                else if (text.Length > 20)
+                {
+                    ShowError(txtUsername, Lang.DialogTextLongUsername);
+                }
+            }
+        }
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                ShowError(textBox, Lang.GlobalTextRequieredField);
             }
         }
     }

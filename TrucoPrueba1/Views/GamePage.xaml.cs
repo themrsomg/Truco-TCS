@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1
 {
-    /// <summary>
-    /// Lógica de interacción para GamePage.xaml
-    /// </summary>
     public partial class GamePage : Page
     {
         public GamePage()
@@ -27,12 +15,8 @@ namespace TrucoPrueba1
             string avatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_aaa_default";
             LoadAvatarImage(avatarId);
 
-            try
-            {
-                var client = SessionManager.MatchClient;
-                client.JoinMatchChat("SalaTruco001", SessionManager.CurrentUsername);
-            }
-            catch { }
+            var matchClient = ClientManager.MatchClient;
+            matchClient.JoinMatchChat("SalaTruco001", SessionManager.CurrentUsername);
         }
 
         private string currentMatchId = "SalaTruco001"; //////TODO Hay que generar codigo especial para cada partida
@@ -94,15 +78,8 @@ namespace TrucoPrueba1
 
             txtChatMessage.Clear();
 
-            try
-            {
-                var client = SessionManager.MatchClient;
-                client.SendChatMessage(currentMatchId, currentPlayer, messageText);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            var matchClient = ClientManager.MatchClient;
+            matchClient.SendChatMessage(currentMatchId, currentPlayer, messageText);
         }
 
         private void ClickOpenGesturesMenu(object sender, RoutedEventArgs e)
@@ -121,15 +98,8 @@ namespace TrucoPrueba1
                 string emoji = item.Header.ToString();
                 AddChatMessage(Lang.ChatTextYou, emoji);
 
-                try
-                {
-                    var client = SessionManager.MatchClient;
-                    client.SendChatMessage(currentMatchId, currentPlayer, emoji);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                var matchClient = ClientManager.MatchClient;
+                matchClient.SendChatMessage(currentMatchId, currentPlayer, emoji);
             }
         }
         public void ReceiveChatMessage(string senderName, string message)
@@ -149,15 +119,8 @@ namespace TrucoPrueba1
 
             if (result == MessageBoxResult.Yes)
             {
-                try
-                {
-                    var client = SessionManager.MatchClient;
-                    client.LeaveMatchChat("SalaTruco001", SessionManager.CurrentUsername);
-                }
-                catch 
-                { 
-
-                }
+                var matchClient = ClientManager.MatchClient;
+                matchClient.LeaveMatchChat("SalaTruco001", SessionManager.CurrentUsername);
                 this.NavigationService.Navigate(new MainPage());
             }
         }

@@ -8,53 +8,63 @@
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       Title="{x:Static language:Lang.GlobalTextSettings}" Height="600" Width="800" FontFamily="Book Antiqua" FontSize="30">
 
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/Wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
-    <StackPanel>
-        <TextBlock Text="{x:Static language:Lang.GlobalTextSettings}" Margin="0,40,0,0" FontSize="40" Foreground="White" HorizontalAlignment="Center"/>
-        <StackPanel Margin="10,40,10,20" Width="500">
-            <Button Click="ClickCredits" Content="{x:Static language:Lang.SettingsTextCredits}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
+    <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
+        </Border.Effect>
+        <StackPanel>
+            <TextBlock Text="{x:Static language:Lang.GlobalTextSettings}" Margin="0,40,0,0" FontSize="40" Foreground="White"
+                       HorizontalAlignment="Center"/>
+            <StackPanel Margin="10,40,10,20" Width="500">
+                <Button Click="ClickCredits" Content="{x:Static language:Lang.SettingsTextCredits}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Click="ClickAbout" Content="{x:Static language:Lang.SettingsTextAbout}" Cursor="Hand" Margin="65,30,65,0" 
+                        FontSize="40">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <TextBlock Text="{x:Static language:Lang.SettingsTextVolume}" FontSize="40" Foreground="White" 
+                           HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                <Button Click="ClickVolume" Cursor="Hand" Margin="100,10,100,0" FontSize="40" Height="120" Width="120">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="Transparent" BorderThickness="2" BorderBrush="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Grid>
+                        <!--Cambia imagen por Mute / Unmute desde el .cs-->
+                        <Image x:Name="VolumeIcon" Source="/Resources/app_logo.ico" Width="120" Height="120" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+            <Button Click="ClickSave" Content="{x:Static language:Lang.GlobalTextSave}" Cursor="Hand" Margin="0,0,45,0" FontSize="30" 
+                    HorizontalAlignment="Right">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                        <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
-            </Button>
-            <Button Click="ClickAbout" Content="{x:Static language:Lang.SettingsTextAbout}" Cursor="Hand" Margin="65,30,65,0" FontSize="40">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock Text="{x:Static language:Lang.SettingsTextVolume}" FontSize="40" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,0"/>
-            <Button Click="ClickVolume" Cursor="Hand" Margin="100,10,100,0" FontSize="40" Height="120" Width="120">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="Transparent" BorderThickness="2" BorderBrush="Transparent">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-                <Grid>
-                    <!--Cambia imagen por Mute / Unmute desde el .cs-->
-                    <Image x:Name="VolumeIcon" Source="/Resources/app_logo.ico" Width="120" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
             </Button>
         </StackPanel>
-        <Button Click="ClickSave" Content="{x:Static language:Lang.GlobalTextSave}" Cursor="Hand" Margin="0,0,45,0" FontSize="30" HorizontalAlignment="Right">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </StackPanel>
+    </Border>
 </Page>

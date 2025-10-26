@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1.Views
 {
-    /// <summary>
-    /// Lógica de interacción para ForgotPasswordPage.xaml
-    /// </summary>
     public partial class ForgotPasswordStepOnePage : Page
     {
         public ForgotPasswordStepOnePage()
@@ -28,28 +17,29 @@ namespace TrucoPrueba1.Views
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private void ClickButtonSendCode(object sender, RoutedEventArgs e)
+        private async void ClickSendCode(object sender, RoutedEventArgs e)
         {
-            string email = txtEmail.Text.Trim();
+           string email = txtEmail.Text.Trim();
 
-            if (!FieldsValidation())
+            if (!FieldsValidation(email))
             {
                 return;
             }
 
-            if (EmailVerification())
-            {
-                return;
-            }
+            btnSendCode.IsEnabled = false;
 
             try
             {
-                var callback = new TrucoUserCallback();
-                var context = new System.ServiceModel.InstanceContext(callback);
-                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
+                var userClient = ClientManager.UserClient;
+
+                if (await EmailVerificationAsync(email, userClient))
+                {
+                    return;
+                }
 
                 string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                bool sent = client.RequestEmailVerification(email, languageCode);
+
+                bool sent = await userClient.RequestEmailVerificationAsync(email, languageCode);
 
                 if (sent)
                 {
@@ -60,69 +50,157 @@ namespace TrucoPrueba1.Views
                 {
                     MessageBox.Show(Lang.ForgotPasswordTextError2, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-
-                client.Close();
+            }
+            catch (System.ServiceModel.EndpointNotFoundException ex)
+            {
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (this.IsLoaded)
+                {
+                    btnSendCode.IsEnabled = true;
+                }
             }
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new StartPage());
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
         }
 
-        private bool FieldsValidation()
+        private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            string email = txtEmail.Text.Trim();
+            if (e.Key == Key.Enter)
+            {
+                if (sender == txtEmail)
+                {
+                    ClickSendCode(btnSendCode, null);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private bool FieldsValidation(string email)
+        {
+            ClearError();
+            bool areValid = true;
 
             if (string.IsNullOrEmpty(email))
             {
-                MessageBox.Show(Lang.DialogTextFillFields, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError(Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            if (!areValid)
+            {
                 return false;
             }
 
             if (email.Length < 5)
             {
-                MessageBox.Show(Lang.DialogTextShortEmail, Lang.DialogTextShortEmail, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
+                ShowError(Lang.DialogTextShortEmail);
+                areValid = false;
             }
-
-            if (email.Length > 250)
+            else if (email.Length > 250)
             {
-                MessageBox.Show(Lang.DialogTextLongEmail, Lang.DialogTextLongEmail, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
+                ShowError(Lang.DialogTextLongEmail);
+                areValid = false;
+            }
+            else if (!IsValidEmail(email))
+            {
+                ShowError(Lang.GlobalTextInvalidEmail);
+                areValid = false;
             }
 
-            return true;
+            return areValid;
         }
 
-        private bool EmailVerification()
+        private bool IsValidEmail(string email)
         {
-            string email = txtEmail.Text.Trim();
-
-            try
+            if (string.IsNullOrWhiteSpace(email))
             {
-                var callback = new TrucoUserCallback();
-                var context = new System.ServiceModel.InstanceContext(callback);
-                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
-
-                bool emailExists = client.EmailExists(email);
-
-                if (!emailExists)
-                {
-                    MessageBox.Show(Lang.GlobalTextEmailDoesntExist, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return true;
-                }
-
                 return false;
             }
-            catch (Exception ex)
+            try
             {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-                return true;
+                var address = new System.Net.Mail.MailAddress(email);
+                return address.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> EmailVerificationAsync(string email, TrucoUserServiceClient userClient)
+        {
+            bool emailExists = await userClient.EmailExistsAsync(email);
+
+            if (!emailExists)
+            {
+                ShowError(Lang.GlobalTextEmailDoesntExist);
+                emailExists = true;
+            }
+
+            emailExists = false;
+            return emailExists;
+        }
+
+        private void ShowError(string errorMessage)
+        {
+            blckEmailError.Text = errorMessage;
+
+            txtEmail.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
+
+        private void ClearError()
+        {
+            blckEmailError.Text = " ";
+
+            txtEmail.ClearValue(Border.BorderBrushProperty);
+        }
+
+        private void TextBoxChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            ClearError();
+            string text = textBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            if (textBox == txtEmail)
+            {
+                if (text.Length < 5)
+                {
+                    ShowError(Lang.DialogTextShortEmail);
+                }
+                else if (text.Length > 250)
+                {
+                    ShowError(Lang.DialogTextLongEmail);
+                }
+                else if (!IsValidEmail(text))
+                {
+                    ShowError(Lang.GlobalTextInvalidEmail);
+                }
+            }
+        }
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                ShowError(Lang.GlobalTextRequieredField);
             }
         }
     }

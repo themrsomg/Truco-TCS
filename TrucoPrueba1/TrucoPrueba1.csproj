@@ -69,6 +69,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\ChangePasswordPage.xaml.cs">
+      <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClientManager.cs" />
     <Compile Include="Connected Services\TrucoServer\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -86,6 +90,9 @@
     </Compile>
     <Compile Include="Views\AvatarSelectionPage.xaml.cs">
       <DependentUpon>AvatarSelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateGamePage.xaml.cs">
+      <DependentUpon>CreateGamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
@@ -129,8 +136,8 @@
     <Compile Include="Views\PlayPage.xaml.cs">
       <DependentUpon>PlayPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PreGamePage.xaml.cs">
-      <DependentUpon>PreGamePage.xaml</DependentUpon>
+    <Compile Include="Views\PlayWithFriendsPage.xaml.cs">
+      <DependentUpon>PlayWithFriendsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RankingsPage.xaml.cs">
       <DependentUpon>RankingsPage.xaml</DependentUpon>
@@ -150,11 +157,19 @@
     <Compile Include="Views\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ChangePasswordPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AvatarSelectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,7 +240,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PreGamePage.xaml">
+    <Page Include="Views\PlayWithFriendsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,8 +383,6 @@
     <Resource Include="Resources\logo_new_user.png" />
     <Resource Include="Resources\logo_login.png" />
     <Resource Include="Resources\logo.png" />
-    <Resource Include="Resources\main_wallpaper.png" />
-    <Resource Include="Resources\wallpaper.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -378,6 +391,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\wallpaper.png" />
+    <Resource Include="Resources\wallpaper_main.png" />
     <Resource Include="Resources\logo_muted.png" />
     <Resource Include="Resources\logo_volume.png" />
     <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />

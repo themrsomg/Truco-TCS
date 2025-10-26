@@ -6,155 +6,208 @@
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-      Title="{x:Static language:Lang.UserProfileTextTitle}"
-      Width="800" Height="600"
-      FontFamily="Book Antiqua">
+      Title="{x:Static language:Lang.UserProfileTextTitle}" Width="800" Height="600" FontFamily="Book Antiqua" FontSize="20">
 
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/main_wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
-    <Page.Resources>
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Margin" Value="0,5"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="BorderBrush" Value="#FF5FE4FA"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="#1A3A54"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="TextBlock" x:Key="LabelStyle">
-            <Setter Property="Foreground" Value="#CCCCCC"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Margin" Value="0,15,0,0"/>
-        </Style>
-        <Style x:Key="MainButtonStyle" TargetType="Button">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#FF3A5C77"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="5" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".8"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
+        </Border.Effect>
+        <Grid Margin="0,0,0,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"  Text="{x:Static language:Lang.UserProfileTextTitle}" FontSize="40" Foreground="White" 
+                       HorizontalAlignment="Center" Margin="0,20,0,30"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,103,0,10" Grid.RowSpan="2">
+                <Grid Margin="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,20,0">
+                        <Border CornerRadius="100" Width="180" Height="180" BorderBrush="#FFF3C754" BorderThickness="4">
+                            <Image x:Name="imgAvatar" Stretch="UniformToFill">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="90,90" RadiusX="90" RadiusY="90"/>
+                                </Image.Clip>
+                            </Image>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF5FE4FA"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Page.Resources>
-    <Grid Margin="0,0,0,24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"  Text="{x:Static language:Lang.UserProfileTextTitle}" FontSize="40" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,30"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,103,0,10" Grid.RowSpan="2">
-            <Grid Margin="30">
+                        <Button Click="ClickChangeAvatar" Content="{x:Static language:Lang.UserProfileTextChangeAvatar}" Cursor="Hand" Margin="0,20,0,0" 
+                                HorizontalAlignment="Center">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="2" BorderBrush="#FFDDA81C">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="30,0,0,0">
+                        <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Foreground="White"/>
+                        <TextBox x:Name="txtUsername" MaxLength="20" Cursor="Hand" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="2" Padding="5">
+                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+                        <TextBlock x:Name="blckUsernameError" Text=" " Foreground="Red" FontSize=" 15"/>
+                        <TextBlock x:Name="txtUsernameWarning" Foreground="White" FontSize="14" Margin="5,0,0,10" Visibility="Collapsed"/>
+                        <TextBlock Text="{x:Static language:Lang.UserProfileTextEmailReadOnly}" Margin="0,15,0,0" Foreground="White"/>
+                        <TextBox x:Name="txtEmail" IsReadOnly="True" Text="{Binding Email}">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="2" Padding="5">
+                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+                        <Button Click="ClickChangePassword" Content="{x:Static language:Lang.GlobalTextChangePassword}" Cursor="Hand" Margin="0,20,0,0" 
+                                HorizontalAlignment="Left">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <TextBlock Text="{x:Static language:Lang.ProfileTextSocialNetworks}" FontSize="22" FontWeight="Bold" 
+                                   Foreground="White" Margin="0,30,0,10"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- Facebook -->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Facebook:" Foreground="White" 
+                                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtFacebookLink" VerticalAlignment="Center" 
+                                     Text="{Binding FacebookHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus">
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="2" Padding="5">
+                                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </TextBox.Template>
+                                </TextBox>
+                                <Border Grid.Row="0" Grid.Column="2" x:Name="linkFacebookContainer" Visibility="Collapsed" 
+                                    Margin="10,0,0,0" Width="30" Height="30">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Hyperlink x:Name="linkFacebook" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF3AB8CE">
+                                            <TextBlock Text="🔗"/>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock x:Name="blckFacebookError" Text=" " Foreground="Red" FontSize=" 15"/>
+                            </StackPanel>
+                            <!-- X/Twitter -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="X (Twitter):" Foreground="White" 
+                                       VerticalAlignment="Center" Margin="0,10,10,0"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtXLink" VerticalAlignment="Center" Margin="0,10,0,0" 
+                                        Text="{Binding XHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus">
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="2" Padding="5">
+                                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </TextBox.Template>
+                                </TextBox>
+                                <Border Grid.Row="1" Grid.Column="2" x:Name="linkXContainer" Visibility="Collapsed" Margin="10,10,0,0" 
+                                                Width="30" Height="30">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Hyperlink x:Name="linkX" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF3AB8CE">
+                                            <TextBlock Text="🔗"/>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock x:Name="blckXError" Text=" " Foreground="Red" FontSize=" 15"/>
+                            </StackPanel>
+                            <!-- Instagram -->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Instagram:" Foreground="White" 
+                                       VerticalAlignment="Center" Margin="0,10,10,0"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+                                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInstagramLink" VerticalAlignment="Center" Margin="0,10,0,0" 
+                                        Text="{Binding InstagramHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus">
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="2" Padding="5">
+                                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </TextBox.Template>
+                                </TextBox>
+                                <Border Grid.Row="2" Grid.Column="2" x:Name="linkInstagramContainer" Visibility="Collapsed" Margin="10,10,0,0" 
+                                    Width="30" Height="30">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Hyperlink x:Name="linkInstagram" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF3AB8CE">
+                                            <TextBlock Text="🔗"/>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock x:Name="blckInstagramError" Text=" " Foreground="Red" FontSize=" 15"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+            <Grid Grid.Row="2" Margin="0,10,30,20">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,20,0">
-                    <Border CornerRadius="100" Width="180" Height="180" BorderBrush="#FFFFD700" BorderThickness="4">
-                        <Image x:Name="imgAvatar" Stretch="UniformToFill">
-                            <Image.Clip>
-                                <EllipseGeometry Center="90,90" RadiusX="90" RadiusY="90"/>
-                            </Image.Clip>
-                        </Image>
-                    </Border>
-                    <Button Content="{x:Static language:Lang.UserProfileTextChangeAvatar}" Style="{StaticResource MainButtonStyle}" Margin="0,20,0,0" Click="ClickChangeAvatar"/>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Margin="30,0,0,0">
-                    <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Style="{StaticResource LabelStyle}"/>
-                    <TextBox x:Name="txtUsername" MaxLength="20" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBlock x:Name="txtUsernameWarning" Foreground="White" FontSize="14" Margin="5,0,0,10" Visibility="Collapsed"/>
-                    <TextBlock Text="{x:Static language:Lang.UserProfileTextEmailReadOnly}" Style="{StaticResource LabelStyle}"/>
-                    <TextBox x:Name="txtEmail" IsReadOnly="True" Opacity="0.7" Text="{Binding Email}"/>
-                    <Button Content="{x:Static language:Lang.GlobalTextChangePassword}" Style="{StaticResource MainButtonStyle}" Background="#FF5FE4FA" Foreground="Black" Margin="0,20,0,20" HorizontalAlignment="Left" Click="ClickChangePassword"/>
-                    <TextBlock Text="{x:Static language:Lang.ProfileTextSocialNetworks}" FontSize="22" FontWeight="Bold" Foreground="#FFFFD700" Margin="0,30,0,10"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <!-- Facebook -->
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Facebook:" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtFacebookLink" VerticalAlignment="Center" Text="{Binding FacebookHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Border Grid.Row="0" Grid.Column="2" x:Name="linkFacebookContainer" Visibility="Collapsed" Margin="10,0,0,0" Width="30" Height="30">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Hyperlink x:Name="linkFacebook" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF5FE4FA">
-                                    <TextBlock Text="🔗"/>
-                                </Hyperlink>
-                            </TextBlock>
-                        </Border>
-                        <!-- X/Twitter -->
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="X (Twitter):" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,10,10,0"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtXLink" VerticalAlignment="Center" Margin="0,10,0,0" Text="{Binding XHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Border Grid.Row="1" Grid.Column="2" x:Name="linkXContainer" Visibility="Collapsed" Margin="10,10,0,0" Width="30" Height="30">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Hyperlink x:Name="linkX" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF5FE4FA">
-                                    <TextBlock Text="🔗"/>
-                                </Hyperlink>
-                            </TextBlock>
-                        </Border>
-                        <!-- Instagram -->
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Instagram:" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" Margin="0,10,10,0"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInstagramLink" VerticalAlignment="Center" Margin="0,10,0,0" Text="{Binding InstagramHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Border Grid.Row="2" Grid.Column="2" x:Name="linkInstagramContainer" Visibility="Collapsed" Margin="10,10,0,0" Width="30" Height="30">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Hyperlink x:Name="linkInstagram" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF5FE4FA">
-                                    <TextBlock Text="🔗"/>
-                                </Hyperlink>
-                            </TextBlock>
-                        </Border>
-                    </Grid>
-                </StackPanel>
+                <Button Grid.Column="1" Content="{x:Static language:Lang.GlobalTextSave}" FontSize="25" Width="120" Height="40" 
+                        Click="ClickSave" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Grid.Column="3" Content="{x:Static language:Lang.GlobalTextBack}" FontSize="25" Width="120" Height="40" 
+                        Click="ClickBack" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
-        </ScrollViewer>
-        <Grid Grid.Row="2" Margin="0,10,30,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="30"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="{x:Static language:Lang.GlobalTextSave}" FontSize="25" Width="120" Height="40" Click="ClickSave" Cursor="Hand">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF5FE4FA">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Column="3" Content="{x:Static language:Lang.GlobalTextBack}" FontSize="25" Width="120" Height="40" Click="ClickBack" Cursor="Hand">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
         </Grid>
-    </Grid>
+    </Border>
 </Page>

@@ -183,12 +183,6 @@
   <data name="StartTextPlayAsGuest" xml:space="preserve">
     <value>Jugar como invitado</value>
   </data>
-  <data name="DialogTextUserAlreadyExists" xml:space="preserve">
-    <value>Este nombre de usuario ya está en uso</value>
-  </data>
-  <data name="DialogTextEmailAlreadyExists" xml:space="preserve">
-    <value>Esta dirección de correo electrónico ya está en uso</value>
-  </data>
   <data name="DialogTextNewUserException" xml:space="preserve">
     <value>Ocurrió un error al registrarse, vuelve a intentarlo más tarde</value>
   </data>
@@ -510,14 +504,11 @@
   <data name="PlayTextGames" xml:space="preserve">
     <value>Partidas</value>
   </data>
-  <data name="PlayTextTrucoMatchV1" xml:space="preserve">
-    <value>Truco partida V1</value>
-  </data>
-  <data name="PlayTextTrucoMatchV2" xml:space="preserve">
-    <value>Truco partida V2</value>
+  <data name="PlayTextTrucoMatch" xml:space="preserve">
+    <value>Partida de Truco</value>
   </data>
   <data name="PreGameTextSearchGame" xml:space="preserve">
-    <value>Buscar Partida</value>
+    <value>Buscar partida</value>
   </data>
   <data name="PreGameTextGame" xml:space="preserve">
     <value>Partida</value>
@@ -761,13 +752,13 @@
     <value>Enviar</value>
   </data>
   <data name="GlobalTextUsernameAlreadyInUse" xml:space="preserve">
-    <value>El nombre de usuario ya está en uso. Por favor, elige otro.</value>
+    <value>Este nombre de usuario ya está en uso</value>
   </data>
   <data name="GlobalTextEmailDoesntExist" xml:space="preserve">
     <value>No existe una cuenta vinculada a este correo.</value>
   </data>
   <data name="GlobalTextEmailAlreadyInUse" xml:space="preserve">
-    <value>El correo electrónico ya está en uso.</value>
+    <value>El correo electrónico ya está en uso</value>
   </data>
   <data name="FriendsTextAcceptRequest" xml:space="preserve">
     <value>Aceptar</value>
@@ -795,5 +786,44 @@
   </data>
   <data name="ChatTextYou" xml:space="preserve">
     <value>Tú</value>
+  </data>
+  <data name="GameTextCreateMatch" xml:space="preserve">
+    <value>Crear partida</value>
+  </data>
+  <data name="GameTextActiveMatch" xml:space="preserve">
+    <value>Partidas activas de Truco</value>
+  </data>
+  <data name="LobbyTextExitLobby" xml:space="preserve">
+    <value>¿Deseas salir del lobby?</value>
+  </data>
+  <data name="LobbyTextJoinedRoom" xml:space="preserve">
+    <value>Te uniste a la sala {0}</value>
+  </data>
+  <data name="GameTextGenerateInvitationCode" xml:space="preserve">
+    <value>Generar código de invitación</value>
+  </data>
+  <data name="GlobalTextInvalidEmail" xml:space="preserve">
+    <value>El formato del correo electrónico no es valido</value>
+  </data>
+  <data name="GlobalTextRequieredField" xml:space="preserve">
+    <value>Campo obligatorio</value>
+  </data>
+  <data name="PreGameTextCustomMatch" xml:space="preserve">
+    <value>Partida personalizada</value>
+  </data>
+  <data name="GlobalTextVerificationCodeLength" xml:space="preserve">
+    <value>La longitud del código debe ser de 6 dígitos</value>
+  </data>
+  <data name="GlobalTextVerificationCodeNumber" xml:space="preserve">
+    <value>El código debe ser de númerico</value>
+  </data>
+  <data name="ChangePasswordTextEnterCurrentPasswd" xml:space="preserve">
+    <value>Escribe tu contraseña actual</value>
+  </data>
+  <data name="ChangePasswordTextCurrentPassword" xml:space="preserve">
+    <value>Contraseña actual</value>
+  </data>
+  <data name="ChangePasswordTextTitle" xml:space="preserve">
+    <value>Cambia tu contraseña</value>
   </data>
 </root>

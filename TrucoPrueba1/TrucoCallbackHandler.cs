@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Navigation;
+﻿using System.Windows;
 using TrucoPrueba1.Properties.Langs;
-using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1.TrucoServer
 {

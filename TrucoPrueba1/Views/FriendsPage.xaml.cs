@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
-using System.Windows.Data;
-using System.Text;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Input;
-using TrucoPrueba1.TrucoServer;
 using TrucoPrueba1.Properties.Langs;
+using TrucoPrueba1.TrucoServer;
 
 namespace TrucoPrueba1
 {
@@ -31,7 +27,7 @@ namespace TrucoPrueba1
                     var test = new BitmapImage(new Uri(path));
                     return path;
                 }
-                catch
+                catch (Exception ex)
                 {
                     return "pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png";
                 }
@@ -89,9 +85,13 @@ namespace TrucoPrueba1
                     });
 
                 }
+                catch (System.ServiceModel.EndpointNotFoundException ex)
+                {
+                    MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -101,43 +101,73 @@ namespace TrucoPrueba1
             string targetUsername = txtSearch.Text.Trim();
             string currentUsername = SessionManager.CurrentUsername;
 
+            if (!FieldValidation(targetUsername, currentUsername))
+            {
+                return;
+            }
+            
+            try
+            {
+                var friendClient = ClientManager.FriendClient;
+
+                bool success = await friendClient.SendFriendRequestAsync(currentUsername, targetUsername);
+
+                if (success)
+                {
+                    MessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show(Lang.FriendsTextRequestError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
+        }
+
+        private bool FieldValidation(string targetUsername, string currentUsername)
+        {
+            ClearError(txtSearch);
+            bool isValid = true;
+
             if (string.IsNullOrEmpty(targetUsername))
             {
-                MessageBox.Show(Lang.FriendsTextRequestInvalidUser, Lang.GlobalTextWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                ShowError(txtSearch, Lang.GlobalTextRequieredField);
+                isValid = false;
+            }
+
+            if (!isValid)
+            {
+                return false;
+            }
+
+            if (targetUsername.Length < 4)
+            {
+                ShowError(txtSearch, Lang.DialogTextShortUsername);
+                isValid = false;
+            }
+            else if (targetUsername.Length > 20)
+            {
+                ShowError(txtSearch, Lang.DialogTextLongUsername);
+                isValid = false;
             }
 
             if (targetUsername.Equals(currentUsername, StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show(Lang.FriendsTextRequestSelf, Lang.GlobalTextWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                ShowError(txtSearch, Lang.FriendsTextRequestSelf);
+                isValid = false;
             }
 
-            using (var friendClient = new TrucoFriendServiceClient(new InstanceContext(new TrucoCallbackHandler())))
-            {
-                try
-                {
-                    bool success = await friendClient.SendFriendRequestAsync(currentUsername, targetUsername);
-
-                    if (success)
-                    {
-                        MessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show(Lang.FriendsTextRequestError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            return isValid;
         }
 
         private async void ClickAcceptRequest(object sender, RoutedEventArgs e)
         {
             string requesterUsername = (sender as Button)?.Tag?.ToString();
+
             if (string.IsNullOrEmpty(requesterUsername))
             {
                 return;
@@ -171,6 +201,7 @@ namespace TrucoPrueba1
         private async void ClickRejectRequest(object sender, RoutedEventArgs e)
         {
             string targetUsername = (sender as Button)?.Tag?.ToString();
+
             if (string.IsNullOrEmpty(targetUsername))
             {
                 return;
@@ -205,14 +236,57 @@ namespace TrucoPrueba1
         {
             this.NavigationService.Navigate(new MainPage());
         }
-        private void txtSearchTextChanged(object sender, TextChangedEventArgs e)
+
+        private void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (PlaceholderText != null)
+            if (blckPlaceholder != null)
             {
-                PlaceholderText.Visibility = string.IsNullOrEmpty(txtSearch.Text)
+                blckPlaceholder.Visibility = string.IsNullOrEmpty(txtSearch.Text)
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }
+
+            ClearError(txtSearch);
+
+            string text = txtSearch.Text.Trim();
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            if (text.Length < 4)
+            {
+                ShowError(txtSearch, Lang.DialogTextShortUsername);
+            }
+            else if (text.Length > 20)
+            {
+                ShowError(txtSearch, Lang.DialogTextLongUsername);
+            }
+        }
+
+        private void ShowError(Control field, string errorMessage)
+        {
+            TextBlock errorBlock = blckFriendError;
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = errorMessage;
+            }
+
+            field.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
+
+        private void ClearError(Control field)
+        {
+            TextBlock errorBlock = blckFriendError;
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = " ";
+            }
+
+            field.ClearValue(Border.BorderBrushProperty);
         }
     }
 }

@@ -232,6 +232,33 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Current Password.
+        /// </summary>
+        public static string ChangePasswordTextCurrentPassword {
+            get {
+                return ResourceManager.GetString("ChangePasswordTextCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your current password.
+        /// </summary>
+        public static string ChangePasswordTextEnterCurrentPasswd {
+            get {
+                return ResourceManager.GetString("ChangePasswordTextEnterCurrentPasswd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Change your password.
+        /// </summary>
+        public static string ChangePasswordTextTitle {
+            get {
+                return ResourceManager.GetString("ChangePasswordTextTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a {0} has joined the room.
         /// </summary>
         public static string ChatTextPlayerJoined {
@@ -291,15 +318,6 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string DialogTextConfirmPassword {
             get {
                 return ResourceManager.GetString("DialogTextConfirmPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a This email address is already in use.
-        /// </summary>
-        public static string DialogTextEmailAlreadyExists {
-            get {
-                return ResourceManager.GetString("DialogTextEmailAlreadyExists", resourceCulture);
             }
         }
         
@@ -471,15 +489,6 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string DialogTextShortUsername {
             get {
                 return ResourceManager.GetString("DialogTextShortUsername", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a This username is already in use.
-        /// </summary>
-        public static string DialogTextUserAlreadyExists {
-            get {
-                return ResourceManager.GetString("DialogTextUserAlreadyExists", resourceCulture);
             }
         }
         
@@ -802,11 +811,29 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Active Truco games.
+        /// </summary>
+        public static string GameTextActiveMatch {
+            get {
+                return ResourceManager.GetString("GameTextActiveMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Card.
         /// </summary>
         public static string GameTextCard {
             get {
                 return ResourceManager.GetString("GameTextCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Create match.
+        /// </summary>
+        public static string GameTextCreateMatch {
+            get {
+                return ResourceManager.GetString("GameTextCreateMatch", resourceCulture);
             }
         }
         
@@ -843,6 +870,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string GameTextFlor {
             get {
                 return ResourceManager.GetString("GameTextFlor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Generate invitation code.
+        /// </summary>
+        public static string GameTextGenerateInvitationCode {
+            get {
+                return ResourceManager.GetString("GameTextGenerateInvitationCode", resourceCulture);
             }
         }
         
@@ -1090,7 +1126,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Email is already in use..
+        ///   Busca una cadena traducida similar a Email is already in use.
         /// </summary>
         public static string GlobalTextEmailAlreadyInUse {
             get {
@@ -1194,6 +1230,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string GlobalTextInProgress {
             get {
                 return ResourceManager.GetString("GlobalTextInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The email format is not valid.
+        /// </summary>
+        public static string GlobalTextInvalidEmail {
+            get {
+                return ResourceManager.GetString("GlobalTextInvalidEmail", resourceCulture);
             }
         }
         
@@ -1378,6 +1423,15 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Requiered field.
+        /// </summary>
+        public static string GlobalTextRequieredField {
+            get {
+                return ResourceManager.GetString("GlobalTextRequieredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Round.
         /// </summary>
         public static string GlobalTextRound {
@@ -1486,11 +1540,29 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The username is already in use. Please choose another..
+        ///   Busca una cadena traducida similar a This username is already in use.
         /// </summary>
         public static string GlobalTextUsernameAlreadyInUse {
             get {
                 return ResourceManager.GetString("GlobalTextUsernameAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The code length must be 6 digits.
+        /// </summary>
+        public static string GlobalTextVerificationCodeLength {
+            get {
+                return ResourceManager.GetString("GlobalTextVerificationCodeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The code must be numeric.
+        /// </summary>
+        public static string GlobalTextVerificationCodeNumber {
+            get {
+                return ResourceManager.GetString("GlobalTextVerificationCodeNumber", resourceCulture);
             }
         }
         
@@ -1567,6 +1639,24 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Do you want to exit the lobby?.
+        /// </summary>
+        public static string LobbyTextExitLobby {
+            get {
+                return ResourceManager.GetString("LobbyTextExitLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You joined room {0}.
+        /// </summary>
+        public static string LobbyTextJoinedRoom {
+            get {
+                return ResourceManager.GetString("LobbyTextJoinedRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Quit game.
         /// </summary>
         public static string MenuTextExit {
@@ -1630,20 +1720,11 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Truco match V1.
+        ///   Busca una cadena traducida similar a Truco match.
         /// </summary>
-        public static string PlayTextTrucoMatchV1 {
+        public static string PlayTextTrucoMatch {
             get {
-                return ResourceManager.GetString("PlayTextTrucoMatchV1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Truco match V2.
-        /// </summary>
-        public static string PlayTextTrucoMatchV2 {
-            get {
-                return ResourceManager.GetString("PlayTextTrucoMatchV2", resourceCulture);
+                return ResourceManager.GetString("PlayTextTrucoMatch", resourceCulture);
             }
         }
         
@@ -1653,6 +1734,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string PreGameShareCode {
             get {
                 return ResourceManager.GetString("PreGameShareCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Custom match.
+        /// </summary>
+        public static string PreGameTextCustomMatch {
+            get {
+                return ResourceManager.GetString("PreGameTextCustomMatch", resourceCulture);
             }
         }
         
@@ -1675,7 +1765,7 @@ namespace TrucoPrueba1.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Search Game.
+        ///   Busca una cadena traducida similar a Search match.
         /// </summary>
         public static string PreGameTextSearchGame {
             get {

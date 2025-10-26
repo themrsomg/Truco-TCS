@@ -6,15 +6,15 @@
       xmlns:local="clr-namespace:TrucoPrueba1"
       mc:Ignorable="d" 
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-Title="{x:Static language:Lang.RankingsTextLastGames}" FontFamily="Book Antiqua" FontSize="20" Height="600" Width="800">
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
+      Title="{x:Static language:Lang.RankingsTextLastGames}" FontFamily="Book Antiqua" FontSize="20" Height="600" Width="800">
+    
     <StackPanel>
-        <Label Content="{x:Static language:Lang.RankingsTextLastGames}" FontSize="40" HorizontalAlignment="Center" Margin="0,15,0,0" Foreground="White"/>
+        <Label Content="{x:Static language:Lang.RankingsTextLastGames}" FontSize="40" HorizontalAlignment="Center" 
+               Margin="0,15,0,0" Foreground="White"/>
         <StackPanel Margin="120,40,120,0">
             <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <DataGrid x:Name="dgRankings" AutoGenerateColumns="False" RowHeaderWidth="0" IsReadOnly="True" FontSize="20" Background="White" Foreground="Black">
+                <DataGrid x:Name="dgRankings" AutoGenerateColumns="False" RowHeaderWidth="0" IsReadOnly="True" 
+                          FontSize="20" Background="White" Foreground="Black">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Height" Value="45" />
@@ -29,7 +29,8 @@ Title="{x:Static language:Lang.RankingsTextLastGames}" FontFamily="Book Antiqua"
                 </DataGrid>
             </Grid>
         </StackPanel>
-        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" FontSize="25" HorizontalAlignment="Right">
+        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" 
+                FontSize="25" HorizontalAlignment="Right">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

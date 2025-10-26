@@ -1,25 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel.Security;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TrucoPrueba1.TrucoServer;
+using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1.Views
 {
-    /// <summary>
-    /// Lógica de interacción para LobbyPage.xaml
-    /// </summary>
     public partial class LobbyPage : Page
     {
         private readonly string matchCode;
@@ -65,7 +53,7 @@ namespace TrucoPrueba1.Views
 
         private void InitializeChat()
         {
-            AddChatMessage(" ", $"Te uniste a la sala {matchName}");
+            AddChatMessage(" ", string.Format(Lang.LobbyTextJoinedRoom, matchCode));
         }
 
         private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
@@ -119,10 +107,10 @@ namespace TrucoPrueba1.Views
 
         private void ClickExit(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("¿Deseas salir del lobby?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show(Lang.LobbyTextExitLobby, Lang.GlobalTextConfirm, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                this.NavigationService.Navigate(new PreGamePage());
+                this.NavigationService.Navigate(new PlayPage());
             }
         }
 

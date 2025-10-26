@@ -1,27 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
-using TrucoPrueba1.TrucoServer; 
 using TrucoPrueba1.Views;
 
 namespace TrucoPrueba1
 {
-    /// <summary>
-    /// Lógica de interacción para LogIn.xaml
-    /// </summary>
     public partial class LogInPage : Page
     {
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -35,25 +21,27 @@ namespace TrucoPrueba1
 
         private async void ClickLogIn(object sender, RoutedEventArgs e)
         {
-            string usernameOrEmail = txtEmailUsername.Text.Trim();
+            string emailOrUsername = txtEmailUsername.Text.Trim();
             string password = txtPassword.Password.Trim();
 
-            if (string.IsNullOrEmpty(usernameOrEmail) ||
-                string.IsNullOrEmpty(password))
+            if (!FieldsValidation(emailOrUsername, password))
             {
-                MessageBox.Show(Lang.DialogTextFillFields, Lang.GlobalTextFillFields, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            btnLogIn.IsEnabled = false;
+
             try
             {
-                bool success = await SessionManager.UserClient.LoginAsync(usernameOrEmail, password, languageCode);
+                var userClient = ClientManager.UserClient;
+
+                bool success = await userClient.LoginAsync(emailOrUsername, password, languageCode);
 
                 if (success)
                 {
-                    string resolvedUsername = await SessionManager.ResolveUsernameAsync(usernameOrEmail);
+                    string resolvedUsername = await SessionManager.ResolveUsernameAsync(emailOrUsername);
                     SessionManager.CurrentUsername = resolvedUsername;
-                    SessionManager.CurrentUserData = await SessionManager.UserClient.GetUserProfileAsync(resolvedUsername);
+                    SessionManager.CurrentUserData = await userClient.GetUserProfileAsync(resolvedUsername);
 
                     MessageBox.Show(Lang.GlobalTextWelcome + " " + SessionManager.CurrentUsername + "!", Lang.GlobalTextWelcome + "!", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -61,12 +49,24 @@ namespace TrucoPrueba1
                 }
                 else
                 {
-                    MessageBox.Show(Lang.DialogTextInvalidUserPass, Lang.DialogTextWrongCredentials, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ShowError(txtEmailUsername, Lang.DialogTextInvalidUserPass);
+                    ShowError(txtPassword, Lang.DialogTextInvalidUserPass);
                 }
+            }
+            catch (System.ServiceModel.EndpointNotFoundException ex)
+            {
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Lang.DialogTextError + ex.Message, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (this.IsLoaded)
+                {
+                    btnLogIn.IsEnabled = true;
+                }
             }
         }
 
@@ -78,6 +78,159 @@ namespace TrucoPrueba1
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new StartPage());
+        }
+
+        private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == txtEmailUsername)
+                {
+                    txtPassword.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtPassword)
+                {
+                    ClickLogIn(btnLogIn, null);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private bool FieldsValidation (string emailOrUsername, string password)
+        {
+            ClearAllErrors();
+            bool areValid = true;
+
+            if (string.IsNullOrEmpty(emailOrUsername))
+            {
+                ShowError(txtEmailUsername, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ShowError(txtPassword, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            return areValid;
+        }
+
+        private TextBlock GetErrorTextBlock(Control field)
+        {
+            TextBlock errorBlock = null;
+
+            if (field == txtEmailUsername)
+            {
+                errorBlock = blckEmailUsernameError;
+            }
+            if (field == txtPassword)
+            {
+                errorBlock = blckPasswordError;
+            }
+
+            return errorBlock;
+        }
+
+        private void ShowError(Control field, string errorMessage)
+        {
+            TextBlock errorBlock = GetErrorTextBlock(field);
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = errorMessage;
+            }
+
+            field.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
+
+        private void ClearSpecificError(Control field)
+        {
+            TextBlock errorBlock = GetErrorTextBlock(field);
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = " ";
+            }
+
+            field.ClearValue(Border.BorderBrushProperty);
+        }
+        private void ClearAllErrors()
+        {
+            ClearSpecificError(txtEmailUsername);
+            ClearSpecificError(txtPassword);
+        }
+
+        private void TextBoxChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            ClearSpecificError(textBox);
+
+            string text = textBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            if (textBox == txtEmailUsername)
+            {
+                if (text.Length < 4)
+                {
+                    ShowError(txtEmailUsername, Lang.DialogTextShortEmail);
+                }
+                else if (text.Length > 250)
+                {
+                    ShowError(txtEmailUsername, Lang.DialogTextLongEmail);
+                }
+            }
+        }
+
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                ShowError(textBox, Lang.GlobalTextRequieredField);
+            }
+        }
+
+        private void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+
+            ClearSpecificError(passwordBox);
+
+            string password = passwordBox.Password.Trim();
+
+            if (string.IsNullOrEmpty(password))
+            {
+                return;
+            }
+
+            if (password.Length < 8)
+            {
+                ShowError(passwordBox, Lang.DialogTextShortPassword);
+            }
+            else if (password.Length > 50)
+            {
+                ShowError(passwordBox, Lang.DialogTextLongPassword);
+            }
+        }
+
+        private void PasswordLostFocus(object sender, RoutedEventArgs e)
+        {
+            ClearSpecificError(txtPassword);
+            
+            var passwordBox = sender as PasswordBox;
+
+            if (string.IsNullOrWhiteSpace(passwordBox.Password))
+            {
+                ShowError(passwordBox, Lang.GlobalTextRequieredField);
+            }
         }
     }
 }

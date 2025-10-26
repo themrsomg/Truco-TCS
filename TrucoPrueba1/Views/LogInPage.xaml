@@ -7,55 +7,70 @@
         mc:Ignorable="d"
         xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
         Title="{x:Static language:Lang.StartTextLogIn}" FontFamily="Book Antiqua" FontSize="30" Height="800" Width="600">
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
-    <StackPanel>
-        <Grid Height="350" Width="350">
-            <Grid.Background>
-                <ImageBrush ImageSource="/Resources/logo.png"/>
-            </Grid.Background>
-        </Grid>
-        <StackPanel Margin="10,1,10,0" Width="450">
-            <TextBlock Text="{x:Static language:Lang.StarTextEmailOrUsername}" Foreground="White"/>
-            <TextBox x:Name="txtEmailUsername" Cursor="Hand">
-                <TextBox.Template>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="White" CornerRadius="8" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </TextBox.Template>
-            </TextBox>
-            <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}" Margin="0,15,0,0" Foreground="White"/>
-            <PasswordBox x:Name="txtPassword" Cursor="Hand">
-                <PasswordBox.Template>
-                    <ControlTemplate TargetType="PasswordBox">
-                        <Border Background="White" CornerRadius="8" BorderBrush="#FF3A3939" BorderThickness="1" Padding="5">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </PasswordBox.Template>
-            </PasswordBox>
-            <Label MouseLeftButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
-            <Button Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand" Margin="80,30,80,0" FontSize="40">
+    
+    <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
+        </Border.Effect>
+        <StackPanel>
+            <Grid Height="350" Width="350">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/Resources/logo.png"/>
+                </Grid.Background>
+            </Grid>
+            <StackPanel Margin="10,1,10,0" Width="450">
+                <TextBlock Text="{x:Static language:Lang.StarTextEmailOrUsername}" Foreground="White"/>
+                <TextBox x:Name="txtEmailUsername" Cursor="Hand" TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" 
+                         KeyDown="EnterKeyDown">
+                    <TextBox.Template>
+                        <ControlTemplate TargetType="TextBox">
+                            <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="2" Padding="5">
+                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            </Border>
+                        </ControlTemplate>
+                    </TextBox.Template>
+                </TextBox>
+                <TextBlock x:Name="blckEmailUsernameError" Text=" " Foreground="Red" FontSize=" 15"/>
+                <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}" Margin="0,15,0,0" Foreground="White"/>
+                <PasswordBox x:Name="txtPassword" Cursor="Hand" PasswordChanged="PasswordChanged" LostFocus="PasswordLostFocus"
+                             KeyDown="EnterKeyDown">
+                    <PasswordBox.Template>
+                        <ControlTemplate TargetType="PasswordBox">
+                            <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="2" Padding="5">
+                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            </Border>
+                        </ControlTemplate>
+                    </PasswordBox.Template>
+                </PasswordBox>
+                <TextBlock x:Name="blckPasswordError" Text=" " Foreground="Red" FontSize=" 15"/>
+                <Label MouseLeftButtonDown="ClickForgotPassword" Content="{x:Static language:Lang.StartTextForgotPassword}" 
+                       HorizontalAlignment="Left" Cursor="Hand" FontSize="20" FontWeight="Black" Foreground="White"/>
+                <Button x:Name="btnLogIn" Click="ClickLogIn" Content="{x:Static language:Lang.StartTextLogIn}" Cursor="Hand" 
+                        Margin="80,30,80,0" FontSize="40">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,0" 
+                    FontSize="30" HorizontalAlignment="Right">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
         </StackPanel>
-        <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,0" FontSize="30" HorizontalAlignment="Right">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </StackPanel>
+    </Border>
 </Page>

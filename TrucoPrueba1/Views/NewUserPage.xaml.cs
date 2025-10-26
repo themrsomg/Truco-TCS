@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 using TrucoPrueba1.Properties.Langs;
 using TrucoPrueba1.TrucoServer;
 
@@ -27,52 +17,46 @@ namespace TrucoPrueba1
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private void ClickButtonRegister(object sender, RoutedEventArgs e)
+        private void ClickRegister(object sender, RoutedEventArgs e)
         {
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Password.Trim();
-            string password2 = txtPassword2.Password.Trim();
+            string passwordConfirm = txtPasswordConfirm.Password.Trim();
             string username = txtUsername.Text.Trim();
-            
-            if (!FieldsValidation())
-            {
-                return;
-            }
 
-            if (EmailAndUsernameVerification())
+            if (!FieldsValidation(email, password, passwordConfirm, username))
             {
                 return;
             }
 
             try
-            {
-                var callback = new TrucoUserCallback();
-                var context = new System.ServiceModel.InstanceContext(callback);
-                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
+            { 
+                var userClient = ClientManager.UserClient;
 
-                bool sent = client.RequestEmailVerification(email, languageCode);
-                if (!sent)
+                if (EmailOrUsernameExists(email, username, userClient))
                 {
-                    MessageBox.Show(Lang.StartTextRegisterCodeSended, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
+                if (!RequestedEmail(email, userClient))
+                {
+                    return;
+                }
+
+                string code = ShowCodeInputWindow();
 
                 if (string.IsNullOrEmpty(code))
                 {
-                    MessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                bool confirmed = client.ConfirmEmailVerification(email, code);
-                if (!confirmed)
+                if (!ConfirmedEmail(email, code, userClient))
                 {
-                    MessageBox.Show(Lang.StartTextRegisterIncorrectCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                bool registered = client.Register(username, password, email);
+                bool registered = userClient.Register(username, password, email);
+
                 if (registered)
                 {
                     MessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -82,122 +66,20 @@ namespace TrucoPrueba1
                 {
                     MessageBox.Show(Lang.StartTextRegisterError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-                client.Close();
+            }
+            catch (System.ServiceModel.EndpointNotFoundException ex)
+            {
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private bool FieldsValidation()
-        {
-            string email = txtEmail.Text.Trim();
-            string password = txtPassword.Password.Trim();
-            string password2 = txtPassword2.Password.Trim();
-            string username = txtUsername.Text.Trim();
-
-            if (string.IsNullOrEmpty(email) ||
-                string.IsNullOrEmpty(password) ||
-                string.IsNullOrEmpty(password2) ||
-                string.IsNullOrEmpty(username))
-            {
-                MessageBox.Show(Lang.DialogTextFillFields, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            if (!string.Equals(password, password2))
-            {
-                MessageBox.Show(Lang.DialogTextPasswordsDontMatch, Lang.DialogTextPasswordsDontMatch, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (password.Length < 8)
-            {
-                MessageBox.Show(Lang.DialogTextShortPassword, Lang.DialogTextShortPassword, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (password.Length > 50)
-            {
-                MessageBox.Show(Lang.DialogTextLongPassword, Lang.DialogTextLongPassword, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (email.Length < 5)
-            {
-                MessageBox.Show(Lang.DialogTextShortEmail, Lang.DialogTextShortEmail, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (email.Length > 250)
-            {
-                MessageBox.Show(Lang.DialogTextLongEmail, Lang.DialogTextLongEmail, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (username.Length < 4)
-            {
-                MessageBox.Show(Lang.DialogTextShortUsername, Lang.DialogTextShortUsername, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            if (username.Length > 20)
-            {
-                MessageBox.Show(Lang.DialogTextLongUsername, Lang.DialogTextLongUsername, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool EmailAndUsernameVerification()
-        {
-            string email = txtEmail.Text.Trim();
-            string username = txtUsername.Text.Trim();
-
-            try
-            {
-                var callback = new TrucoUserCallback();
-                var context = new System.ServiceModel.InstanceContext(callback);
-                var client = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
-
-                bool emailExists = client.EmailExists(email);
-                bool usernameExists = client.UsernameExists(username);
-
-                if (emailExists)
-                {
-                    MessageBox.Show(Lang.GlobalTextEmailAlreadyInUse, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return true;
-                }
-
-                if (usernameExists)
-                {
-                    MessageBox.Show(Lang.GlobalTextUsernameAlreadyInUse, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
-                return true;
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            string email = txtEmail.Text.Trim();
-            string password = txtPassword.Password.Trim();
-            string password2 = txtPassword2.Password.Trim();
-            string username = txtUsername.Text.Trim();
-
-            if (!string.IsNullOrEmpty(email) ||
-                !string.IsNullOrEmpty(password) ||
-                !string.IsNullOrEmpty(password2) ||
-                !string.IsNullOrEmpty(username))
+            if (!HasUnsavedFields())
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -214,6 +96,407 @@ namespace TrucoPrueba1
             {
                 this.NavigationService.Navigate(new StartPage());
             }
+        }
+
+        private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if(btnRegister.IsEnabled)
+                {
+                    ClickRegister(btnRegister, null);
+                }
+                if (sender == txtEmail)
+                {
+                    txtUsername.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtUsername)
+                {
+                    txtPassword.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtPassword)
+                {
+                    txtPasswordConfirm.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtPasswordConfirm && btnRegister.IsEnabled)
+                {
+                    ClickRegister(btnRegister, null);
+                }
+            }
+        }
+
+        private bool HasUnsavedFields()
+        {
+            bool canGoBack = false;
+
+            string email = txtEmail.Text.Trim();
+            string password = txtPassword.Password.Trim();
+            string passwordConfirm = txtPasswordConfirm.Password.Trim();
+            string username = txtUsername.Text.Trim();
+
+            if (string.IsNullOrEmpty(email) ||
+                string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(passwordConfirm) ||
+                string.IsNullOrEmpty(username))
+            {
+                canGoBack = true;
+            }
+
+            return canGoBack;
+        }
+
+        private bool FieldsValidation(string email, string password, string passwordConfirm, string username)
+        {
+            ClearAllErrors();
+            bool areValid = true;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                ShowError(txtEmail, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            if (string.IsNullOrEmpty(username))
+            {
+                ShowError(txtUsername, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ShowError(txtPassword, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            if (string.IsNullOrEmpty(passwordConfirm))
+            {
+                ShowError(txtPasswordConfirm, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            if (!areValid)
+            {
+                return false;
+            }
+
+            if (email.Length < 5)
+            {
+                ShowError(txtEmail, Lang.DialogTextShortEmail);
+                areValid = false;
+            }
+            else if (email.Length > 250)
+            {
+                ShowError(txtEmail, Lang.DialogTextLongEmail);
+                areValid = false;
+            }
+            else if (!IsValidEmail(email))
+            {
+                ShowError(txtEmail, Lang.GlobalTextInvalidEmail);
+                areValid = false;
+            }
+
+            if (username.Length < 4)
+            {
+                ShowError(txtUsername, Lang.DialogTextShortUsername);
+                areValid = false;
+            }
+            else if (username.Length > 20)
+            {
+                ShowError(txtUsername, Lang.DialogTextLongUsername);
+                areValid = false;
+            }
+
+            if (password.Length < 8)
+            {
+                ShowError(txtPassword, Lang.DialogTextShortPassword);
+                areValid = false;
+            }
+            else if (password.Length > 50)
+            {
+                ShowError(txtPassword, Lang.DialogTextLongPassword);
+                areValid = false;
+            }
+
+            if (!string.Equals(password, passwordConfirm))
+            {
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ShowError(txtPassword, errorMessage);
+                ShowError(txtPasswordConfirm, errorMessage);
+                areValid = false;
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+            return areValid;
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+            try
+            {
+                var address = new System.Net.Mail.MailAddress(email);
+                return address.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool EmailOrUsernameExists(string email, string username, TrucoUserServiceClient client)
+        {
+            bool eitherExists = false;
+
+            bool emailExists = client.EmailExists(email);
+            bool usernameExists = client.UsernameExists(username);
+
+            if (emailExists)
+            {
+                ShowError(txtEmail, Lang.GlobalTextEmailAlreadyInUse);
+                eitherExists = true;
+            }
+
+            if (usernameExists)
+            {
+                ShowError(txtUsername, Lang.GlobalTextUsernameAlreadyInUse);
+                eitherExists = true;
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+            return eitherExists;
+        }
+
+        private bool RequestedEmail(string email, TrucoUserServiceClient client)
+        {
+            bool sent = client.RequestEmailVerification(email, languageCode);
+
+            if (!sent)
+            {
+                MessageBox.Show(Lang.StartTextRegisterCodeSended, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return sent;
+        }
+
+        private string ShowCodeInputWindow()
+        {
+            string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
+
+            if (string.IsNullOrEmpty(code))
+            {
+                MessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            return code;
+        }
+
+        private bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
+        {
+            bool confirmed = client.ConfirmEmailVerification(email, code);
+
+            if (!confirmed)
+            {
+                MessageBox.Show(Lang.StartTextRegisterIncorrectCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            return confirmed;
+        }
+
+        private TextBlock GetErrorTextBlock(Control field)
+        {
+           TextBlock errorBlock = null;
+
+            if (field == txtEmail)
+            {
+                errorBlock = blckEmailError;
+            }
+            if (field == txtUsername)
+            {
+                errorBlock = blckUsernameError;
+            }
+            if (field == txtPassword)
+            {
+                errorBlock = blckPasswordError;
+            }
+            if (field == txtPasswordConfirm)
+            {
+                errorBlock = blckPasswordConfirmError;
+            }
+
+            return errorBlock;
+        }
+
+        private void ShowError(Control field, string errorMessage)
+        {
+            TextBlock errorBlock = GetErrorTextBlock(field);
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = errorMessage;
+            }
+
+            field.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
+
+        private void ClearSpecificError(Control field)
+        {
+            TextBlock errorBlock = GetErrorTextBlock(field);
+
+            if (errorBlock != null)
+            {
+                errorBlock.Text = " ";
+            }
+
+            field.ClearValue(Border.BorderBrushProperty);
+        }
+
+        private void ClearAllErrors()
+        {
+            ClearSpecificError(txtEmail);
+            ClearSpecificError(txtUsername);
+            ClearSpecificError(txtPassword);
+            ClearSpecificError(txtPasswordConfirm);
+        }
+
+        private void TextBoxChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            ClearSpecificError(textBox);
+            string text = textBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(text))
+            {
+                CheckFormStatusAndToggleRegisterButton();
+                return;
+            }
+
+            if (textBox == txtEmail)
+            {
+                if (text.Length < 5)
+                {
+                    ShowError(txtEmail, Lang.DialogTextShortEmail);
+                }
+                else if (text.Length > 250)
+                {
+                    ShowError(txtEmail, Lang.DialogTextLongEmail);
+                }
+                else if (!IsValidEmail(text))
+                {
+                    ShowError(txtEmail, Lang.GlobalTextInvalidEmail);
+                }
+            }
+            else if (textBox == txtUsername)
+            {
+                if (text.Length < 4)
+                {
+                    ShowError(txtUsername, Lang.DialogTextShortUsername);
+                }
+                else if (text.Length > 20)
+                {
+                    ShowError(txtUsername, Lang.DialogTextLongUsername);
+                }
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                ShowError(textBox, Lang.GlobalTextRequieredField);
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+
+        private void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+
+            ClearSpecificError(passwordBox);
+
+            string password = passwordBox.Password.Trim();
+
+            if (string.IsNullOrEmpty(password))
+            {
+                return;
+            }
+
+            if (password.Length < 8)
+            {
+                ShowError(passwordBox, Lang.DialogTextShortPassword);
+            }
+            else if (password.Length > 50)
+            {
+                ShowError(passwordBox, Lang.DialogTextLongPassword);
+            }
+
+            string password1 = txtPassword.Password;
+            string password2 = txtPasswordConfirm.Password;
+
+            if (!string.IsNullOrEmpty(password1) && !string.IsNullOrEmpty(password2) && !string.Equals(password1, password2))
+            {
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ShowError(txtPassword, errorMessage);
+                ShowError(txtPasswordConfirm, errorMessage);
+            }
+            else
+            {
+                if (string.Equals(password1, password2) && !string.IsNullOrEmpty(password1))
+                {
+                    ClearSpecificError(txtPassword);
+                    ClearSpecificError(txtPasswordConfirm);
+                }
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+
+        private void PasswordLostFocus(object sender, RoutedEventArgs e)
+        {
+            string password = txtPassword.Password;
+            string passwordConfirm = txtPasswordConfirm.Password;
+
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !string.Equals(password, passwordConfirm))
+            {
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ShowError(txtPassword, errorMessage);
+                ShowError(txtPasswordConfirm, errorMessage);
+            }
+
+            var passwordBox = sender as PasswordBox;
+
+            if (string.IsNullOrWhiteSpace(passwordBox.Password))
+            {
+                ShowError(passwordBox, Lang.GlobalTextRequieredField);
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+        private void CheckFormStatusAndToggleRegisterButton()
+        {
+            bool hasErrorMessages = blckEmailError.Text.Trim().Length > 0 ||
+                                    blckUsernameError.Text.Trim().Length > 0 ||
+                                    blckPasswordError.Text.Trim().Length > 0 ||
+                                    blckPasswordConfirmError.Text.Trim().Length > 0;
+
+            bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtEmail.Text) &&
+                                   !string.IsNullOrWhiteSpace(txtUsername.Text) &&
+                                   !string.IsNullOrWhiteSpace(txtPassword.Password) &&
+                                   !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password);
+
+            bool canEnable = !hasErrorMessages && allFieldsFilled;
+
+            btnRegister.IsEnabled = canEnable;
         }
     }
 }

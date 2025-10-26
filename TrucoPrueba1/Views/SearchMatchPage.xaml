@@ -6,15 +6,14 @@
       xmlns:local="clr-namespace:TrucoPrueba1.Views"
       mc:Ignorable="d" 
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
-      Title="{x:Static language:Lang.PreGameTextGame}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
+      Title="{x:Static language:Lang.GameTextActiveMatch}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
     
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
     <Grid>
         <StackPanel Margin="0,50,0,0">
-            <TextBlock Text="{x:Static language:Lang.PreGameTextGameVX}" FontSize="40" FontWeight="Bold" Foreground="White" TextAlignment="Center" Margin="0,0,0,20"/>
-            <ListBox x:Name="MatchesList" Background="#2E2E2E" Foreground="White" BorderThickness="0" ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">
+            <TextBlock Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
+                       TextAlignment="Center" Margin="0,0,0,20"/>
+            <ListBox x:Name="MatchesList" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
+                     ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="0,5">
@@ -24,10 +23,11 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding MatchName}" FontSize="16" VerticalAlignment="Center"/>
-                                <Button Grid.Column="3" Content="Unirse" FontSize="18" Width="90" Height="25" Click="ClickJoinMatch" Cursor="" Margin="10,0,0,0">
+                                <Button Grid.Column="3" Content="Unirse" FontSize="18" Width="90" Height="25" Click="ClickJoinMatch" 
+                                        Cursor="" Margin="10,0,0,0">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF5FE4FA">
+                                            <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                         </ControlTemplate>
@@ -38,7 +38,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="150" Height="50" FontSize="20" Margin="0,100,40,0" HorizontalAlignment="Right">
+            <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="150" Height="50" 
+                    FontSize="20" Margin="0,100,40,0" HorizontalAlignment="Right">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

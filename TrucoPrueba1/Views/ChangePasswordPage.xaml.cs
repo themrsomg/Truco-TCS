@@ -7,44 +7,43 @@ using TrucoPrueba1.Properties.Langs;
 
 namespace TrucoPrueba1.Views
 {
-    public partial class ForgotPasswordStepTwoPage : Page
+    public partial class ChangePasswordPage : Page
     {
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-        private string email;
-
-        public ForgotPasswordStepTwoPage(string email)
+        public ChangePasswordPage()
         {
             InitializeComponent();
-            this.email = email;
             MusicInitializer.InitializeMenuMusic();
-            blckVerificationCodeText.Text = string.Format(Lang.ForgotPasswordTextSent, email);
         }
 
         private void ClickSave(object sender, RoutedEventArgs e)
         {
-            string code = txtVerificationCode.Text.Trim();
-            string password = txtPassword.Password.Trim();
+            string currentPassword = txtCurrentPassword.Password.Trim();
+            string newPassword = txtPassword.Password.Trim();
+            string confirmPassword = txtPasswordConfirm.Password.Trim();
 
-            if (!FieldsValidation(code, password))
+            if (!FieldsValidation(currentPassword, newPassword, confirmPassword))
             {
                 return;
             }
 
+            btnSave.IsEnabled = false;
+
             try
             {
                 var userClient = ClientManager.UserClient;
+                string email = SessionManager.CurrentUserData.Email;
 
-                bool success = userClient.PasswordReset(email, code, password, languageCode);
+                bool changed = userClient.PasswordChange(email, newPassword, languageCode);
 
-                if (success)
+                if (changed)
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextError, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.DialogTextPasswordChangeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
@@ -55,11 +54,38 @@ namespace TrucoPrueba1.Views
             {
                 MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                if (this.IsLoaded)
+                {
+                    btnSave.IsEnabled = true;
+                }
+            }
+        }
+        private void ClickForgotPassword(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new ForgotPasswordStepOnePage());
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new StartPage());
+            if (!HasUnsavedFields())
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    this.NavigationService.Navigate(new UserProfilePage());
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                this.NavigationService.Navigate(new UserProfilePage());
+            }
         }
 
         private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -70,7 +96,7 @@ namespace TrucoPrueba1.Views
                 {
                     ClickSave(btnSave, null);
                 }
-                if (sender == txtVerificationCode)
+                if (sender == txtCurrentPassword)
                 {
                     txtPassword.Focus();
                     e.Handled = true;
@@ -87,28 +113,44 @@ namespace TrucoPrueba1.Views
             }
         }
 
-        private bool FieldsValidation(string code, string password)
+        private bool HasUnsavedFields()
+        {
+            bool canGoBack = false;
+
+            string currentPassword = txtCurrentPassword.Password.Trim();
+            string password = txtPassword.Password.Trim();
+            string passwordConfirm = txtPasswordConfirm.Password.Trim();
+
+            if (string.IsNullOrEmpty(currentPassword) ||
+                string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(passwordConfirm))
+            {
+                canGoBack = true;
+            }
+
+            return canGoBack;
+        }
+
+        private bool FieldsValidation(string currentPassword, string newPassword, string confirmPassword)
         {
             ClearAllErrors();
             bool areValid = true;
 
-            string passwordConfirm = txtPasswordConfirm.Password.Trim();
+            if (string.IsNullOrEmpty(currentPassword))
+            {
+                ShowError(txtCurrentPassword, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
 
-            if (string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(newPassword))
             {
                 ShowError(txtPassword, Lang.GlobalTextRequieredField);
                 areValid = false;
             }
 
-            if (string.IsNullOrEmpty(passwordConfirm))
+            if (string.IsNullOrEmpty(confirmPassword))
             {
                 ShowError(txtPasswordConfirm, Lang.GlobalTextRequieredField);
-                areValid = false;
-            }
-
-            if (string.IsNullOrEmpty(code))
-            {
-                ShowError(txtVerificationCode, Lang.GlobalTextRequieredField);
                 areValid = false;
             }
 
@@ -117,29 +159,29 @@ namespace TrucoPrueba1.Views
                 return false;
             }
 
-            if (code.Length != 6)
+            if (currentPassword.Length < 8)
             {
-                ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeLength);
+                ShowError(txtCurrentPassword, Lang.DialogTextShortPassword);
                 areValid = false;
             }
-            else if (!int.TryParse(code, out _))
+            else if (currentPassword.Length > 50)
             {
-                ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeNumber);
+                ShowError(txtCurrentPassword, Lang.DialogTextLongPassword);
                 areValid = false;
             }
 
-            if (password.Length < 8)
+            if (newPassword.Length < 8)
             {
                 ShowError(txtPassword, Lang.DialogTextShortPassword);
                 areValid = false;
             }
-            else if (password.Length > 50)
+            else if (newPassword.Length > 50)
             {
                 ShowError(txtPassword, Lang.DialogTextLongPassword);
                 areValid = false;
             }
 
-            if (!string.Equals(password, passwordConfirm))
+            if (!string.Equals(newPassword, confirmPassword))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
                 ShowError(txtPassword, errorMessage);
@@ -155,9 +197,9 @@ namespace TrucoPrueba1.Views
         {
             TextBlock errorBlock = null;
 
-            if (field == txtVerificationCode)
+            if (field == txtCurrentPassword)
             {
-                errorBlock = blckCodeError;
+                errorBlock = blckCurrentError;
             }
             if (field == txtPassword)
             {
@@ -167,7 +209,7 @@ namespace TrucoPrueba1.Views
             {
                 errorBlock = blckPasswordConfirmError;
             }
-            
+
             return errorBlock;
         }
 
@@ -197,46 +239,9 @@ namespace TrucoPrueba1.Views
 
         private void ClearAllErrors()
         {
+            ClearSpecificError(txtCurrentPassword);
             ClearSpecificError(txtPassword);
             ClearSpecificError(txtPasswordConfirm);
-        }
-
-        private void TextBoxChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-
-            ClearSpecificError(textBox);
-
-            string text = textBox.Text.Trim();
-
-            if (string.IsNullOrEmpty(text))
-            {
-                CheckFormStatusAndToggleRegisterButton();
-                return;
-            }
-
-            if (textBox == txtVerificationCode)
-            {
-                if (text.Length != 6)
-                {
-                    ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeLength);
-                }
-                else if (!int.TryParse(text, out _))
-                {
-                    ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeNumber);
-                }
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtVerificationCode.Text))
-            {
-                ShowError(txtVerificationCode, Lang.GlobalTextRequieredField);
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e)
@@ -305,13 +310,13 @@ namespace TrucoPrueba1.Views
         }
         private void CheckFormStatusAndToggleRegisterButton()
         {
-            bool hasErrorMessages = blckPasswordError.Text.Trim().Length > 0 ||
-                                    blckPasswordConfirmError.Text.Trim().Length > 0 || 
-                                    blckCodeError.Text.Trim().Length > 0;
+            bool hasErrorMessages = blckCurrentError.Text.Trim().Length > 0 ||
+                                    blckPasswordError.Text.Trim().Length > 0 ||
+                                    blckPasswordConfirmError.Text.Trim().Length > 0;
 
-            bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtPassword.Password) &&
-                                   !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password) &&
-                                   !string.IsNullOrWhiteSpace(txtVerificationCode.Text);
+            bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtCurrentPassword.Password) &&
+                                   !string.IsNullOrWhiteSpace(txtPassword.Password) &&
+                                   !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password);
 
             bool canEnable = !hasErrorMessages && allFieldsFilled;
 

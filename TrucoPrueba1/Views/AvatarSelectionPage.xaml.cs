@@ -28,7 +28,7 @@ namespace TrucoPrueba1.Views
 
             foreach (var avatarId in avatars)
             {
-                var btn = new Button
+                var btnAvatar = new Button
                 {
                     Width = 80,
                     Height = 80,
@@ -42,7 +42,7 @@ namespace TrucoPrueba1.Views
 
                 string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
 
-                var img = new System.Windows.Controls.Image
+                var image = new System.Windows.Controls.Image
                 {
                     Width = 80,
                     Height = 80,
@@ -51,35 +51,35 @@ namespace TrucoPrueba1.Views
 
                 try
                 {
-                    img.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+                    image.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
                 }
                 catch
                 {
                     try
                     {
-                        img.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_default.png", UriKind.Absolute));
+                        image.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_default.png", UriKind.Absolute));
                     }
                     catch 
                     {
-
+                        
                     }
                 }
 
-                btn.Content = img;
+                btnAvatar.Content = image;
 
                 if (!string.IsNullOrEmpty(currentSelectedId) && currentSelectedId == avatarId)
                 {
-                    btn.Background = System.Windows.Media.Brushes.LightGray;
+                    btnAvatar.Background = System.Windows.Media.Brushes.LightGray;
                 }
 
-                btn.Click += AvatarButton_Click;
-                AvatarsPanel.Children.Add(btn);
+                btnAvatar.Click += ClickAvatar;
+                AvatarsPanel.Children.Add(btnAvatar);
             }
         }
 
-        private void AvatarButton_Click(object sender, RoutedEventArgs e)
+        private void ClickAvatar(object sender, RoutedEventArgs e)
         {
-            if (sender is Button b && b.Tag is string id)
+            if (sender is Button button && button.Tag is string id)
             {
                 currentSelectedId = id;
 
@@ -90,7 +90,7 @@ namespace TrucoPrueba1.Views
                         btn.Background = System.Windows.Media.Brushes.Transparent;
                     }
                 }
-                b.Background = System.Windows.Media.Brushes.LightGray;
+                button.Background = System.Windows.Media.Brushes.LightGray;
             }
         }
         private void ClickBack(object sender, RoutedEventArgs e)

@@ -9,7 +9,8 @@
       Title="{language:Loc GlobalTextTrucoArg}" Height="800" Width="600" FontFamily="Book Antiqua">
 
     <StackPanel>
-        <ComboBox x:Name="cbLanguages" SelectionChanged="LanguageSelectionChanged" Cursor="" Width="110" HorizontalAlignment="Right" Margin="10,20,30,10" FontSize="14" Opacity=".8">
+        <ComboBox x:Name="cbLanguages" SelectionChanged="LanguageSelectionChanged" Cursor="" Width="110" 
+                  HorizontalAlignment="Right" Margin="10,20,30,10" FontSize="14">
             <ComboBoxItem Content="{language:Loc en}"/>
             <ComboBoxItem Content="{language:Loc es}"/>
         </ComboBox>
@@ -28,8 +29,10 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <TextBlock Text="{language:Loc StartTextLogIn}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Text="{language:Loc StartTextLogIn}" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                               Margin="60,0,0,0"/>
+                    <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                           VerticalAlignment="Center"/>
                 </Grid>
             </Button>
             <Button Click="ClickPlayAsGuest" Cursor="Hand" Margin="0,20,0,0" FontSize="40">
@@ -41,8 +44,10 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <TextBlock Text="{language:Loc StartTextPlayAsGuest}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_play_as_guest.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Text="{language:Loc StartTextPlayAsGuest}" VerticalAlignment="Center" 
+                               HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <Image Source="/Resources/logo_play_as_guest.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                           VerticalAlignment="Center"/>
                 </Grid>
             </Button>
             <Button Click="ClickSingUp" Cursor="Hand" Margin="50,20,50,0" FontSize="40">
@@ -54,8 +59,10 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Grid>
-                    <TextBlock Text="{language:Loc StartTextSingUp}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Text="{language:Loc StartTextSingUp}" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                               Margin="60,0,0,0"/>
+                    <Image Source="/Resources/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                           VerticalAlignment="Center"/>
                 </Grid>
             </Button>
         </StackPanel>

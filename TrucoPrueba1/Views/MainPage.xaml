@@ -7,11 +7,10 @@
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
       Title="{x:Static language:Lang.GlobalTextHome}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
-    <Page.Background>
-        <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".7"/>
-    </Page.Background>
+   
     <StackPanel>        
-        <Button Click="ClickLogOut" Content="{x:Static language:Lang.GlobalTextLogOut}" Cursor="Hand" Margin="0,30,30,0" FontSize="25" HorizontalAlignment="Right">
+        <Button Click="ClickLogOut" Content="{x:Static language:Lang.GlobalTextLogOut}" Cursor="Hand" 
+                Margin="0,30,30,0" FontSize="25" HorizontalAlignment="Right">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
@@ -33,10 +32,12 @@
                         </Button.Template>
                         <Grid>
                             <TextBlock Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-                            <Image Source="/Resources/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Image Source="/Resources/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
-                    <Button Content="{x:Static language:Lang.GlobalTextProfile}" Click="ClickProfile" Cursor="Hand" Margin="30,10,65,0" FontSize="30">
+                    <Button Content="{x:Static language:Lang.GlobalTextProfile}" Click="ClickProfile" Cursor="Hand" 
+                            Margin="30,10,65,0" FontSize="30">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
@@ -45,7 +46,8 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <Button Content="{x:Static language:Lang.GlobalTextFriends}" Click="ClickFriends" Cursor="Hand" Margin="30,10,65,600" FontSize="30">
+                    <Button Content="{x:Static language:Lang.GlobalTextFriends}" Click="ClickFriends" Cursor="Hand" 
+                            Margin="30,10,65,600" FontSize="30">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
@@ -67,8 +69,10 @@
                         </ControlTemplate>
                     </Button.Template>
                     <Grid>
-                        <TextBlock Text="{x:Static language:Lang.MenuTextMatch}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static language:Lang.MenuTextMatch}" VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                               VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
                 <Button Click="ClickRankings" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
@@ -80,8 +84,10 @@
                         </ControlTemplate>
                     </Button.Template>
                     <Grid>
-                        <TextBlock Text="{x:Static language:Lang.GlobalTextRankings}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static language:Lang.GlobalTextRankings}" VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                               VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
                 <Button Click="ClickExit" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
@@ -93,8 +99,10 @@
                         </ControlTemplate>
                     </Button.Template>
                     <Grid>
-                        <TextBlock Text="{x:Static language:Lang.MenuTextExit}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static language:Lang.MenuTextExit}" VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                               VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
             </StackPanel>
