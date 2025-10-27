@@ -10,7 +10,7 @@
 TrucoClient/Connected Services/
 
 # User-specific files
-/TrucoClient/App.config
+TrucoClient/App.config
 *.rsuser
 *.suo
 *.user
