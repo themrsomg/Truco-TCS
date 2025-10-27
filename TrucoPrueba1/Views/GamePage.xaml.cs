@@ -3,9 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TrucoPrueba1.Properties.Langs;
+using TrucoClient.Properties.Langs;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class GamePage : Page
     {
@@ -132,7 +132,7 @@ namespace TrucoPrueba1
                 avatarId = "avatar_aaa_default";
             }
 
-            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+            string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
 
             try
             {
@@ -140,7 +140,7 @@ namespace TrucoPrueba1
             }
             catch
             {
-                imgPlayerAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                imgPlayerAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
             }
         }
     }

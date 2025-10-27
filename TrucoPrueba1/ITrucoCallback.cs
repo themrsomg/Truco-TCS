@@ -1,4 +1,4 @@
-﻿namespace TrucoPrueba1.TrucoServer
+﻿namespace TrucoClient.TrucoServer
 {
     public interface ITrucoCallback
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class LastMatchPage : Page
     {

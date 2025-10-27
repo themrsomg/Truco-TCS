@@ -3,10 +3,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TrucoPrueba1.TrucoServer;
-using TrucoPrueba1.Properties.Langs;
+using TrucoClient.TrucoServer;
+using TrucoClient.Properties.Langs;
 
-namespace TrucoPrueba1.Views
+namespace TrucoClient.Views
 {
     public partial class LobbyPage : Page
     {
@@ -47,7 +47,7 @@ namespace TrucoPrueba1.Views
 
         private BitmapImage LoadAvatar(string avatarId)
         {
-            string path = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+            string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
             return new BitmapImage(new System.Uri(path, System.UriKind.Absolute));
         }
 

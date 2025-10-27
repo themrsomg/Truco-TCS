@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.ServiceModel;
-using TrucoPrueba1.TrucoServer;
+using TrucoClient.TrucoServer;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class TopTenPage : Page
     {

@@ -6,10 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TrucoPrueba1.Properties.Langs;
-using TrucoPrueba1.TrucoServer;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public class FriendDisplayData
     {
@@ -21,7 +21,7 @@ namespace TrucoPrueba1
             get
             {
                 string id = string.IsNullOrWhiteSpace(AvatarId) ? "avatar_aaa_default" : AvatarId;
-                string path = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{id}.png";
+                string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{id}.png";
                 try
                 {
                     var test = new BitmapImage(new Uri(path));
@@ -29,7 +29,7 @@ namespace TrucoPrueba1
                 }
                 catch (Exception ex)
                 {
-                    return "pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png";
+                    return "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
                 }
             }
         }

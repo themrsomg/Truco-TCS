@@ -1,11 +1,11 @@
-﻿<Page x:Class="TrucoPrueba1.Views.GuestProfilePage"
+﻿<Page x:Class="TrucoClient.Views.GuestProfilePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TrucoPrueba1.Views"
+      xmlns:local="clr-namespace:TrucoClient.Views"
       mc:Ignorable="d"
-      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      xmlns:language="clr-namespace:TrucoClient.Properties.Langs"
       Title="{x:Static language:Lang.UserProfileGuestTextTitle}" FontFamily="Book Antiqua" FontSize="20" Height="760" Width="600">
     
     <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">

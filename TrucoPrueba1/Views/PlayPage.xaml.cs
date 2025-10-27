@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TrucoPrueba1.Views;
+using TrucoClient.Views;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class PlayPage : Page
     {

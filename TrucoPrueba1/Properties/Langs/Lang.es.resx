@@ -826,4 +826,7 @@
   <data name="ChangePasswordTextTitle" xml:space="preserve">
     <value>Cambia tu contraseña</value>
   </data>
+  <data name="DialogTextShortEmailOrUsername" xml:space="preserve">
+    <value>El correo electrónico o usuario es muy corto</value>
+  </data>
 </root>

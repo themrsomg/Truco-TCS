@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using TrucoPrueba1.Properties.Langs;
-using TrucoPrueba1.TrucoServer;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
-namespace TrucoPrueba1.Views
+namespace TrucoClient.Views
 {
     public partial class ForgotPasswordStepOnePage : Page
     {

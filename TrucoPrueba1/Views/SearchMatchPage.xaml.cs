@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TrucoPrueba1.Views
+namespace TrucoClient.Views
 {
     public partial class SearchMatchPage : Page
     {

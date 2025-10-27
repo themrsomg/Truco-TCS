@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace TrucoPrueba1.Views
+namespace TrucoClient.Views
 {
     public partial class AvatarSelectionPage : Page
     {
@@ -40,7 +40,7 @@ namespace TrucoPrueba1.Views
                     BorderThickness = new Thickness(0)
                 };
 
-                string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+                string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
 
                 var image = new System.Windows.Controls.Image
                 {
@@ -57,7 +57,7 @@ namespace TrucoPrueba1.Views
                 {
                     try
                     {
-                        image.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_default.png", UriKind.Absolute));
+                        image.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_default.png", UriKind.Absolute));
                     }
                     catch 
                     {

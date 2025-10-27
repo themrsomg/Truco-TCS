@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TrucoPrueba1.Properties.Langs {
+namespace TrucoClient.Properties.Langs {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TrucoPrueba1.Properties.Langs {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TrucoPrueba1.Properties.Langs.Lang", typeof(Lang).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TrucoClient.Properties.Langs.Lang", typeof(Lang).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -471,6 +471,15 @@ namespace TrucoPrueba1.Properties.Langs {
         public static string DialogTextShortEmail {
             get {
                 return ResourceManager.GetString("DialogTextShortEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Email or username is too short.
+        /// </summary>
+        public static string DialogTextShortEmailOrUsername {
+            get {
+                return ResourceManager.GetString("DialogTextShortEmailOrUsername", resourceCulture);
             }
         }
         

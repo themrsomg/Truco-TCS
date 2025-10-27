@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using TrucoPrueba1.Properties;
+using TrucoClient.Properties;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class SettingsPage : Page
     {

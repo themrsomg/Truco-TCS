@@ -826,4 +826,7 @@ Sign up today and set up a proper match!</value>
   <data name="ChangePasswordTextTitle" xml:space="preserve">
     <value>Change your password</value>
   </data>
+  <data name="DialogTextShortEmailOrUsername" xml:space="preserve">
+    <value>Email or username is too short</value>
+  </data>
 </root>

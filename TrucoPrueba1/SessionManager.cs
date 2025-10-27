@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using TrucoPrueba1.TrucoServer;
+using TrucoClient.TrucoServer;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public static class SessionManager
     {

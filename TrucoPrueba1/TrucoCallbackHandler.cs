@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using TrucoPrueba1.Properties.Langs;
+using TrucoClient.Properties.Langs;
 
-namespace TrucoPrueba1.TrucoServer
+namespace TrucoClient.TrucoServer
 {
     public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
     {

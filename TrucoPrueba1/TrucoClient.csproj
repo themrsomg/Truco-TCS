@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8C17430C-3AC5-41DF-B96E-FC3833F79B28}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TrucoPrueba1</RootNamespace>
-    <AssemblyName>TrucoPrueba1</AssemblyName>
+    <RootNamespace>TrucoClient</RootNamespace>
+    <AssemblyName>TrucoClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -297,16 +297,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.FriendData.datasource">
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.FriendData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.MatchResult.datasource">
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.MatchResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.PlayerStats.datasource">
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.PlayerStats.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\TrucoServer\TrucoPrueba1.TrucoServer.UserProfileData.datasource">
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.UserProfileData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\TrucoServer\TrucoServer.wsdl" />

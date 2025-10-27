@@ -1,11 +1,11 @@
-﻿<Page x:Class="TrucoPrueba1.MainPage"
+﻿<Page x:Class="TrucoClient.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TrucoPrueba1"
+      xmlns:local="clr-namespace:TrucoClient"
       mc:Ignorable="d"
-      xmlns:language="clr-namespace:TrucoPrueba1.Properties.Langs"
+      xmlns:language="clr-namespace:TrucoClient.Properties.Langs"
       Title="{x:Static language:Lang.GlobalTextHome}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
    
     <StackPanel>        

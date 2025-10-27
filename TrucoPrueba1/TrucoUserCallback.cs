@@ -1,4 +1,4 @@
-﻿using TrucoPrueba1.TrucoServer;
+﻿using TrucoClient.TrucoServer;
 
 public class TrucoUserCallback : ITrucoUserServiceCallback
 {

@@ -4,10 +4,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
-using TrucoPrueba1.Properties.Langs;
-using TrucoPrueba1.Views;
+using TrucoClient.Properties.Langs;
+using TrucoClient.Views;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class LogInPage : Page
     {
@@ -180,11 +180,18 @@ namespace TrucoPrueba1
             {
                 if (text.Length < 4)
                 {
-                    ShowError(txtEmailUsername, Lang.DialogTextShortEmail);
+                    ShowError(txtEmailUsername, Lang.DialogTextShortEmailOrUsername);
                 }
                 else if (text.Length > 250)
                 {
-                    ShowError(txtEmailUsername, Lang.DialogTextLongEmail);
+                    if (text.Contains("@"))
+                    {
+                        ShowError(txtEmailUsername, Lang.DialogTextLongEmail);
+                    }
+                    else
+                    {
+                        ShowError(txtEmailUsername, Lang.DialogTextLongUsername);
+                    }
                 }
             }
         }

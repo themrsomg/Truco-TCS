@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     /// <summary>
     /// Lógica de interacción para App.xaml
@@ -16,7 +16,7 @@ namespace TrucoPrueba1
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var langCode = TrucoPrueba1.Properties.Settings.Default.languageCode; 
+            var langCode = TrucoClient.Properties.Settings.Default.languageCode; 
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langCode);
             base.OnStartup(e);
             LanguageManager.ApplyLanguage();

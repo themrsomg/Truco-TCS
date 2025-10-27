@@ -8,11 +8,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using TrucoPrueba1.Properties.Langs;
-using TrucoPrueba1.TrucoServer;
-using TrucoPrueba1.Views;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
+using TrucoClient.Views;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public partial class UserProfilePage : Page
     {
@@ -282,7 +282,7 @@ namespace TrucoPrueba1
                 avatarId = "avatar_aaa_default";
             }
 
-            string packUri = $"pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/{avatarId}.png";
+            string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
 
             try
             {
@@ -290,7 +290,7 @@ namespace TrucoPrueba1
             }
             catch
             {
-                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoPrueba1;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
             }
         }
 

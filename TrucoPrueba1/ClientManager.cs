@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
-using TrucoPrueba1.TrucoServer;
+using TrucoClient.TrucoServer;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public static class ClientManager
     {

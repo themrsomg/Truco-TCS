@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Media;
 
-namespace TrucoPrueba1
+namespace TrucoClient
 {
     public static class MusicManager
     {

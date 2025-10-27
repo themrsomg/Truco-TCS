@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace TrucoPrueba1.Properties.Langs
+namespace TrucoClient.Properties.Langs
 {
     [MarkupExtensionReturnType(typeof(string))]
     public class LocExtension : MarkupExtension, INotifyPropertyChanged
