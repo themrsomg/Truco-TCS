@@ -238,10 +238,7 @@ namespace TrucoPrueba1
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
+            this.NavigationService.Navigate(new MainPage());
         }
 
         private void LoadUserProfile()
