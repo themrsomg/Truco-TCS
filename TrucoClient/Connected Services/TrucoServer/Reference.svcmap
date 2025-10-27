@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="f151b01c-0053-4d91-a1b8-2c23764526bb" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8080/TrucoServiceBase?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TrucoServiceBase.xsd" MetadataType="Schema" ID="85a9b242-64cd-446e-a205-99a7ee337c7a" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd1" />
+    <MetadataFile FileName="TrucoServiceBase1.xsd" MetadataType="Schema" ID="b00a6d89-18d4-4c9c-8c1a-1f797303e34d" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd0" />
+    <MetadataFile FileName="TrucoServiceBase2.xsd" MetadataType="Schema" ID="e5b39aed-836f-4b78-baad-9b1a665797b7" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd3" />
+    <MetadataFile FileName="TrucoServiceBase3.xsd" MetadataType="Schema" ID="11e82b78-1292-4981-bdd2-b48b5ffeb00a" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?xsd=xsd2" />
+    <MetadataFile FileName="TrucoServer.wsdl" MetadataType="Wsdl" ID="bfb7ef43-bcff-485a-a4c9-362e90f4fa33" SourceId="1" SourceUrl="http://localhost:8080/TrucoServiceBase?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
