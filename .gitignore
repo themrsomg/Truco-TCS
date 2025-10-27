@@ -7,10 +7,10 @@
 .sonarqube/
 
 #Server files
-TrucoPrueba1/Connected Services/
+TrucoClient/Connected Services/
 
 # User-specific files
-TrucoPrueba1/App.config
+/TrucoClient/App.config
 *.rsuser
 *.suo
 *.user
