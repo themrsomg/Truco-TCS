@@ -9,8 +9,10 @@ namespace TrucoClient
         public InitialWindows()
         {
             InitializeComponent();
-            MainFrame.Navigate(new StartPage());
+            //MainFrame.Navigate(new StartPage());
+            MainFrame.Navigate(new Views.SplashPage());
             MainFrame.Navigated += MainFrameNavigated;
+            /*
             string trackPath = System.IO.Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Resources",
@@ -19,6 +21,7 @@ namespace TrucoClient
             );
             MusicManager.Play(trackPath);
             MusicManager.Volume = 0.3;
+            */
         }
         private void MainFrameNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {

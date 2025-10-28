@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel.Channels;
+using System.Windows;
 using System.Windows.Media;
 
 namespace TrucoClient
@@ -8,7 +10,7 @@ namespace TrucoClient
     public static class MusicManager
     {
         private static MediaPlayer player = new MediaPlayer();
-        private static string currentTrack = "";
+        private static string currentTrack = string.Empty;
         private static double lastVolume = 0.3;
 
         public static double Volume
@@ -23,59 +25,82 @@ namespace TrucoClient
                 }
             }
         }
-        public static bool IsMuted
-        {
-            get => player.Volume == 0.0;
-        }
+
+        public static bool IsMuted => player.Volume == 0.0;
+
         public static void ToggleMute()
         {
             if (IsMuted)
-            {
                 player.Volume = lastVolume;
-            }
             else
             {
                 lastVolume = player.Volume;
                 player.Volume = 0.0;
             }
         }
+
         public static void Play(string resourcePath)
         {
-            if (string.IsNullOrEmpty(resourcePath))
-            { 
-                return;
-            }
-
-            if (currentTrack == resourcePath)
+            if (string.IsNullOrWhiteSpace(resourcePath))
             {
                 return;
             }
-
-            currentTrack = resourcePath;
-
             try
             {
-                player.Open(new Uri(resourcePath, UriKind.Absolute));
+                string fullPath = Path.IsPathRooted(resourcePath)
+                    ? resourcePath
+                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, resourcePath);
+
+                if (!File.Exists(fullPath))
+                {
+                    MessageBox.Show($"Archivo no encontrado: {fullPath}");
+                    return;
+                }
+
+                if (currentTrack == fullPath)
+                {
+                    return;
+                }
+
+                currentTrack = fullPath;
+                player.Open(new Uri(fullPath, UriKind.Absolute));
                 player.Volume = 0.5;
                 player.MediaEnded -= LoopHandler;
                 player.MediaEnded += LoopHandler;
+                player.MediaFailed -= OnMediaFailed;
+                player.MediaFailed += OnMediaFailed;
                 player.Play();
+
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error al reproducir música: {ex.Message}");
+                MessageBox.Show($"Error al reproducir música: {ex.Message}");
             }
+        }
+
+        private static void OnMediaFailed(object sender, ExceptionEventArgs e)
+        {
+            MessageBox.Show($"Fallo al reproducir música: {e.ErrorException?.Message}");
         }
 
         public static bool IsMenuMusicPlaying()
         {
-            return player.Source != null && player.Source.AbsolutePath.EndsWith("music_in_menus.mp3", StringComparison.OrdinalIgnoreCase);
+            return player.Source != null &&
+                   player.Source.AbsolutePath.EndsWith("music_in_menus.mp3", StringComparison.OrdinalIgnoreCase);
         }
 
         public static void Stop()
         {
-            player.Stop();
-            currentTrack = "";
+            try
+            {
+                player.Stop();
+                player.Close();
+                currentTrack = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al detener música: {ex.Message}");
+            }
         }
 
         public static void ChangeTrack(string resourcePath)
@@ -92,9 +117,7 @@ namespace TrucoClient
 
         private static double Clamp(double value, double min, double max)
         {
-            if (value < min) return min;
-            if (value > max) return max;
-            return value;
+            return Math.Max(min, Math.Min(max, value));
         }
     }
 
@@ -109,14 +132,7 @@ namespace TrucoClient
             {
                 return;
             }
-
-            string trackPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Resources",
-                "Songs",
-                MenuMusicFileName
-            );
-
+            string trackPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", MenuMusicFileName);
             MusicManager.Play(trackPath);
             MusicManager.Volume = DefaultVolume;
 
@@ -124,6 +140,24 @@ namespace TrucoClient
             {
                 MusicManager.ToggleMute();
             }
+        }
+
+        public static MediaPlayer InitializeSplashMusic()
+        {
+            string splashPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", "music_in_start.mp3");
+            var splashPlayer = new MediaPlayer();
+            try
+            {
+                splashPlayer.Open(new Uri(splashPath, UriKind.Absolute));
+                splashPlayer.Volume = 0.6;
+                splashPlayer.Play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al reproducir música del splash: {ex.Message}");
+            }
+
+            return splashPlayer;
         }
     }
 }

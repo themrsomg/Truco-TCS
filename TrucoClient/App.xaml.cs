@@ -20,6 +20,281 @@ namespace TrucoClient
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langCode);
             base.OnStartup(e);
             LanguageManager.ApplyLanguage();
+
+            InitialWindows mainWindow = new InitialWindows();
+            this.MainWindow = mainWindow;
+            mainWindow.Show();
         }
     }
 }
+/* A ochoa lo mataron a balazoz
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ *  * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ * A ochoa lo mataron a balazos
+ */ 

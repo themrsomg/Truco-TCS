@@ -9,7 +9,7 @@ namespace TrucoClient
         {
             InitializeComponent();
             SessionManager.ClearSession();
-            MusicInitializer.InitializeMenuMusic();
+            // MusicInitializer.InitializeMenuMusic();
         }
 
         private void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -36,6 +36,10 @@ namespace TrucoClient
         {
             this.NavigationService.Navigate(new NewUserPage());
 
+        }
+        private void ClickExit(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
         }
     }
 }

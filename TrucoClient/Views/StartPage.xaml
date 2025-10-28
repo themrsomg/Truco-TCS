@@ -65,6 +65,25 @@
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
+            <Button Click="ClickExit" Cursor="Hand" Margin="50,20,50,0" FontSize="40">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="0*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Static language:Lang.MenuTextExit}" VerticalAlignment="Center" 
+                   HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+               VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
         </StackPanel>
     </StackPanel>
 </Page>

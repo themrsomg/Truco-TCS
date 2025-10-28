@@ -1,8 +1,7 @@
 ﻿<Application x:Class="TrucoClient.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:TrucoClient"
-             StartupUri="InitialWindows.xaml">
+             xmlns:local="clr-namespace:TrucoClient">
     <Application.Resources>
          
     </Application.Resources>
