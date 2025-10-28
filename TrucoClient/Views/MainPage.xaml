@@ -32,7 +32,7 @@
                         </Button.Template>
                         <Grid>
                             <TextBlock Text="" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-                            <Image Source="/Resources/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" 
+                            <Image Source="/Resources/Logos/logo_settings.png" Width="60" Height="60" HorizontalAlignment="Left" 
                                    VerticalAlignment="Center"/>
                         </Grid>
                     </Button>
@@ -71,7 +71,7 @@
                     <Grid>
                         <TextBlock Text="{x:Static language:Lang.MenuTextMatch}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                        <Image Source="/Resources/Logos/logo_match.png" Width="45" Height="45" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
@@ -86,7 +86,7 @@
                     <Grid>
                         <TextBlock Text="{x:Static language:Lang.GlobalTextRankings}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                        <Image Source="/Resources/Logos/logo_rankings.png" Width="45" Height="45" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
@@ -101,13 +101,13 @@
                     <Grid>
                         <TextBlock Text="{x:Static language:Lang.MenuTextExit}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                        <Image Source="/Resources/Logos/logo_exit.png" Width="50" Height="50" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Image Source="/Resources/logo.png" Width="100" Height="100" Margin="690,150,0,0"/>
+                <Image Source="/Resources/Logos/logo.png" Width="100" Height="100" Margin="690,150,0,0"/>
             </StackPanel>
         </Grid>
     </StackPanel>

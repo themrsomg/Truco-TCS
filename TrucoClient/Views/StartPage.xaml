@@ -16,7 +16,7 @@
         </ComboBox>
         <Grid Height="380" Width="380">
             <Grid.Background>
-                <ImageBrush ImageSource="/Resources/logo.png"/>
+                <ImageBrush ImageSource="/Resources/Logos/logo.png"/>
             </Grid.Background>
         </Grid>
         <StackPanel Margin="10,15,10,20" Width="500">
@@ -31,7 +31,7 @@
                 <Grid>
                     <TextBlock Text="{language:Loc StartTextLogIn}" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                    <Image Source="/Resources/Logos/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -46,7 +46,7 @@
                 <Grid>
                     <TextBlock Text="{language:Loc StartTextPlayAsGuest}" VerticalAlignment="Center" 
                                HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_play_as_guest.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                    <Image Source="/Resources/Logos/logo_play_as_guest.png" Width="50" Height="50" HorizontalAlignment="Left" 
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -61,7 +61,7 @@
                 <Grid>
                     <TextBlock Text="{language:Loc StartTextSingUp}" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                    <Image Source="/Resources/Logos/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" 
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -80,7 +80,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="{x:Static language:Lang.MenuTextExit}" VerticalAlignment="Center" 
                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                    <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                    <Image Source="/Resources/Logos/logo_exit.png" Width="50" Height="50" HorizontalAlignment="Left" 
                VerticalAlignment="Center"/>
                 </Grid>
             </Button>

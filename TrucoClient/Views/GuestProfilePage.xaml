@@ -19,7 +19,7 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="{x:Static language:Lang.UserProfileGuestTextTitle}" FontSize="40" 
                            Margin="30,50,0,0" Foreground="White" Width="297" TextWrapping="Wrap"/>
-                <Image Source="/Resources/logo.png" Width="170" Height="170" Margin="50,0,0,0"/>
+                <Image Source="/Resources/Logos/logo.png" Width="170" Height="170" Margin="50,0,0,0"/>
             </StackPanel>
             <StackPanel Margin="10,20,10,0" Width="580">
                 <TextBlock Text="{x:Static language:Lang.UserProfileGuestTextInstructions}" Foreground="White" 
@@ -35,7 +35,7 @@
                     <Grid>
                         <TextBlock Text="{language:Loc StartTextLogIn}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                        <Image Source="/Resources/Logos/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
@@ -50,7 +50,7 @@
                     <Grid>
                         <TextBlock Text="{language:Loc StartTextSingUp}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
-                        <Image Source="/Resources/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" 
+                        <Image Source="/Resources/Logos/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>
                     </Grid>
                 </Button>

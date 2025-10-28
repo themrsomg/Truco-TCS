@@ -21,8 +21,8 @@ namespace TrucoClient
         private void UpdateVolumeIcon()
         {
             string iconPath = MusicManager.IsMuted
-                ? "/Resources/logo_muted.png"
-                : "/Resources/logo_volume.png";
+                ? "/Resources/Logos/logo_muted.png"
+                : "/Resources/Logos/logo_volume.png";
 
             VolumeIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
         }

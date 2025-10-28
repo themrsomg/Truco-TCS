@@ -385,11 +385,11 @@
     <Resource Include="Resources\SocialNetworks\Instagram_logo.png" />
     <Resource Include="Resources\SocialNetworks\facebook_logo.png" />
     <Resource Include="Resources\SocialNetworks\x_logo.png" />
-    <Resource Include="Resources\logo_settings.png" />
-    <Resource Include="Resources\logo_play_as_guest.png" />
-    <Resource Include="Resources\logo_new_user.png" />
-    <Resource Include="Resources\logo_login.png" />
-    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\Logos\logo_settings.png" />
+    <Resource Include="Resources\Logos\logo_play_as_guest.png" />
+    <Resource Include="Resources\Logos\logo_new_user.png" />
+    <Resource Include="Resources\Logos\logo_login.png" />
+    <Resource Include="Resources\Logos\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -398,7 +398,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\logo_lotso_studios.png" />
+    <Resource Include="Resources\Logos\logo_lotso_studios.png" />
+    <Resource Include="Resources\Logos\logo_exit.png" />
+    <Resource Include="Resources\Logos\logo_rankings.png" />
+    <Resource Include="Resources\Logos\logo_match.png" />
     <Content Include="Resources\Songs\music_in_start.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -419,8 +422,8 @@
     </Content>
     <Resource Include="Resources\wallpaper.png" />
     <Resource Include="Resources\wallpaper_main.png" />
-    <Resource Include="Resources\logo_muted.png" />
-    <Resource Include="Resources\logo_volume.png" />
+    <Resource Include="Resources\Logos\logo_muted.png" />
+    <Resource Include="Resources\Logos\logo_volume.png" />
     <None Include="Connected Services\TrucoServer\configuration91.svcinfo" />
     <None Include="Connected Services\TrucoServer\configuration.svcinfo" />
     <None Include="Connected Services\TrucoServer\Reference.svcmap">

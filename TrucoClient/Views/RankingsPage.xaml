@@ -20,7 +20,7 @@
                    Margin="0,15,0,0" Foreground="White"/>
             <Grid Height="280" Width="280">
                 <Grid.Background>
-                    <ImageBrush ImageSource="/Resources/logo.png"/>
+                    <ImageBrush ImageSource="/Resources/Logos/logo.png"/>
                 </Grid.Background>
             </Grid>
             <StackPanel Margin="10,15,10,0" Width="500">
