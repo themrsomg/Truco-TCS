@@ -34,12 +34,12 @@ namespace TrucoClient.Views
 
         private string GenerateCode(int longitud)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             char[] buffer = new char[longitud];
 
             for (int i = 0; i < longitud; i++)
             {
-                buffer[i] = chars[random.Next(chars.Length)];
+                buffer[i] = CHARS[random.Next(CHARS.Length)];
             }
 
             return new string(buffer);

@@ -448,6 +448,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The new password cannot be the same as the previous one.
+        /// </summary>
+        public static string DialogTextPasswordSameAsOld {
+            get {
+                return ResourceManager.GetString("DialogTextPasswordSameAsOld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Passwords do not match.
         /// </summary>
         public static string DialogTextPasswordsDontMatch {
@@ -1252,6 +1261,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The username can&apos;t contain spaces or symbols.
+        /// </summary>
+        public static string GlobalTextInvalidUsername {
+            get {
+                return ResourceManager.GetString("GlobalTextInvalidUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Invitation.
         /// </summary>
         public static string GlobalTextInvitation {
@@ -1356,6 +1374,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GlobalTextPassword {
             get {
                 return ResourceManager.GetString("GlobalTextPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.
+        /// </summary>
+        public static string GlobalTextPasswordNoComplex {
+            get {
+                return ResourceManager.GetString("GlobalTextPasswordNoComplex", resourceCulture);
             }
         }
         
@@ -1995,6 +2022,15 @@ namespace TrucoClient.Properties.Langs {
         public static string StartTextSingUp {
             get {
                 return ResourceManager.GetString("StartTextSingUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your email address belongs to an unrecognized domain. Are you sure?.
+        /// </summary>
+        public static string StartTextUncommonEmailDomain {
+            get {
+                return ResourceManager.GetString("StartTextUncommonEmailDomain", resourceCulture);
             }
         }
         

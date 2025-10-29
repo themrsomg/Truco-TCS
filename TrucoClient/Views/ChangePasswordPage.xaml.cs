@@ -170,7 +170,7 @@ namespace TrucoClient.Views
                 areValid = false;
             }
 
-            if (newPassword.Length < 8)
+            if (newPassword.Length < 12)
             {
                 ShowError(txtPassword, Lang.DialogTextShortPassword);
                 areValid = false;
@@ -178,6 +178,13 @@ namespace TrucoClient.Views
             else if (newPassword.Length > 50)
             {
                 ShowError(txtPassword, Lang.DialogTextLongPassword);
+                areValid = false;
+            }
+            else if (!IsPasswordComplex(newPassword))
+            {
+                string errorMessage = Lang.GlobalTextPasswordNoComplex;
+                ShowError(txtPassword, errorMessage);
+                ShowError(txtPasswordConfirm, errorMessage);
                 areValid = false;
             }
 
@@ -189,8 +196,49 @@ namespace TrucoClient.Views
                 areValid = false;
             }
 
+            if (string.Equals(currentPassword, newPassword))
+            {
+                ShowError(txtPassword, Lang.DialogTextPasswordSameAsOld);
+                areValid = false;
+            }
+
             CheckFormStatusAndToggleRegisterButton();
             return areValid;
+        }
+
+        private bool IsPasswordComplex(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                return false;
+            }
+
+            bool hasUpper = false;
+            bool hasLower = false;
+            bool hasDigit = false;
+            bool hasSymbol = false;
+
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c))
+                {
+                    hasUpper = true;
+                }
+                else if (char.IsLower(c))
+                {
+                    hasLower = true;
+                }
+                else if (char.IsDigit(c))
+                {
+                    hasDigit = true;
+                }
+                else if (!char.IsLetterOrDigit(c))
+                {
+                    hasSymbol = true;
+                }
+            }
+
+            return hasUpper && hasLower && hasDigit && hasSymbol;
         }
 
         private TextBlock GetErrorTextBlock(Control field)
@@ -231,7 +279,7 @@ namespace TrucoClient.Views
 
             if (errorBlock != null)
             {
-                errorBlock.Text = " ";
+                errorBlock.Text = string.Empty;
             }
 
             field.ClearValue(Border.BorderBrushProperty);
@@ -257,7 +305,7 @@ namespace TrucoClient.Views
                 return;
             }
 
-            if (password.Length < 8)
+            if (password.Length < 12)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }
@@ -272,6 +320,12 @@ namespace TrucoClient.Views
             if (!string.IsNullOrEmpty(password1) && !string.IsNullOrEmpty(password2) && !string.Equals(password1, password2))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ShowError(txtPassword, errorMessage);
+                ShowError(txtPasswordConfirm, errorMessage);
+            }
+            else if (!string.IsNullOrEmpty(password1) && !IsPasswordComplex(password1))
+            {
+                string errorMessage = Lang.GlobalTextPasswordNoComplex;
                 ShowError(txtPassword, errorMessage);
                 ShowError(txtPasswordConfirm, errorMessage);
             }

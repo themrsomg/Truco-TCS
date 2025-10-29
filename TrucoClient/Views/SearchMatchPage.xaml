@@ -12,7 +12,7 @@
         <StackPanel Margin="0,50,0,0">
             <TextBlock Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
                        TextAlignment="Center" Margin="0,0,0,20"/>
-            <ListBox x:Name="MatchesList" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
+            <ListBox x:Name="lstMatches" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
                      ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

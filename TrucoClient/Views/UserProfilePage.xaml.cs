@@ -20,7 +20,7 @@ namespace TrucoClient
         private const int MAX_CHANGES = 2;
         private string originalUsername;
 
-        private readonly List<string> AvailableAvatars = new List<string>
+        private readonly List<string> availableAvatars = new List<string>
         {
             "avatar_aaa_default", "avatar_c_hr_rallycarback",
             "avatar_c_hr_rallycarfront", "avatar_c_hr_redcarback", "avatar_c_hr_redcarfront",
@@ -120,7 +120,7 @@ namespace TrucoClient
                     return;
                 }
 
-                if (await UsernameExists(newUsername, userClient))
+                if (await UsernameExistsAsync(newUsername, userClient))
                 {
                     currentUserData.Username = oldUsername;
                     txtUsername.Text = oldUsername;
@@ -179,7 +179,7 @@ namespace TrucoClient
                 return;
             }
 
-            var avatarPage = new Views.AvatarSelectionPage(AvailableAvatars, currentUserData.AvatarId);
+            var avatarPage = new Views.AvatarSelectionPage(availableAvatars, currentUserData.AvatarId);
             avatarPage.AvatarSelected += AvatarPage_AvatarSelected;
             NavigationService.Navigate(avatarPage);
         }
@@ -241,6 +241,11 @@ namespace TrucoClient
             this.NavigationService.Navigate(new MainPage());
         }
 
+        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !System.Text.RegularExpressions.Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+$");
+        }
+
         private void LoadUserProfile()
         {
             Mouse.OverrideCursor = Cursors.Wait;
@@ -294,7 +299,7 @@ namespace TrucoClient
             }
         }
 
-        private async Task<bool> UsernameExists(string username, TrucoUserServiceClient userClient)
+        private async Task<bool> UsernameExistsAsync(string username, TrucoUserServiceClient userClient)
         {
             bool usernameExists = await Task.Run(() => userClient.UsernameExists(username));
 
@@ -400,6 +405,11 @@ namespace TrucoClient
                 ShowError(txtUsername, Lang.DialogTextLongUsername);
                 isValid = false;
             }
+            else if (!IsValidUsername(newUsername))
+            {
+                ShowError(txtUsername, Lang.GlobalTextInvalidUsername);
+                isValid = false;
+            }
 
             if (usernameChanged && currentUserData.NameChangeCount >= MAX_CHANGES)
             {
@@ -409,6 +419,11 @@ namespace TrucoClient
             }
 
             return isValid;
+        }
+
+        private bool IsValidUsername(string username)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(username, @"^[a-zA-Z0-9]+$");
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -492,7 +507,7 @@ namespace TrucoClient
 
             if (errorBlock != null)
             {
-                errorBlock.Text = " ";
+                errorBlock.Text = string.Empty;
             }
 
             field.ClearValue(Border.BorderBrushProperty);

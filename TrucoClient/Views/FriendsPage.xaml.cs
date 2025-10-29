@@ -283,7 +283,7 @@ namespace TrucoClient
 
             if (errorBlock != null)
             {
-                errorBlock.Text = " ";
+                errorBlock.Text = string.Empty;
             }
 
             field.ClearValue(Border.BorderBrushProperty);

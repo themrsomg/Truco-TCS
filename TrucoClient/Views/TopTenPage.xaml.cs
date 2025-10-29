@@ -13,9 +13,9 @@ namespace TrucoClient
         {
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
-            LoadTopTenPlayers();
+            LoadTopTenPlayersAsync();
         }
-        private async void LoadTopTenPlayers()
+        private async void LoadTopTenPlayersAsync()
         {
             try
             {

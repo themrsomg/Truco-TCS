@@ -35,10 +35,10 @@
                         </ControlTemplate>
                     </TextBox.Template>
                 </TextBox>
-                <TextBlock x:Name="blckEmailError" Text=" " Foreground="Red" FontSize=" 15"/>
+                <TextBlock x:Name="blckEmailError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
                 <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Margin="0,15,0,0" Foreground="White"/>
                 <TextBox x:Name="txtUsername" Cursor="Hand" TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" 
-                         KeyDown="EnterKeyDown">
+                         KeyDown="EnterKeyDown" PreviewTextInput="UsernamePreviewTextInput">
                     <TextBox.Template>
                         <ControlTemplate TargetType="TextBox">
                                             <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
@@ -84,7 +84,7 @@
                         </Button.Template>
                     </Button>
                 </Grid>
-                <TextBlock x:Name="blckPasswordError" Text=" " Foreground="Red" FontSize=" 15"/>
+                <TextBlock x:Name="blckPasswordError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
                 <TextBlock Text="{x:Static language:Lang.GlobalTextConfirmPassword}" Margin="0,15,0,0" Foreground="White"/>
                 <Grid x:Name="ConfirmPasswordContainer" Width="350">
                     <PasswordBox x:Name="txtPasswordConfirm" Cursor="Hand" Width="350" PasswordChanged="PasswordChanged" 
@@ -120,7 +120,7 @@
                         </Button.Template>
                     </Button>
                 </Grid>
-                <TextBlock x:Name="blckPasswordConfirmError" Text=" " Foreground="Red" FontSize=" 15"/>
+                <TextBlock x:Name="blckPasswordConfirmError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
                 <Button x:Name="btnRegister" Content="{x:Static language:Lang.GlobalTextCreateAccount}" Click="ClickRegister" 
                         Cursor="Hand" Margin="0,30,0,0" Width="240" FontSize="30" HorizontalAlignment="Center" IsEnabled="False">
                     <Button.Template>

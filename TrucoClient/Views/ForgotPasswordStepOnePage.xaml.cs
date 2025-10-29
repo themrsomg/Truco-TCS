@@ -163,7 +163,7 @@ namespace TrucoClient.Views
 
         private void ClearError()
         {
-            blckEmailError.Text = " ";
+            blckEmailError.Text = string.Empty;
 
             txtEmail.ClearValue(Border.BorderBrushProperty);
         }

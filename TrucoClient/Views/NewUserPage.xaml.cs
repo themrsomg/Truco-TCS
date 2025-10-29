@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -128,6 +129,11 @@ namespace TrucoClient
             }
         }
 
+        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !System.Text.RegularExpressions.Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+$");
+        }
+
         private bool HasUnsavedFields()
         {
             bool canGoBack = false;
@@ -192,7 +198,14 @@ namespace TrucoClient
                 ShowError(txtEmail, Lang.DialogTextLongEmail);
                 areValid = false;
             }
-            else if (!IsValidEmail(email))
+            else if (IsValidEmail(email))
+            {
+                if (!IsCommonEmailProvider(email))
+                {
+                    ShowWarning(txtEmail, Lang.StartTextUncommonEmailDomain);
+                }
+            }
+            else
             {
                 ShowError(txtEmail, Lang.GlobalTextInvalidEmail);
                 areValid = false;
@@ -208,8 +221,13 @@ namespace TrucoClient
                 ShowError(txtUsername, Lang.DialogTextLongUsername);
                 areValid = false;
             }
+            else if (!IsValidUsername(username))
+            {
+                ShowError(txtUsername, Lang.GlobalTextInvalidUsername);
+                areValid = false;
+            }
 
-            if (password.Length < 8)
+            if (password.Length < 12)
             {
                 ShowError(txtPassword, Lang.DialogTextShortPassword);
                 areValid = false;
@@ -217,6 +235,11 @@ namespace TrucoClient
             else if (password.Length > 50)
             {
                 ShowError(txtPassword, Lang.DialogTextLongPassword);
+                areValid = false;
+            }
+            else if (!IsPasswordComplex(password))
+            {
+                ShowError(txtPassword, Lang.GlobalTextPasswordNoComplex);
                 areValid = false;
             }
 
@@ -232,21 +255,98 @@ namespace TrucoClient
             return areValid;
         }
 
+        private bool IsPasswordComplex(string password)
+        {
+            bool hasUpper = false;
+            bool hasLower = false;
+            bool hasDigit = false;
+            bool hasSymbol = false;
+
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c))
+                {
+                    hasUpper = true;
+                }
+                else if (char.IsLower(c))
+                {
+                    hasLower = true;
+                }
+                else if (char.IsDigit(c))
+                {
+                    hasDigit = true;
+                }
+                else if (!char.IsLetterOrDigit(c))
+                {
+                    hasSymbol = true;
+                }
+            }
+
+            return hasUpper && hasLower && hasDigit && hasSymbol;
+        }
+
+        private bool IsValidUsername(string username)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(username, @"^[a-zA-Z0-9]+$");
+        }
+
         private bool IsValidEmail(string email)
         {
+            bool isValid = true;
+
             if (string.IsNullOrWhiteSpace(email))
             {
-                return false;
+                isValid = false;
             }
+
+            if (email.Contains("..") || email.Contains(" "))
+            {
+                isValid = false;
+            }
+
+            if (!isValid)
+            {
+                return isValid;
+            }
+
             try
             {
                 var address = new System.Net.Mail.MailAddress(email);
-                return address.Address == email;
+                isValid = System.Text.RegularExpressions.Regex.IsMatch( email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$" ) 
+                    && address.Address == email;
+
             }
             catch
             {
+                return isValid;
+            }
+
+            return isValid;
+        }
+
+        private bool IsCommonEmailProvider(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            {
                 return false;
             }
+
+            var parts = email.Split('@');
+            if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[1]))
+            {
+                return false;
+            }
+
+            string domain = parts[1].ToLower();
+
+            string[] commonDomains =
+            {
+                "gmail.com", "outlook.com", "hotmail.com",
+                "yahoo.com", "icloud.com", "live.com",
+                "aol.com", "protonmail.com", "uv.mx", "estudiantes.uv.mx"
+            };
+
+            return commonDomains.Contains(domain);
         }
 
         private bool EmailOrUsernameExists(string email, string username, TrucoUserServiceClient client)
@@ -344,13 +444,25 @@ namespace TrucoClient
             field.BorderBrush = new SolidColorBrush(Colors.Red);
         }
 
+        private void ShowWarning(Control field, string warningMessage)
+        {
+            TextBlock warningBlock = GetErrorTextBlock(field);
+
+            if (warningBlock != null)
+            {
+                warningBlock.Text = warningMessage;
+                warningBlock.Foreground = new SolidColorBrush(Colors.Orange);
+            }
+        }
+
         private void ClearSpecificError(Control field)
         {
             TextBlock errorBlock = GetErrorTextBlock(field);
 
             if (errorBlock != null)
             {
-                errorBlock.Text = " ";
+                errorBlock.Text = string.Empty;
+                errorBlock.Foreground = new SolidColorBrush(Colors.Red);
             }
 
             field.ClearValue(Border.BorderBrushProperty);
@@ -431,7 +543,7 @@ namespace TrucoClient
                 return;
             }
 
-            if (password.Length < 8)
+            if (password.Length < 12)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }
@@ -446,6 +558,12 @@ namespace TrucoClient
             if (!string.IsNullOrEmpty(password1) && !string.IsNullOrEmpty(password2) && !string.Equals(password1, password2))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ShowError(txtPassword, errorMessage);
+                ShowError(txtPasswordConfirm, errorMessage);
+            }
+            else if (!string.IsNullOrEmpty(password1) && !IsPasswordComplex(password1))
+            {
+                string errorMessage = Lang.GlobalTextPasswordNoComplex;
                 ShowError(txtPassword, errorMessage);
                 ShowError(txtPasswordConfirm, errorMessage);
             }
@@ -494,10 +612,18 @@ namespace TrucoClient
 
         private void CheckFormStatusAndToggleRegisterButton()
         {
-            bool hasErrorMessages = blckEmailError.Text.Trim().Length > 0 ||
-                                    blckUsernameError.Text.Trim().Length > 0 ||
-                                    blckPasswordError.Text.Trim().Length > 0 ||
-                                    blckPasswordConfirmError.Text.Trim().Length > 0;
+            bool hasErrorMessages = (!string.IsNullOrWhiteSpace(blckEmailError.Text) &&
+                                     (blckEmailError.Foreground as SolidColorBrush)?.Color == Colors.Red)
+                                    ||
+                                    (!string.IsNullOrWhiteSpace(blckUsernameError.Text) &&
+                                     (blckUsernameError.Foreground as SolidColorBrush)?.Color == Colors.Red)
+                                    ||
+                                    (!string.IsNullOrWhiteSpace(blckPasswordError.Text) &&
+                                     (blckPasswordError.Foreground as SolidColorBrush)?.Color == Colors.Red)
+                                    ||
+                                    (!string.IsNullOrWhiteSpace(blckPasswordConfirmError.Text) &&
+                                     (blckPasswordConfirmError.Foreground as SolidColorBrush)?.Color == Colors.Red);
+
 
             bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                                    !string.IsNullOrWhiteSpace(txtUsername.Text) &&

@@ -829,4 +829,16 @@ Sign up today and set up a proper match!</value>
   <data name="DialogTextShortEmailOrUsername" xml:space="preserve">
     <value>Email or username is too short</value>
   </data>
+  <data name="GlobalTextPasswordNoComplex" xml:space="preserve">
+    <value>The password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol</value>
+  </data>
+  <data name="GlobalTextInvalidUsername" xml:space="preserve">
+    <value>The username can't contain spaces or symbols</value>
+  </data>
+  <data name="StartTextUncommonEmailDomain" xml:space="preserve">
+    <value>Your email address belongs to an unrecognized domain. Are you sure?</value>
+  </data>
+  <data name="DialogTextPasswordSameAsOld" xml:space="preserve">
+    <value>The new password cannot be the same as the previous one</value>
+  </data>
 </root>

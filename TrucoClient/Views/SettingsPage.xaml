@@ -50,7 +50,7 @@
                     </Button.Template>
                     <Grid>
                         <!--Cambia imagen por Mute / Unmute desde el .cs-->
-                        <Image x:Name="VolumeIcon" Source="/Resources/app_logo.ico" Width="120" Height="120" 
+                        <Image x:Name="imgVolumeIcon" Source="/Resources/app_logo.ico" Width="120" Height="120" 
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>

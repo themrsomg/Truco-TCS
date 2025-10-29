@@ -24,7 +24,7 @@ namespace TrucoClient
                 ? "/Resources/Logos/logo_muted.png"
                 : "/Resources/Logos/logo_volume.png";
 
-            VolumeIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
+            imgVolumeIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
         }
 
         private void ClickVolume(object sender, RoutedEventArgs e)

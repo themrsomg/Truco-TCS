@@ -29,7 +29,7 @@ namespace TrucoClient.Views
                 new MatchInfo { MatchName = "Partida 3 - 2v2", MatchCode = "TRU003", CurrentPlayers = 3, MaxPlayers = 4 }
             };
 
-            MatchesList.ItemsSource = matches;
+            lstMatches.ItemsSource = matches;
         }
 
         private void ClickJoinMatch(object sender, RoutedEventArgs e)

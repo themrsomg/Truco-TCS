@@ -152,7 +152,7 @@ namespace TrucoClient
 
             if (errorBlock != null)
             {
-                errorBlock.Text = " ";
+                errorBlock.Text = string.Empty;
             }
 
             field.ClearValue(Border.BorderBrushProperty);
@@ -219,7 +219,7 @@ namespace TrucoClient
                 return;
             }
 
-            if (password.Length < 8)
+            if (password.Length < 12)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }

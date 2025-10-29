@@ -51,7 +51,7 @@
                     <StackPanel Grid.Column="1" Margin="30,0,0,0">
                         <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Foreground="White"/>
                         <TextBox x:Name="txtUsername" MaxLength="20" Cursor="Hand" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus">
+                                 TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" PreviewTextInput="UsernamePreviewTextInput">
                             <TextBox.Template>
                                 <ControlTemplate TargetType="TextBox">
                                     <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 

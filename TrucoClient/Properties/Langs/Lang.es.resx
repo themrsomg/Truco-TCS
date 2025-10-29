@@ -829,4 +829,16 @@
   <data name="DialogTextShortEmailOrUsername" xml:space="preserve">
     <value>El correo electrónico o usuario es muy corto</value>
   </data>
+  <data name="GlobalTextPasswordNoComplex" xml:space="preserve">
+    <value>La contraseña debe contener al menos una mayúscula, una minúscula, un número y un símbolo</value>
+  </data>
+  <data name="GlobalTextInvalidUsername" xml:space="preserve">
+    <value>El nombre de usuario no puede contener espacios ni símbolos</value>
+  </data>
+  <data name="StartTextUncommonEmailDomain" xml:space="preserve">
+    <value>Tu correo pertenece a un dominio no reconocido. ¿Estás seguro?</value>
+  </data>
+  <data name="DialogTextPasswordSameAsOld" xml:space="preserve">
+    <value>La nueva contraseña no puede ser igual a la anterior</value>
+  </data>
 </root>

@@ -123,8 +123,8 @@ namespace TrucoClient
 
     public static class MusicInitializer
     {
-        private const string MenuMusicFileName = "music_in_menus.mp3";
-        private const double DefaultVolume = 0.3;
+        private const string MENU_MUSIC_FILE_NAME = "music_in_menus.mp3";
+        private const double DEFAULT_VOLUME = 0.3;
 
         public static void InitializeMenuMusic()
         {
@@ -132,9 +132,11 @@ namespace TrucoClient
             {
                 return;
             }
-            string trackPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", MenuMusicFileName);
+
+            string trackPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", MENU_MUSIC_FILE_NAME);
+
             MusicManager.Play(trackPath);
-            MusicManager.Volume = DefaultVolume;
+            MusicManager.Volume = DEFAULT_VOLUME;
 
             if (Properties.Settings.Default.IsMusicMuted)
             {
@@ -146,6 +148,7 @@ namespace TrucoClient
         {
             string splashPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", "music_in_start.mp3");
             var splashPlayer = new MediaPlayer();
+
             try
             {
                 splashPlayer.Open(new Uri(splashPath, UriKind.Absolute));

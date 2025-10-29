@@ -58,9 +58,9 @@ namespace TrucoClient.Views
 
         private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (PlaceholderText != null)
+            if (blckPlaceholder != null)
             {
-                PlaceholderText.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
+                blckPlaceholder.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }

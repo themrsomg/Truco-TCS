@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TrucoClient.Views
 {
@@ -31,33 +22,37 @@ namespace TrucoClient.Views
             this.Loaded -= OnSplashPageLoaded;
             splashPlayer = MusicInitializer.InitializeSplashMusic();
             StartLogoAnimation();
-            _ = NavigateAfterDelay(TimeSpan.FromSeconds(5.4));
+            _ = NavigateAfterDelayAsync(TimeSpan.FromSeconds(5.4));
         }
 
         private void StartLogoAnimation()
         {
             var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(1.2));
-            GameLogo.BeginAnimation(OpacityProperty, fadeIn);
+            imgGameLogo.BeginAnimation(OpacityProperty, fadeIn);
+
             var scaleUp = new DoubleAnimation(0.5, 1.0, TimeSpan.FromSeconds(1.2))
             {
                 EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
             };
-            if (GameLogo.RenderTransform is ScaleTransform scaleTransform)
+
+            if (imgGameLogo.RenderTransform is ScaleTransform scaleTransform)
             {
                 scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleUp);
                 scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleUp);
             }
+
             var textFadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(1.0))
             {
                 BeginTime = TimeSpan.FromSeconds(1.5)
             };
+
             if (this.Content is Grid rootGrid && rootGrid.Children.Count > 1 && rootGrid.Children[1] is TextBlock textBlock)
             {
                 textBlock.BeginAnimation(OpacityProperty, textFadeIn);
             }
         }
 
-        private async Task NavigateAfterDelay(TimeSpan delay)
+        private async Task NavigateAfterDelayAsync(TimeSpan delay)
         {
             await Task.Delay(delay);
             var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
