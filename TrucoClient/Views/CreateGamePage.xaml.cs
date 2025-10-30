@@ -9,7 +9,10 @@ namespace TrucoClient.Views
     /// </summary>
     public partial class CreateGamePage : Page
     {
+        private const String CHARS_SIZE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
         private static readonly Random random = new Random();
+
         public CreateGamePage()
         {
             InitializeComponent();
@@ -34,7 +37,7 @@ namespace TrucoClient.Views
 
         private string GenerateCode(int longitud)
         {
-            const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string CHARS = CHARS_SIZE;
             char[] buffer = new char[longitud];
 
             for (int i = 0; i < longitud; i++)

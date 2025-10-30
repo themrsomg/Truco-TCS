@@ -402,18 +402,14 @@
     <Resource Include="Resources\Logos\logo_exit.png" />
     <Resource Include="Resources\Logos\logo_rankings.png" />
     <Resource Include="Resources\Logos\logo_match.png" />
+    <Content Include="Resources\Songs\laughter_reaction.mp3" />
     <Content Include="Resources\Songs\music_in_start.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Songs\music_in_start_opt2.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Songs\notification_music.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Songs\risa_reaction.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Resources\Songs\music_notification.mp3" />
     <Content Include="Resources\Songs\scream_fx_ee.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

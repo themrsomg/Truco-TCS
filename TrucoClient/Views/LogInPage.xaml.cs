@@ -11,6 +11,11 @@ namespace TrucoClient
 {
     public partial class LogInPage : Page
     {
+        private const int MIN_TEXT_LENGTH = 4;
+        private const int MAX_TEXT_LENGTH = 250;
+        private const int MIN_PASSWORD_LENGTH = 12;
+        private const int MAX_PASSWORD_LENGTH = 50;
+
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public LogInPage()
@@ -44,7 +49,8 @@ namespace TrucoClient
                     SessionManager.CurrentUsername = resolvedUsername;
                     SessionManager.CurrentUserData = await userClient.GetUserProfileAsync(resolvedUsername);
 
-                    MessageBox.Show(Lang.GlobalTextWelcome + " " + SessionManager.CurrentUsername + "!", Lang.GlobalTextWelcome + "!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.GlobalTextWelcome + " " + SessionManager.CurrentUsername + "!", Lang.GlobalTextWelcome + "!",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
 
                     this.NavigationService.Navigate(new MainPage());
                 }
@@ -56,7 +62,8 @@ namespace TrucoClient
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, 
+                MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -162,7 +169,7 @@ namespace TrucoClient
             ClearSpecificError(txtEmailUsername);
             ClearSpecificError(txtPassword);
         }
-
+        
         private void TextBoxChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -178,11 +185,11 @@ namespace TrucoClient
 
             if (textBox == txtEmailUsername)
             {
-                if (text.Length < 4)
+                if (text.Length < MIN_TEXT_LENGTH)
                 {
                     ShowError(txtEmailUsername, Lang.DialogTextShortEmailOrUsername);
                 }
-                else if (text.Length > 250)
+                else if (text.Length > MAX_TEXT_LENGTH)
                 {
                     if (text.Contains("@"))
                     {
@@ -219,11 +226,11 @@ namespace TrucoClient
                 return;
             }
 
-            if (password.Length < 12)
+            if (password.Length < MIN_PASSWORD_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }
-            else if (password.Length > 50)
+            else if (password.Length > MAX_PASSWORD_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextLongPassword);
             }

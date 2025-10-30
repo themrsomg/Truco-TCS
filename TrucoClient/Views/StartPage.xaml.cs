@@ -9,7 +9,6 @@ namespace TrucoClient
         {
             InitializeComponent();
             SessionManager.ClearSession();
-            // MusicInitializer.InitializeMenuMusic();
         }
 
         private void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)

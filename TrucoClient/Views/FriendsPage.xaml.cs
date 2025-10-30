@@ -13,6 +13,8 @@ namespace TrucoClient
 {
     public class FriendDisplayData
     {
+        private const String URL_AVATAR_DEFAULT = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
+
         public string Username { get; set; }
         public string AvatarId { get; set; }
 
@@ -29,7 +31,7 @@ namespace TrucoClient
                 }
                 catch (Exception ex)
                 {
-                    return "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
+                    return URL_AVATAR_DEFAULT;
                 }
             }
         }
@@ -37,6 +39,9 @@ namespace TrucoClient
 
     public partial class FriendsPage : Page
     {
+        private const int MIN_USERNAME_LENGTH = 4;
+        private const int MAX_USERNAME_LENGTH = 20;
+
         public ObservableCollection<FriendDisplayData> FriendsList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public ObservableCollection<FriendDisplayData> PendingList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public FriendDisplayData SelectedFriend { get; set; }
@@ -144,12 +149,12 @@ namespace TrucoClient
                 return false;
             }
 
-            if (targetUsername.Length < 4)
+            if (targetUsername.Length < MIN_USERNAME_LENGTH)
             {
                 ShowError(txtSearch, Lang.DialogTextShortUsername);
                 isValid = false;
             }
-            else if (targetUsername.Length > 20)
+            else if (targetUsername.Length > MAX_USERNAME_LENGTH)
             {
                 ShowError(txtSearch, Lang.DialogTextLongUsername);
                 isValid = false;
@@ -236,7 +241,7 @@ namespace TrucoClient
         {
             this.NavigationService.Navigate(new MainPage());
         }
-
+        
         private void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
             if (blckPlaceholder != null)
@@ -255,11 +260,11 @@ namespace TrucoClient
                 return;
             }
 
-            if (text.Length < 4)
+            if (text.Length < MIN_USERNAME_LENGTH)
             {
                 ShowError(txtSearch, Lang.DialogTextShortUsername);
             }
-            else if (text.Length > 20)
+            else if (text.Length > MAX_USERNAME_LENGTH)
             {
                 ShowError(txtSearch, Lang.DialogTextLongUsername);
             }

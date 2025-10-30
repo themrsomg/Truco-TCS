@@ -11,6 +11,15 @@ namespace TrucoClient
 {
     public partial class NewUserPage : Page
     {
+        private const int MIN_PASSWORD_LENGTH = 12;
+        private const int MAX_PASSWORD_LENGTH = 50;
+        private const int MIN_USERNAME_LENGTH = 4;
+        private const int MAX_USERNAME_LENGTH = 20;
+        private const int MIN_EMAIL_LENGTH = 5;
+        private const int MAX_EMAIL_LENGTH = 250;
+        private const int MIN_TEXT_LENGTH = 5;
+        private const int MAX_TEXT_LENGTH = 250;
+
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
         public NewUserPage()
         {
@@ -82,7 +91,8 @@ namespace TrucoClient
         {
             if (!HasUnsavedFields())
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult messageBoxResult = MessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation,
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
@@ -188,12 +198,12 @@ namespace TrucoClient
                 return false;
             }
 
-            if (email.Length < 5)
+            if (email.Length < MIN_EMAIL_LENGTH)
             {
                 ShowError(txtEmail, Lang.DialogTextShortEmail);
                 areValid = false;
             }
-            else if (email.Length > 250)
+            else if (email.Length > MAX_EMAIL_LENGTH)
             {
                 ShowError(txtEmail, Lang.DialogTextLongEmail);
                 areValid = false;
@@ -211,12 +221,12 @@ namespace TrucoClient
                 areValid = false;
             }
 
-            if (username.Length < 4)
+            if (username.Length < MIN_USERNAME_LENGTH)
             {
                 ShowError(txtUsername, Lang.DialogTextShortUsername);
                 areValid = false;
             }
-            else if (username.Length > 20)
+            else if (username.Length > MAX_USERNAME_LENGTH)
             {
                 ShowError(txtUsername, Lang.DialogTextLongUsername);
                 areValid = false;
@@ -227,12 +237,12 @@ namespace TrucoClient
                 areValid = false;
             }
 
-            if (password.Length < 12)
+            if (password.Length < MIN_PASSWORD_LENGTH)
             {
                 ShowError(txtPassword, Lang.DialogTextShortPassword);
                 areValid = false;
             }
-            else if (password.Length > 50)
+            else if (password.Length > MAX_PASSWORD_LENGTH)
             {
                 ShowError(txtPassword, Lang.DialogTextLongPassword);
                 areValid = false;
@@ -506,11 +516,11 @@ namespace TrucoClient
             }
             else if (textBox == txtUsername)
             {
-                if (text.Length < 4)
+                if (text.Length < MIN_TEXT_LENGTH)
                 {
                     ShowError(txtUsername, Lang.DialogTextShortUsername);
                 }
-                else if (text.Length > 20)
+                else if (text.Length > MAX_TEXT_LENGTH)
                 {
                     ShowError(txtUsername, Lang.DialogTextLongUsername);
                 }
@@ -543,11 +553,11 @@ namespace TrucoClient
                 return;
             }
 
-            if (password.Length < 12)
+            if (password.Length < MIN_PASSWORD_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }
-            else if (password.Length > 50)
+            else if (password.Length > MAX_PASSWORD_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextLongPassword);
             }

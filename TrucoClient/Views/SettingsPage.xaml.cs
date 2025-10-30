@@ -8,6 +8,9 @@ namespace TrucoClient
 {
     public partial class SettingsPage : Page
     {
+        private const String VOLUME_ICON_MUTED_PATH = "/Resources/Logos/logo_muted.png";
+        private const String VOLUME_ICON_VOLUME_PATH = "/Resources/Logos/logo_volume.png";
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -21,8 +24,8 @@ namespace TrucoClient
         private void UpdateVolumeIcon()
         {
             string iconPath = MusicManager.IsMuted
-                ? "/Resources/Logos/logo_muted.png"
-                : "/Resources/Logos/logo_volume.png";
+                ? VOLUME_ICON_MUTED_PATH
+                : VOLUME_ICON_VOLUME_PATH;
 
             imgVolumeIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
         }

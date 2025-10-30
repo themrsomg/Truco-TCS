@@ -18,6 +18,11 @@ namespace TrucoClient
     {
         private UserProfileData currentUserData;
         private const int MAX_CHANGES = 2;
+        private const String URL_AVATAR_DEFAULT = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
+        private const int MIN_USERNAME_LENGTH = 4;
+        private const int MAX_USERNAME_LENGTH = 20;
+        private const int MIN_TEXT_LENGTH = 4;
+        private const int MAX_TEXT_LENGTH = 20;
         private string originalUsername;
 
         private readonly List<string> availableAvatars = new List<string>
@@ -295,7 +300,7 @@ namespace TrucoClient
             }
             catch
             {
-                imgAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                imgAvatar.Source = new BitmapImage(new Uri(URL_AVATAR_DEFAULT, UriKind.Absolute));
             }
         }
 
@@ -394,13 +399,13 @@ namespace TrucoClient
 
             bool usernameChanged = !string.IsNullOrWhiteSpace(originalUsername) && !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
 
-            if (usernameChanged && newUsername.Length < 4)
+            if (usernameChanged && newUsername.Length < MIN_USERNAME_LENGTH)
             {
                 ShowError(txtUsername, Lang.DialogTextShortUsername);
                 isValid = false;
             }
 
-            if (usernameChanged && newUsername.Length > 20)
+            if (usernameChanged && newUsername.Length > MAX_USERNAME_LENGTH)
             {
                 ShowError(txtUsername, Lang.DialogTextLongUsername);
                 isValid = false;
@@ -535,11 +540,11 @@ namespace TrucoClient
 
             if (textBox == txtUsername)
             {
-                if (text.Length < 4)
+                if (text.Length < MIN_TEXT_LENGTH)
                 {
                     ShowError(txtUsername, Lang.DialogTextShortUsername);
                 }
-                else if (text.Length > 20)
+                else if (text.Length > MAX_TEXT_LENGTH)
                 {
                     ShowError(txtUsername, Lang.DialogTextLongUsername);
                 }

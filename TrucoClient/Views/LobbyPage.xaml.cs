@@ -10,6 +10,8 @@ namespace TrucoClient.Views
 {
     public partial class LobbyPage : Page
     {
+        private const int FONT_SIZE = 13;
+
         private readonly string matchCode;
         private readonly string matchName;
 
@@ -65,7 +67,7 @@ namespace TrucoClient.Views
                     : Visibility.Collapsed;
             }
         }
-
+        
         private void AddChatMessage(string senderName, string message)
         {
             TextBlock messageText = new TextBlock();
@@ -76,7 +78,7 @@ namespace TrucoClient.Views
                 {
                     Text = $"{message}",
                     TextWrapping = TextWrapping.Wrap,
-                    FontSize = 13
+                    FontSize = FONT_SIZE
                 };
 
                 messageText.Foreground = Brushes.DarkGray;
@@ -88,7 +90,7 @@ namespace TrucoClient.Views
                 {
                     Text = $"{senderName}: {message}",
                     TextWrapping = TextWrapping.Wrap,   
-                    FontSize = 13
+                    FontSize = FONT_SIZE
                 };
             }
             ChatMessagesPanel.Children.Add(messageText);

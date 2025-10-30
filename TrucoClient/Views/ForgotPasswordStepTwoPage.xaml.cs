@@ -3,12 +3,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
     public partial class ForgotPasswordStepTwoPage : Page
     {
+
+        private const int CODE_LENGTH = 6;
+        private const int MIN_PASSWORD_LENGTH = 8;
+        private const int MAX_PASSWORD_LENGTH = 50;
+        private const int TEXT_LENGTH = 6;
+        private const int MIN_TEXT_LENGTH = 0;
+
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         private string email;
@@ -117,7 +125,7 @@ namespace TrucoClient.Views
                 return false;
             }
 
-            if (code.Length != 6)
+            if (code.Length != CODE_LENGTH)
             {
                 ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeLength);
                 areValid = false;
@@ -128,12 +136,12 @@ namespace TrucoClient.Views
                 areValid = false;
             }
 
-            if (password.Length < 8)
+            if (password.Length < MIN_PASSWORD_LENGTH)
             {
                 ShowError(txtPassword, Lang.DialogTextShortPassword);
                 areValid = false;
             }
-            else if (password.Length > 50)
+            else if (password.Length > MAX_PASSWORD_LENGTH)
             {
                 ShowError(txtPassword, Lang.DialogTextLongPassword);
                 areValid = false;
@@ -259,7 +267,7 @@ namespace TrucoClient.Views
 
             if (textBox == txtVerificationCode)
             {
-                if (text.Length != 6)
+                if (text.Length != TEXT_LENGTH)
                 {
                     ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeLength);
                 }
@@ -294,11 +302,11 @@ namespace TrucoClient.Views
                 return;
             }
 
-            if (password.Length < 12)
+            if (password.Length < MIN_PASSWORD_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }
-            else if (password.Length > 50)
+            else if (password.Length > MAX_PASSWORD_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextLongPassword);
             }
@@ -362,9 +370,9 @@ namespace TrucoClient.Views
         }
         private void CheckFormStatusAndToggleRegisterButton()
         {
-            bool hasErrorMessages = blckPasswordError.Text.Trim().Length > 0 ||
-                                    blckPasswordConfirmError.Text.Trim().Length > 0 || 
-                                    blckCodeError.Text.Trim().Length > 0;
+            bool hasErrorMessages = blckPasswordError.Text.Trim().Length > MIN_TEXT_LENGTH ||
+                                    blckPasswordConfirmError.Text.Trim().Length > MIN_TEXT_LENGTH || 
+                                    blckCodeError.Text.Trim().Length > MIN_TEXT_LENGTH;
 
             bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtPassword.Password) &&
                                    !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password) &&

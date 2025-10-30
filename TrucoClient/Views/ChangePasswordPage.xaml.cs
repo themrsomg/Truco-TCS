@@ -9,6 +9,10 @@ namespace TrucoClient.Views
 {
     public partial class ChangePasswordPage : Page
     {
+        private const int PASSWORD_MIN_LENGTH = 12;
+        private const int PASSWORD_MAX_LENGTH = 50;
+        private const int MIN_LENGTH = 0;
+
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
         public ChangePasswordPage()
         {
@@ -291,7 +295,7 @@ namespace TrucoClient.Views
             ClearSpecificError(txtPassword);
             ClearSpecificError(txtPasswordConfirm);
         }
-
+        
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
@@ -305,11 +309,11 @@ namespace TrucoClient.Views
                 return;
             }
 
-            if (password.Length < 12)
+            if (password.Length < PASSWORD_MIN_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextShortPassword);
             }
-            else if (password.Length > 50)
+            else if (password.Length > PASSWORD_MAX_LENGTH)
             {
                 ShowError(passwordBox, Lang.DialogTextLongPassword);
             }
@@ -375,11 +379,12 @@ namespace TrucoClient.Views
 
             CheckFormStatusAndToggleRegisterButton();
         }
+        
         private void CheckFormStatusAndToggleRegisterButton()
         {
-            bool hasErrorMessages = blckCurrentError.Text.Trim().Length > 0 ||
-                                    blckPasswordError.Text.Trim().Length > 0 ||
-                                    blckPasswordConfirmError.Text.Trim().Length > 0;
+            bool hasErrorMessages = blckCurrentError.Text.Trim().Length > MIN_LENGTH ||
+                                    blckPasswordError.Text.Trim().Length > MIN_LENGTH ||
+                                    blckPasswordConfirmError.Text.Trim().Length > MIN_LENGTH;
 
             bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtCurrentPassword.Password) &&
                                    !string.IsNullOrWhiteSpace(txtPassword.Password) &&

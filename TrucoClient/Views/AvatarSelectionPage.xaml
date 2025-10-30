@@ -8,6 +8,7 @@
       mc:Ignorable="d"
       xmlns:language="clr-namespace:TrucoClient.Properties.Langs"
       Title="{x:Static language:Lang.AvatarSelection}" Width="800" Height="600" FontFamily="Book Antiqua">
+    
     <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
         <Border.Background>
             <SolidColorBrush Color="Black"/>

@@ -11,6 +11,12 @@ namespace TrucoClient.Views
 {
     public partial class ForgotPasswordStepOnePage : Page
     {
+
+        private const int MIN_EMAIL_LENGTH = 5;
+        private const int MAX_EMAIL_LENGTH = 250;
+        private const int MIN_TEXT_LENGTH = 5;
+        private const int MAX_TEXT_LENGTH = 250;
+
         public ForgotPasswordStepOnePage()
         {
             InitializeComponent();
@@ -104,12 +110,12 @@ namespace TrucoClient.Views
                 return false;
             }
 
-            if (email.Length < 5)
+            if (email.Length < MIN_EMAIL_LENGTH)
             {
                 ShowError(Lang.DialogTextShortEmail);
                 areValid = false;
             }
-            else if (email.Length > 250)
+            else if (email.Length > MAX_EMAIL_LENGTH)
             {
                 ShowError(Lang.DialogTextLongEmail);
                 areValid = false;
@@ -167,7 +173,7 @@ namespace TrucoClient.Views
 
             txtEmail.ClearValue(Border.BorderBrushProperty);
         }
-
+        
         private void TextBoxChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -182,11 +188,11 @@ namespace TrucoClient.Views
 
             if (textBox == txtEmail)
             {
-                if (text.Length < 5)
+                if (text.Length < MIN_TEXT_LENGTH)
                 {
                     ShowError(Lang.DialogTextShortEmail);
                 }
-                else if (text.Length > 250)
+                else if (text.Length > MAX_TEXT_LENGTH)
                 {
                     ShowError(Lang.DialogTextLongEmail);
                 }
