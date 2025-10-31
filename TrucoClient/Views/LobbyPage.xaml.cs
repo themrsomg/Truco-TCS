@@ -55,7 +55,7 @@ namespace TrucoClient.Views
 
         private void InitializeChat()
         {
-            AddChatMessage(" ", string.Format(Lang.LobbyTextJoinedRoom, matchCode));
+            AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
         }
 
         private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
@@ -72,7 +72,7 @@ namespace TrucoClient.Views
         {
             TextBlock messageText = new TextBlock();
 
-            if (senderName.Equals(" "))
+            if (senderName.Equals(string.Empty))
             {
                 messageText = new TextBlock
                 {

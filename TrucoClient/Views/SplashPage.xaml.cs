@@ -66,9 +66,13 @@ namespace TrucoClient.Views
                     MusicInitializer.InitializeMenuMusic();
                     this.NavigationService?.Navigate(new StartPage());
                 }
+                catch (AnimationException ex)
+                {
+                    MessageBox.Show($"Error de Animación al finalizar SplashPage {ex.Message}", "Error de Animación", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Error al finalizar SplashPage: {ex.Message}");
+                    MessageBox.Show($"Error al finalizar SplashPage: {ex.Message}");
                 }
             };
 

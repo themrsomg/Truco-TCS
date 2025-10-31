@@ -29,7 +29,12 @@ namespace TrucoClient
                     var test = new BitmapImage(new Uri(path));
                     return path;
                 }
-                catch (Exception ex)
+                catch (UriFormatException ex)
+                {
+                    MessageBox.Show($"Ha ocurrido un error. Detalles: {ex.Message}");
+                    return URL_AVATAR_DEFAULT;
+                }
+                catch (Exception)
                 {
                     return URL_AVATAR_DEFAULT;
                 }
@@ -90,7 +95,7 @@ namespace TrucoClient
                     });
 
                 }
-                catch (System.ServiceModel.EndpointNotFoundException ex)
+                catch (EndpointNotFoundException ex)
                 {
                     MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -119,12 +124,17 @@ namespace TrucoClient
 
                 if (success)
                 {
-                    MessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), Lang.GlobalTextSuccess, 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     MessageBox.Show(Lang.FriendsTextRequestError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -188,13 +198,18 @@ namespace TrucoClient
 
                     if (success)
                     {
-                        MessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername), Lang.FriendsTextRequestAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername), Lang.FriendsTextRequestAcceptedTitle, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
                         MessageBox.Show(Lang.FriendsTextRequestAcceptedError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                }
+                catch (EndpointNotFoundException ex)
+                {
+                    MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
@@ -229,6 +244,10 @@ namespace TrucoClient
                     {
                         MessageBox.Show(Lang.FriendsTextRequestRejectedError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                }
+                catch (EndpointNotFoundException ex)
+                {
+                    MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {

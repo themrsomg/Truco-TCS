@@ -82,7 +82,7 @@ namespace TrucoClient
                     client.Abort();
                 }
             }
-            catch
+            catch (CommunicationException)
             {
                 client.Abort();
             }

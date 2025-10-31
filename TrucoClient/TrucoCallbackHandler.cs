@@ -12,7 +12,7 @@ namespace TrucoClient.TrucoServer
                 if (Application.Current.MainWindow is InitialWindows main &&
                     main.MainFrame.Content is GamePage gamePage)
                 {
-                    gamePage.ReceiveChatMessage(" ", string.Format(Lang.ChatTextPlayerJoined, player));
+                    gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.ChatTextPlayerJoined, player));
                 }
             });
         }
@@ -24,11 +24,14 @@ namespace TrucoClient.TrucoServer
                 if (Application.Current.MainWindow is InitialWindows main &&
                     main.MainFrame.Content is GamePage gamePage)
                 {
-                    gamePage.ReceiveChatMessage(" ", string.Format(Lang.ChatTextPlayerLeft, player));
+                    gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.ChatTextPlayerLeft, player));
                 }
             });
         }
-        public void OnCardPlayed(string matchCode, string player, string card) { }
+        public void OnCardPlayed(string matchCode, string player, string card) 
+        {
+            
+        }
         public void OnChatMessage(string matchCode, string player, string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -43,14 +46,21 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void OnMatchStarted(string matchCode) { }
-        public void OnMatchEnded(string matchCode, string winner) { }
+        public void OnMatchStarted(string matchCode) 
+        {
+            
+        }
+        public void OnMatchEnded(string matchCode, string winner) 
+        {
+            
+        }
 
         public void OnFriendRequestReceived(string fromUser)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser), Lang.NotificactionDialogTextFriendRequestTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser), Lang.NotificactionDialogTextFriendRequestTitle, 
+                MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
@@ -58,7 +68,8 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendAccepted, fromUser), Lang.NotificactionDialogTextFriendAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendAccepted, fromUser), Lang.NotificactionDialogTextFriendAcceptedTitle, 
+                MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
         public void MatchFound(string matchDetails)

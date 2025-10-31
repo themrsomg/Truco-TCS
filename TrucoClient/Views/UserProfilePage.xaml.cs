@@ -275,6 +275,10 @@ namespace TrucoClient
                     UpdateSocialMediaLinks();
                 }
             }
+            catch (UriFormatException)
+            {
+                imgAvatar.Source = new BitmapImage(new Uri(URL_AVATAR_DEFAULT, UriKind.Absolute));
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -298,9 +302,13 @@ namespace TrucoClient
             {
                 imgAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
             }
-            catch
+            catch (UriFormatException)
             {
                 imgAvatar.Source = new BitmapImage(new Uri(URL_AVATAR_DEFAULT, UriKind.Absolute));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el avatar: {ex.Message}");
             }
         }
 
@@ -462,6 +470,10 @@ namespace TrucoClient
                         Process.Start(new ProcessStartInfo(finalUrl) { UseShellExecute = true });
                     }
                     e.Handled = true;
+                }
+                catch (UriFormatException ex)
+                {
+                    MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (Exception ex)
                 {

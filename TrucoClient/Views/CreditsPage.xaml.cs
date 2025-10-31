@@ -38,7 +38,8 @@ namespace TrucoClient
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                MessageBox.Show($"Error: No se pudo ejecutar el programa.Detalle: {ex.Message}", "Error Crítico", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"No se pudo ejecutar el programa.Detalle: {ex.Message}", "Error Crítico", 
+                MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {

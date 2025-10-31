@@ -59,18 +59,18 @@ namespace TrucoClient.Views
                 {
                     image.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
                 }
-                catch
+                catch (UriFormatException)
                 {
                     try
                     {
                         image.Source = new BitmapImage(new Uri(URL_AVATAR_DEFAULT, UriKind.Absolute));
                     }
-                    catch (System.UriFormatException ex)
+                    catch (UriFormatException ex)
                     {
                         MessageBox.Show($"El formato es inválido para {avatarId}. Detalles: {ex.Message}");
                         LoadDefaultAvatar(image, avatarId);
                     }
-                    catch (System.Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show($"Fallo al cargar el avatar {avatarId}. Detalles: {ex.Message}");
                         LoadDefaultAvatar(image, avatarId);

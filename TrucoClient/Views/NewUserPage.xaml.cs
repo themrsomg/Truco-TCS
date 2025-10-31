@@ -326,9 +326,17 @@ namespace TrucoClient
                     && address.Address == email;
 
             }
-            catch
+            catch (FormatException)
             {
                 return isValid;
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($"Ocurrió un error al validar el correo electrónico: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ha ocurrido un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return isValid;
@@ -501,11 +509,11 @@ namespace TrucoClient
 
             if (textBox == txtEmail)
             {
-                if (text.Length < 5)
+                if (text.Length < MIN_TEXT_LENGTH)
                 {
                     ShowError(txtEmail, Lang.DialogTextShortEmail);
                 }
-                else if (text.Length > 250)
+                else if (text.Length > MAX_TEXT_LENGTH)
                 {
                     ShowError(txtEmail, Lang.DialogTextLongEmail);
                 }

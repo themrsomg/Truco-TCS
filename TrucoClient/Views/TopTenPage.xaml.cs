@@ -31,7 +31,7 @@ namespace TrucoClient
                     MessageBox.Show("No hay jugadores registrados aún.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
+            catch (EndpointNotFoundException ex)
             {
                 MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }

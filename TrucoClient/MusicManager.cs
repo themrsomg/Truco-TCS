@@ -12,6 +12,7 @@ namespace TrucoClient
         private static MediaPlayer player = new MediaPlayer();
         private static string currentTrack = string.Empty;
         private static double lastVolume = 0.3;
+        public static bool IsMuted => player.Volume == 0.0;
 
         public static double Volume
         {
@@ -25,8 +26,6 @@ namespace TrucoClient
                 }
             }
         }
-
-        public static bool IsMuted => player.Volume == 0.0;
 
         public static void ToggleMute()
         {
@@ -72,9 +71,13 @@ namespace TrucoClient
                 player.Play();
 
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 MessageBox.Show($"Error al reproducir música: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ha ocurrido un error: {ex.Message}");
             }
         }
 
@@ -97,9 +100,13 @@ namespace TrucoClient
                 player.Close();
                 currentTrack = string.Empty;
             }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($"Error al reproducir música: {ex.Message}");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al detener música: {ex.Message}");
+                MessageBox.Show($"Ha ocurrido un error: {ex.Message}");
             }
         }
 
@@ -155,9 +162,13 @@ namespace TrucoClient
                 splashPlayer.Volume = 0.6;
                 splashPlayer.Play();
             }
+            catch (UriFormatException ex)
+            {
+                MessageBox.Show($"Error al reproducir música: {ex.Message}");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al reproducir música del splash: {ex.Message}");
+                MessageBox.Show($"Ha ocurrido un error: {ex.Message}");
             }
 
             return splashPlayer;

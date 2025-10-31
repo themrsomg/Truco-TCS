@@ -140,7 +140,7 @@ namespace TrucoClient.Views
                 var address = new System.Net.Mail.MailAddress(email);
                 return address.Address == email;
             }
-            catch
+            catch (FormatException)
             {
                 return false;
             }

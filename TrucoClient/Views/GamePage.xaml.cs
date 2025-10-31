@@ -19,7 +19,7 @@ namespace TrucoClient
             matchClient.JoinMatchChat("SalaTruco001", SessionManager.CurrentUsername);
         }
 
-        private string currentMatchId = "SalaTruco001"; //////TODO Hay que generar codigo especial para cada partida
+        private string currentMatchId = "SalaTruco001";
         private string currentPlayer => SessionManager.CurrentUsername;
         private void AddChatMessage(string senderName, string message)
         {
@@ -31,7 +31,7 @@ namespace TrucoClient
 
             TextBlock messageText = new TextBlock();
 
-            if (senderName.Equals(" "))
+            if (senderName.Equals(String.Empty))
             {
                 messageText = new TextBlock
                 {
@@ -66,7 +66,7 @@ namespace TrucoClient
                     : Visibility.Collapsed;
             }
         }
-        private void ClickSendMessage(object sender, RoutedEventArgs e) /////////////TODO agregar filtros de chat
+        private void ClickSendMessage(object sender, RoutedEventArgs e)
         {
             string messageText = txtChatMessage.Text.Trim();
             if (string.IsNullOrEmpty(messageText))
@@ -138,9 +138,13 @@ namespace TrucoClient
             {
                 imgPlayerAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
             }
-            catch
+            catch (UriFormatException)
             {
                 imgPlayerAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el avatar: {ex.Message}");
             }
         }
     }
