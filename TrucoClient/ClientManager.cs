@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
+using System.Windows;
 using TrucoClient.TrucoServer;
 
 namespace TrucoClient
@@ -92,7 +94,19 @@ namespace TrucoClient
             {
                 client?.Abort();
             }
-            catch { }
+            catch (CommunicationException ex)
+            {
+                MessageBox.Show("Ha ocurrido un error de comunicación. \nDetalles " + ex);
+            }
+            catch (TimeoutException ex)
+            {
+                MessageBox.Show("La operación ha excedido el tiempo de espera. \nDetalles " + ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ha ocurrido un error inesperado. \nDetalles " + ex);
+            }
+
         }
     }
 }
