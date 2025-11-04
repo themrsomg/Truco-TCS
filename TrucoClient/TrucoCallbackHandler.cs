@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Views;
 
 namespace TrucoClient.TrucoServer
 {
@@ -9,10 +10,11 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (Application.Current.MainWindow is InitialWindows main &&
-                    main.MainFrame.Content is GamePage gamePage)
+                if (App.Current.MainWindow is InitialWindows main &&
+                    main.MainFrame.Content is LobbyPage lobby)
                 {
-                    gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.ChatTextPlayerJoined, player));
+                    lobby.AddChatMessage(string.Empty, $"{player} se ha unido al lobby.");
+                    lobby.ReloadPlayersDeferred();
                 }
             });
         }
@@ -22,12 +24,25 @@ namespace TrucoClient.TrucoServer
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (Application.Current.MainWindow is InitialWindows main &&
-                    main.MainFrame.Content is GamePage gamePage)
+                    main.MainFrame.Content is LobbyPage lobbyPage)
                 {
-                    gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.ChatTextPlayerLeft, player));
+                    lobbyPage.AddChatMessage(string.Empty, $"{player} salió del lobby.");
+                    lobbyPage.ReloadPlayersDeferred();
                 }
             });
         }
+
+        public void OnMatchStarted(string matchCode)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Application.Current.MainWindow is InitialWindows main)
+                {
+                    main.MainFrame.Navigate(new GamePage());
+                }
+            });
+        }
+
         public void OnCardPlayed(string matchCode, string player, string card) 
         {
             
@@ -46,10 +61,6 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void OnMatchStarted(string matchCode) 
-        {
-            
-        }
         public void OnMatchEnded(string matchCode, string winner) 
         {
             

@@ -18,9 +18,12 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="txtLobbyTitle" Grid.Row="0" Grid.ColumnSpan="2" Text="Lobby - Partida" FontSize="30" 
-                   Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Name="txtLobbyCode" Grid.Row="0" Grid.ColumnSpan="2" Text="" FontSize="20" 
+                    Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        </StackPanel>
+        <TextBlock x:Name="txtLobbyTitle" Grid.Row="0" Grid.ColumnSpan="2" Text="Lobby" FontSize="30" 
+                    Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,0">
             <TextBlock Text="Jugadores en sala" Foreground="White" FontSize="22" Margin="0,0,0,15"/>
             <ItemsControl x:Name="PlayersList">

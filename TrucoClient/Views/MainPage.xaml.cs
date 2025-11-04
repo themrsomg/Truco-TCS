@@ -21,7 +21,7 @@ namespace TrucoClient
         }
         private void ClickLogOut(object sender, RoutedEventArgs e)
         {
-            SessionManager.ClearSession();
+            SessionManager.Clear();
             this.NavigationService.Navigate(new StartPage());
 
         }

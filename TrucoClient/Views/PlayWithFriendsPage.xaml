@@ -9,7 +9,7 @@
       Title="{x:Static language:Lang.GameTextPlayWithFriends}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
 
     <StackPanel>
-        <TextBlock Text="{x:Static language:Lang.GameTextPlayWithFriends}" FontSize="40" Foreground="White" 
+        <TextBlock Text="{x:Static language:Lang.PlayTextTrucoMatch}" FontSize="40" Foreground="White" 
                    HorizontalAlignment="Center" Margin="0,40,0,0"/>
         <Button Click="ClickJoinMatch" Content="{x:Static language:Lang.JoinGameTextJoinGame}" Width="350" Height="60" 
                 Cursor="Hand" Margin="0,70,0,0">

@@ -7,8 +7,9 @@ namespace TrucoClient
 {
     public static class SessionManager
     {
-        public static string CurrentUsername { get; set; } = "UsuarioActual";
+        public static string CurrentUsername { get; set; }
         public static UserProfileData CurrentUserData { get; set; }
+
         public static async Task<string> ResolveUsernameAsync(string usernameOrEmail)
         {
             if (!usernameOrEmail.Contains("@"))
@@ -19,28 +20,24 @@ namespace TrucoClient
             try
             {
                 var profile = await ClientManager.UserClient.GetUserProfileByEmailAsync(usernameOrEmail);
-
                 if (profile != null && !string.IsNullOrWhiteSpace(profile.Username))
                 {
                     return profile.Username;
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
-            {
-                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al resolver usuario: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return usernameOrEmail;
         }
-        public static void ClearSession()
+
+        public static void Clear()
         {
             CurrentUserData = null;
-            CurrentUsername = "UsuarioActual";
-            ClientManager.CloseAllClients();
+            CurrentUsername = null;
+            ClientManager.ResetConnections();
         }
     }
 }

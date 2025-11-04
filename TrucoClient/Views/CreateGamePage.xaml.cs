@@ -1,30 +1,72 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace TrucoClient.Views
 {
-    /// <summary>
-    /// Lógica de interacción para CreateGamePage.xaml
-    /// </summary>
     public partial class CreateGamePage : Page
     {
-        private const String CHARS_SIZE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        private static readonly Random random = new Random();
-
         public CreateGamePage()
         {
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private void ClickInviteFriend(object sender, RoutedEventArgs e)
+        private async void ClickInviteFriend(object sender, RoutedEventArgs e)
         {
-            string codigo = GenerateCode(6);
-            txtGeneratedCode.Text = codigo;
-            popupCode.IsOpen = true;
+            Button btn = sender as Button;
+            try
+            {
+                if (btn != null) btn.IsEnabled = false;
+
+                string hostPlayer = SessionManager.CurrentUsername;
+
+                string code = await Task.Run(() =>
+                {
+                    try
+                    {
+                        return ClientManager.MatchClient.CreateMatch(hostPlayer);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }).ConfigureAwait(false);
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (string.IsNullOrEmpty(code))
+                    {
+                        MessageBox.Show("No se pudo crear la partida.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        if (btn != null) btn.IsEnabled = true;
+                        {
+                            return;
+                        }
+                    }
+
+                    txtGeneratedCode.Text = code;
+                    popupCode.IsOpen = true;
+
+                    this.NavigationService.Navigate(new LobbyPage(code, "Partida Privada"));
+                });
+            }
+            catch (Exception ex)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show($"Error al crear la partida: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
+            }
+            finally
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (btn != null) btn.IsEnabled = true;
+                });
+            }
         }
+
         private void ClickClosePopup(object sender, RoutedEventArgs e)
         {
             popupCode.IsOpen = false;
@@ -33,19 +75,6 @@ namespace TrucoClient.Views
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new PlayPage());
-        }
-
-        private string GenerateCode(int longitud)
-        {
-            const string CHARS = CHARS_SIZE;
-            char[] buffer = new char[longitud];
-
-            for (int i = 0; i < longitud; i++)
-            {
-                buffer[i] = CHARS[random.Next(CHARS.Length)];
-            }
-
-            return new string(buffer);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace TrucoClient
         public StartPage()
         {
             InitializeComponent();
-            SessionManager.ClearSession();
+            SessionManager.Clear();
         }
 
         private void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)

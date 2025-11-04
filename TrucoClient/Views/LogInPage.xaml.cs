@@ -21,7 +21,7 @@ namespace TrucoClient
         public LogInPage()
         {
             InitializeComponent();
-            SessionManager.ClearSession();
+            SessionManager.Clear();
             MusicInitializer.InitializeMenuMusic();
         }
 
@@ -30,8 +30,10 @@ namespace TrucoClient
             string emailOrUsername = txtEmailUsername.Text.Trim();
             string password = txtPassword.Password.Trim();
 
-            if (!FieldsValidation(emailOrUsername, password))
+            if (string.IsNullOrEmpty(emailOrUsername) || string.IsNullOrEmpty(password))
             {
+                ShowError(txtEmailUsername, Lang.GlobalTextRequieredField);
+                ShowError(txtPassword, Lang.GlobalTextRequieredField);
                 return;
             }
 
@@ -39,6 +41,7 @@ namespace TrucoClient
 
             try
             {
+                ClientManager.ResetConnections();
                 var userClient = ClientManager.UserClient;
 
                 bool success = await userClient.LoginAsync(emailOrUsername, password, languageCode);
@@ -60,21 +63,13 @@ namespace TrucoClient
                     ShowError(txtPassword, Lang.DialogTextInvalidUserPass);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
-            {
-                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, 
-                MessageBoxImage.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al iniciar sesión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                if (this.IsLoaded)
-                {
-                    btnLogIn.IsEnabled = true;
-                }
+                btnLogIn.IsEnabled = true;
             }
         }
 
@@ -103,26 +98,6 @@ namespace TrucoClient
                     e.Handled = true;
                 }
             }
-        }
-
-        private bool FieldsValidation (string emailOrUsername, string password)
-        {
-            ClearAllErrors();
-            bool areValid = true;
-
-            if (string.IsNullOrEmpty(emailOrUsername))
-            {
-                ShowError(txtEmailUsername, Lang.GlobalTextRequieredField);
-                areValid = false;
-            }
-
-            if (string.IsNullOrEmpty(password))
-            {
-                ShowError(txtPassword, Lang.GlobalTextRequieredField);
-                areValid = false;
-            }
-
-            return areValid;
         }
 
         private TextBlock GetErrorTextBlock(Control field)
@@ -163,11 +138,6 @@ namespace TrucoClient
             }
 
             field.ClearValue(Border.BorderBrushProperty);
-        }
-        private void ClearAllErrors()
-        {
-            ClearSpecificError(txtEmailUsername);
-            ClearSpecificError(txtPassword);
         }
         
         private void TextBoxChanged(object sender, TextChangedEventArgs e)

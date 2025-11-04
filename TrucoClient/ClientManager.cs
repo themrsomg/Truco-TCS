@@ -7,8 +7,8 @@ namespace TrucoClient
 {
     public static class ClientManager
     {
-        private static readonly TrucoCallbackHandler callbackHandler = new TrucoCallbackHandler();
-        private static readonly InstanceContext context = new InstanceContext(callbackHandler);
+        private static TrucoCallbackHandler callbackHandler = new TrucoCallbackHandler();
+        private static InstanceContext context = new InstanceContext(callbackHandler);
 
         private static TrucoUserServiceClient userClient;
         private static TrucoMatchServiceClient matchClient;
@@ -64,6 +64,20 @@ namespace TrucoClient
             friendClient = null;
         }
 
+        public static void ResetConnections()
+        {
+            try
+            {
+                CloseAllClients();
+                callbackHandler = new TrucoCallbackHandler();
+                context = new InstanceContext(callbackHandler);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al reiniciar las conexiones: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private static void SafeClose(ICommunicationObject client)
         {
             if (client == null)
@@ -94,19 +108,10 @@ namespace TrucoClient
             {
                 client?.Abort();
             }
-            catch (CommunicationException ex)
-            {
-                MessageBox.Show("Ha ocurrido un error de comunicación. \nDetalles " + ex);
-            }
-            catch (TimeoutException ex)
-            {
-                MessageBox.Show("La operación ha excedido el tiempo de espera. \nDetalles " + ex);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ha ocurrido un error inesperado. \nDetalles " + ex);
-            }
+            catch 
+            { 
 
+            }
         }
     }
 }
