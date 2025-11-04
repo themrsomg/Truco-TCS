@@ -1,224 +1,229 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using TrucoClient.Properties.Langs;
-using TrucoClient.TrucoServer;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using TrucoClient.Properties.Langs;
+    using TrucoClient.TrucoServer;
 
-namespace TrucoClient.Views
-{
-    public partial class LobbyPage : Page
+    namespace TrucoClient.Views
     {
-        private const int FONT_SIZE = 13;
-        private readonly string matchCode;
-        private readonly string matchName;
-        private bool isOwner = false;
-
-        public class PlayerLobbyInfo
+        public partial class LobbyPage : Page
         {
-            public string Username { get; set; }
-            public BitmapImage AvatarUri { get; set; }
-        }
+            private const int FONT_SIZE = 13;
+            private readonly string matchCode;
+            private readonly string matchName;
+            private bool isOwner = false;
 
-        public LobbyPage(string matchCode, string matchName)
-        {
-            InitializeComponent();
-            this.matchCode = matchCode;
-            this.matchName = matchName;
-
-            txtLobbyTitle.Text = $"Lobby - {matchName}";
-            txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
-
-            var currentUser = SessionManager.CurrentUserData;
-            if (currentUser != null)
+            public class PlayerLobbyInfo
             {
-                txtLobbyTitle.Text = $"Lobby - {matchName} ({currentUser.Username})";
+                public string Username { get; set; }
+                public BitmapImage AvatarUri { get; set; }
             }
 
-            _ = LoadPlayersAsync();
-            InitializeChat();
-
-            this.Loaded += LobbyPage_Loaded;
-        }
-
-        private void ClickStartGame(object sender, RoutedEventArgs e)
-        {
-            if (!isOwner)
+            public LobbyPage(string matchCode, string matchName)
             {
-                MessageBox.Show(Lang.GameTextNotOwnerStartGame, Lang.GlobalTextAccessDenied, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                InitializeComponent();
+                this.matchCode = matchCode;
+                this.matchName = matchName;
+
+                txtLobbyTitle.Text = $"Lobby - {matchName}";
+                txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
+
+                var currentUser = SessionManager.CurrentUserData;
+                if (currentUser != null)
+                {
+                    txtLobbyTitle.Text = $"Lobby - {matchName} ({currentUser.Username})";
+                }
+
+                _ = LoadPlayersAsync();
+                InitializeChat();
+
+                _ = Task.Delay(200).ContinueWith(_ => Application.Current.Dispatcher.Invoke(async () => await LoadPlayersAsync()));
+
+
+                this.Loaded += LobbyPage_Loaded;
             }
 
-            try
+            private void ClickStartGame(object sender, RoutedEventArgs e)
             {
-                Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+                if (!isOwner)
+                {
+                    MessageBox.Show(Lang.GameTextNotOwnerStartGame, Lang.GlobalTextAccessDenied, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-        private void ClickSendMessage(object sender, RoutedEventArgs e)
-        {
-            string text = txtChatMessage.Text.Trim();
-            if (string.IsNullOrEmpty(text))
-            {
-                return;
-            }
-
-            ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, text);
-            AddChatMessage(SessionManager.CurrentUsername, text);
-            txtChatMessage.Clear();
-        }
-
-        private void ClickExit(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show(
-                Lang.LobbyTextExitLobby,
-                Lang.GlobalTextConfirm,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
                 try
                 {
-                    ClientManager.MatchClient.LeaveMatch(matchCode, SessionManager.CurrentUsername);
+                    Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+            private void ClickSendMessage(object sender, RoutedEventArgs e)
+            {
+                string text = txtChatMessage.Text.Trim();
+                if (string.IsNullOrEmpty(text))
+                {
+                    return;
                 }
 
-                this.NavigationService.Navigate(new PlayPage());
-            }
-        }
-
-        private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
-        {
-            blckPlaceholder.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-        }
-
-        public void AddChatMessage(string senderName, string message)
-        {
-            TextBlock messageText = new TextBlock
-            {
-                TextWrapping = TextWrapping.Wrap,
-                FontSize = FONT_SIZE
-            };
-
-            if (string.IsNullOrEmpty(senderName))
-            {
-                messageText.Text = message;
-                messageText.Foreground = Brushes.DarkGray;
-                messageText.FontStyle = FontStyles.Italic;
-            }
-            else
-            {
-                messageText.Text = $"{senderName}: {message}";
+                ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, text);
+                AddChatMessage(SessionManager.CurrentUsername, text);
+                txtChatMessage.Clear();
             }
 
-            ChatMessagesPanel.Children.Add(messageText);
-        }
-
-        private void LobbyPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
+            private void ClickExit(object sender, RoutedEventArgs e)
             {
-                Task.Run(() => {
+                MessageBoxResult result = MessageBox.Show(
+                    Lang.LobbyTextExitLobby,
+                    Lang.GlobalTextConfirm,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
                     try
                     {
-                        ClientManager.MatchClient.JoinMatchChat(matchCode, SessionManager.CurrentUsername);
+                        ClientManager.MatchClient.LeaveMatch(matchCode, SessionManager.CurrentUsername);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
-                            MessageBox.Show(Lang.ExceptionTextUnableConnectChat, "Error", MessageBoxButton.OK, MessageBoxImage.Warning));
+                        MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                });
-            }
-            catch 
-            { 
-                /* noop */ 
-            }
-        }
 
-        private async Task LoadPlayersAsync()
-        {
-            try
+                    this.NavigationService.Navigate(new PlayPage());
+                }
+            }
+
+            private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
             {
-                var players = await Task.Run(() => ClientManager.MatchClient.GetLobbyPlayers(matchCode));
+                blckPlaceholder.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
 
-                await Application.Current.Dispatcher.InvokeAsync(async () =>
+            public void AddChatMessage(string senderName, string message)
+            {
+                TextBlock messageText = new TextBlock
                 {
-                    if (players == null || players.Length == 0)
-                    {
-                        AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
-                        PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
-                        return;
-                    }
+                    TextWrapping = TextWrapping.Wrap,
+                    FontSize = FONT_SIZE
+                };
 
-                    var playerInfos = new List<PlayerLobbyInfo>();
-                    foreach (var p in players)
-                    {
+                if (string.IsNullOrEmpty(senderName))
+                {
+                    messageText.Text = message;
+                    messageText.Foreground = Brushes.DarkGray;
+                    messageText.FontStyle = FontStyles.Italic;
+                }
+                else
+                {
+                    messageText.Text = $"{senderName}: {message}";
+                }
+
+                ChatMessagesPanel.Children.Add(messageText);
+            }
+
+            private void LobbyPage_Loaded(object sender, RoutedEventArgs e)
+            {
+                try
+                {
+                    Task.Run(() => {
                         try
                         {
-                            var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
-
-                            playerInfos.Add(new PlayerLobbyInfo
-                            {
-                                Username = profile.Username,
-                                AvatarUri = LoadAvatar(profile.AvatarId)
-                            });
+                            ClientManager.MatchClient.JoinMatchChat(matchCode, SessionManager.CurrentUsername);
                         }
                         catch
                         {
-                            playerInfos.Add(new PlayerLobbyInfo
-                            {
-                                Username = p.Username,
-                                AvatarUri = LoadAvatar("avatar_aaa_default")
-                            });
+                            Application.Current.Dispatcher.Invoke(() =>
+                                MessageBox.Show(Lang.ExceptionTextUnableConnectChat, "Error", MessageBoxButton.OK, MessageBoxImage.Warning));
                         }
-                    }
+                    });
+                }
+                catch 
+                { 
+                 
+                }
+            }
 
-                    PlayersList.ItemsSource = playerInfos;
+            private async Task LoadPlayersAsync()
+            {
+                try
+                {
+                    var players = await Task.Run(() => ClientManager.MatchClient.GetLobbyPlayers(matchCode));
 
-                    isOwner = SessionManager.CurrentUsername == players.FirstOrDefault()?.OwnerUsername;
-                    btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
+                    await Application.Current.Dispatcher.InvokeAsync(async () =>
+                    {
+                        if (players == null || players.Length == 0)
+                        {
+                            AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
+                            PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
+                            return;
+                        }
+
+                        PlayersList.ItemsSource = null;
+
+                        var playerInfos = new List<PlayerLobbyInfo>();
+                        foreach (var p in players)
+                        {
+                            try
+                            {
+                                var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
+
+                                playerInfos.Add(new PlayerLobbyInfo
+                                {
+                                    Username = profile.Username,
+                                    AvatarUri = LoadAvatar(profile.AvatarId)
+                                });
+                            }
+                            catch
+                            {
+                                playerInfos.Add(new PlayerLobbyInfo
+                                {
+                                    Username = p.Username,
+                                    AvatarUri = LoadAvatar("avatar_aaa_default")
+                                });
+                            }
+                        }
+
+                        PlayersList.ItemsSource = playerInfos;
+
+                        isOwner = players.Any(p => p.OwnerUsername == SessionManager.CurrentUsername);  
+                        btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                        MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error));
+                }
+            }
+
+            public void ReloadPlayersDeferred()
+            {
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(250);
+                    await LoadPlayersAsync();
                 });
             }
-            catch (Exception ex)
+
+            private BitmapImage LoadAvatar(string avatarId)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error));
+                string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
+                return new BitmapImage(new Uri(path, UriKind.Absolute));
+            }
+
+            private void InitializeChat()
+            {
+                AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
             }
         }
-
-        public void ReloadPlayersDeferred()
-        {
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(250);
-                await LoadPlayersAsync();
-            });
-        }
-
-        private BitmapImage LoadAvatar(string avatarId)
-        {
-            string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
-            return new BitmapImage(new Uri(path, UriKind.Absolute));
-        }
-
-        private void InitializeChat()
-        {
-            AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
-        }
     }
-}
