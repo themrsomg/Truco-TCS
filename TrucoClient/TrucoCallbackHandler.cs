@@ -13,7 +13,7 @@ namespace TrucoClient.TrucoServer
                 if (App.Current.MainWindow is InitialWindows main &&
                     main.MainFrame.Content is LobbyPage lobby)
                 {
-                    lobby.AddChatMessage(string.Empty, $"{player} se ha unido al lobby.");
+                    lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedLobby, player));
                     lobby.ReloadPlayersDeferred();
                 }
             });
@@ -26,7 +26,7 @@ namespace TrucoClient.TrucoServer
                 if (Application.Current.MainWindow is InitialWindows main &&
                     main.MainFrame.Content is LobbyPage lobbyPage)
                 {
-                    lobbyPage.AddChatMessage(string.Empty, $"{player} salió del lobby.");
+                    lobbyPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
                     lobbyPage.ReloadPlayersDeferred();
                 }
             });

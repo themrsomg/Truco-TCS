@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Views;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient
 {
@@ -23,16 +24,16 @@ namespace TrucoClient
                 bool joined = ClientManager.MatchClient.JoinMatch(code, player);
                 if (joined)
                 {
-                    this.NavigationService.Navigate(new LobbyPage(code, "Partida Privada"));
+                    this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch));
                 }
                 else
                 {
-                    MessageBox.Show("Código inválido o partida no disponible.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.GameTextInvalidCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al unirse: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GameTextErrorJoining, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

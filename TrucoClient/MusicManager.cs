@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel.Channels;
 using System.Windows;
 using System.Windows.Media;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient
 {
@@ -52,7 +51,7 @@ namespace TrucoClient
 
                 if (!File.Exists(fullPath))
                 {
-                    MessageBox.Show($"Archivo no encontrado: {fullPath}");
+                    MessageBox.Show(string.Format(Lang.ExceptionTextFileNotFound, fullPath));
                     return;
                 }
 
@@ -73,17 +72,17 @@ namespace TrucoClient
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show($"Error al reproducir música: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message));
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ha ocurrido un error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
             }
         }
 
         private static void OnMediaFailed(object sender, ExceptionEventArgs e)
         {
-            MessageBox.Show($"Fallo al reproducir música: {e.ErrorException?.Message}");
+            MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, e.ErrorException?.Message));
         }
 
         public static bool IsMenuMusicPlaying()
@@ -102,11 +101,11 @@ namespace TrucoClient
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show($"Error al reproducir música: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message));
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ha ocurrido un error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
             }
         }
 
@@ -164,11 +163,11 @@ namespace TrucoClient
             }
             catch (UriFormatException ex)
             {
-                MessageBox.Show($"Error al reproducir música: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message));
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ha ocurrido un error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
             }
 
             return splashPlayer;

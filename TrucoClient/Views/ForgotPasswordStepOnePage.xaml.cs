@@ -59,11 +59,11 @@ namespace TrucoClient.Views
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

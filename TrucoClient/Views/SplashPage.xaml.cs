@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -68,11 +69,11 @@ namespace TrucoClient.Views
                 }
                 catch (AnimationException ex)
                 {
-                    MessageBox.Show($"Error de Animación al finalizar SplashPage {ex.Message}", "Error de Animación", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextSplashAnimationError, ex.Message), Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al finalizar SplashPage: {ex.Message}");
+                    MessageBox.Show(string.Format(Lang.ExceptionTextSplashPageError, ex.Message));
                 }
             };
 

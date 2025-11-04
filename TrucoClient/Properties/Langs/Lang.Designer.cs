@@ -106,6 +106,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a {0} has joined the lobby..
+        /// </summary>
+        public static string CallbacksTextPlayerJoinedLobby {
+            get {
+                return ResourceManager.GetString("CallbacksTextPlayerJoinedLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} left the lobby..
+        /// </summary>
+        public static string CallbacksTextPlayerLeftLobby {
+            get {
+                return ResourceManager.GetString("CallbacksTextPlayerLeftLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ace.
         /// </summary>
         public static string CardsTextAce {
@@ -520,6 +538,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The program could not be executed. Details: {0}.
+        /// </summary>
+        public static string EasterEggTextExecuteError {
+            get {
+                return ResourceManager.GetString("EasterEggTextExecuteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a File Error: The executable was not found in the path: {0}.
+        /// </summary>
+        public static string EasterEggTextFileNotFound {
+            get {
+                return ResourceManager.GetString("EasterEggTextFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a English.
         /// </summary>
         public static string en {
@@ -534,6 +570,168 @@ namespace TrucoClient.Properties.Langs {
         public static string es {
             get {
                 return ResourceManager.GetString("es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Failed to load avatar {0}. Details: {1}.
+        /// </summary>
+        public static string ExceptionTextAvatarIdFailedToLoad {
+            get {
+                return ResourceManager.GetString("ExceptionTextAvatarIdFailedToLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Failed to load default image &apos;{0}&apos;. Details: {1}.
+        /// </summary>
+        public static string ExceptionTextAvatarIdFailedToLoadDefault {
+            get {
+                return ResourceManager.GetString("ExceptionTextAvatarIdFailedToLoadDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The format is not valid for {0}. Details: {1}.
+        /// </summary>
+        public static string ExceptionTextAvatarIdInvalidFormat {
+            get {
+                return ResourceManager.GetString("ExceptionTextAvatarIdInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Could not connect to server: {0}.
+        /// </summary>
+        public static string ExceptionTextConnectionError {
+            get {
+                return ResourceManager.GetString("ExceptionTextConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a An error occurred while validating the email address: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorEmailValidation {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorEmailValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error exiting lobby: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorExitingLobby {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorExitingLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error loading avatar: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorLoadingAvatar {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorLoadingAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error loading players: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorLoadingPlayers {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorLoadingPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error logging in: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorLoggingIn {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorLoggingIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a An error occurred: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorOcurred {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorOcurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error playing music: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorPlayingMusic {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorPlayingMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error resolving user: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorResolvingUser {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorResolvingUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error restarting connections: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorRestartingConnections {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorRestartingConnections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a File not found: {0}.
+        /// </summary>
+        public static string ExceptionTextFileNotFound {
+            get {
+                return ResourceManager.GetString("ExceptionTextFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The game could not be created: {0}.
+        /// </summary>
+        public static string ExceptionTextNoGameCreated {
+            get {
+                return ResourceManager.GetString("ExceptionTextNoGameCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Animation Error at the end of SplashPage {0}.
+        /// </summary>
+        public static string ExceptionTextSplashAnimationError {
+            get {
+                return ResourceManager.GetString("ExceptionTextSplashAnimationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error completing SplashPage: {0}.
+        /// </summary>
+        public static string ExceptionTextSplashPageError {
+            get {
+                return ResourceManager.GetString("ExceptionTextSplashPageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Unable to connect to lobby chat..
+        /// </summary>
+        public static string ExceptionTextUnableConnectChat {
+            get {
+                return ResourceManager.GetString("ExceptionTextUnableConnectChat", resourceCulture);
             }
         }
         
@@ -865,6 +1063,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error joining: {0}.
+        /// </summary>
+        public static string GameTextErrorJoining {
+            get {
+                return ResourceManager.GetString("GameTextErrorJoining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error starting match: {0}.
+        /// </summary>
+        public static string GameTextErrorStartingMatch {
+            get {
+                return ResourceManager.GetString("GameTextErrorStartingMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Are you sure you want to leave the game? The game will count as a loss..
         /// </summary>
         public static string GameTextExitGameConfirmation {
@@ -928,6 +1144,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Invalid code or unavailable game..
+        /// </summary>
+        public static string GameTextInvalidCode {
+            get {
+                return ResourceManager.GetString("GameTextInvalidCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a I want.
         /// </summary>
         public static string GameTextIWant {
@@ -942,6 +1167,24 @@ namespace TrucoClient.Properties.Langs {
         public static string GameTextLeader {
             get {
                 return ResourceManager.GetString("GameTextLeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Code: {0}.
+        /// </summary>
+        public static string GameTextLobbyCode {
+            get {
+                return ResourceManager.GetString("GameTextLobbyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Only the match owner can start the game..
+        /// </summary>
+        public static string GameTextNotOwnerStartGame {
+            get {
+                return ResourceManager.GetString("GameTextNotOwnerStartGame", resourceCulture);
             }
         }
         
@@ -1018,11 +1261,29 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Access Denied.
+        /// </summary>
+        public static string GlobalTextAccessDenied {
+            get {
+                return ResourceManager.GetString("GlobalTextAccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Add friend.
         /// </summary>
         public static string GlobalTextAddFriend {
             get {
                 return ResourceManager.GetString("GlobalTextAddFriend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Animation Error.
+        /// </summary>
+        public static string GlobalTextAnimationError {
+            get {
+                return ResourceManager.GetString("GlobalTextAnimationError", resourceCulture);
             }
         }
         
@@ -1135,6 +1396,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Critical Error.
+        /// </summary>
+        public static string GlobalTextCriticalError {
+            get {
+                return ResourceManager.GetString("GlobalTextCriticalError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a E-mail.
         /// </summary>
         public static string GlobalTextEmail {
@@ -1239,6 +1509,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GlobalTextHome {
             get {
                 return ResourceManager.GetString("GlobalTextHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Information.
+        /// </summary>
+        public static string GlobalTextInformation {
+            get {
+                return ResourceManager.GetString("GlobalTextInformation", resourceCulture);
             }
         }
         
@@ -1405,6 +1684,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Private Match.
+        /// </summary>
+        public static string GlobalTextPrivateMatch {
+            get {
+                return ResourceManager.GetString("GlobalTextPrivateMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Profile.
         /// </summary>
         public static string GlobalTextProfile {
@@ -1473,6 +1761,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GlobalTextRound {
             get {
                 return ResourceManager.GetString("GlobalTextRound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Runtime Error.
+        /// </summary>
+        public static string GlobalTextRuntimeError {
+            get {
+                return ResourceManager.GetString("GlobalTextRuntimeError", resourceCulture);
             }
         }
         
@@ -1693,6 +1990,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a There are no players in the lobby yet..
+        /// </summary>
+        public static string LobbyTextNoPlayersYet {
+            get {
+                return ResourceManager.GetString("LobbyTextNoPlayersYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Quit game.
         /// </summary>
         public static string MenuTextExit {
@@ -1860,6 +2166,15 @@ namespace TrucoClient.Properties.Langs {
         public static string RankingsTextLastGames {
             get {
                 return ResourceManager.GetString("RankingsTextLastGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a There are no registered players yet..
+        /// </summary>
+        public static string RankingsTextNoPlayersRegistered {
+            get {
+                return ResourceManager.GetString("RankingsTextNoPlayersRegistered", resourceCulture);
             }
         }
         
@@ -2185,6 +2500,15 @@ namespace TrucoClient.Properties.Langs {
         public static string UserProfileTextUsernameChangesWarning {
             get {
                 return ResourceManager.GetString("UserProfileTextUsernameChangesWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The game could not be created..
+        /// </summary>
+        public static string WarningTextNoGameCreated {
+            get {
+                return ResourceManager.GetString("WarningTextNoGameCreated", resourceCulture);
             }
         }
     }

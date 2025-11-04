@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -14,7 +15,7 @@ namespace TrucoClient.Views
         private const int MARGIN_TICKNESS_SIZE = 6;
         private const int PADDING_TICKNESS_SIZE = 0;
         private const int BORDER_TICKNESS_SIZE = 0;
-        private const String URL_AVATAR_DEFAULT = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_default.png";
+        private const String URL_AVATAR_DEFAULT = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
 
         public event EventHandler<string> AvatarSelected;
 
@@ -67,12 +68,12 @@ namespace TrucoClient.Views
                     }
                     catch (UriFormatException ex)
                     {
-                        MessageBox.Show($"El formato es inválido para {avatarId}. Detalles: {ex.Message}");
+                        MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdInvalidFormat, avatarId, ex.Message));
                         LoadDefaultAvatar(image, avatarId);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Fallo al cargar el avatar {avatarId}. Detalles: {ex.Message}");
+                        MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoad, avatarId, ex.Message));
                         LoadDefaultAvatar(image, avatarId);
                     }
                 }
@@ -96,7 +97,7 @@ namespace TrucoClient.Views
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show($"Fallo al cargar la imagen por defecto '{URL_AVATAR_DEFAULT}'. Detalles: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, URL_AVATAR_DEFAULT, ex.Message));
             }
         }
 

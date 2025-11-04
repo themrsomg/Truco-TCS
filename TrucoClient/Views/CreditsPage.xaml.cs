@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.IO;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient
 {
@@ -27,7 +28,8 @@ namespace TrucoClient
             {
                 if (!File.Exists(fullPath))
                 {
-                    MessageBox.Show($"Error de Archivo: El ejecutable no fue encontrado en la ruta: {fullPath}", "Error de Ejecución", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.EasterEggTextFileNotFound, fullPath), Lang.GlobalTextRuntimeError, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 Process.Start(fullPath);
@@ -38,12 +40,12 @@ namespace TrucoClient
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                MessageBox.Show($"No se pudo ejecutar el programa.Detalle: {ex.Message}", "Error Crítico", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.EasterEggTextExecuteError, ex.Message), Lang.GlobalTextCriticalError, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "Error de Ejecución", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", Lang.GlobalTextRuntimeError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

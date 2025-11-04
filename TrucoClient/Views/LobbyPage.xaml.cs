@@ -31,7 +31,7 @@ namespace TrucoClient.Views
             this.matchName = matchName;
 
             txtLobbyTitle.Text = $"Lobby - {matchName}";
-            txtLobbyCode.Text = $"Código: {matchCode}";
+            txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
 
             var currentUser = SessionManager.CurrentUserData;
             if (currentUser != null)
@@ -49,7 +49,7 @@ namespace TrucoClient.Views
         {
             if (!isOwner)
             {
-                MessageBox.Show("Solo el creador de la partida puede iniciar el juego.", "Acceso denegado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.GameTextNotOwnerStartGame, Lang.GlobalTextAccessDenied, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al iniciar partida: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -92,7 +92,7 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al salir del lobby: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 this.NavigationService.Navigate(new PlayPage());
@@ -140,7 +140,7 @@ namespace TrucoClient.Views
                     catch
                     {
                         Application.Current.Dispatcher.Invoke(() =>
-                            MessageBox.Show("No se pudo conectar al chat del lobby.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning));
+                            MessageBox.Show(Lang.ExceptionTextUnableConnectChat, "Error", MessageBoxButton.OK, MessageBoxImage.Warning));
                     }
                 });
             }
@@ -160,7 +160,7 @@ namespace TrucoClient.Views
                 {
                     if (players == null || players.Length == 0)
                     {
-                        AddChatMessage(string.Empty, "No hay jugadores en el lobby todavía.");
+                        AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
                         PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
                         return;
                     }
@@ -183,7 +183,7 @@ namespace TrucoClient.Views
                             playerInfos.Add(new PlayerLobbyInfo
                             {
                                 Username = p.Username,
-                                AvatarUri = LoadAvatar("avatar_default")
+                                AvatarUri = LoadAvatar("avatar_aaa_default")
                             });
                         }
                     }
@@ -197,7 +197,7 @@ namespace TrucoClient.Views
             catch (Exception ex)
             {
                 Application.Current.Dispatcher.Invoke(() =>
-                    MessageBox.Show($"Error al cargar jugadores: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error));
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error));
             }
         }
 

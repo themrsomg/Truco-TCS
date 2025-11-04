@@ -144,7 +144,7 @@ namespace TrucoClient
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el avatar: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message));
             }
         }
     }

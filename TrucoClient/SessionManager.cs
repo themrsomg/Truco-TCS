@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using TrucoClient.TrucoServer;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient
 {
@@ -27,7 +28,7 @@ namespace TrucoClient
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al resolver usuario: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorResolvingUser, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return usernameOrEmail;

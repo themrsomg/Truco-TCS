@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.Windows;
 using TrucoClient.TrucoServer;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient
 {
@@ -74,7 +75,7 @@ namespace TrucoClient
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al reiniciar las conexiones: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorRestartingConnections, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

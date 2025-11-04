@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -38,7 +39,7 @@ namespace TrucoClient.Views
                 {
                     if (string.IsNullOrEmpty(code))
                     {
-                        MessageBox.Show("No se pudo crear la partida.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.WarningTextNoGameCreated, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         if (btn != null) btn.IsEnabled = true;
                         {
                             return;
@@ -48,14 +49,14 @@ namespace TrucoClient.Views
                     txtGeneratedCode.Text = code;
                     popupCode.IsOpen = true;
 
-                    this.NavigationService.Navigate(new LobbyPage(code, "Partida Privada"));
+                    this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch));
                 });
             }
             catch (Exception ex)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show($"Error al crear la partida: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
             finally

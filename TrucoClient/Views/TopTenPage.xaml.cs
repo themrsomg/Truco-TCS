@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.ServiceModel;
-using TrucoClient.TrucoServer;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient
 {
@@ -28,16 +28,16 @@ namespace TrucoClient
                 }
                 else
                 {
-                    MessageBox.Show("No hay jugadores registrados aún.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Lang.RankingsTextNoPlayersRegistered, Lang.GlobalTextInformation, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (EndpointNotFoundException ex)
             {
-                MessageBox.Show($"No se pudo conectar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void ClickBack(object sender, RoutedEventArgs e)

@@ -65,7 +65,7 @@ namespace TrucoClient
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al iniciar sesión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoggingIn, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
