@@ -53,7 +53,11 @@ namespace TrucoClient.TrucoServer
             {
                 if (Application.Current.MainWindow is InitialWindows main)
                 {
-                    if (main.MainFrame.Content is GamePage gamePage)
+                    if (main.MainFrame.Content is LobbyPage lobbyPage)
+                    {
+                        lobbyPage.AddChatMessage(player, message);
+                    }
+                    else if (main.MainFrame.Content is GamePage gamePage)
                     {
                         gamePage.ReceiveChatMessage(player, message);
                     }
