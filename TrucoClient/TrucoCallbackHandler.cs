@@ -10,11 +10,17 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (App.Current.MainWindow is InitialWindows main &&
-                    main.MainFrame.Content is LobbyPage lobby)
+                if (Application.Current.MainWindow is InitialWindows main)
                 {
-                    lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedLobby, player));
-                    lobby.ReloadPlayersDeferred();
+                    if (main.MainFrame.Content is LobbyPage lobby)
+                    {
+                        lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedLobby, player));
+                        lobby.ReloadPlayersDeferred();
+                    }
+                    else if (main.MainFrame.Content is GamePage gamePage)
+                    {
+                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
+                    }
                 }
             });
         }
@@ -23,11 +29,17 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (Application.Current.MainWindow is InitialWindows main &&
-                    main.MainFrame.Content is LobbyPage lobbyPage)
+                if (Application.Current.MainWindow is InitialWindows main)
                 {
-                    lobbyPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
-                    lobbyPage.ReloadPlayersDeferred();
+                    if (main.MainFrame.Content is LobbyPage lobbyPage)
+                    {
+                        lobbyPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
+                        lobbyPage.ReloadPlayersDeferred();
+                    }
+                    else if (main.MainFrame.Content is GamePage gamePage)
+                    {
+                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
+                    }
                 }
             });
         }

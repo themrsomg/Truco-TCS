@@ -115,11 +115,29 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a {0} has joined the match..
+        /// </summary>
+        public static string CallbacksTextPlayerJoinedMatch {
+            get {
+                return ResourceManager.GetString("CallbacksTextPlayerJoinedMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a {0} left the lobby..
         /// </summary>
         public static string CallbacksTextPlayerLeftLobby {
             get {
                 return ResourceManager.GetString("CallbacksTextPlayerLeftLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} left the match..
+        /// </summary>
+        public static string CallbacksTextPlayerLeftMatch {
+            get {
+                return ResourceManager.GetString("CallbacksTextPlayerLeftMatch", resourceCulture);
             }
         }
         

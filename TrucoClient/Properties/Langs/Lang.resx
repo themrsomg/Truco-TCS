@@ -949,4 +949,10 @@ Sign up today and set up a proper match!</value>
   <data name="CallbacksTextPlayerLeftLobby" xml:space="preserve">
     <value>{0} left the lobby.</value>
   </data>
+  <data name="CallbacksTextPlayerLeftMatch" xml:space="preserve">
+    <value>{0} left the match.</value>
+  </data>
+  <data name="CallbacksTextPlayerJoinedMatch" xml:space="preserve">
+    <value>{0} has joined the match.</value>
+  </data>
 </root>

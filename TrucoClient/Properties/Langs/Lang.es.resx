@@ -949,4 +949,10 @@
   <data name="CallbacksTextPlayerLeftLobby" xml:space="preserve">
     <value>{0} salió del lobby.</value>
   </data>
+  <data name="CallbacksTextPlayerLeftMatch" xml:space="preserve">
+    <value>{0} salió de la partida.</value>
+  </data>
+  <data name="CallbacksTextPlayerJoinedMatch" xml:space="preserve">
+    <value>{0} se ha unido a la partida.</value>
+  </data>
 </root>

@@ -33,17 +33,10 @@
                 txtLobbyTitle.Text = $"Lobby - {matchName}";
                 txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
 
-                var currentUser = SessionManager.CurrentUserData;
-                if (currentUser != null)
-                {
-                    txtLobbyTitle.Text = $"Lobby - {matchName} ({currentUser.Username})";
-                }
-
                 _ = LoadPlayersAsync();
                 InitializeChat();
 
                 _ = Task.Delay(200).ContinueWith(_ => Application.Current.Dispatcher.Invoke(async () => await LoadPlayersAsync()));
-
 
                 this.Loaded += LobbyPage_Loaded;
             }
