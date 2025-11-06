@@ -709,6 +709,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error sending message to chat..
+        /// </summary>
+        public static string ExceptionTextErrorSendingMessage {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorSendingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a File not found: {0}.
         /// </summary>
         public static string ExceptionTextFileNotFound {

@@ -1,26 +1,123 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient
 {
     public partial class GamePage : Page
     {
-        public GamePage()
+        private readonly string matchCode;
+        private string currentPlayer => SessionManager.CurrentUsername;
+
+        public GamePage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
-            string avatarId = SessionManager.CurrentUserData?.AvatarId ?? "avatar_aaa_default";
-            LoadAvatarImage(avatarId);
+            this.matchCode = matchCode;
 
-            var matchClient = ClientManager.MatchClient;
-            matchClient.JoinMatchChat("SalaTruco001", SessionManager.CurrentUsername);
+            LoadPlayerAvatars(players);
+
+            try
+            {
+                var matchClient = ClientManager.MatchClient;
+                matchClient.JoinMatchChat(this.matchCode, SessionManager.CurrentUsername);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show( string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
-        private string currentMatchId = "SalaTruco001";
-        private string currentPlayer => SessionManager.CurrentUsername;
+        private void ClickSendMessage(object sender, RoutedEventArgs e)
+        {
+            string messageText = txtChatMessage.Text.Trim();
+            if (string.IsNullOrEmpty(messageText))
+            {
+                return;
+            }
+
+            AddChatMessage(Lang.ChatTextYou, messageText);
+            txtChatMessage.Clear();
+
+            try
+            {
+                var matchClient = ClientManager.MatchClient;
+                matchClient.SendChatMessage(this.matchCode, currentPlayer, messageText);
+            }
+            catch (CommunicationException ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ClickOpenGesturesMenu(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.ContextMenu != null)
+            {
+                button.ContextMenu.PlacementTarget = button;
+                button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                button.ContextMenu.IsOpen = true;
+            }
+        }
+
+        private void ClickGesture(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item)
+            {
+                string emoji = item.Header.ToString();
+                AddChatMessage(Lang.ChatTextYou, emoji);
+
+                try
+                {
+                    var matchClient = ClientManager.MatchClient;
+                    matchClient.SendChatMessage(this.matchCode, currentPlayer, emoji);
+                }
+                catch (CommunicationException ex)
+                {
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show( string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        private void ClickBack(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show( Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    var matchClient = ClientManager.MatchClient;
+                    matchClient.LeaveMatchChat(this.matchCode, SessionManager.CurrentUsername);
+                    this.NavigationService.Navigate(new MainPage());
+                }
+                catch (CommunicationException ex)
+                {
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
         private void AddChatMessage(string senderName, string message)
         {
             Border messageBubble = new Border
@@ -29,28 +126,21 @@ namespace TrucoClient
                 Margin = new Thickness(2)
             };
 
-            TextBlock messageText = new TextBlock();
-
-            if (senderName.Equals(String.Empty))
+            TextBlock messageText = new TextBlock
             {
-                messageText = new TextBlock
-                {
-                    Text = $"{message}",
-                    TextWrapping = TextWrapping.Wrap,
-                    FontSize = 13
-                };
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 13
+            };
 
+            if (string.IsNullOrEmpty(senderName))
+            {
+                messageText.Text = message;
                 messageText.Foreground = Brushes.DarkGray;
                 messageText.FontStyle = FontStyles.Italic;
             }
             else
             {
-                messageText = new TextBlock
-                {
-                    Text = $"{senderName}: {message}",
-                    TextWrapping = TextWrapping.Wrap,
-                    FontSize = 13
-                };
+                messageText.Text = $"{senderName}: {message}";
             }
 
             messageBubble.Child = messageText;
@@ -66,66 +156,13 @@ namespace TrucoClient
                     : Visibility.Collapsed;
             }
         }
-        private void ClickSendMessage(object sender, RoutedEventArgs e)
-        {
-            string messageText = txtChatMessage.Text.Trim();
-            if (string.IsNullOrEmpty(messageText))
-            {
-                return;
-            }
 
-            AddChatMessage(Lang.ChatTextYou, messageText);
-
-            txtChatMessage.Clear();
-
-            var matchClient = ClientManager.MatchClient;
-            matchClient.SendChatMessage(currentMatchId, currentPlayer, messageText);
-        }
-
-        private void ClickOpenGesturesMenu(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.ContextMenu != null)
-            {
-                button.ContextMenu.PlacementTarget = button;
-                button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-                button.ContextMenu.IsOpen = true;
-            }
-        }
-        private void ClickGesture(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuItem item)
-            {
-                string emoji = item.Header.ToString();
-                AddChatMessage(Lang.ChatTextYou, emoji);
-
-                var matchClient = ClientManager.MatchClient;
-                matchClient.SendChatMessage(currentMatchId, currentPlayer, emoji);
-            }
-        }
         public void ReceiveChatMessage(string senderName, string message)
         {
             AddChatMessage(senderName, message);
         }
 
-
-        private void ClickBack(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show(
-                Lang.GameTextExitGameConfirmation,
-                Lang.GlobalTextConfirmation,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question
-            );
-
-            if (result == MessageBoxResult.Yes)
-            {
-                var matchClient = ClientManager.MatchClient;
-                matchClient.LeaveMatchChat("SalaTruco001", SessionManager.CurrentUsername);
-                this.NavigationService.Navigate(new MainPage());
-            }
-        }
-
-        private void LoadAvatarImage(string avatarId)
+        private BitmapImage LoadAvatar(string avatarId)
         {
             if (string.IsNullOrWhiteSpace(avatarId))
             {
@@ -133,18 +170,41 @@ namespace TrucoClient
             }
 
             string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
-
             try
             {
-                imgPlayerAvatar.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+                return new BitmapImage(new Uri(packUri, UriKind.Absolute));
             }
-            catch (UriFormatException)
+            catch
             {
-                imgPlayerAvatar.Source = new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                return new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+            }
+        }
+
+        private void LoadPlayerAvatars(List<PlayerInfo> players)
+        {
+            try
+            {
+                var currentUsername = SessionManager.CurrentUsername;
+                var current = players.FirstOrDefault(p => p.Username.Equals(currentUsername, StringComparison.OrdinalIgnoreCase));
+                var rival = players.FirstOrDefault(p => !p.Username.Equals(currentUsername, StringComparison.OrdinalIgnoreCase));
+
+                if (current != null)
+                {
+                    imgPlayerAvatar.Source = LoadAvatar(current.AvatarId);
+                }
+
+                if (rival != null)
+                {
+                    imgRivalAvatar.Source = LoadAvatar(rival.AvatarId);
+                }
+                else
+                {
+                    imgRivalAvatar.Source = LoadAvatar("avatar_aaa_default");
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message));
+                MessageBox.Show($"Error loading avatars: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

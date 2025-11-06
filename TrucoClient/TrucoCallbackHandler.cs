@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -44,13 +47,15 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void OnMatchStarted(string matchCode)
+        public void OnMatchStarted(string matchCode, PlayerInfo[] players)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (Application.Current.MainWindow is InitialWindows main)
                 {
-                    main.MainFrame.Navigate(new GamePage());
+                    var playerList = players?.ToList() ?? new List<PlayerInfo>();
+                    main.MainFrame.Navigate(new GamePage(matchCode, playerList));
+
                 }
             });
         }

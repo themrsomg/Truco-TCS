@@ -955,4 +955,7 @@
   <data name="CallbacksTextPlayerJoinedMatch" xml:space="preserve">
     <value>{0} se ha unido a la partida.</value>
   </data>
+  <data name="ExceptionTextErrorSendingMessage" xml:space="preserve">
+    <value>Error al mandar el mensaje al chat.</value>
+  </data>
 </root>
