@@ -881,7 +881,7 @@ Sign up today and set up a proper match!</value>
     <value>Error loading avatar: {0}</value>
   </data>
   <data name="GameTextInvalidCode" xml:space="preserve">
-    <value>Invalid code or unavailable game.</value>
+    <value>Invalid code, match full or unavailable.</value>
   </data>
   <data name="GameTextErrorJoining" xml:space="preserve">
     <value>Error joining: {0}</value>
@@ -957,5 +957,23 @@ Sign up today and set up a proper match!</value>
   </data>
   <data name="ExceptionTextErrorSendingMessage" xml:space="preserve">
     <value>Error sending message to chat.</value>
+  </data>
+  <data name="PreGameTextMatchType" xml:space="preserve">
+    <value>Match type:</value>
+  </data>
+  <data name="PreGameTextNumberPlayers" xml:space="preserve">
+    <value>Number of players:</value>
+  </data>
+  <data name="PreGameTextFourPlayers" xml:space="preserve">
+    <value>4 players</value>
+  </data>
+  <data name="PreGameTextTwoPlayers" xml:space="preserve">
+    <value>2 players</value>
+  </data>
+  <data name="PreGameTextPrivacyPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="PreGameTextPrivacyPrivate" xml:space="preserve">
+    <value>Private</value>
   </data>
 </root>

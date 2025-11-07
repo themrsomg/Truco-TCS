@@ -14,20 +14,26 @@ namespace TrucoClient.Views
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private async void ClickInviteFriend(object sender, RoutedEventArgs e)
+        private async void ClickCreateMatch(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
+            Button button = sender as Button;
+
             try
             {
-                if (btn != null) btn.IsEnabled = false;
+                if (button != null)
+                {
+                    button.IsEnabled = false;
+                }
 
                 string hostPlayer = SessionManager.CurrentUsername;
+                int selectedPlayers = int.Parse(((ComboBoxItem)cbPlayers.SelectedItem).Tag.ToString());
+                string privacy = ((ComboBoxItem)cbPrivacy.SelectedItem).Tag.ToString();
 
                 string code = await Task.Run(() =>
                 {
                     try
                     {
-                        return ClientManager.MatchClient.CreateMatch(hostPlayer);
+                        return ClientManager.MatchClient.CreateLobby(hostPlayer, selectedPlayers, privacy);
                     }
                     catch (Exception)
                     {
@@ -40,10 +46,12 @@ namespace TrucoClient.Views
                     if (string.IsNullOrEmpty(code))
                     {
                         MessageBox.Show(Lang.WarningTextNoGameCreated, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        if (btn != null) btn.IsEnabled = true;
+                        if (button != null)
                         {
-                            return;
+                            button.IsEnabled = true;
                         }
+
+                        return;
                     }
 
                     txtGeneratedCode.Text = code;
@@ -63,7 +71,10 @@ namespace TrucoClient.Views
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    if (btn != null) btn.IsEnabled = true;
+                    if (button != null)
+                    {
+                        button.IsEnabled = true;
+                    }
                 });
             }
         }

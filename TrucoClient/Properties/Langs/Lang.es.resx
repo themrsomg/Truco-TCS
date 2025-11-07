@@ -881,7 +881,7 @@
     <value>Error al cargar el avatar: {0}</value>
   </data>
   <data name="GameTextInvalidCode" xml:space="preserve">
-    <value>Código inválido o partida no disponible.</value>
+    <value>Código inválido, partida llena o no disponible.</value>
   </data>
   <data name="GameTextErrorJoining" xml:space="preserve">
     <value>Error al unirse: {0}</value>
@@ -957,5 +957,23 @@
   </data>
   <data name="ExceptionTextErrorSendingMessage" xml:space="preserve">
     <value>Error al mandar el mensaje al chat.</value>
+  </data>
+  <data name="PreGameTextMatchType" xml:space="preserve">
+    <value>Tipo de partida:</value>
+  </data>
+  <data name="PreGameTextNumberPlayers" xml:space="preserve">
+    <value>Número de jugadores:</value>
+  </data>
+  <data name="PreGameTextFourPlayers" xml:space="preserve">
+    <value>4 jugadores</value>
+  </data>
+  <data name="PreGameTextTwoPlayers" xml:space="preserve">
+    <value>2 jugadores</value>
+  </data>
+  <data name="PreGameTextPrivacyPublic" xml:space="preserve">
+    <value>Pública</value>
+  </data>
+  <data name="PreGameTextPrivacyPrivate" xml:space="preserve">
+    <value>Privada</value>
   </data>
 </root>

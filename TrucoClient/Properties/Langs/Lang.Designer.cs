@@ -1171,7 +1171,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Invalid code or unavailable game..
+        ///   Busca una cadena traducida similar a Invalid code, match full or unavailable..
         /// </summary>
         public static string GameTextInvalidCode {
             get {
@@ -2116,6 +2116,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 4 players.
+        /// </summary>
+        public static string PreGameTextFourPlayers {
+            get {
+                return ResourceManager.GetString("PreGameTextFourPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Game.
         /// </summary>
         public static string PreGameTextGame {
@@ -2134,11 +2143,56 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Match type:.
+        /// </summary>
+        public static string PreGameTextMatchType {
+            get {
+                return ResourceManager.GetString("PreGameTextMatchType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Number of players:.
+        /// </summary>
+        public static string PreGameTextNumberPlayers {
+            get {
+                return ResourceManager.GetString("PreGameTextNumberPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Private.
+        /// </summary>
+        public static string PreGameTextPrivacyPrivate {
+            get {
+                return ResourceManager.GetString("PreGameTextPrivacyPrivate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Public.
+        /// </summary>
+        public static string PreGameTextPrivacyPublic {
+            get {
+                return ResourceManager.GetString("PreGameTextPrivacyPublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Search match.
         /// </summary>
         public static string PreGameTextSearchGame {
             get {
                 return ResourceManager.GetString("PreGameTextSearchGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 2 players.
+        /// </summary>
+        public static string PreGameTextTwoPlayers {
+            get {
+                return ResourceManager.GetString("PreGameTextTwoPlayers", resourceCulture);
             }
         }
         
