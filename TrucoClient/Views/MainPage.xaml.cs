@@ -27,7 +27,7 @@ namespace TrucoClient
         }
         private void ClickProfile(object sender, RoutedEventArgs e)
         {
-            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername == "UsuarioActual")
+            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername.StartsWith("Guest_"))
             {
                 this.NavigationService.Navigate(new GuestProfilePage());
             }
@@ -46,7 +46,7 @@ namespace TrucoClient
         }
         private void ClickFriends(object sender, RoutedEventArgs e)
         {
-            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername == "UsuarioActual")
+            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername.StartsWith("Guest_"))
             {
                 this.NavigationService.Navigate(new GuestFriendsPage());
             }

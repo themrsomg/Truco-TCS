@@ -19,7 +19,7 @@ namespace TrucoClient
 
         private void ClickCustomMatch(object sender, RoutedEventArgs e)
         {
-            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername == "UsuarioActual")
+            if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername.StartsWith("Guest_"))
             {
                 this.NavigationService.Navigate(new GuestCustomMatchPage());
             }

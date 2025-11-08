@@ -107,14 +107,14 @@
                                 <TextBox.Template>
                                     <ControlTemplate TargetType="TextBox">
                                         <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                BorderThickness="2" Padding="5">
+                                                BorderThickness="1" Padding="5">
                                             <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                                         </Border>
                                     </ControlTemplate>
                                 </TextBox.Template>
                             </TextBox>
                             <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" 
-                                       Foreground="Gray" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
+                                       Foreground="Gray" FontSize="17" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
                         </Grid>
                         <Button x:Name="btnSendMessage" Content="{x:Static language:Lang.GlobalTextSend}" Width="65" Height="25" Click="ClickSendMessage" Cursor="Hand">
                             <Button.Template>

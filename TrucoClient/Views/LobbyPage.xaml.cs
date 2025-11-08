@@ -176,16 +176,29 @@ namespace TrucoClient.Views
                     PlayersList.ItemsSource = null;
 
                     var playerInfos = new List<PlayerLobbyInfo>();
+
                     foreach (var p in players)
                     {
+                        if (p.Username.StartsWith("Guest_"))
+                        {
+                            playerInfos.Add(new PlayerLobbyInfo
+                            {
+                                Username = p.Username,
+                                AvatarUri = LoadAvatar("avatar_aaa_default")
+                            });
+                            continue;
+                        }
+
                         try
                         {
                             var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
 
                             playerInfos.Add(new PlayerLobbyInfo
                             {
-                                Username = profile.Username,
-                                AvatarUri = LoadAvatar(profile.AvatarId)
+                                Username = profile?.Username ?? p.Username,
+                                AvatarUri = LoadAvatar(string.IsNullOrEmpty(profile?.AvatarId)
+                                    ? "avatar_aaa_default"
+                                    : profile.AvatarId)
                             });
                         }
                         catch
@@ -200,7 +213,7 @@ namespace TrucoClient.Views
 
                     PlayersList.ItemsSource = playerInfos;
 
-                    isOwner = players.Any(p => p.OwnerUsername == SessionManager.CurrentUsername);  
+                    isOwner = players.Any(p => p.OwnerUsername == SessionManager.CurrentUsername);
                     btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
                 });
             }
@@ -222,8 +235,15 @@ namespace TrucoClient.Views
 
         private BitmapImage LoadAvatar(string avatarId)
         {
-            string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
-            return new BitmapImage(new Uri(path, UriKind.Absolute));
+            try
+            {
+                string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
+                return new BitmapImage(new Uri(path, UriKind.Absolute));
+            }
+            catch
+            {
+                return new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+            }
         }
 
         private void InitializeChat()
