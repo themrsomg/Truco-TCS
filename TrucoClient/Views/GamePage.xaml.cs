@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
@@ -114,6 +115,18 @@ namespace TrucoClient
                 catch (Exception ex)
                 {
                     MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void EnterKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == txtChatMessage)
+                {
+                    ClickSendMessage(btnSendMessage, null);
+                    e.Handled = true;
                 }
             }
         }

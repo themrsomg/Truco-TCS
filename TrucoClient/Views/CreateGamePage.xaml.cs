@@ -58,20 +58,20 @@ namespace TrucoClient.Views
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show($"La conexión al servidor expiró. La partida puede haberse creado, revise la lista de lobbies. Mensaje: {ex.Message}", "Error de Tiempo de Espera", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
             catch (FormatException ex)
             {
-                MessageBox.Show($"Error de formato en los datos seleccionados: {ex.Message}", "Error de Entrada", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (System.ServiceModel.CommunicationException ex)
             {
-                MessageBox.Show($"Error de conexión con el servidor. Por favor, reinicie la aplicación. ({ex.Message})", "Error de Comunicación", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Lang.ExceptionTextConnectionError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), "Error Inesperado", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

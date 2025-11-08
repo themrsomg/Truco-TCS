@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Properties.Langs;
-using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -48,13 +47,13 @@ namespace TrucoClient.Views
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo unir a la partida. Podría estar llena o cerrada.", "Error de Unión", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(Lang.PreGameJoinMatchNoSuccess, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                         LoadAvailableMatchesAsync();
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al intentar unirse a la partida: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 finally
                 {

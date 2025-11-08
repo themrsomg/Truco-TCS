@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using TrucoClient.Views;
+using System.Windows.Input;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Views;
 
 namespace TrucoClient
 {
@@ -40,6 +41,18 @@ namespace TrucoClient
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new PlayPage());
+        }
+
+        private void EnterKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == txtCode)
+                {
+                    ClickJoin(btnJoin, null);
+                    e.Handled = true;
+                }
+            }
         }
     }
 }

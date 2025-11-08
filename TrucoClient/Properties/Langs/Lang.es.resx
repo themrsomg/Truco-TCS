@@ -694,7 +694,7 @@
 
 👥 Busca y Agrega Amigos: Encuentra a tus rivales o compañeros con un simple toque.
 
-🔒 Salas Privadas Personalizadas: Crea tu propia mesa, solo para ti y tus invitados, con las reglas que elijan.
+🔒 Salas Privadas Personalizadas: Crea tu propia mesa, solo para ti y tus invitados.
 
 🗣️ Chatea: Comunícate con tus amigos dentro del juego.
 
@@ -809,7 +809,7 @@
     <value>Campo obligatorio</value>
   </data>
   <data name="PreGameTextCustomMatch" xml:space="preserve">
-    <value>Partida personalizada</value>
+    <value>Partidas personalizadas</value>
   </data>
   <data name="GlobalTextVerificationCodeLength" xml:space="preserve">
     <value>La longitud del código debe ser de 6 dígitos</value>
@@ -851,7 +851,7 @@
     <value>Fallo al cargar la imagen por defecto '{0}'. Detalles: {1}</value>
   </data>
   <data name="ExceptionTextConnectionError" xml:space="preserve">
-    <value>No se pudo conectar al servidor: {0}</value>
+    <value>No se pudo conectar al servidor. Por favor, reinicie la aplicación.</value>
   </data>
   <data name="ExceptionTextErrorOcurred" xml:space="preserve">
     <value>Ocurrió un error: {0}</value>
@@ -984,5 +984,34 @@
   </data>
   <data name="PreGameTextHostLobby" xml:space="preserve">
     <value>Lobby de {0}</value>
+  </data>
+  <data name="ExceptionTextTimeoutCreatingMatch" xml:space="preserve">
+    <value>La conexión al servidor expiró. La partida puede haberse creado, revise la lista de lobbies.</value>
+  </data>
+  <data name="ExceptionTextFormatErrorCreateMatch" xml:space="preserve">
+    <value>Error de formato en los datos seleccionados.</value>
+  </data>
+  <data name="PreGameJoinMatchNoSuccess" xml:space="preserve">
+    <value>No se pudo unir a la partida. Podría estar llena o cerrada.</value>
+  </data>
+  <data name="ExceptionTextErrorJoiningMatch" xml:space="preserve">
+    <value>Error al intentar unirse a la partida</value>
+  </data>
+  <data name="CustomMatchGuestTextTitle" xml:space="preserve">
+    <value>¡Las partidas personalizadas te esperan!</value>
+  </data>
+  <data name="CustomMatchGuestTextInstructions" xml:space="preserve">
+    <value>Truco Argentino es mejor cuando se juega con gente conocida. Como invitado, solo puedes entrar a partidas públicas.
+
+¡No te quedes con las ganas de desafiar a tus compañeros!
+
+⭐ Crea tu cuenta (¡es rápido!) y desbloquea todo el poder social:
+
+🔒 Salas Privadas Personalizadas: Crea tu propia mesa, solo para ti y tus invitados, o crea también partidas públicas y conoce gente.
+
+¡Registrate hoy y arma una partida como se debe!</value>
+  </data>
+  <data name="CustomMatchGuestTextNoThanks" xml:space="preserve">
+    <value>No gracias, ir a las partidas publicas</value>
   </data>
 </root>

@@ -33,7 +33,7 @@
                         </ControlTemplate>
                     </Button.Template>
                     <Grid>
-                        <TextBlock Text="{language:Loc StartTextLogIn}" VerticalAlignment="Center" 
+                        <TextBlock Text="{x:Static language:Lang.StartTextLogIn}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
                         <Image Source="/Resources/Logos/logo_login.png" Width="50" Height="50" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>
@@ -48,7 +48,7 @@
                         </ControlTemplate>
                     </Button.Template>
                     <Grid>
-                        <TextBlock Text="{language:Loc StartTextSingUp}" VerticalAlignment="Center" 
+                        <TextBlock Text="{x:Static language:Lang.StartTextSingUp}" VerticalAlignment="Center" 
                                    HorizontalAlignment="Left" Margin="60,0,0,0"/>
                         <Image Source="/Resources/Logos/logo_new_user.png" Width="50" Height="50" HorizontalAlignment="Left" 
                                VerticalAlignment="Center"/>

@@ -694,7 +694,7 @@ Don't miss out on challenging your teammates!
 
 👥 Find and Add Friends: Find your rivals or teammates with a simple tap.
 
-🔒 Custom Private Rooms: Create your own table, just for you and your guests, with the rules you choose.
+🔒 Custom Private Rooms: Create your own table, just for you and your guests.
 
 🗣️ Chat: Communicate with your friends in-game.
 
@@ -809,7 +809,7 @@ Sign up today and set up a proper match!</value>
     <value>Requiered field</value>
   </data>
   <data name="PreGameTextCustomMatch" xml:space="preserve">
-    <value>Custom match</value>
+    <value>Custom matches</value>
   </data>
   <data name="GlobalTextVerificationCodeLength" xml:space="preserve">
     <value>The code length must be 6 digits</value>
@@ -851,7 +851,7 @@ Sign up today and set up a proper match!</value>
     <value>Failed to load default image '{0}'. Details: {1}</value>
   </data>
   <data name="ExceptionTextConnectionError" xml:space="preserve">
-    <value>Could not connect to server: {0}</value>
+    <value>Could not connect to server. Please restart the application.</value>
   </data>
   <data name="ExceptionTextErrorOcurred" xml:space="preserve">
     <value>An error occurred: {0}</value>
@@ -984,5 +984,34 @@ Sign up today and set up a proper match!</value>
   </data>
   <data name="PreGameTextHostLobby" xml:space="preserve">
     <value>{0}'s Lobby</value>
+  </data>
+  <data name="ExceptionTextTimeoutCreatingMatch" xml:space="preserve">
+    <value>The connection to the server expired. The game may have been created; please check the lobby list.</value>
+  </data>
+  <data name="ExceptionTextFormatErrorCreateMatch" xml:space="preserve">
+    <value>Formatting error in the selected data.</value>
+  </data>
+  <data name="PreGameJoinMatchNoSuccess" xml:space="preserve">
+    <value>You were unable to join the game. It may be full or closed.</value>
+  </data>
+  <data name="ExceptionTextErrorJoiningMatch" xml:space="preserve">
+    <value>Error trying to join the match</value>
+  </data>
+  <data name="CustomMatchGuestTextTitle" xml:space="preserve">
+    <value>Custom games await you!</value>
+  </data>
+  <data name="CustomMatchGuestTextInstructions" xml:space="preserve">
+    <value>Truco Argentino is best played with people you know. As a guest, you can only join public games.
+
+Don't miss out on challenging your friends!
+
+⭐ Create your account (it's quick!) and unlock all the social power:
+
+🔒 Custom Private Rooms: Create your own table, just for you and your guests, or create public games and meet new people.
+
+Register today and set up a proper game!</value>
+  </data>
+  <data name="CustomMatchGuestTextNoThanks" xml:space="preserve">
+    <value>No thanks, go to the public matches</value>
   </data>
 </root>

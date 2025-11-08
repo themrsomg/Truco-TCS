@@ -83,7 +83,6 @@
     <Compile Include="ClientManager.cs" />
     <Compile Include="LanguageManager.cs" />
     <Compile Include="MusicManager.cs" />
-    <Compile Include="Properties\Langs\LocExtension.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="TrucoCallbackHandler.cs" />
     <Compile Include="Views\AboutPage.xaml.cs">
@@ -112,6 +111,9 @@
     </Compile>
     <Compile Include="InitialWindows.xaml.cs">
       <DependentUpon>InitialWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuestCustomMatchPage.xaml.cs">
+      <DependentUpon>GuestCustomMatchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GuestFriendsPage.xaml.cs">
       <DependentUpon>GuestFriendsPage.xaml</DependentUpon>
@@ -198,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InitialWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuestCustomMatchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

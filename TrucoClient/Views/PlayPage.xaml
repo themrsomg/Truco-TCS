@@ -11,7 +11,7 @@
     <StackPanel>
         <TextBlock Text="{x:Static language:Lang.PlayTextGames}" FontSize="40" Foreground="White" 
                    HorizontalAlignment="Center" Margin="0,40,0,0"/>
-        <Button Click="ClickTrucoMatch" Content="{x:Static language:Lang.PreGameTextSearchGame}" Width="350" Height="60" 
+        <Button Click="ClickSearchMatch" Content="{x:Static language:Lang.PreGameTextSearchGame}" Width="350" Height="60" 
                 Cursor="Hand" Margin="0,70,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -21,7 +21,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Click="ClickPlayFriends" Content="{x:Static language:Lang.PreGameTextCustomMatch}" Width="350" 
+        <Button Click="ClickCustomMatch" Content="{x:Static language:Lang.PreGameTextCustomMatch}" Width="350" 
                 Height="60" Cursor="Hand" Margin="0,30,0,0">
             <Button.Template>
                 <ControlTemplate TargetType="Button">

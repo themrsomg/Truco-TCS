@@ -17,11 +17,11 @@ namespace TrucoClient
             this.NavigationService.Navigate(new MainPage());
         }
 
-        private void ClickPlayFriends(object sender, RoutedEventArgs e)
+        private void ClickCustomMatch(object sender, RoutedEventArgs e)
         {
             if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername == "UsuarioActual")
             {
-                this.NavigationService.Navigate(new GuestFriendsPage());
+                this.NavigationService.Navigate(new GuestCustomMatchPage());
             }
             else
             {
@@ -29,7 +29,7 @@ namespace TrucoClient
             }
         }
 
-        private void ClickTrucoMatch(object sender, RoutedEventArgs e)
+        private void ClickSearchMatch(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new SearchMatchPage());
         }

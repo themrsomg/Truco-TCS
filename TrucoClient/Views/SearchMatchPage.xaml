@@ -12,28 +12,35 @@
         <StackPanel Margin="0,50,0,0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
-                    TextAlignment="Center" Margin="20,0,0,20" HorizontalAlignment="Center"/>
-                <Button Content="{x:Static language:Lang.GameTextReloadPage}" Width="150" Height="40" FontSize="20"
-                    Click="ClickReloadPage" Margin="150,0,5,20" HorizontalAlignment="Right"/>
-
+                    TextAlignment="Center" Margin="20,15,0,20" HorizontalAlignment="Center"/>
+                <Button Click="ClickReloadPage" Content="{x:Static language:Lang.GameTextReloadPage}" Cursor="Hand" Width="190" 
+                        Height="40" FontSize="20" Margin="150,0,0,0" HorizontalAlignment="Right">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </StackPanel>
             <StackPanel>
                 <ListBox x:Name="lstMatches" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
                          ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="0,5">
+                            <Border BorderBrush="White" BorderThickness="1" CornerRadius="10" Margin="0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding MatchName}" FontSize="16" VerticalAlignment="Center"/>
-                                    <Button Grid.Column="3" Content="{x:Static language:Lang.JoinGameTextJoin}" FontSize="18" Width="90" Height="25" Click="ClickJoinMatch" 
+                                    <TextBlock Text="{Binding MatchName}" FontSize="25" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    <Button Grid.Column="3" Content="{x:Static language:Lang.JoinGameTextJoin}" FontSize="25" Width="90" Height="35" Click="ClickJoinMatch" 
                                             Cursor="" Margin="10,0,0,0">
                                         <Button.Template>
                                             <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
+                                                <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="1" BorderBrush="#FF3AB8CE">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -44,8 +51,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="150" Height="50" 
-                        FontSize="25                         " Margin="0,100,40,0" HorizontalAlignment="Right">
+                <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="100" Height="40" 
+                        FontSize="25" Margin="0,100,40,0" HorizontalAlignment="Right">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">

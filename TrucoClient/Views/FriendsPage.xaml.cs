@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
@@ -288,6 +289,24 @@ namespace TrucoClient
                 ShowError(txtSearch, Lang.DialogTextLongUsername);
             }
         }
+
+        private void EnterKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == txtSearch)
+                {
+                    ClickAddFriend(btnAdd, null);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !System.Text.RegularExpressions.Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+$");
+        }
+
 
         private void ShowError(Control field, string errorMessage)
         {

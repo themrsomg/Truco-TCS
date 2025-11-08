@@ -340,6 +340,41 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Truco Argentino is best played with people you know. As a guest, you can only join public games.
+        ///
+        ///Don&apos;t miss out on challenging your friends!
+        ///
+        ///⭐ Create your account (it&apos;s quick!) and unlock all the social power:
+        ///
+        ///🔒 Custom Private Rooms: Create your own table, just for you and your guests, or create public games and meet new people.
+        ///
+        ///Register today and set up a proper game!.
+        /// </summary>
+        public static string CustomMatchGuestTextInstructions {
+            get {
+                return ResourceManager.GetString("CustomMatchGuestTextInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No thanks, go to the public matches.
+        /// </summary>
+        public static string CustomMatchGuestTextNoThanks {
+            get {
+                return ResourceManager.GetString("CustomMatchGuestTextNoThanks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Custom games await you!.
+        /// </summary>
+        public static string CustomMatchGuestTextTitle {
+            get {
+                return ResourceManager.GetString("CustomMatchGuestTextTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Are you sure you want to exit? Your changes will not be saved.
         /// </summary>
         public static string DialogTextConfirmationNewUser {
@@ -619,7 +654,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Could not connect to server: {0}.
+        ///   Busca una cadena traducida similar a Could not connect to server. Please restart the application..
         /// </summary>
         public static string ExceptionTextConnectionError {
             get {
@@ -642,6 +677,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextErrorExitingLobby {
             get {
                 return ResourceManager.GetString("ExceptionTextErrorExitingLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error trying to join the match.
+        /// </summary>
+        public static string ExceptionTextErrorJoiningMatch {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorJoiningMatch", resourceCulture);
             }
         }
         
@@ -736,6 +780,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Formatting error in the selected data..
+        /// </summary>
+        public static string ExceptionTextFormatErrorCreateMatch {
+            get {
+                return ResourceManager.GetString("ExceptionTextFormatErrorCreateMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The game could not be created: {0}.
         /// </summary>
         public static string ExceptionTextNoGameCreated {
@@ -759,6 +812,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextSplashPageError {
             get {
                 return ResourceManager.GetString("ExceptionTextSplashPageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The connection to the server expired. The game may have been created; please check the lobby list..
+        /// </summary>
+        public static string ExceptionTextTimeoutCreatingMatch {
+            get {
+                return ResourceManager.GetString("ExceptionTextTimeoutCreatingMatch", resourceCulture);
             }
         }
         
@@ -897,7 +959,7 @@ namespace TrucoClient.Properties.Langs {
         ///
         ///👥 Find and Add Friends: Find your rivals or teammates with a simple tap.
         ///
-        ///🔒 Custom Private Rooms: Create your own table, just for you and your guests, with the rules you choose.
+        ///🔒 Custom Private Rooms: Create your own table, just for you and your guests.
         ///
         ///🗣️ Chat: Communicate with your friends in-game.
         ///
@@ -2116,6 +2178,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You were unable to join the game. It may be full or closed..
+        /// </summary>
+        public static string PreGameJoinMatchNoSuccess {
+            get {
+                return ResourceManager.GetString("PreGameJoinMatchNoSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Share this code with your friend:.
         /// </summary>
         public static string PreGameShareCode {
@@ -2125,7 +2196,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Custom match.
+        ///   Busca una cadena traducida similar a Custom matches.
         /// </summary>
         public static string PreGameTextCustomMatch {
             get {
