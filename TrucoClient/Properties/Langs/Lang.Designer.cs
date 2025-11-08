@@ -655,6 +655,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error loading matches: {0}.
+        /// </summary>
+        public static string ExceptionTextErrorLoadingMatches {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorLoadingMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error loading players: {0}.
         /// </summary>
         public static string ExceptionTextErrorLoadingPlayers {
@@ -1054,7 +1063,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Active Truco games.
+        ///   Busca una cadena traducida similar a Public games available.
         /// </summary>
         public static string GameTextActiveMatch {
             get {
@@ -1239,6 +1248,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GameTextRealEnvido {
             get {
                 return ResourceManager.GetString("GameTextRealEnvido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reload this page.
+        /// </summary>
+        public static string GameTextReloadPage {
+            get {
+                return ResourceManager.GetString("GameTextReloadPage", resourceCulture);
             }
         }
         
@@ -2139,6 +2157,15 @@ namespace TrucoClient.Properties.Langs {
         public static string PreGameTextGameVX {
             get {
                 return ResourceManager.GetString("PreGameTextGameVX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0}&apos;s Lobby.
+        /// </summary>
+        public static string PreGameTextHostLobby {
+            get {
+                return ResourceManager.GetString("PreGameTextHostLobby", resourceCulture);
             }
         }
         

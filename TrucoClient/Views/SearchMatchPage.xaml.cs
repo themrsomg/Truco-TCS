@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -17,32 +22,97 @@ namespace TrucoClient.Views
         public SearchMatchPage()
         {
             InitializeComponent();
-            LoadAvailableMatches();
+            LoadAvailableMatchesAsync();
         }
 
-        private void LoadAvailableMatches()
-        {
-            var matches = new List<MatchInfo>
-            {
-                new MatchInfo { MatchName = "Partida 1 - 1v1", MatchCode = "TRU001", CurrentPlayers = 1, MaxPlayers = 2 },
-                new MatchInfo { MatchName = "Partida 2 - 1v1", MatchCode = "TRU002", CurrentPlayers = 1, MaxPlayers = 2 },
-                new MatchInfo { MatchName = "Partida 3 - 2v2", MatchCode = "TRU003", CurrentPlayers = 3, MaxPlayers = 4 }
-            };
-
-            lstMatches.ItemsSource = matches;
-        }
-
-        private void ClickJoinMatch(object sender, RoutedEventArgs e)
+        private async void ClickJoinMatch(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.DataContext is MatchInfo match)
             {
-                this.NavigationService.Navigate(new LobbyPage(match.MatchCode, match.MatchName));
+                bool joined = false;
+
+                try
+                {
+                    if (button != null) 
+                    { 
+                        button.IsEnabled = false; 
+                    }
+
+                    joined = await Task.Run(() =>
+                        ClientManager.MatchClient.JoinMatch(match.MatchCode, SessionManager.CurrentUsername)
+                    );
+
+                    if (joined)
+                    {
+                        this.NavigationService.Navigate(new LobbyPage(match.MatchCode, match.MatchName));
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo unir a la partida. Podría estar llena o cerrada.", "Error de Unión", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        LoadAvailableMatchesAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al intentar unirse a la partida: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    if (button != null) 
+                    { 
+                        button.IsEnabled = true; 
+                    }
+                }
             }
         }
+
+        private void ClickReloadPage(object sender, RoutedEventArgs e)
+        {
+            LoadAvailableMatchesAsync();
+        }
+
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new PlayPage());
         }
+
+        private async void LoadAvailableMatchesAsync()
+        {
+            try
+            {
+                var matchesArray = await Task.Run(() =>
+                {
+                    return ClientManager.MatchClient.GetPublicLobbies();
+                });
+
+                var matchesList = ConvertArrayToList(matchesArray);
+
+                lstMatches.ItemsSource = matchesList.Select(m => new MatchInfo
+                {
+                    MatchName = m.MatchName,
+                    MatchCode = m.MatchCode,
+                    CurrentPlayers = m.CurrentPlayers,
+                    MaxPlayers = m.MaxPlayers
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingMatches, ex.Message),
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+ 
+
+        private static List<T> ConvertArrayToList<T>(T[] array)
+        {
+            if (array == null || array.Length == 0)
+            {
+                return new List<T>();
+            }
+
+            return new List<T>(array);
+        }
+
     }
 }

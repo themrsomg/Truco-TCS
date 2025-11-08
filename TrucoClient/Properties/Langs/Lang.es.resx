@@ -791,7 +791,7 @@
     <value>Crear partida</value>
   </data>
   <data name="GameTextActiveMatch" xml:space="preserve">
-    <value>Partidas activas de Truco</value>
+    <value>Partidas públicas disponibles</value>
   </data>
   <data name="LobbyTextExitLobby" xml:space="preserve">
     <value>¿Deseas salir del lobby?</value>
@@ -975,5 +975,14 @@
   </data>
   <data name="PreGameTextPrivacyPrivate" xml:space="preserve">
     <value>Privada</value>
+  </data>
+  <data name="GameTextReloadPage" xml:space="preserve">
+    <value>Recarga esta página</value>
+  </data>
+  <data name="ExceptionTextErrorLoadingMatches" xml:space="preserve">
+    <value>Error loading matches: {0}</value>
+  </data>
+  <data name="PreGameTextHostLobby" xml:space="preserve">
+    <value>Lobby de {0}</value>
   </data>
 </root>

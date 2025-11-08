@@ -28,18 +28,12 @@ namespace TrucoClient.Views
                 string hostPlayer = SessionManager.CurrentUsername;
                 int selectedPlayers = int.Parse(((ComboBoxItem)cbPlayers.SelectedItem).Tag.ToString());
                 string privacy = ((ComboBoxItem)cbPrivacy.SelectedItem).Tag.ToString();
+                string matchName = string.Format(Lang.PreGameTextHostLobby, hostPlayer);
 
                 string code = await Task.Run(() =>
-                {
-                    try
-                    {
+                    { 
                         return ClientManager.MatchClient.CreateLobby(hostPlayer, selectedPlayers, privacy);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }).ConfigureAwait(false);
+                    }).ConfigureAwait(false);
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -57,15 +51,27 @@ namespace TrucoClient.Views
                     txtGeneratedCode.Text = code;
                     popupCode.IsOpen = true;
 
-                    this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch));
+                    this.NavigationService.Navigate(new LobbyPage(code, matchName));
                 });
             }
-            catch (Exception ex)
+            catch (TimeoutException ex)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"La conexión al servidor expiró. La partida puede haberse creado, revise la lista de lobbies. Mensaje: {ex.Message}", "Error de Tiempo de Espera", MessageBoxButton.OK, MessageBoxImage.Error);
                 });
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show($"Error de formato en los datos seleccionados: {ex.Message}", "Error de Entrada", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (System.ServiceModel.CommunicationException ex)
+            {
+                MessageBox.Show($"Error de conexión con el servidor. Por favor, reinicie la aplicación. ({ex.Message})", "Error de Comunicación", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), "Error Inesperado", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

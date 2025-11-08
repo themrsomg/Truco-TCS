@@ -317,6 +317,9 @@
     <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.PlayerStats.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.PublicLobbyInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.UserProfileData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
