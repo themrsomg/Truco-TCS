@@ -10,7 +10,7 @@ namespace TrucoClient.Helpers.UI
 {
     public static class AvatarHelper
     {
-        private const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
+        private const string DEFAULT_AVATAR_PATH = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
         private static readonly List<string> internalAvatars = new List<string>
         {
             "avatar_aaa_default", "avatar_c_hr_rallycarback",
@@ -65,7 +65,7 @@ namespace TrucoClient.Helpers.UI
                 avatarId = "avatar_aaa_default";
             }
 
-            string relativePath = $"/Resources/Avatars/{avatarId}.png";
+            string relativePath = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
 
             try
             {
