@@ -4,7 +4,7 @@ using System.Windows;
 using TrucoClient.TrucoServer;
 using TrucoClient.Properties.Langs;
 
-namespace TrucoClient
+namespace TrucoClient.Helpers.Services
 {
     public static class ClientManager
     {

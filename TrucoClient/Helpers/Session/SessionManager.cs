@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using TrucoClient.TrucoServer;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Services;
 
-namespace TrucoClient
+namespace TrucoClient.Helpers.Session
 {
     public static class SessionManager
     {

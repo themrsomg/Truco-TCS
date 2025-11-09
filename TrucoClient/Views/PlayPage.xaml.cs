@@ -1,8 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TrucoClient.Views;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
 
-namespace TrucoClient
+namespace TrucoClient.Views
 {
     public partial class PlayPage : Page
     {

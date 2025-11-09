@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using TrucoClient.Properties.Langs;
 
-namespace TrucoClient
+namespace TrucoClient.Helpers.Audio
 {
     public static class MusicManager
     {

@@ -4,8 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.IO;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Audio;
 
-namespace TrucoClient
+namespace TrucoClient.Views
 {
     public partial class CreditsPage : Page
     {

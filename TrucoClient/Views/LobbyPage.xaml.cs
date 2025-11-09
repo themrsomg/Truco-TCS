@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
 
 namespace TrucoClient.Views
 {
@@ -30,7 +32,7 @@ namespace TrucoClient.Views
             this.matchCode = matchCode;
             this.matchName = matchName;
 
-            txtLobbyTitle.Text = $"Lobby - {matchName}";
+            txtLobbyTitle.Text = $"Lobby - {this.matchName}";
             txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
 
             _ = LoadPlayersAsync();

@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
 
 namespace TrucoClient.Views
 {
@@ -54,18 +57,18 @@ namespace TrucoClient.Views
                     this.NavigationService.Navigate(new LobbyPage(code, matchName));
                 });
             }
-            catch (TimeoutException ex)
+            catch (TimeoutException)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 MessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (System.ServiceModel.CommunicationException ex)
+            catch (System.ServiceModel.CommunicationException)
             {
                 MessageBox.Show(Lang.ExceptionTextConnectionError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }

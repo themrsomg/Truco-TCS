@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Threading;
 
-namespace TrucoClient
+namespace TrucoClient.Helpers.Localization
 {
     public static class LanguageManager
     {

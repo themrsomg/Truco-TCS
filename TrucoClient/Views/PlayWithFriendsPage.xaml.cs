@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TrucoClient.Helpers.Audio;
 
 namespace TrucoClient.Views
 {

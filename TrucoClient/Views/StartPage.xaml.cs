@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using TrucoClient.Helpers.Localization;
+using TrucoClient.Helpers.Session;
 
-namespace TrucoClient
+
+namespace TrucoClient.Views
 {
     public partial class StartPage : Page
     {

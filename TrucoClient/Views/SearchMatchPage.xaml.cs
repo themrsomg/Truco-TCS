@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TrucoClient.Helpers.Audio;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
 
 namespace TrucoClient.Views
 {
@@ -22,6 +25,7 @@ namespace TrucoClient.Views
         {
             InitializeComponent();
             LoadAvailableMatchesAsync();
+            MusicInitializer.InitializeMenuMusic();
         }
 
         private async void ClickJoinMatch(object sender, RoutedEventArgs e)
@@ -51,7 +55,7 @@ namespace TrucoClient.Views
                         LoadAvailableMatchesAsync();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

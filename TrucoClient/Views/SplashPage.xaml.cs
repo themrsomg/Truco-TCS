@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Audio;
 
 namespace TrucoClient.Views
 {

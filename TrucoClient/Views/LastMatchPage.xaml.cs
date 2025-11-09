@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TrucoClient.Helpers.Audio;
 
-namespace TrucoClient
+namespace TrucoClient.Views
 {
     public partial class LastMatchPage : Page
     {

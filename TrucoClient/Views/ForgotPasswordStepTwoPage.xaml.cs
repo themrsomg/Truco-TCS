@@ -3,22 +3,21 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml.Serialization;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
 
 namespace TrucoClient.Views
 {
     public partial class ForgotPasswordStepTwoPage : Page
     {
-
         private const int CODE_LENGTH = 6;
         private const int MIN_PASSWORD_LENGTH = 8;
         private const int MAX_PASSWORD_LENGTH = 50;
-        private const int TEXT_LENGTH = 6;
-        private const int MIN_TEXT_LENGTH = 0;
 
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
         private string email;
 
         public ForgotPasswordStepTwoPage(string email)
@@ -33,16 +32,19 @@ namespace TrucoClient.Views
         {
             string code = txtVerificationCode.Text.Trim();
             string password = txtPassword.Password.Trim();
+            string passwordConfirm = txtPasswordConfirm.Password.Trim();
 
-            if (!FieldsValidation(code, password))
+            ClearAllErrors();
+            if (!FieldsValidation(code, password, passwordConfirm))
             {
                 return;
             }
 
+            btnSave.IsEnabled = false;
+
             try
             {
                 var userClient = ClientManager.UserClient;
-
                 bool success = userClient.PasswordReset(email, code, password, languageCode);
 
                 if (success)
@@ -63,6 +65,13 @@ namespace TrucoClient.Views
             {
                 MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                if (this.IsLoaded)
+                {
+                    btnSave.IsEnabled = true;
+                }
+            }
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
@@ -74,267 +83,243 @@ namespace TrucoClient.Views
         {
             if (e.Key == Key.Enter)
             {
-                if (btnSave.IsEnabled)
-                {
-                    ClickSave(btnSave, null);
-                }
                 if (sender == txtVerificationCode)
                 {
                     txtPassword.Focus();
-                    e.Handled = true;
                 }
                 else if (sender == txtPassword)
                 {
                     txtPasswordConfirm.Focus();
-                    e.Handled = true;
                 }
                 else if (sender == txtPasswordConfirm && btnSave.IsEnabled)
                 {
                     ClickSave(btnSave, null);
                 }
+
+                e.Handled = true;
             }
         }
 
-        private bool FieldsValidation(string code, string password)
+        private bool FieldsValidation(string code, string password, string passwordConfirm)
         {
-            ClearAllErrors();
             bool areValid = true;
 
-            string passwordConfirm = txtPasswordConfirm.Password.Trim();
-
-            if (string.IsNullOrEmpty(password))
+            if (!FieldValidator.IsRequired(code))
             {
-                ShowError(txtPassword, Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+            else if (!FieldValidator.IsExactLength(code, CODE_LENGTH))
+            {
+                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeLength);
+                areValid = false;
+            }
+            else if (!FieldValidator.TryParseInt(code))
+            {
+                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeNumber);
                 areValid = false;
             }
 
-            if (string.IsNullOrEmpty(passwordConfirm))
+            if (!FieldValidator.IsRequired(password))
             {
-                ShowError(txtPasswordConfirm, Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+            else if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                areValid = false;
+            }
+            else if (!PasswordValidator.IsComplex(password))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
                 areValid = false;
             }
 
-            if (string.IsNullOrEmpty(code))
+            if (!FieldValidator.IsRequired(passwordConfirm))
             {
-                ShowError(txtVerificationCode, Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.GlobalTextRequieredField);
                 areValid = false;
             }
-
-            if (!areValid)
-            {
-                return false;
-            }
-
-            if (code.Length != CODE_LENGTH)
-            {
-                ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeLength);
-                areValid = false;
-            }
-            else if (!int.TryParse(code, out _))
-            {
-                ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeNumber);
-                areValid = false;
-            }
-
-            if (password.Length < MIN_PASSWORD_LENGTH)
-            {
-                ShowError(txtPassword, Lang.DialogTextShortPassword);
-                areValid = false;
-            }
-            else if (password.Length > MAX_PASSWORD_LENGTH)
-            {
-                ShowError(txtPassword, Lang.DialogTextLongPassword);
-                areValid = false;
-            }
-            else if (!IsPasswordComplex(password))
-            {
-                string errorMessage = Lang.GlobalTextPasswordNoComplex;
-                ShowError(txtPassword, errorMessage);
-                ShowError(txtPasswordConfirm, errorMessage);
-                areValid = false;
-            }
-
-            if (!string.Equals(password, passwordConfirm))
+            else if (!PasswordValidator.AreMatching(password, passwordConfirm))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                ShowError(txtPassword, errorMessage);
-                ShowError(txtPasswordConfirm, errorMessage);
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
                 areValid = false;
             }
 
-            CheckFormStatusAndToggleRegisterButton();
+            CheckFormStatusAndToggleSaveButton();
             return areValid;
-        }
-
-        private bool IsPasswordComplex(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                return false;
-            }
-
-            bool hasUpper = false;
-            bool hasLower = false;
-            bool hasDigit = false;
-            bool hasSymbol = false;
-
-            foreach (char c in password)
-            {
-                if (char.IsUpper(c))
-                {
-                    hasUpper = true;
-                }
-                else if (char.IsLower(c))
-                {
-                    hasLower = true;
-                }
-                else if (char.IsDigit(c))
-                {
-                    hasDigit = true;
-                }
-                else if (!char.IsLetterOrDigit(c))
-                {
-                    hasSymbol = true;
-                }
-            }
-
-            return hasUpper && hasLower && hasDigit && hasSymbol;
         }
 
         private TextBlock GetErrorTextBlock(Control field)
         {
-            TextBlock errorBlock = null;
-
             if (field == txtVerificationCode)
             {
-                errorBlock = blckCodeError;
+                return blckCodeError;
             }
             if (field == txtPassword)
             {
-                errorBlock = blckPasswordError;
+                return blckPasswordError;
             }
             if (field == txtPasswordConfirm)
             {
-                errorBlock = blckPasswordConfirmError;
-            }
-            
-            return errorBlock;
-        }
-
-        private void ShowError(Control field, string errorMessage)
-        {
-            TextBlock errorBlock = GetErrorTextBlock(field);
-
-            if (errorBlock != null)
-            {
-                errorBlock.Text = errorMessage;
+                return blckPasswordConfirmError;
             }
 
-            field.BorderBrush = new SolidColorBrush(Colors.Red);
-        }
-
-        private void ClearSpecificError(Control field)
-        {
-            TextBlock errorBlock = GetErrorTextBlock(field);
-
-            if (errorBlock != null)
-            {
-                errorBlock.Text = string.Empty;
-            }
-
-            field.ClearValue(Border.BorderBrushProperty);
+            return null;
         }
 
         private void ClearAllErrors()
         {
-            ClearSpecificError(txtPassword);
-            ClearSpecificError(txtPasswordConfirm);
+            ErrorDisplayService.ClearError(txtVerificationCode, blckCodeError);
+            ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+            ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+        }
+
+        private void CheckFormStatusAndToggleSaveButton()
+        {
+            bool IsErrorRed(TextBlock block) =>
+                !string.IsNullOrWhiteSpace(block.Text) && 
+                (block.Foreground as SolidColorBrush)?.Color == Colors.Red;
+
+            bool hasErrorMessages = IsErrorRed(blckCodeError)
+                                    || IsErrorRed(blckPasswordError)
+                                    || IsErrorRed(blckPasswordConfirmError);
+
+            bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtVerificationCode.Text)
+                                   && !string.IsNullOrWhiteSpace(txtPassword.Password)
+                                   && !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password);
+
+            btnSave.IsEnabled = !hasErrorMessages && allFieldsFilled;
         }
 
         private void TextBoxChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
-
-            ClearSpecificError(textBox);
-
+            ErrorDisplayService.ClearError(textBox, GetErrorTextBlock(textBox));
             string text = textBox.Text.Trim();
 
             if (string.IsNullOrEmpty(text))
             {
-                CheckFormStatusAndToggleRegisterButton();
+                CheckFormStatusAndToggleSaveButton();
                 return;
             }
 
             if (textBox == txtVerificationCode)
             {
-                if (text.Length != TEXT_LENGTH)
+                if (!FieldValidator.IsExactLength(text, CODE_LENGTH))
                 {
-                    ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeLength);
+                    ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeLength);
                 }
-                else if (!int.TryParse(text, out _))
+                else if (!FieldValidator.TryParseInt(text))
                 {
-                    ShowError(txtVerificationCode, Lang.GlobalTextVerificationCodeNumber);
+                    ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeNumber);
                 }
             }
 
-            CheckFormStatusAndToggleRegisterButton();
+            CheckFormStatusAndToggleSaveButton();
         }
+
         private void TextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtVerificationCode.Text))
             {
-                ShowError(txtVerificationCode, Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextRequieredField);
             }
-
-            CheckFormStatusAndToggleRegisterButton();
+            CheckFormStatusAndToggleSaveButton();
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
+            ErrorDisplayService.ClearError(passwordBox, GetErrorTextBlock(passwordBox));
 
-            ClearSpecificError(passwordBox);
+            string password = txtPassword.Password;
+            string passwordConfirm = txtPasswordConfirm.Password;
+            bool validationFailed = false;
 
-            string password = passwordBox.Password.Trim();
-
-            if (string.IsNullOrEmpty(password))
+            if (passwordBox == txtPassword && !string.IsNullOrEmpty(password))
             {
-                return;
-            }
-
-            if (password.Length < MIN_PASSWORD_LENGTH)
-            {
-                ShowError(passwordBox, Lang.DialogTextShortPassword);
-            }
-            else if (password.Length > MAX_PASSWORD_LENGTH)
-            {
-                ShowError(passwordBox, Lang.DialogTextLongPassword);
-            }
-
-            string password1 = txtPassword.Password;
-            string password2 = txtPasswordConfirm.Password;
-
-            if (!string.IsNullOrEmpty(password1) && !string.IsNullOrEmpty(password2) && !string.Equals(password1, password2))
-            {
-                string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                ShowError(txtPassword, errorMessage);
-                ShowError(txtPasswordConfirm, errorMessage);
-            }
-            else if (!string.IsNullOrEmpty(password1) && !IsPasswordComplex(password1))
-            {
-                string errorMessage = Lang.GlobalTextPasswordNoComplex;
-                ShowError(txtPassword, errorMessage);
-                ShowError(txtPasswordConfirm, errorMessage);
-            }
-            else
-            {
-                if (string.Equals(password1, password2) && !string.IsNullOrEmpty(password1))
+                if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
                 {
-                    ClearSpecificError(txtPassword);
-                    ClearSpecificError(txtPasswordConfirm);
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                    validationFailed = true;
+                }
+                else if (!PasswordValidator.IsComplex(password))
+                {
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
+                    validationFailed = true;
                 }
             }
 
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm))
+            {
+                if (!PasswordValidator.AreMatching(password, passwordConfirm))
+                {
+                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+                }
+                else if (!validationFailed)
+                {
+                    ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+                    ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+                }
+            }
+
+            SyncVisiblePasswordFields(passwordBox);
+
+            CheckFormStatusAndToggleSaveButton();
+        }
+
+        private void PasswordLostFocus(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+
+            if (!FieldValidator.IsRequired(passwordBox.Password))
+            {
+                ErrorDisplayService.ShowError(passwordBox, GetErrorTextBlock(passwordBox), Lang.GlobalTextRequieredField);
+            }
+
+            string password = txtPassword.Password;
+            string passwordConfirm = txtPasswordConfirm.Password;
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm))
+            {
+                if (!PasswordValidator.AreMatching(password, passwordConfirm))
+                {
+                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+                }
+            }
+
+            CheckFormStatusAndToggleSaveButton();
+        }
+
+        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
+        {
+            if (sender == btnToggleVisibility)
+            {
+                PasswordVisibilityService.ToggleVisibility(txtPassword, txtVisiblePassword, blckEyeEmoji);
+                
+                Control visibleBox = txtVisiblePassword.Visibility == Visibility.Visible ? (Control)txtVisiblePassword : (Control)txtPassword;
+                Control hiddenBox = visibleBox == txtVisiblePassword ? (Control)txtPassword : (Control)txtVisiblePassword;
+                visibleBox.BorderBrush = hiddenBox.BorderBrush;
+            }
+            else if (sender == btnToggleVisibilityConfirm)
+            {
+                PasswordVisibilityService.ToggleVisibility(txtPasswordConfirm, txtVisiblePasswordConfirm, blckEyeEmojiConfirm);
+                
+                Control visibleBox = txtVisiblePasswordConfirm.Visibility == Visibility.Visible ? (Control)txtVisiblePasswordConfirm : (Control)txtPasswordConfirm;
+                Control hiddenBox = visibleBox == txtVisiblePasswordConfirm ? (Control)txtPasswordConfirm : (Control)txtVisiblePasswordConfirm;
+                visibleBox.BorderBrush = hiddenBox.BorderBrush;
+            }
+        }
+
+        private void SyncVisiblePasswordFields(PasswordBox passwordBox)
+        {
             if (passwordBox == txtPassword && txtVisiblePassword.Visibility == Visibility.Visible)
             {
                 txtVisiblePassword.Text = txtPassword.Password;
@@ -342,101 +327,6 @@ namespace TrucoClient.Views
             else if (passwordBox == txtPasswordConfirm && txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
             {
                 txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-
-        private void PasswordLostFocus(object sender, RoutedEventArgs e)
-        {
-            string password = txtPassword.Password;
-            string passwordConfirm = txtPasswordConfirm.Password;
-
-            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !string.Equals(password, passwordConfirm))
-            {
-                string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                ShowError(txtPassword, errorMessage);
-                ShowError(txtPasswordConfirm, errorMessage);
-            }
-
-            var passwordBox = sender as PasswordBox;
-
-            if (string.IsNullOrWhiteSpace(passwordBox.Password))
-            {
-                ShowError(passwordBox, Lang.GlobalTextRequieredField);
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-        private void CheckFormStatusAndToggleRegisterButton()
-        {
-            bool hasErrorMessages = blckPasswordError.Text.Trim().Length > MIN_TEXT_LENGTH ||
-                                    blckPasswordConfirmError.Text.Trim().Length > MIN_TEXT_LENGTH || 
-                                    blckCodeError.Text.Trim().Length > MIN_TEXT_LENGTH;
-
-            bool allFieldsFilled = !string.IsNullOrWhiteSpace(txtPassword.Password) &&
-                                   !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password) &&
-                                   !string.IsNullOrWhiteSpace(txtVerificationCode.Text);
-
-            bool canEnable = !hasErrorMessages && allFieldsFilled;
-
-            btnSave.IsEnabled = canEnable;
-        }
-
-        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
-        {
-            if (sender == btnToggleVisibility)
-            {
-                if (txtPassword.Visibility == Visibility.Visible)
-                {
-                    txtVisiblePassword.Text = txtPassword.Password;
-
-                    txtPassword.Visibility = Visibility.Collapsed;
-                    txtVisiblePassword.Visibility = Visibility.Visible;
-                    txtVisiblePassword.Focus();
-
-                    blckEyeEmoji.Foreground = new SolidColorBrush(Colors.White);
-                    txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
-                }
-                else
-                {
-                    txtPassword.Password = txtVisiblePassword.Text;
-
-                    txtPassword.Visibility = Visibility.Visible;
-                    txtVisiblePassword.Visibility = Visibility.Collapsed;
-                    txtPassword.Focus();
-
-                    blckEyeEmoji.Foreground = new SolidColorBrush(Colors.Black);
-                    txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
-                }
-                return;
-            }
-
-            if (sender == btnToggleVisibilityConfirm)
-            {
-                if (txtPasswordConfirm.Visibility == Visibility.Visible)
-                {
-                    txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
-
-                    txtPasswordConfirm.Visibility = Visibility.Collapsed;
-                    txtVisiblePasswordConfirm.Visibility = Visibility.Visible;
-                    txtVisiblePasswordConfirm.Focus();
-
-                    blckEyeEmojiConfirm.Foreground = new SolidColorBrush(Colors.White);
-                    txtVisiblePasswordConfirm.BorderBrush = txtPassword.BorderBrush;
-                }
-                else
-                {
-                    txtPasswordConfirm.Password = txtVisiblePasswordConfirm.Text;
-
-                    txtPasswordConfirm.Visibility = Visibility.Visible;
-                    txtVisiblePasswordConfirm.Visibility = Visibility.Collapsed;
-                    txtPasswordConfirm.Focus();
-
-                    blckEyeEmojiConfirm.Foreground = new SolidColorBrush(Colors.Black);
-                    txtVisiblePasswordConfirm.BorderBrush = txtPassword.BorderBrush;
-                }
-                return;
             }
         }
     }

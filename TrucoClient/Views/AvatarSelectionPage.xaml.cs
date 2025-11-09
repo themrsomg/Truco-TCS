@@ -3,24 +3,22 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Audio;
 
 namespace TrucoClient.Views
 {
     public partial class AvatarSelectionPage : Page
     {
-        private const int WIDTH_SIZE = 80;
-        private const int HEIGHT_SIZE = 80;
-        private const int MARGIN_TICKNESS_SIZE = 6;
-        private const int PADDING_TICKNESS_SIZE = 0;
-        private const int BORDER_TICKNESS_SIZE = 0;
-        private const String URL_AVATAR_DEFAULT = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
+        private const int AVATAR_SIZE = 80;
+        private const int MARGIN = 6;
 
         public event EventHandler<string> AvatarSelected;
 
         private readonly List<string> avatars;
         private string currentSelectedId;
+
         public AvatarSelectionPage(List<string> availableAvatars, string currentId)
         {
             InitializeComponent();
@@ -33,72 +31,43 @@ namespace TrucoClient.Views
         {
             AvatarsPanel.Children.Clear();
 
-            foreach (var avatarId in avatars)
+            foreach (string avatarId in avatars)
             {
-                var btnAvatar = new Button
-                {
-                    Width = WIDTH_SIZE,
-                    Height = HEIGHT_SIZE,
-                    Margin = new Thickness(MARGIN_TICKNESS_SIZE),
-                    Padding = new Thickness(PADDING_TICKNESS_SIZE),
-                    Tag = avatarId,
-                    Cursor = Cursors.Hand,
-                    Background = System.Windows.Media.Brushes.Transparent,
-                    BorderThickness = new Thickness(BORDER_TICKNESS_SIZE)
-                };
-
-                string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
-
-                var image = new System.Windows.Controls.Image
-                {
-                    Width = WIDTH_SIZE,
-                    Height = HEIGHT_SIZE,
-                    Stretch = System.Windows.Media.Stretch.UniformToFill
-                };
-
-                try
-                {
-                    image.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
-                }
-                catch (UriFormatException)
-                {
-                    try
-                    {
-                        image.Source = new BitmapImage(new Uri(URL_AVATAR_DEFAULT, UriKind.Absolute));
-                    }
-                    catch (UriFormatException ex)
-                    {
-                        MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdInvalidFormat, avatarId, ex.Message));
-                        LoadDefaultAvatar(image, avatarId);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoad, avatarId, ex.Message));
-                        LoadDefaultAvatar(image, avatarId);
-                    }
-                }
-
-                btnAvatar.Content = image;
-
-                if (!string.IsNullOrEmpty(currentSelectedId) && currentSelectedId == avatarId)
-                {
-                    btnAvatar.Background = System.Windows.Media.Brushes.LightGray;
-                }
-
-                btnAvatar.Click += ClickAvatar;
-                AvatarsPanel.Children.Add(btnAvatar);
+                Button avatarButton = CreateAvatarButton(avatarId);
+                AvatarsPanel.Children.Add(avatarButton);
             }
         }
-        private void LoadDefaultAvatar(System.Windows.Controls.Image imageControl, string avatarId)
+
+        private Button CreateAvatarButton(string avatarId)
         {
-            try
+            var button = new Button
             {
-                imageControl.Source = new BitmapImage(new Uri(URL_AVATAR_DEFAULT, UriKind.Absolute));
-            }
-            catch (System.Exception ex)
+                Width = AVATAR_SIZE,
+                Height = AVATAR_SIZE,
+                Margin = new Thickness(MARGIN),
+                Tag = avatarId,
+                Cursor = Cursors.Hand,
+                Background = System.Windows.Media.Brushes.Transparent,
+                BorderThickness = new Thickness(0)
+            };
+
+            var image = new Image
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, URL_AVATAR_DEFAULT, ex.Message));
+                Width = AVATAR_SIZE,
+                Height = AVATAR_SIZE,
+                Stretch = System.Windows.Media.Stretch.UniformToFill
+            };
+
+            AvatarHelper.LoadAvatarImage(image, avatarId);
+            button.Content = image;
+
+            if (currentSelectedId == avatarId)
+            {
+                button.Background = System.Windows.Media.Brushes.LightGray;
             }
+
+            button.Click += ClickAvatar;
+            return button;
         }
 
         private void ClickAvatar(object sender, RoutedEventArgs e)
@@ -107,7 +76,7 @@ namespace TrucoClient.Views
             {
                 currentSelectedId = id;
 
-                foreach (var child in AvatarsPanel.Children)
+                foreach (UIElement child in AvatarsPanel.Children)
                 {
                     if (child is Button btn)
                     {
@@ -117,6 +86,7 @@ namespace TrucoClient.Views
                 button.Background = System.Windows.Media.Brushes.LightGray;
             }
         }
+
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             AvatarSelected?.Invoke(this, currentSelectedId);

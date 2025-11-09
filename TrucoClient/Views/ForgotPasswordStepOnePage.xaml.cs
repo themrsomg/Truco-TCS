@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using TrucoClient.Properties.Langs;
-using TrucoClient.TrucoServer;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
 
 namespace TrucoClient.Views
 {
     public partial class ForgotPasswordStepOnePage : Page
     {
-
         private const int MIN_EMAIL_LENGTH = 5;
         private const int MAX_EMAIL_LENGTH = 250;
-        private const int MIN_TEXT_LENGTH = 5;
-        private const int MAX_TEXT_LENGTH = 250;
 
         public ForgotPasswordStepOnePage()
         {
@@ -25,8 +23,9 @@ namespace TrucoClient.Views
 
         private async void ClickSendCode(object sender, RoutedEventArgs e)
         {
-           string email = txtEmail.Text.Trim();
+            string email = txtEmail.Text.Trim();
 
+            ErrorDisplayService.ClearError(txtEmail, blckEmailError);
             if (!FieldsValidation(email))
             {
                 return;
@@ -38,13 +37,14 @@ namespace TrucoClient.Views
             {
                 var userClient = ClientManager.UserClient;
 
-                if (await EmailVerificationAsync(email, userClient))
+                bool exists = await userClient.EmailExistsAsync(email);
+                if (!exists)
                 {
+                    ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextEmailDoesntExist);
                     return;
                 }
 
                 string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
                 bool sent = await userClient.RequestEmailVerificationAsync(email, languageCode);
 
                 if (sent)
@@ -96,117 +96,52 @@ namespace TrucoClient.Views
 
         private bool FieldsValidation(string email)
         {
-            ClearError();
             bool areValid = true;
 
-            if (string.IsNullOrEmpty(email))
+            if (!FieldValidator.IsRequired(email))
             {
-                ShowError(Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextRequieredField);
                 areValid = false;
             }
-
-            if (!areValid)
+            else if (!FieldValidator.IsLengthInRange(email, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
             {
-                return false;
-            }
-
-            if (email.Length < MIN_EMAIL_LENGTH)
-            {
-                ShowError(Lang.DialogTextShortEmail);
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail);
                 areValid = false;
             }
-            else if (email.Length > MAX_EMAIL_LENGTH)
+            else if (!EmailValidator.IsValidEmail(email))
             {
-                ShowError(Lang.DialogTextLongEmail);
-                areValid = false;
-            }
-            else if (!IsValidEmail(email))
-            {
-                ShowError(Lang.GlobalTextInvalidEmail);
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
                 areValid = false;
             }
 
             return areValid;
         }
 
-        private bool IsValidEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                return false;
-            }
-            try
-            {
-                var address = new System.Net.Mail.MailAddress(email);
-                return address.Address == email;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
-
-        private async Task<bool> EmailVerificationAsync(string email, TrucoUserServiceClient userClient)
-        {
-            bool emailExists = await userClient.EmailExistsAsync(email);
-
-            if (!emailExists)
-            {
-                ShowError(Lang.GlobalTextEmailDoesntExist);
-                emailExists = true;
-            }
-
-            emailExists = false;
-            return emailExists;
-        }
-
-        private void ShowError(string errorMessage)
-        {
-            blckEmailError.Text = errorMessage;
-
-            txtEmail.BorderBrush = new SolidColorBrush(Colors.Red);
-        }
-
-        private void ClearError()
-        {
-            blckEmailError.Text = string.Empty;
-
-            txtEmail.ClearValue(Border.BorderBrushProperty);
-        }
-        
         private void TextBoxChanged(object sender, TextChangedEventArgs e)
         {
-            var textBox = sender as TextBox;
-
-            ClearError();
-            string text = textBox.Text.Trim();
+            ErrorDisplayService.ClearError(txtEmail, blckEmailError);
+            string text = txtEmail.Text.Trim();
 
             if (string.IsNullOrEmpty(text))
             {
                 return;
             }
 
-            if (textBox == txtEmail)
+            if (!FieldValidator.IsLengthInRange(text, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
             {
-                if (text.Length < MIN_TEXT_LENGTH)
-                {
-                    ShowError(Lang.DialogTextShortEmail);
-                }
-                else if (text.Length > MAX_TEXT_LENGTH)
-                {
-                    ShowError(Lang.DialogTextLongEmail);
-                }
-                else if (!IsValidEmail(text))
-                {
-                    ShowError(Lang.GlobalTextInvalidEmail);
-                }
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, text.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail);
+            }
+            else if (!EmailValidator.IsValidEmail(text))
+            {
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
             }
         }
+
         private void TextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                ShowError(Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextRequieredField);
             }
         }
     }

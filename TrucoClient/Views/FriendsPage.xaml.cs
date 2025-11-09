@@ -9,8 +9,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
 
-namespace TrucoClient
+namespace TrucoClient.Views
 {
     public class FriendDisplayData
     {

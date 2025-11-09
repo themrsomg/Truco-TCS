@@ -4,8 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.ServiceModel;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
 
-namespace TrucoClient
+namespace TrucoClient.Views
 {
     public partial class TopTenPage : Page
     {

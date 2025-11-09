@@ -2,11 +2,14 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using TrucoClient.Properties.Langs;
-using TrucoClient.Views;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
 
-namespace TrucoClient
+namespace TrucoClient.Views
 {
     public partial class LogInPage : Page
     {
@@ -15,7 +18,7 @@ namespace TrucoClient
         private const int MIN_PASSWORD_LENGTH = 12;
         private const int MAX_PASSWORD_LENGTH = 50;
 
-        private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public LogInPage()
         {
@@ -26,13 +29,11 @@ namespace TrucoClient
 
         private async void ClickLogIn(object sender, RoutedEventArgs e)
         {
-            string emailOrUsername = txtEmailUsername.Text.Trim();
+            string identifier = txtEmailUsername.Text.Trim();
             string password = txtPassword.Password.Trim();
 
-            if (string.IsNullOrEmpty(emailOrUsername) || string.IsNullOrEmpty(password))
+            if (!FieldsValidation(identifier, password))
             {
-                ShowError(txtEmailUsername, Lang.GlobalTextRequieredField);
-                ShowError(txtPassword, Lang.GlobalTextRequieredField);
                 return;
             }
 
@@ -43,24 +44,25 @@ namespace TrucoClient
                 ClientManager.ResetConnections();
                 var userClient = ClientManager.UserClient;
 
-                bool success = await userClient.LoginAsync(emailOrUsername, password, languageCode);
+                bool success = await userClient.LoginAsync(identifier, password, languageCode);
 
-                if (success)
+                if (!success)
                 {
-                    string resolvedUsername = await SessionManager.ResolveUsernameAsync(emailOrUsername);
-                    SessionManager.CurrentUsername = resolvedUsername;
-                    SessionManager.CurrentUserData = await userClient.GetUserProfileAsync(resolvedUsername);
-
-                    MessageBox.Show(Lang.GlobalTextWelcome + " " + SessionManager.CurrentUsername + "!", Lang.GlobalTextWelcome + "!",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    this.NavigationService.Navigate(new MainPage());
+                    ErrorDisplayService.ShowError(txtEmailUsername, blckEmailUsernameError, Lang.DialogTextInvalidUserPass);
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextInvalidUserPass);
+                    return;
                 }
-                else
-                {
-                    ShowError(txtEmailUsername, Lang.DialogTextInvalidUserPass);
-                    ShowError(txtPassword, Lang.DialogTextInvalidUserPass);
-                }
+
+                string username = await SessionManager.ResolveUsernameAsync(identifier);
+                SessionManager.CurrentUsername = username;
+                SessionManager.CurrentUserData = await userClient.GetUserProfileAsync(username);
+
+                MessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome, MessageBoxButton.OK, MessageBoxImage.Information);
+                this.NavigationService.Navigate(new MainPage());
+            }
+            catch (System.ServiceModel.EndpointNotFoundException ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -68,13 +70,16 @@ namespace TrucoClient
             }
             finally
             {
-                btnLogIn.IsEnabled = true;
+                if (this.IsLoaded)
+                {
+                    btnLogIn.IsEnabled = true;
+                }
             }
         }
 
         private void ClickForgotPassword(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new ForgotPasswordStepOnePage()); 
+            this.NavigationService.Navigate(new ForgotPasswordStepOnePage());
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)
@@ -99,52 +104,45 @@ namespace TrucoClient
             }
         }
 
-        private TextBlock GetErrorTextBlock(Control field)
+        private bool FieldsValidation(string identifier, string password)
         {
-            TextBlock errorBlock = null;
+            bool areValid = true;
+            ClearErrors();
 
-            if (field == txtEmailUsername)
+            if (!FieldValidator.IsRequired(identifier))
             {
-                errorBlock = blckEmailUsernameError;
-            }
-            if (field == txtPassword)
-            {
-                errorBlock = blckPasswordError;
+                ErrorDisplayService.ShowError(txtEmailUsername, blckEmailUsernameError, Lang.GlobalTextRequieredField);
+                areValid = false;
             }
 
-            return errorBlock;
+            if (!FieldValidator.IsRequired(password))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
+                areValid = false;
+            }
+
+            return areValid;
         }
 
-        private void ShowError(Control field, string errorMessage)
+        private void ClearErrors()
         {
-            TextBlock errorBlock = GetErrorTextBlock(field);
-
-            if (errorBlock != null)
-            {
-                errorBlock.Text = errorMessage;
-            }
-
-            field.BorderBrush = new SolidColorBrush(Colors.Red);
+            ErrorDisplayService.ClearError(txtEmailUsername, blckEmailUsernameError);
+            ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
         }
 
-        private void ClearSpecificError(Control field)
+        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
         {
-            TextBlock errorBlock = GetErrorTextBlock(field);
+            PasswordVisibilityService.ToggleVisibility(txtPassword, txtVisiblePassword, blckEyeEmoji);
 
-            if (errorBlock != null)
-            {
-                errorBlock.Text = string.Empty;
-            }
-
-            field.ClearValue(Border.BorderBrushProperty);
+            Control visibleBox = txtVisiblePassword.Visibility == Visibility.Visible ? (Control)txtVisiblePassword : (Control)txtPassword;
+            Control hiddenBox = visibleBox == txtVisiblePassword ? (Control)txtPassword : (Control)txtVisiblePassword;
+            visibleBox.BorderBrush = hiddenBox.BorderBrush;
         }
-        
+
         private void TextBoxChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
-
-            ClearSpecificError(textBox);
-
+            ErrorDisplayService.ClearError(textBox, blckEmailUsernameError);
             string text = textBox.Text.Trim();
 
             if (string.IsNullOrEmpty(text))
@@ -152,42 +150,27 @@ namespace TrucoClient
                 return;
             }
 
-            if (textBox == txtEmailUsername)
+            if (!FieldValidator.IsLengthInRange(text, MIN_TEXT_LENGTH, MAX_TEXT_LENGTH))
             {
-                if (text.Length < MIN_TEXT_LENGTH)
-                {
-                    ShowError(txtEmailUsername, Lang.DialogTextShortEmailOrUsername);
-                }
-                else if (text.Length > MAX_TEXT_LENGTH)
-                {
-                    if (text.Contains("@"))
-                    {
-                        ShowError(txtEmailUsername, Lang.DialogTextLongEmail);
-                    }
-                    else
-                    {
-                        ShowError(txtEmailUsername, Lang.DialogTextLongUsername);
-                    }
-                }
+                string error = text.Length < MIN_TEXT_LENGTH ? Lang.DialogTextShortEmailOrUsername :
+                               (text.Contains("@") ? Lang.DialogTextLongEmail : Lang.DialogTextLongUsername);
+                ErrorDisplayService.ShowError(textBox, blckEmailUsernameError, error);
             }
         }
 
         private void TextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;
-
-            if (string.IsNullOrWhiteSpace(textBox.Text))
+            if (!FieldValidator.IsRequired(textBox.Text))
             {
-                ShowError(textBox, Lang.GlobalTextRequieredField);
+                ErrorDisplayService.ShowError(textBox, blckEmailUsernameError, Lang.GlobalTextRequieredField);
             }
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-
-            ClearSpecificError(passwordBox);
-
+            ErrorDisplayService.ClearError(passwordBox, blckPasswordError);
             string password = passwordBox.Password.Trim();
 
             if (string.IsNullOrEmpty(password))
@@ -195,13 +178,10 @@ namespace TrucoClient
                 return;
             }
 
-            if (password.Length < MIN_PASSWORD_LENGTH)
+            if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {
-                ShowError(passwordBox, Lang.DialogTextShortPassword);
-            }
-            else if (password.Length > MAX_PASSWORD_LENGTH)
-            {
-                ShowError(passwordBox, Lang.DialogTextLongPassword);
+                string error = password.Length < MIN_PASSWORD_LENGTH ? Lang.DialogTextShortPassword : Lang.DialogTextLongPassword;
+                ErrorDisplayService.ShowError(passwordBox, blckPasswordError, error);
             }
 
             if (passwordBox == txtPassword && txtVisiblePassword.Visibility == Visibility.Visible)
@@ -212,39 +192,12 @@ namespace TrucoClient
 
         private void PasswordLostFocus(object sender, RoutedEventArgs e)
         {
-            ClearSpecificError(txtPassword);
-            
             var passwordBox = sender as PasswordBox;
+            ErrorDisplayService.ClearError(passwordBox, blckPasswordError);
 
-            if (string.IsNullOrWhiteSpace(passwordBox.Password))
+            if (!FieldValidator.IsRequired(passwordBox.Password))
             {
-                ShowError(passwordBox, Lang.GlobalTextRequieredField);
-            }
-        }
-
-        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
-        {
-            if (txtPassword.Visibility == Visibility.Visible)
-            {
-                txtVisiblePassword.Text = txtPassword.Password;
-
-                txtPassword.Visibility = Visibility.Collapsed;
-                txtVisiblePassword.Visibility = Visibility.Visible;
-                txtVisiblePassword.Focus();
-
-                blckEyeEmoji.Foreground = new SolidColorBrush(Colors.White);
-                txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
-            }
-            else
-            {
-                txtPassword.Password = txtVisiblePassword.Text;
-
-                txtPassword.Visibility = Visibility.Visible;
-                txtVisiblePassword.Visibility = Visibility.Collapsed;
-                txtPassword.Focus();
-
-                blckEyeEmoji.Foreground = new SolidColorBrush(Colors.Black);
-                txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
+                ErrorDisplayService.ShowError(passwordBox, blckPasswordError, Lang.GlobalTextRequieredField);
             }
         }
     }
