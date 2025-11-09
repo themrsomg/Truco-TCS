@@ -535,10 +535,10 @@
     <value>Unirse</value>
   </data>
   <data name="RankingsTextDate" xml:space="preserve">
-    <value>INICIADO Y TERMINADO (FECHA)</value>
+    <value>Fecha</value>
   </data>
   <data name="RankingsTextWin" xml:space="preserve">
-    <value>GANAR?</value>
+    <value>Resultado</value>
   </data>
   <data name="GlobalTextClose" xml:space="preserve">
     <value>Cerrar</value>
@@ -1013,5 +1013,20 @@
   </data>
   <data name="CustomMatchGuestTextNoThanks" xml:space="preserve">
     <value>No gracias, ir a las partidas publicas</value>
+  </data>
+  <data name="DialogTextNoMatches" xml:space="preserve">
+    <value>No se encontraron partidas</value>
+  </data>
+  <data name="GlobalTextSessionError" xml:space="preserve">
+    <value>Error en el inicio de sesión</value>
+  </data>
+  <data name="GlobalTextMatchID" xml:space="preserve">
+    <value>Partida</value>
+  </data>
+  <data name="GlobalTextScore" xml:space="preserve">
+    <value>Marcador</value>
+  </data>
+  <data name="GlobalTextLoser" xml:space="preserve">
+    <value>Perdedor</value>
   </data>
 </root>

@@ -492,6 +492,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No games found.
+        /// </summary>
+        public static string DialogTextNoMatches {
+            get {
+                return ResourceManager.GetString("DialogTextNoMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Your password has been changed successfully..
         /// </summary>
         public static string DialogTextPasswordChangedSuccess {
@@ -1692,11 +1701,29 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Loser.
+        /// </summary>
+        public static string GlobalTextLoser {
+            get {
+                return ResourceManager.GetString("GlobalTextLoser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Main menu.
         /// </summary>
         public static string GlobalTextMainMenu {
             get {
                 return ResourceManager.GetString("GlobalTextMainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Game.
+        /// </summary>
+        public static string GlobalTextMatchID {
+            get {
+                return ResourceManager.GetString("GlobalTextMatchID", resourceCulture);
             }
         }
         
@@ -1890,11 +1917,29 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Score.
+        /// </summary>
+        public static string GlobalTextScore {
+            get {
+                return ResourceManager.GetString("GlobalTextScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Send.
         /// </summary>
         public static string GlobalTextSend {
             get {
                 return ResourceManager.GetString("GlobalTextSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Login error.
+        /// </summary>
+        public static string GlobalTextSessionError {
+            get {
+                return ResourceManager.GetString("GlobalTextSessionError", resourceCulture);
             }
         }
         
@@ -2331,7 +2376,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a STARTED AND COMPLETED (DATE).
+        ///   Busca una cadena traducida similar a Date.
         /// </summary>
         public static string RankingsTextDate {
             get {
@@ -2358,7 +2403,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a WIN?.
+        ///   Busca una cadena traducida similar a Result.
         /// </summary>
         public static string RankingsTextWin {
             get {

@@ -23,8 +23,10 @@
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static language:Lang.RankingsTextDate}" Binding="{Binding Username}" Width="*"/>
-                        <DataGridTextColumn Header="{x:Static language:Lang.RankingsTextWin}" Binding="{Binding Wins}" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.GlobalTextMatchID}" Binding="{Binding MatchID}" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.RankingsTextDate}" Binding="{Binding Date}" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.RankingsTextWin}" Binding="{Binding Result}" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static language:Lang.GlobalTextScore}" Binding="{Binding FinalScore}" Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

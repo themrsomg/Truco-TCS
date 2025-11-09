@@ -321,7 +321,7 @@
     <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.FriendData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.MatchResult.datasource">
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.MatchScore.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.PlayerInfo.datasource">

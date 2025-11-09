@@ -535,10 +535,10 @@
     <value>Join</value>
   </data>
   <data name="RankingsTextDate" xml:space="preserve">
-    <value>STARTED AND COMPLETED (DATE)</value>
+    <value>Date</value>
   </data>
   <data name="RankingsTextWin" xml:space="preserve">
-    <value>WIN?</value>
+    <value>Result</value>
   </data>
   <data name="GlobalTextClose" xml:space="preserve">
     <value>Close</value>
@@ -1013,5 +1013,20 @@ Register today and set up a proper game!</value>
   </data>
   <data name="CustomMatchGuestTextNoThanks" xml:space="preserve">
     <value>No thanks, go to the public matches</value>
+  </data>
+  <data name="DialogTextNoMatches" xml:space="preserve">
+    <value>No games found</value>
+  </data>
+  <data name="GlobalTextSessionError" xml:space="preserve">
+    <value>Login error</value>
+  </data>
+  <data name="GlobalTextMatchID" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="GlobalTextScore" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="GlobalTextLoser" xml:space="preserve">
+    <value>Loser</value>
   </data>
 </root>
