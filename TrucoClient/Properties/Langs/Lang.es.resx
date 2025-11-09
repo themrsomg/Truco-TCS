@@ -980,7 +980,7 @@
     <value>Recarga esta página</value>
   </data>
   <data name="ExceptionTextErrorLoadingMatches" xml:space="preserve">
-    <value>Error loading matches: {0}</value>
+    <value>Error al cargar partidas: {0}</value>
   </data>
   <data name="PreGameTextHostLobby" xml:space="preserve">
     <value>Lobby de {0}</value>

@@ -110,8 +110,14 @@ namespace TrucoClient.Helpers.Services
                 client?.Abort();
             }
             catch 
-            { 
-
+            {
+                /* 
+                 * Any exceptions that may occur when attempting 
+                 * to abort the client are intentionally ignored, 
+                 * as the main goal is simply to force the 
+                 * release of resources and assume the client 
+                 * is unusable.
+                 */
             }
         }
     }

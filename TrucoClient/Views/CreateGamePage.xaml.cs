@@ -11,6 +11,7 @@ namespace TrucoClient.Views
 {
     public partial class CreateGamePage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         public CreateGamePage()
         {
             InitializeComponent();
@@ -38,11 +39,11 @@ namespace TrucoClient.Views
                         return ClientManager.MatchClient.CreateLobby(hostPlayer, selectedPlayers, privacy);
                     }).ConfigureAwait(false);
 
-                Application.Current.Dispatcher.Invoke(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     if (string.IsNullOrEmpty(code))
                     {
-                        MessageBox.Show(Lang.WarningTextNoGameCreated, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.WarningTextNoGameCreated, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                         if (button != null)
                         {
                             button.IsEnabled = true;
@@ -59,26 +60,26 @@ namespace TrucoClient.Views
             }
             catch (TimeoutException)
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    MessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
             catch (FormatException)
             {
-                MessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (System.ServiceModel.CommunicationException)
             {
-                MessageBox.Show(Lang.ExceptionTextConnectionError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     if (button != null)
                     {

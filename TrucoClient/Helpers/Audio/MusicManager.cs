@@ -8,10 +8,12 @@ namespace TrucoClient.Helpers.Audio
 {
     public static class MusicManager
     {
+        private const double VOLUME_EPSILON = 0.000001;
+
         private static MediaPlayer player = new MediaPlayer();
         private static string currentTrack = string.Empty;
         private static double lastVolume = 0.3;
-        public static bool IsMuted => player.Volume == 0.0;
+        public static bool IsMuted => Math.Abs(player.Volume - 0.0) < VOLUME_EPSILON;
 
         public static double Volume
         {

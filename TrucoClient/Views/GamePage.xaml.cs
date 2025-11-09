@@ -16,8 +16,11 @@ namespace TrucoClient.Views
 {
     public partial class GamePage : Page
     {
+        private const string DEFAUL_AVATAR_ID = "avatar_aaa_default";
+        private const string MESSAGE_ERROR = "Error";
+        private const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
         private readonly string matchCode;
-        private string currentPlayer => SessionManager.CurrentUsername;
+        private static string currentPlayer => SessionManager.CurrentUsername;
 
         public GamePage(string matchCode, List<PlayerInfo> players)
         {
@@ -33,7 +36,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show( string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show( string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -55,12 +58,12 @@ namespace TrucoClient.Views
             }
             catch (CommunicationException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -88,11 +91,11 @@ namespace TrucoClient.Views
                 }
                 catch (CommunicationException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show( string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -111,24 +114,21 @@ namespace TrucoClient.Views
                 }
                 catch (CommunicationException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
 
         private void EnterKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && sender == txtChatMessage)
             {
-                if (sender == txtChatMessage)
-                {
-                    ClickSendMessage(btnSendMessage, null);
-                    e.Handled = true;
-                }
+                ClickSendMessage(btnSendMessage, null);
+                e.Handled = true;
             }
         }
 
@@ -161,7 +161,7 @@ namespace TrucoClient.Views
             ChatMessagesPanel.Children.Add(messageBubble);
         }
 
-        private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
+        private void ChatMessageTextChanged(object sender, TextChangedEventArgs e)
         {
             if (blckPlaceholder != null)
             {
@@ -176,21 +176,21 @@ namespace TrucoClient.Views
             AddChatMessage(senderName, message);
         }
 
-        private BitmapImage LoadAvatar(string avatarId)
+        private static BitmapImage LoadAvatar(string avatarId)
         {
             if (string.IsNullOrWhiteSpace(avatarId))
             {
-                avatarId = "avatar_aaa_default";
+                avatarId = DEFAUL_AVATAR_ID;
             }
 
-            string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
+            string relativeUri = $"/Resources/Avatars/{avatarId}.png";
             try
             {
-                return new BitmapImage(new Uri(packUri, UriKind.Absolute));
+                return new BitmapImage(new Uri(relativeUri, UriKind.Relative));
             }
             catch
             {
-                return new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
         }
 
@@ -213,12 +213,12 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    imgRivalAvatar.Source = LoadAvatar("avatar_aaa_default");
+                    imgRivalAvatar.Source = LoadAvatar(DEFAUL_AVATAR_ID);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading avatars: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace TrucoClient.Views
 {
     public class FriendDisplayData
     {
-        private const String URL_AVATAR_DEFAULT = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
+        private const String URL_AVATAR_DEFAULT = "/Resources/Avatars/avatar_aaa_default.png";
 
         public string Username { get; set; }
         public string AvatarId { get; set; }
@@ -27,15 +27,16 @@ namespace TrucoClient.Views
             get
             {
                 string id = string.IsNullOrWhiteSpace(AvatarId) ? "avatar_aaa_default" : AvatarId;
-                string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{id}.png";
+                string correctedPath = $"/Resources/Avatars/{id}.png";
+
                 try
                 {
-                    var test = new BitmapImage(new Uri(path));
-                    return path;
+                    _ = new BitmapImage(new Uri(correctedPath, UriKind.Relative));
+                    return correctedPath;
                 }
                 catch (UriFormatException ex)
                 {
-                    MessageBox.Show($"Ha ocurrido un error. Detalles: {ex.Message}");
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
                     return URL_AVATAR_DEFAULT;
                 }
                 catch (Exception)
@@ -50,6 +51,7 @@ namespace TrucoClient.Views
     {
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
+        private const string MESSAGE_ERROR = "Error";
 
         public ObservableCollection<FriendDisplayData> FriendsList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public ObservableCollection<FriendDisplayData> PendingList { get; set; } = new ObservableCollection<FriendDisplayData>();
@@ -81,7 +83,7 @@ namespace TrucoClient.Views
                 try
                 {
                     var friends = await friendClient.GetFriendsAsync(currentUsername);
-                    Application.Current.Dispatcher.Invoke(() =>
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         foreach (var friend in friends)
                         {
@@ -90,7 +92,7 @@ namespace TrucoClient.Views
                     });
 
                     var pending = await friendClient.GetPendingFriendRequestsAsync(currentUsername);
-                    Application.Current.Dispatcher.Invoke(() =>
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         foreach (var req in pending)
                         {
@@ -105,7 +107,7 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -133,7 +135,7 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.FriendsTextRequestError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.FriendsTextRequestError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (EndpointNotFoundException ex)
@@ -142,7 +144,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
@@ -208,7 +210,7 @@ namespace TrucoClient.Views
                     }
                     else
                     {
-                        MessageBox.Show(Lang.FriendsTextRequestAcceptedError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (EndpointNotFoundException ex)
@@ -217,7 +219,7 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -246,7 +248,7 @@ namespace TrucoClient.Views
                     }
                     else
                     {
-                        MessageBox.Show(Lang.FriendsTextRequestRejectedError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.FriendsTextRequestRejectedError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (EndpointNotFoundException ex)
@@ -255,7 +257,7 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}", "Error WCF", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -295,13 +297,10 @@ namespace TrucoClient.Views
 
         private void EnterKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && sender == txtSearch)
             {
-                if (sender == txtSearch)
-                {
-                    ClickAddFriend(btnAdd, null);
-                    e.Handled = true;
-                }
+                ClickAddFriend(btnAdd, null);
+                e.Handled = true;
             }
         }
 

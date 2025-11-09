@@ -15,6 +15,9 @@ namespace TrucoClient.Views
 {
     public partial class LobbyPage : Page
     {
+        private const string DEFAUL_AVATAR_ID = "avatar_aaa_default";
+        private const string MESSAGE_ERROR = "Error";
+        private const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
         private const int FONT_SIZE = 13;
         private readonly string matchCode;
         private readonly string matchName;
@@ -57,7 +60,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -90,7 +93,7 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 this.NavigationService.Navigate(new PlayPage());
@@ -99,21 +102,21 @@ namespace TrucoClient.Views
 
         private void EnterKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && sender == txtChatMessage)
             {
-                if (sender == txtChatMessage)
-                {
-                    ClickSendMessage(btnSendMessage, null);
-                    e.Handled = true;
-                }
+                ClickSendMessage(btnSendMessage, null);
+                e.Handled = true;
             }
         }
 
-        private void txtChatMessageTextChanged(object sender, TextChangedEventArgs e)
+        private void ChatMessageTextChanged(object sender, TextChangedEventArgs e)
         {
-            blckPlaceholder.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            if (blckPlaceholder != null)
+            {
+                blckPlaceholder.Visibility = string.IsNullOrEmpty(txtChatMessage.Text)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
         }
 
         public void AddChatMessage(string senderName, string message)
@@ -150,13 +153,18 @@ namespace TrucoClient.Views
                     catch
                     {
                         Application.Current.Dispatcher.Invoke(() =>
-                            MessageBox.Show(Lang.ExceptionTextUnableConnectChat, "Error", MessageBoxButton.OK, MessageBoxImage.Warning));
+                            MessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning));
                     }
                 });
             }
             catch 
-            { 
-                 
+            {
+                /* 
+                 * Intentionally empty exception handler.
+                 * Any errors that might occur while trying to start 
+                 * the background task are ignored, as actual error 
+                 * handling is done within Task.Run.
+                 */
             }
         }
 
@@ -177,41 +185,8 @@ namespace TrucoClient.Views
 
                     PlayersList.ItemsSource = null;
 
-                    var playerInfos = new List<PlayerLobbyInfo>();
-
-                    foreach (var p in players)
-                    {
-                        if (p.Username.StartsWith("Guest_"))
-                        {
-                            playerInfos.Add(new PlayerLobbyInfo
-                            {
-                                Username = p.Username,
-                                AvatarUri = LoadAvatar("avatar_aaa_default")
-                            });
-                            continue;
-                        }
-
-                        try
-                        {
-                            var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
-
-                            playerInfos.Add(new PlayerLobbyInfo
-                            {
-                                Username = profile?.Username ?? p.Username,
-                                AvatarUri = LoadAvatar(string.IsNullOrEmpty(profile?.AvatarId)
-                                    ? "avatar_aaa_default"
-                                    : profile.AvatarId)
-                            });
-                        }
-                        catch
-                        {
-                            playerInfos.Add(new PlayerLobbyInfo
-                            {
-                                Username = p.Username,
-                                AvatarUri = LoadAvatar("avatar_aaa_default")
-                            });
-                        }
-                    }
+                    var playerLoadingTasks = players.Select(p => GetSinglePlayerInfoAsync(p)).ToList();
+                    var playerInfos = (await Task.WhenAll(playerLoadingTasks)).ToList();
 
                     PlayersList.ItemsSource = playerInfos;
 
@@ -221,8 +196,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error));
+                await Application.Current.Dispatcher.InvokeAsync(() =>
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
             }
         }
 
@@ -235,22 +210,54 @@ namespace TrucoClient.Views
             });
         }
 
-        private BitmapImage LoadAvatar(string avatarId)
+        private static BitmapImage LoadAvatar(string avatarId)
         {
             try
             {
-                string path = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
-                return new BitmapImage(new Uri(path, UriKind.Absolute));
+                string path = $"/Resources/Avatars/{avatarId}.png";
+                return new BitmapImage(new Uri(path, UriKind.Relative));
             }
             catch
             {
-                return new BitmapImage(new Uri("pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png", UriKind.Absolute));
+                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
         }
 
         private void InitializeChat()
         {
             AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
+        }
+
+        private async Task<PlayerLobbyInfo> GetSinglePlayerInfoAsync(TrucoServer.PlayerInfo p)
+        {
+            if (p.Username.StartsWith("Guest_"))
+            {
+                return new PlayerLobbyInfo
+                {
+                    Username = p.Username,
+                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID)
+                };
+            }
+
+            try
+            {
+                var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
+                string avatarId = string.IsNullOrEmpty(profile?.AvatarId) ? DEFAUL_AVATAR_ID : profile.AvatarId;
+
+                return new PlayerLobbyInfo
+                {
+                    Username = profile?.Username ?? p.Username,
+                    AvatarUri = LoadAvatar(avatarId)
+                };
+            }
+            catch (Exception)
+            {
+                return new PlayerLobbyInfo
+                {
+                    Username = p.Username,
+                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID)
+                };
+            }
         }
     }
 }

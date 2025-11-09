@@ -84,13 +84,10 @@ namespace TrucoClient.Views
 
         private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && sender == txtEmail)
             {
-                if (sender == txtEmail)
-                {
-                    ClickSendCode(btnSendCode, null);
-                    e.Handled = true;
-                }
+                ClickSendCode(btnSendCode, null);
+                e.Handled = true;
             }
         }
 

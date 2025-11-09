@@ -13,11 +13,16 @@ using TrucoClient.TrucoServer;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using System.Linq;
 
 namespace TrucoClient.Views
 {
     public partial class UserProfilePage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
+        private const string FACEBOOK_BASE_URL = "https://www.facebook.com/";
+        private const string X_BASE_URL = "https://x.com/";
+        private const string INSTAGRAM_BASE_URL = "https://www.instagram.com/";
         private const int MAX_CHANGES = 2;
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
@@ -70,7 +75,7 @@ namespace TrucoClient.Views
                 return;
             }
 
-            var avatarPage = new AvatarSelectionPage(AvatarHelper.availableAvatars, currentUserData.AvatarId);
+            var avatarPage = new AvatarSelectionPage(AvatarHelper.availableAvatars.ToList(), currentUserData.AvatarId);
             avatarPage.AvatarSelected += AvatarSelectedHandler;
             NavigationService.Navigate(avatarPage);
         }
@@ -132,17 +137,17 @@ namespace TrucoClient.Views
                 if (sender == linkFacebook)
                 {
                     handle = txtFacebookLink.Text.Trim();
-                    baseUrl = "https://www.facebook.com/";
+                    baseUrl = FACEBOOK_BASE_URL;
                 }
                 else if (sender == linkX)
                 {
                     handle = txtXLink.Text.Trim();
-                    baseUrl = "https://x.com/";
+                    baseUrl = X_BASE_URL;
                 }
                 else if (sender == linkInstagram)
                 {
                     handle = txtInstagramLink.Text.Trim();
-                    baseUrl = "https://www.instagram.com/";
+                    baseUrl = INSTAGRAM_BASE_URL;
                 }
 
                 if (!string.IsNullOrWhiteSpace(handle))
@@ -160,7 +165,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -193,7 +198,7 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.UserProfileTextAvatarError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.UserProfileTextAvatarError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
@@ -413,7 +418,7 @@ namespace TrucoClient.Views
             return changed;
         }
 
-        private bool ConfirmSaveChanges()
+        private static bool ConfirmSaveChanges()
         {
             MessageBoxResult confirm = MessageBox.Show(
                 Lang.UserProfileTextConfirmChanges,
@@ -473,7 +478,7 @@ namespace TrucoClient.Views
 
             txtUsername.Text = oldUsername;
 
-            MessageBox.Show(Lang.UserProfileTextErrorSaving, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(Lang.UserProfileTextErrorSaving, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void UpdateUsernameWarning(int count)
@@ -507,14 +512,14 @@ namespace TrucoClient.Views
             linkInstagramContainer.Visibility = string.IsNullOrWhiteSpace(txtInstagramLink.Text) ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private void ShowConnectionError(string message)
+        private static void ShowConnectionError(string message)
         {
             MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void ShowGeneralError(string message)
+        private static void ShowGeneralError(string message)
         {
-            MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

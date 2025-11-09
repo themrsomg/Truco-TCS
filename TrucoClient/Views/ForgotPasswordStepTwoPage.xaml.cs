@@ -16,6 +16,7 @@ namespace TrucoClient.Views
         private const int CODE_LENGTH = 6;
         private const int MIN_PASSWORD_LENGTH = 8;
         private const int MAX_PASSWORD_LENGTH = 50;
+        private const string MESSAGE_ERROR = "Error";
 
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
         private string email;
@@ -54,7 +55,7 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextError, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.ForgotPasswordTextError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
@@ -63,7 +64,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -285,14 +286,11 @@ namespace TrucoClient.Views
 
             string password = txtPassword.Password;
             string passwordConfirm = txtPasswordConfirm.Password;
-            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm))
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
             {
-                if (!PasswordValidator.AreMatching(password, passwordConfirm))
-                {
-                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                }
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
             }
 
             CheckFormStatusAndToggleSaveButton();

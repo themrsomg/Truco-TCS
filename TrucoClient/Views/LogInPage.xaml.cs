@@ -13,6 +13,7 @@ namespace TrucoClient.Views
 {
     public partial class LogInPage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         private const int MIN_TEXT_LENGTH = 4;
         private const int MAX_TEXT_LENGTH = 250;
         private const int MIN_PASSWORD_LENGTH = 12;
@@ -66,7 +67,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoggingIn, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoggingIn, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -152,8 +153,24 @@ namespace TrucoClient.Views
 
             if (!FieldValidator.IsLengthInRange(text, MIN_TEXT_LENGTH, MAX_TEXT_LENGTH))
             {
-                string error = text.Length < MIN_TEXT_LENGTH ? Lang.DialogTextShortEmailOrUsername :
-                               (text.Contains("@") ? Lang.DialogTextLongEmail : Lang.DialogTextLongUsername);
+                string error;
+
+                if (text.Length < MIN_TEXT_LENGTH)
+                {
+                    error = Lang.DialogTextShortEmailOrUsername;
+                }
+                else
+                {
+                    if (text.Contains("@"))
+                    {
+                        error = Lang.DialogTextLongEmail;
+                    }
+                    else
+                    {
+                        error = Lang.DialogTextLongUsername;
+                    }
+                }
+
                 ErrorDisplayService.ShowError(textBox, blckEmailUsernameError, error);
             }
         }

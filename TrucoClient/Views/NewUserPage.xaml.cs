@@ -14,6 +14,7 @@ namespace TrucoClient.Views
 {
     public partial class NewUserPage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         private const int MIN_PASSWORD_LENGTH = 12;
         private const int MAX_PASSWORD_LENGTH = 50;
         private const int MIN_USERNAME_LENGTH = 4;
@@ -77,7 +78,7 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.StartTextRegisterError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.StartTextRegisterError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
@@ -86,7 +87,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -101,10 +102,6 @@ namespace TrucoClient.Views
                 {
                     this.NavigationService.Navigate(new StartPage());
                 }
-                else
-                {
-                    return;
-                }
             }
             else
             {
@@ -114,100 +111,167 @@ namespace TrucoClient.Views
 
         private bool FieldsValidation(string email, string password, string confirm, string username)
         {
-            bool areValid = true;
+            bool emailValid = ValidateEmail(email);
+            bool usernameValid = ValidateUsername(username);
+            bool passwordValid = ValidatePassword(password);
+            bool confirmValid = ValidatePasswordConfirmation(password, confirm);
 
+            CheckFormStatusAndToggleRegisterButton();
+            return emailValid && usernameValid && passwordValid && confirmValid;
+        }
+
+        private bool ValidateEmail(string email)
+        {
             if (!FieldValidator.IsRequired(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextRequieredField);
-                areValid = false;
+                return false;
             }
-            else if (!FieldValidator.IsLengthInRange(email, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
+            if (!FieldValidator.IsLengthInRange(email, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
             {
-                ErrorDisplayService.ShowError(txtEmail, blckEmailError, email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail);
-                areValid = false;
+                string error = email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail;
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, error);
+                return false;
             }
-            else if (!EmailValidator.IsValidEmail(email))
+            if (!EmailValidator.IsValidEmail(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
-                areValid = false;
+                return false;
             }
-            else if (!EmailValidator.IsCommonDomain(email))
+            if (!EmailValidator.IsCommonDomain(email))
             {
                 ErrorDisplayService.ShowWarning(txtEmail, blckEmailError, Lang.StartTextUncommonEmailDomain);
             }
-            else
-            {
-                ErrorDisplayService.ClearError(txtEmail, blckEmailError);
-            }
 
+            ErrorDisplayService.ClearError(txtEmail, blckEmailError);
+            return true;
+        }
+
+        private bool ValidateUsername(string username)
+        {
             if (!FieldValidator.IsRequired(username))
             {
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextRequieredField);
-                areValid = false;
+                return false;
             }
-            else if (!FieldValidator.IsLengthInRange(username, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
+            if (!FieldValidator.IsLengthInRange(username, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
             {
-                ErrorDisplayService.ShowError(txtUsername, blckUsernameError,
-                    username.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername);
-                areValid = false;
+                string error = username.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername;
+                ErrorDisplayService.ShowError(txtUsername, blckUsernameError, error);
+                return false;
             }
-            else if (!UsernameValidator.IsValidFormat(username))
+            if (!UsernameValidator.IsValidFormat(username))
             {
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextInvalidUsername);
-                areValid = false;
+                return false;
             }
-            else
-            {
-                ErrorDisplayService.ClearError(txtUsername, blckUsernameError);
-            }
+            ErrorDisplayService.ClearError(txtUsername, blckUsernameError);
+            return true;
+        }
 
+        private bool ValidatePassword(string password)
+        {
             if (!FieldValidator.IsRequired(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
-                areValid = false;
+                return false;
             }
-            else if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
+            if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
-                areValid = false;
+                return false;
             }
-            else if (!PasswordValidator.IsComplex(password))
+            if (!PasswordValidator.IsComplex(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
-                areValid = false;
+                return false;
             }
-            else
-            {
-                ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
-            }
+            ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+            return true;
+        }
 
+        private bool ValidatePasswordConfirmation(string password, string confirm)
+        {
             if (!FieldValidator.IsRequired(confirm))
             {
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.GlobalTextRequieredField);
-                areValid = false;
+                return false;
             }
-            else if (!PasswordValidator.AreMatching(password, confirm))
+            if (!PasswordValidator.AreMatching(password, confirm))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                areValid = false;
-            }
-            else
-            {
-                ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+                return false;
             }
 
-            if (PasswordValidator.AreMatching(password, confirm) &&
-                FieldValidator.IsRequired(password) &&
-                PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH) &&
-                PasswordValidator.IsComplex(password))
-            {
-                ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
-            }
+            ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+            return true;
+        }
 
-            CheckFormStatusAndToggleRegisterButton();
-            return areValid;
+        private static void ValidateEmailChange(TextBox textBox, TextBlock errorBlock, string text)
+        {
+            if (!FieldValidator.IsLengthInRange(text, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
+            {
+                string error = text.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail;
+                ErrorDisplayService.ShowError(textBox, errorBlock, error);
+            }
+            else if (!EmailValidator.IsValidEmail(text))
+            {
+                ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextInvalidEmail);
+            }
+            else if (!EmailValidator.IsCommonDomain(text))
+            {
+                ErrorDisplayService.ShowWarning(textBox, errorBlock, Lang.StartTextUncommonEmailDomain);
+            }
+        }
+
+        private static void ValidateUsernameChange(TextBox textBox, TextBlock errorBlock, string text)
+        {
+            if (!FieldValidator.IsLengthInRange(text, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
+            {
+                string error = text.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername;
+                ErrorDisplayService.ShowError(textBox, errorBlock, error);
+            }
+            else if (!UsernameValidator.IsValidFormat(text))
+            {
+                ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextInvalidUsername);
+            }
+        }
+        private void ValidatePasswordLengthAndComplexity(string password)
+        {
+            if (!string.IsNullOrEmpty(password))
+            {
+                if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
+                {
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                }
+                else if (!PasswordValidator.IsComplex(password))
+                {
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
+                }
+                else if (string.IsNullOrWhiteSpace(blckPasswordError.Text))
+                {
+                    ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+                }
+            }
+        }
+        private void ValidatePasswordMatching(string password, string confirm)
+        {
+            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(confirm))
+            {
+                if (!PasswordValidator.AreMatching(password, confirm))
+                {
+                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+                }
+                else
+                {
+                    ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+                    ValidatePasswordLengthAndComplexity(password);
+                }
+            }
         }
 
         private bool EmailOrUsernameExists(string email, string username, TrucoUserServiceClient client)
@@ -239,30 +303,42 @@ namespace TrucoClient.Views
 
             if (!sent)
             {
-                MessageBox.Show(Lang.StartTextRegisterCodeSended, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Lang.StartTextRegisterCodeSended, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return sent;
         }
 
-        private string ShowCodeInputWindow()
+        private static string ShowCodeInputWindow()
         {
             string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
             if (string.IsNullOrEmpty(code))
             {
-                MessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             return code;
         }
 
-        private bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
+        private static bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
         {
             bool confirmed = client.ConfirmEmailVerification(email, code);
             if (!confirmed)
             {
-                MessageBox.Show(Lang.StartTextRegisterIncorrectCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Lang.StartTextRegisterIncorrectCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             return confirmed;
+        }
+
+        private void SyncVisiblePasswordBoxes(PasswordBox changedBox)
+        {
+            if (changedBox == txtPassword && txtVisiblePassword.Visibility == Visibility.Visible)
+            {
+                txtVisiblePassword.Text = txtPassword.Password;
+            }
+            else if (changedBox == txtPasswordConfirm && txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
+            {
+                txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
+            }
         }
 
         private TextBlock GetErrorTextBlock(Control field)
@@ -338,29 +414,11 @@ namespace TrucoClient.Views
 
             if (textBox == txtEmail)
             {
-                if (!FieldValidator.IsLengthInRange(text, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
-                {
-                    ErrorDisplayService.ShowError(textBox, errorBlock, text.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail);
-                }
-                else if (!EmailValidator.IsValidEmail(text))
-                {
-                    ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextInvalidEmail);
-                }
-                else if (!EmailValidator.IsCommonDomain(text))
-                {
-                    ErrorDisplayService.ShowWarning(textBox, errorBlock, Lang.StartTextUncommonEmailDomain);
-                }
+                ValidateEmailChange(textBox, errorBlock, text);
             }
             else if (textBox == txtUsername)
             {
-                if (!FieldValidator.IsLengthInRange(text, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
-                {
-                    ErrorDisplayService.ShowError(textBox, errorBlock, text.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername);
-                }
-                else if (!UsernameValidator.IsValidFormat(text))
-                {
-                    ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextInvalidUsername);
-                }
+                ValidateUsernameChange(textBox, errorBlock, text);
             }
 
             CheckFormStatusAndToggleRegisterButton();
@@ -387,7 +445,14 @@ namespace TrucoClient.Views
             string password = txtPassword.Password.Trim();
             string passwordConfirm = txtPasswordConfirm.Password.Trim();
 
-            ErrorDisplayService.ClearError(passwordBox, GetErrorTextBlock(passwordBox));
+            if (passwordBox == txtPassword)
+            {
+                ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+            }
+            else if (passwordBox == txtPasswordConfirm)
+            {
+                ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+            }
 
             if (string.IsNullOrEmpty(password) && string.IsNullOrEmpty(passwordConfirm))
             {
@@ -395,48 +460,11 @@ namespace TrucoClient.Views
                 return;
             }
 
-            if (!string.IsNullOrEmpty(password))
-            {
-                if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
-                {
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
-                }
-                else if (!PasswordValidator.IsComplex(password))
-                {
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
-                }
-                else
-                {
-                    ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
-                }
-            }
+            ValidatePasswordLengthAndComplexity(password);
 
-            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(passwordConfirm))
-            {
-                if (!PasswordValidator.AreMatching(password, passwordConfirm))
-                {
-                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                }
-                else
-                {
-                    if (PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH) && PasswordValidator.IsComplex(password))
-                    {
-                        ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
-                    }
-                    ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
-                }
-            }
+            ValidatePasswordMatching(password, passwordConfirm);
 
-            if (passwordBox == txtPassword && txtVisiblePassword.Visibility == Visibility.Visible)
-            {
-                txtVisiblePassword.Text = txtPassword.Password;
-            }
-            else if (passwordBox == txtPasswordConfirm && txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
-            {
-                txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
-            }
+            SyncVisiblePasswordBoxes(passwordBox);
 
             CheckFormStatusAndToggleRegisterButton();
         }
@@ -454,14 +482,11 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(passwordBox, errorBlock, Lang.GlobalTextRequieredField);
             }
 
-            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm))
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
             {
-                if (!PasswordValidator.AreMatching(password, passwordConfirm))
-                {
-                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                }
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
             }
 
             CheckFormStatusAndToggleRegisterButton();
@@ -481,7 +506,6 @@ namespace TrucoClient.Views
                 {
                     txtPassword.BorderBrush = txtVisiblePassword.BorderBrush;
                 }
-                return;
             }
 
             if (sender == btnToggleVisibilityConfirm)
@@ -496,7 +520,6 @@ namespace TrucoClient.Views
                 {
                     txtPasswordConfirm.BorderBrush = txtVisiblePasswordConfirm.BorderBrush;
                 }
-                return;
             }
         }
 

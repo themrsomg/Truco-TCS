@@ -11,6 +11,7 @@ namespace TrucoClient.Views
 {
     public partial class JoinGamePage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         public JoinGamePage()
         {
             InitializeComponent();
@@ -31,12 +32,12 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.GameTextInvalidCode, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Lang.GameTextInvalidCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.GameTextErrorJoining, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GameTextErrorJoining, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -47,13 +48,10 @@ namespace TrucoClient.Views
 
         private void EnterKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && sender == txtCode)
             {
-                if (sender == txtCode)
-                {
-                    ClickJoin(btnJoin, null);
-                    e.Handled = true;
-                }
+                ClickJoin(btnJoin, null);
+                e.Handled = true;
             }
         }
     }

@@ -13,6 +13,7 @@ namespace TrucoClient.Views
 {
     public partial class SearchMatchPage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         public class MatchInfo
         {
             public string MatchName { get; set; }
@@ -24,7 +25,7 @@ namespace TrucoClient.Views
         public SearchMatchPage()
         {
             InitializeComponent();
-            LoadAvailableMatchesAsync();
+            _ = LoadAvailableMatchesAsync();
             MusicInitializer.InitializeMenuMusic();
         }
 
@@ -51,13 +52,13 @@ namespace TrucoClient.Views
                     }
                     else
                     {
-                        MessageBox.Show(Lang.PreGameJoinMatchNoSuccess, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        LoadAvailableMatchesAsync();
+                        MessageBox.Show(Lang.PreGameJoinMatchNoSuccess, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                        await LoadAvailableMatchesAsync();
                     }
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 finally
                 {
@@ -69,9 +70,9 @@ namespace TrucoClient.Views
             }
         }
 
-        private void ClickReloadPage(object sender, RoutedEventArgs e)
+        private async void ClickReloadPage(object sender, RoutedEventArgs e)
         {
-            LoadAvailableMatchesAsync();
+            await LoadAvailableMatchesAsync();
         }
 
 
@@ -80,7 +81,7 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new PlayPage());
         }
 
-        private async void LoadAvailableMatchesAsync()
+        private async Task LoadAvailableMatchesAsync()
         {
             try
             {

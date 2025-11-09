@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.ServiceModel;
 using TrucoClient.Properties.Langs;
@@ -15,9 +16,9 @@ namespace TrucoClient.Views
         {
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
-            LoadTopTenPlayersAsync();
+            _ = LoadTopTenPlayersAsync();
         }
-        private async void LoadTopTenPlayersAsync()
+        private async Task LoadTopTenPlayersAsync()
         {
             try
             {

@@ -251,7 +251,6 @@ namespace TrucoClient.Views
                     string errorMessage = Lang.DialogTextPasswordsDontMatch;
                     ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
                     ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                    validationFailed = true;
                 }
                 else if (!validationFailed)
                 {
@@ -292,14 +291,11 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(passwordBox, GetErrorTextBlock(passwordBox), Lang.GlobalTextRequieredField);
             }
 
-            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(passwordConfirm))
+            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
             {
-                if (!PasswordValidator.AreMatching(password, passwordConfirm))
-                {
-                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                }
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
             }
 
             CheckFormStatusAndToggleSaveButton();

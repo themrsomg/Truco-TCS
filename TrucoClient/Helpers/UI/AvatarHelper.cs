@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -9,8 +10,8 @@ namespace TrucoClient.Helpers.UI
 {
     public static class AvatarHelper
     {
-        private const string DEFAULT_AVATAR_PATH = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
-        public static readonly List<string> availableAvatars = new List<string>
+        private const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
+        private static readonly List<string> internalAvatars = new List<string>
         {
             "avatar_aaa_default", "avatar_c_hr_rallycarback",
             "avatar_c_hr_rallycarfront", "avatar_c_hr_redcarback", "avatar_c_hr_redcarfront",
@@ -50,20 +51,25 @@ namespace TrucoClient.Helpers.UI
             "avatar_tt_dragon", "avatar_tt_lilbird", "avatar_tt_revolver", "avatar_tt_twentydollars",
         };
 
+        public static readonly ReadOnlyCollection<string> availableAvatars = internalAvatars.AsReadOnly();
+
         public static void LoadAvatarImage(Image imageControl, string avatarId)
         {
-            if (imageControl == null) return;
+            if (imageControl == null)
+            {
+                return;
+            }
 
             if (string.IsNullOrWhiteSpace(avatarId))
             {
                 avatarId = "avatar_aaa_default";
             }
 
-            string packUri = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
+            string relativePath = $"/Resources/Avatars/{avatarId}.png";
 
             try
             {
-                imageControl.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(relativePath, UriKind.Absolute));
             }
             catch (UriFormatException)
             {

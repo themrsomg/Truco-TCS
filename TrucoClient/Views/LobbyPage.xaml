@@ -47,7 +47,7 @@
             </ScrollViewer>
             <StackPanel Orientation="Horizontal">
                 <Grid Width="360" Height="40" Margin="0,0,10,0">
-                    <TextBox x:Name="txtChatMessage" Width="360" Height="40" FontSize="22" TextChanged="txtChatMessageTextChanged" 
+                    <TextBox x:Name="txtChatMessage" Width="360" Height="40" FontSize="22" TextChanged="ChatMessageTextChanged" 
                              HorizontalAlignment="Left" KeyDown="EnterKeyDown">
                         <TextBox.Template>
                             <ControlTemplate TargetType="TextBox">
