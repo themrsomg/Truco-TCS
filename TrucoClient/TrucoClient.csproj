@@ -110,8 +110,11 @@
     <Compile Include="Views\ForgotPasswordStepTwoPage.xaml.cs">
       <DependentUpon>ForgotPasswordStepTwoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GamePage.xaml.cs">
-      <DependentUpon>GamePage.xaml</DependentUpon>
+    <Compile Include="Views\GameFourPlayersPage.xaml.cs">
+      <DependentUpon>GameFourPlayersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameTwoPlayersPage.xaml.cs">
+      <DependentUpon>GameTwoPlayersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FriendsPage.xaml.cs">
       <DependentUpon>FriendsPage.xaml</DependentUpon>
@@ -194,7 +197,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GamePage.xaml">
+    <Page Include="Views\GameFourPlayersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameTwoPlayersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

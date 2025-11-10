@@ -20,9 +20,9 @@ namespace TrucoClient.TrucoServer
                         lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedLobby, player));
                         lobby.ReloadPlayersDeferred();
                     }
-                    else if (main.MainFrame.Content is GamePage gamePage)
+                    else if (main.MainFrame.Content is GameTwoPlayersPage gameTwoPlayersPage)
                     {
-                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
+                        gameTwoPlayersPage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
                     }
                 }
             });
@@ -39,9 +39,9 @@ namespace TrucoClient.TrucoServer
                         lobbyPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
                         lobbyPage.ReloadPlayersDeferred();
                     }
-                    else if (main.MainFrame.Content is GamePage gamePage)
+                    else if (main.MainFrame.Content is GameTwoPlayersPage gameTwoPlayersPage)
                     {
-                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
+                        gameTwoPlayersPage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
                     }
                 }
             });
@@ -54,7 +54,7 @@ namespace TrucoClient.TrucoServer
                 if (Application.Current.MainWindow is InitialWindows main)
                 {
                     var playerList = players?.ToList() ?? new List<PlayerInfo>();
-                    main.MainFrame.Navigate(new GamePage(matchCode, playerList));
+                    main.MainFrame.Navigate(new GameTwoPlayersPage(matchCode, playerList));
 
                 }
             });
@@ -74,9 +74,9 @@ namespace TrucoClient.TrucoServer
                     {
                         lobbyPage.AddChatMessage(player, message);
                     }
-                    else if (main.MainFrame.Content is GamePage gamePage)
+                    else if (main.MainFrame.Content is GameTwoPlayersPage gameTwoPlayersPage)
                     {
-                        gamePage.ReceiveChatMessage(player, message);
+                        gameTwoPlayersPage.ReceiveChatMessage(player, message);
                     }
                 }
             });

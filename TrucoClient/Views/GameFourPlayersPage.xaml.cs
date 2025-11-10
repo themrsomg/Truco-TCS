@@ -14,7 +14,7 @@ using TrucoClient.Helpers.Session;
 
 namespace TrucoClient.Views
 {
-    public partial class GamePage : Page
+    public partial class GameFourPlayersPage : Page
     {
         private const string DEFAUL_AVATAR_ID = "avatar_aaa_default";
         private const string MESSAGE_ERROR = "Error";
@@ -22,7 +22,7 @@ namespace TrucoClient.Views
         private readonly string matchCode;
         private static string currentPlayer => SessionManager.CurrentUsername;
 
-        public GamePage(string matchCode, List<PlayerInfo> players)
+        public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
             this.matchCode = matchCode;
@@ -36,7 +36,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show( string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -95,14 +95,14 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show( string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
+
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show( Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question
-            );
+            MessageBoxResult result = MessageBox.Show(Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -159,6 +159,10 @@ namespace TrucoClient.Views
 
             messageBubble.Child = messageText;
             ChatMessagesPanel.Children.Add(messageBubble);
+            if (VisualTreeHelper.GetParent(ChatMessagesPanel) is ScrollViewer scrollViewer)
+            {
+                scrollViewer.ScrollToBottom();
+            }
         }
 
         private void ChatMessageTextChanged(object sender, TextChangedEventArgs e)
@@ -198,22 +202,42 @@ namespace TrucoClient.Views
         {
             try
             {
+                if (players == null || players.Count == 0) return;
+
                 var currentUsername = SessionManager.CurrentUsername;
-                var current = players.FirstOrDefault(p => p.Username.Equals(currentUsername, StringComparison.OrdinalIgnoreCase));
-                var rival = players.FirstOrDefault(p => !p.Username.Equals(currentUsername, StringComparison.OrdinalIgnoreCase));
+                int selfIndex = players.FindIndex(p => p.Username.Equals(currentUsername, StringComparison.OrdinalIgnoreCase));
 
-                if (current != null)
+                if (selfIndex != -1)
                 {
-                    imgPlayerAvatar.Source = LoadAvatar(current.AvatarId);
-                }
+                    imgPlayerAvatar.Source = LoadAvatar(players[selfIndex].AvatarId);
 
-                if (rival != null)
-                {
-                    imgRivalAvatar.Source = LoadAvatar(rival.AvatarId);
-                }
-                else
-                {
-                    imgRivalAvatar.Source = LoadAvatar(DEFAUL_AVATAR_ID);
+                    if (players.Count >= 4)
+                    {
+
+                        var leftPlayer = players[(selfIndex + 1) % 4];
+                        var topPlayer = players[(selfIndex + 2) % 4];
+                        var rightPlayer = players[(selfIndex + 3) % 4];
+
+                        imgLeftAvatar.Source = LoadAvatar(leftPlayer.AvatarId);
+                        imgTopAvatar.Source = LoadAvatar(topPlayer.AvatarId);
+                        imgRightAvatar.Source = LoadAvatar(rightPlayer.AvatarId);
+                    }
+                    else
+                    {
+                        var rivals = players.Where(p => !p.Username.Equals(currentUsername, StringComparison.OrdinalIgnoreCase)).ToList();
+                        if (rivals.Count > 0)
+                        {
+                            imgTopAvatar.Source = LoadAvatar(rivals[0].AvatarId);
+                        }
+                        if (rivals.Count > 1)
+                        {
+                            imgLeftAvatar.Source = LoadAvatar(rivals[1].AvatarId);
+                        }
+                        if (rivals.Count > 2)
+                        {
+                            imgRightAvatar.Source = LoadAvatar(rivals[2].AvatarId);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
