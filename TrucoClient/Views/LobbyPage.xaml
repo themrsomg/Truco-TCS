@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TrucoClient.Views"
       mc:Ignorable="d" 
       xmlns:language="clr-namespace:TrucoClient.Properties.Langs"
-      Title="{x:Static language:Lang.PreGameTextGame}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
+      Title="{x:Static language:Lang.PreGameTextGame}" FontFamily="Book Antiqua" FontSize="30" Width="1000" Height="650">
 
     <Grid Margin="30">
         <Grid.RowDefinitions>
@@ -29,36 +29,43 @@
             <ItemsControl x:Name="PlayersList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="{Binding AvatarUri}" Width="40" Height="40" Margin="5"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Username}" VerticalAlignment="Center" Margin="10,0" FontSize="20"/>
-                            <TextBlock Grid.Column="2" Text="{Binding Team}" VerticalAlignment="Center" Margin="10,0" Foreground="Yellow" FontSize="18"/>
-                            <Button Grid.Column="3" Content="{x:Static language:Lang.LobbyTextChange}" Click="ClickSwitchTeam" CommandParameter="{Binding Username}" FontSize="18">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsCurrentUser}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border CornerRadius="10" Background="#FFF3C754" BorderThickness="1" BorderBrush="#FFDDA81C">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </Grid>
+                        <Border Background="#22FFFFFF" CornerRadius="10" Padding="6" Margin="3">
+                            <Grid VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding AvatarUri}" Width="40" Height="40" Margin="5" VerticalAlignment="Center"
+                                    Stretch="UniformToFill" />
+                                <TextBlock Grid.Column="1" Text="{Binding Username}" VerticalAlignment="Center" Foreground="White"
+                                    FontSize="20" Margin="10,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Username}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Team}" VerticalAlignment="Center" Foreground="#FFDDA81C"
+                                    FontWeight="Bold" FontSize="18" Margin="15,0,10,0" />
+                                <Button Grid.Column="3" Content="{x:Static language:Lang.LobbyTextChange}" Click="ClickSwitchTeam"
+                                    CommandParameter="{Binding Username}" FontSize="15" Margin="5,0,0,0" VerticalAlignment="Center" Padding="10,3">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsCurrentUser}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border CornerRadius="8" Background="#FFF3C754" BorderThickness="1" BorderBrush="#FFDDA81C">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -82,7 +89,7 @@
                             </ControlTemplate>
                         </TextBox.Template>
                     </TextBox>
-                    <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" Height="30" 
+                    <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" Height="30" Width="345"
                                Foreground="Gray" FontSize="22" Margin="8,2,30,0" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Visible"/>
                 </Grid>
                 <Button x:Name="btnSendMessage" Content="{x:Static language:Lang.GlobalTextSend}" FontSize="22" Click="ClickSendMessage" 
