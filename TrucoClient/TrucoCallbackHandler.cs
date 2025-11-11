@@ -20,9 +20,9 @@ namespace TrucoClient.TrucoServer
                         lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedLobby, player));
                         lobby.ReloadPlayersDeferred();
                     }
-                    else if (main.MainFrame.Content is GameTwoPlayersPage gameTwoPlayersPage)
+                    else if (main.MainFrame.Content is GameBasePage gamePage)
                     {
-                        gameTwoPlayersPage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
+                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
                     }
                 }
             });
@@ -39,9 +39,9 @@ namespace TrucoClient.TrucoServer
                         lobbyPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
                         lobbyPage.ReloadPlayersDeferred();
                     }
-                    else if (main.MainFrame.Content is GameTwoPlayersPage gameTwoPlayersPage)
+                    else if (main.MainFrame.Content is GameBasePage gamePage)
                     {
-                        gameTwoPlayersPage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
+                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
                     }
                 }
             });
@@ -54,7 +54,19 @@ namespace TrucoClient.TrucoServer
                 if (Application.Current.MainWindow is InitialWindows main)
                 {
                     var playerList = players?.ToList() ?? new List<PlayerInfo>();
-                    main.MainFrame.Navigate(new GameTwoPlayersPage(matchCode, playerList));
+
+                    if (playerList.Count == 2)
+                    {
+                        main.MainFrame.Navigate(new GameTwoPlayersPage(matchCode, playerList));
+                    }
+                    else if (playerList.Count == 4)
+                    {
+                        main.MainFrame.Navigate(new GameFourPlayersPage(matchCode, playerList));
+                    }
+                    else
+                    {
+                        MessageBox.Show(Lang.ExceptionTextErrorStartingMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
                 }
             });
@@ -64,6 +76,7 @@ namespace TrucoClient.TrucoServer
         {
             
         }
+
         public void OnChatMessage(string matchCode, string player, string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -74,9 +87,9 @@ namespace TrucoClient.TrucoServer
                     {
                         lobbyPage.AddChatMessage(player, message);
                     }
-                    else if (main.MainFrame.Content is GameTwoPlayersPage gameTwoPlayersPage)
+                    else if (main.MainFrame.Content is GameBasePage gamePage)
                     {
-                        gameTwoPlayersPage.ReceiveChatMessage(player, message);
+                        gamePage.ReceiveChatMessage(player, message);
                     }
                 }
             });
@@ -106,12 +119,12 @@ namespace TrucoClient.TrucoServer
         }
         public void MatchFound(string matchDetails)
         {
-            // Lógica para cuando se encuentra una partida
+            
         }
 
         public void PlayerJoined(string username)
         {
-            // Lógica para cuando un jugador se une
+            
         }
     }
 }

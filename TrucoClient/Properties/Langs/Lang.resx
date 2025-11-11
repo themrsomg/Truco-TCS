@@ -1032,4 +1032,7 @@ Register today and set up a proper game!</value>
   <data name="GlobalTextLoading" xml:space="preserve">
     <value>Truco Argentino Loading...</value>
   </data>
+  <data name="ExceptionTextErrorStartingMatch" xml:space="preserve">
+    <value>Unexpected error while trying to start the game.</value>
+  </data>
 </root>

@@ -1032,4 +1032,7 @@
   <data name="GlobalTextLoading" xml:space="preserve">
     <value>Cargando Truco Argentino...</value>
   </data>
+  <data name="ExceptionTextErrorStartingMatch" xml:space="preserve">
+    <value>Error inesperado al tratar de iniciar la partida.</value>
+  </data>
 </root>

@@ -780,6 +780,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Unexpected error while trying to start the game..
+        /// </summary>
+        public static string ExceptionTextErrorStartingMatch {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorStartingMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a File not found: {0}.
         /// </summary>
         public static string ExceptionTextFileNotFound {
