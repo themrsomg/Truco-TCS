@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -27,6 +27,8 @@ namespace TrucoClient.Views
         {
             public string Username { get; set; }
             public BitmapImage AvatarUri { get; set; }
+            public string Team { get; set; }
+            public bool IsCurrentUser { get; set; }
         }
 
         public LobbyPage(string matchCode, string matchName)
@@ -54,12 +56,15 @@ namespace TrucoClient.Views
                 return;
             }
 
+            btnStart.IsEnabled = false;
+
             try
             {
                 Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
             }
             catch (Exception ex)
             {
+                btnStart.IsEnabled = true;
                 MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -75,6 +80,29 @@ namespace TrucoClient.Views
             ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, text);
             AddChatMessage(SessionManager.CurrentUsername, text);
             txtChatMessage.Clear();
+        }
+
+        private async void ClickSwitchTeam(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is Button switchButton) || !(switchButton.CommandParameter is string usernameToSwitch))
+            {
+                return;
+            }
+
+            if (!isOwner && usernameToSwitch != SessionManager.CurrentUsername)
+            {
+                MessageBox.Show(Lang.ExceptionTextCannotSwitchOthersTeam, Lang.GlobalTextAccessDenied, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                await Task.Run(() => ClientManager.MatchClient.SwitchTeam(this.matchCode, usernameToSwitch));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSwitchingTeam, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClickExit(object sender, RoutedEventArgs e)
@@ -235,7 +263,9 @@ namespace TrucoClient.Views
                 return new PlayerLobbyInfo
                 {
                     Username = p.Username,
-                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID)
+                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
+                    Team = p.Team,
+                    IsCurrentUser = p.Username == SessionManager.CurrentUsername
                 };
             }
 
@@ -243,11 +273,14 @@ namespace TrucoClient.Views
             {
                 var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
                 string avatarId = string.IsNullOrEmpty(profile?.AvatarId) ? DEFAUL_AVATAR_ID : profile.AvatarId;
+                string username = profile?.Username ?? p.Username;
 
                 return new PlayerLobbyInfo
                 {
                     Username = profile?.Username ?? p.Username,
-                    AvatarUri = LoadAvatar(avatarId)
+                    AvatarUri = LoadAvatar(avatarId),
+                    Team = p.Team,
+                    IsCurrentUser = username == SessionManager.CurrentUsername
                 };
             }
             catch (Exception)
@@ -255,7 +288,9 @@ namespace TrucoClient.Views
                 return new PlayerLobbyInfo
                 {
                     Username = p.Username,
-                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID)
+                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
+                    Team = p.Team,
+                    IsCurrentUser = p.Username == SessionManager.CurrentUsername
                 };
             }
         }

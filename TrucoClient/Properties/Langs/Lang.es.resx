@@ -1035,4 +1035,23 @@
   <data name="ExceptionTextErrorStartingMatch" xml:space="preserve">
     <value>Error inesperado al tratar de iniciar la partida.</value>
   </data>
+  <data name="ExceptionTextErrorSwitchingTeam" xml:space="preserve">
+    <value>Error inesperado al intentar cambiar de equipo.
+</value>
+  </data>
+  <data name="ExceptionTextCannotSwitchOthersTeam" xml:space="preserve">
+    <value>Error, no puedes cambiar de equipo a otros.</value>
+  </data>
+  <data name="GlobalTextChange" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="LobbyTextChange" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="LobbyTextLobbyChat" xml:space="preserve">
+    <value>Chat del Lobby</value>
+  </data>
+  <data name="LobbyTextMatchPlayers" xml:space="preserve">
+    <value>Jugadores en la sala</value>
+  </data>
 </root>

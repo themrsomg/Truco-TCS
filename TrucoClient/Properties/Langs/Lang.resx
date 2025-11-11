@@ -1035,4 +1035,22 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextErrorStartingMatch" xml:space="preserve">
     <value>Unexpected error while trying to start the game.</value>
   </data>
+  <data name="ExceptionTextErrorSwitchingTeam" xml:space="preserve">
+    <value>Unexpected error when trying to change team.</value>
+  </data>
+  <data name="ExceptionTextCannotSwitchOthersTeam" xml:space="preserve">
+    <value>Error, you cannot switch to other teams.</value>
+  </data>
+  <data name="GlobalTextChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="LobbyTextChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="LobbyTextLobbyChat" xml:space="preserve">
+    <value>Lobby Chat</value>
+  </data>
+  <data name="LobbyTextMatchPlayers" xml:space="preserve">
+    <value>Players in the match</value>
+  </data>
 </root>

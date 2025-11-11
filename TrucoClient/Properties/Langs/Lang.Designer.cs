@@ -663,6 +663,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error, you cannot switch to other teams..
+        /// </summary>
+        public static string ExceptionTextCannotSwitchOthersTeam {
+            get {
+                return ResourceManager.GetString("ExceptionTextCannotSwitchOthersTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Could not connect to server. Please restart the application..
         /// </summary>
         public static string ExceptionTextConnectionError {
@@ -785,6 +794,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextErrorStartingMatch {
             get {
                 return ResourceManager.GetString("ExceptionTextErrorStartingMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Unexpected error when trying to change team..
+        /// </summary>
+        public static string ExceptionTextErrorSwitchingTeam {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorSwitchingTeam", resourceCulture);
             }
         }
         
@@ -1454,6 +1472,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GlobalTextCancel {
             get {
                 return ResourceManager.GetString("GlobalTextCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Change.
+        /// </summary>
+        public static string GlobalTextChange {
+            get {
+                return ResourceManager.GetString("GlobalTextChange", resourceCulture);
             }
         }
         
@@ -2142,6 +2169,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Change.
+        /// </summary>
+        public static string LobbyTextChange {
+            get {
+                return ResourceManager.GetString("LobbyTextChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Do you want to exit the lobby?.
         /// </summary>
         public static string LobbyTextExitLobby {
@@ -2156,6 +2192,24 @@ namespace TrucoClient.Properties.Langs {
         public static string LobbyTextJoinedRoom {
             get {
                 return ResourceManager.GetString("LobbyTextJoinedRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lobby Chat.
+        /// </summary>
+        public static string LobbyTextLobbyChat {
+            get {
+                return ResourceManager.GetString("LobbyTextLobbyChat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Players in the match.
+        /// </summary>
+        public static string LobbyTextMatchPlayers {
+            get {
+                return ResourceManager.GetString("LobbyTextMatchPlayers", resourceCulture);
             }
         }
         
