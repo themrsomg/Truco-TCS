@@ -1683,6 +1683,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Truco Argentino Loading....
+        /// </summary>
+        public static string GlobalTextLoading {
+            get {
+                return ResourceManager.GetString("GlobalTextLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Lobby.
         /// </summary>
         public static string GlobalTextLobby {

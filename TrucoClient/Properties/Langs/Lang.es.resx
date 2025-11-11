@@ -1029,4 +1029,7 @@
   <data name="GlobalTextLoser" xml:space="preserve">
     <value>Perdedor</value>
   </data>
+  <data name="GlobalTextLoading" xml:space="preserve">
+    <value>Cargando Truco Argentino...</value>
+  </data>
 </root>

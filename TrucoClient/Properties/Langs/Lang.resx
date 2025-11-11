@@ -1029,4 +1029,7 @@ Register today and set up a proper game!</value>
   <data name="GlobalTextLoser" xml:space="preserve">
     <value>Loser</value>
   </data>
+  <data name="GlobalTextLoading" xml:space="preserve">
+    <value>Truco Argentino Loading...</value>
+  </data>
 </root>

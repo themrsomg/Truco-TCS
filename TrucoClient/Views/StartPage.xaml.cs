@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using TrucoClient.Helpers.Localization;
+using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Session;
 
 
@@ -13,18 +13,8 @@ namespace TrucoClient.Views
         {
             InitializeComponent();
             SessionManager.Clear();
-        }
 
-        private void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cbLanguages.SelectedIndex == 0)
-            {
-                LanguageManager.ChangeLanguage("en-US");
-            }
-            else
-            {
-                LanguageManager.ChangeLanguage("es-MX");
-            }
+            MusicInitializer.InitializeMenuMusic();
         }
 
         private void ClickLogIn(object sender, RoutedEventArgs e)

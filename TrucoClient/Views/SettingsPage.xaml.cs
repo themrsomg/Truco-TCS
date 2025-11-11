@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Localization;
 
 namespace TrucoClient.Views
 {
@@ -15,13 +16,22 @@ namespace TrucoClient.Views
         public SettingsPage()
         {
             InitializeComponent();
+
             MusicInitializer.InitializeMenuMusic();
-            if (Settings.Default.IsMusicMuted)
-            {
-                MusicManager.ToggleMute();
-            }
             UpdateVolumeIcon();
+
+            SetInitialLanguage();
         }
+
+        public SettingsPage(int selectedLanguageIndex)
+        {
+            InitializeComponent();
+            MusicInitializer.InitializeMenuMusic();
+            UpdateVolumeIcon();
+
+            cbLanguages.SelectedIndex = selectedLanguageIndex;
+        }
+
         private void UpdateVolumeIcon()
         {
             string iconPath = MusicManager.IsMuted
@@ -54,6 +64,39 @@ namespace TrucoClient.Views
             Settings.Default.Save();
 
             this.NavigationService.Navigate(new MainPage());
+        }
+
+        private void SetInitialLanguage()
+        {
+            string currentLang = Settings.Default.languageCode;
+            if (currentLang == "es-MX")
+            {
+                cbLanguages.SelectedIndex = 1;
+            }
+            else
+            {
+                cbLanguages.SelectedIndex = 0;
+            }
+        }
+
+        private void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbLanguages.SelectedItem == null)
+            {
+                return;
+            }
+
+            int selectedIndex = cbLanguages.SelectedIndex;
+            string newLang = (selectedIndex == 0) ? "en-US" : "es-MX";
+
+            if (Settings.Default.languageCode == newLang)
+            {
+                return;
+            }
+
+            LanguageManager.ChangeLanguage(newLang);
+
+            this.NavigationService.Navigate(new SettingsPage(selectedIndex));
         }
     }
 }

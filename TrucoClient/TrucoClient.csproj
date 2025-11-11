@@ -110,6 +110,7 @@
     <Compile Include="Views\ForgotPasswordStepTwoPage.xaml.cs">
       <DependentUpon>ForgotPasswordStepTwoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameBasePage.cs" />
     <Compile Include="Views\GameFourPlayersPage.xaml.cs">
       <DependentUpon>GameFourPlayersPage.xaml</DependentUpon>
     </Compile>
