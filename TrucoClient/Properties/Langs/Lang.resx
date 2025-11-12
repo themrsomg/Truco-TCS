@@ -1053,4 +1053,7 @@ Register today and set up a proper game!</value>
   <data name="LobbyTextMatchPlayers" xml:space="preserve">
     <value>Players in the match</value>
   </data>
+  <data name="GameTextPlayerNotFound" xml:space="preserve">
+    <value>No player was found.</value>
+  </data>
 </root>

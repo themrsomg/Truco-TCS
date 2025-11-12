@@ -1054,4 +1054,7 @@
   <data name="LobbyTextMatchPlayers" xml:space="preserve">
     <value>Jugadores en la sala</value>
   </data>
+  <data name="GameTextPlayerNotFound" xml:space="preserve">
+    <value>No se encontró un jugador.</value>
+  </data>
 </root>

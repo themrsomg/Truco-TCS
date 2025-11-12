@@ -1323,6 +1323,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No player was found..
+        /// </summary>
+        public static string GameTextPlayerNotFound {
+            get {
+                return ResourceManager.GetString("GameTextPlayerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Play with friends.
         /// </summary>
         public static string GameTextPlayWithFriends {

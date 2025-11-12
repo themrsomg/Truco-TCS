@@ -36,39 +36,44 @@ namespace TrucoClient.Views
                     return;
                 }
 
-                int selfIndex = players.FindIndex(p => p.Username.Equals(CurrentPlayer, StringComparison.OrdinalIgnoreCase));
-                if (selfIndex != -1)
+                var self = players.FirstOrDefault(p => p.Username.Equals(CurrentPlayer, StringComparison.OrdinalIgnoreCase));
+                if (self == null)
                 {
-                    imgPlayerAvatar.Source = LoadAvatar(players[selfIndex].AvatarId);
+                    MessageBox.Show(Lang.GameTextPlayerNotFound, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
-                    if (players.Count >= 4)
-                    {
-                        imgLeftAvatar.Source = LoadAvatar(players[(selfIndex + 1) % 4].AvatarId);
-                        imgTopAvatar.Source = LoadAvatar(players[(selfIndex + 2) % 4].AvatarId);
-                        imgRightAvatar.Source = LoadAvatar(players[(selfIndex + 3) % 4].AvatarId);
-                    }
-                    else
-                    {
-                        var rivals = players.Where(p => !p.Username.Equals(CurrentPlayer, StringComparison.OrdinalIgnoreCase)).ToList();
-                        if (rivals.Count > 0)
-                        {
-                            imgTopAvatar.Source = LoadAvatar(rivals[0].AvatarId);
-                        }
-                        if (rivals.Count > 1)
-                        {
-                            imgLeftAvatar.Source = LoadAvatar(rivals[1].AvatarId);
-                        }
-                        if (rivals.Count > 2)
-                        {
-                            imgRightAvatar.Source = LoadAvatar(rivals[2].AvatarId);
-                        }
-                    }
+                imgPlayerAvatar.Source = LoadAvatar(self.AvatarId);
+
+                var allies = players
+                    .Where(p => p.Team == self.Team && !p.Username.Equals(CurrentPlayer, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                var enemies = players
+                    .Where(p => p.Team != self.Team)
+                    .ToList();
+
+                if (allies.Count > 0)
+                {
+                    imgTopAvatar.Source = LoadAvatar(allies[0].AvatarId);
+                }
+
+                if (enemies.Count > 0)
+                {
+                    imgLeftAvatar.Source = LoadAvatar(enemies[0].AvatarId);
+                }
+
+                if (enemies.Count > 1)
+                {
+                    imgRightAvatar.Source = LoadAvatar(enemies[1].AvatarId);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message),
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }
