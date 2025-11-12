@@ -31,8 +31,16 @@
                                 <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextDeleteFriend}" FontSize="20" 
-                                    Background="#CC0000" Foreground="White" Width="150" Height="30" Margin="10,0" 
-                                    Click="ClickRejectRequest" Tag="{Binding Username}"/>
+                                    Foreground="White" Width="150" Height="30" Margin="10,0" 
+                                    Click="ClickRejectRequest" Tag="{Binding Username}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="10" Background="#CC0000" BorderThickness="2" BorderBrush="#FFBF3333">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -58,9 +66,25 @@
                                 <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextAcceptRequest}" FontSize="20" 
-                                    Width="110" Height="30" Margin="10,0" Click="ClickAcceptRequest" Tag="{Binding Username}"/>
+                                    Width="110" Height="30" Margin="10,0" Click="ClickAcceptRequest" Tag="{Binding Username}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="10" Background="#FF9AF957" BorderThickness="2" BorderBrush="#FF008000">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <Button Grid.Column="2" Content="{x:Static language:Lang.FriendsTextRejectRequest}" FontSize="20" 
-                                    Width="110" Height="30" Margin="10,0" Background="#FFA07A" Click="ClickRejectRequest" Tag="{Binding Username}"/>
+                                    Width="110" Height="30" Margin="10,0" Background="#FFA07A" Click="ClickRejectRequest" Tag="{Binding Username}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="10" Background="#FFA07A" BorderThickness="2" BorderBrush="#FFBF3333">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
