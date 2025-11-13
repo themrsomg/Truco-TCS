@@ -250,13 +250,13 @@
     <value>Carta</value>
   </data>
   <data name="CardsTextClubs" xml:space="preserve">
-    <value>Clubs</value>
+    <value>Bastos</value>
   </data>
   <data name="CardsTextFive" xml:space="preserve">
-    <value>Five</value>
+    <value>Cinco</value>
   </data>
   <data name="CardsTextFour" xml:space="preserve">
-    <value>Four</value>
+    <value>Cuatro</value>
   </data>
   <data name="CardsTextGold" xml:space="preserve">
     <value>Oro</value>
