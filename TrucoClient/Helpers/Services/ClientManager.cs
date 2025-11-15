@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.Windows;
 using TrucoClient.TrucoServer;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Views;
 
 namespace TrucoClient.Helpers.Services
 {
@@ -119,6 +120,11 @@ namespace TrucoClient.Helpers.Services
                  * is unusable.
                  */
             }
+        }
+
+        internal static void SetCallbackHandler(GameBasePage gameBasePage)
+        {
+            
         }
     }
 }

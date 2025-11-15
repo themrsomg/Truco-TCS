@@ -10,6 +10,7 @@
       Title="{x:Static language:Lang.GlobalTextTrucoArg}" FontFamily="Book Antiqua" FontSize="20" Height="800" Width="1280">
 
     <Grid Margin="10">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,6 +18,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -24,11 +26,13 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Top">
-                <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="10,10,20,10" 
-                        FontSize="20" VerticalAlignment="Top">
+
+                <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand"
+                        Margin="10,10,20,10" FontSize="20" VerticalAlignment="Top">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333" Padding="15,5">
+                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2"
+                                    BorderBrush="#FFBF3333" Padding="15,5">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
@@ -36,28 +40,43 @@
                 </Button>
 
                 <Border Background="#DDD" Padding="15,5" Margin="5" VerticalAlignment="Center" CornerRadius="5">
-                    <TextBlock Text="{x:Static language:Lang.GameTextScoreboard}" FontSize="18" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static language:Lang.GameTextScoreboard}"
+                               FontSize="18" HorizontalAlignment="Center"/>
                 </Border>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <TextBlock x:Name="tbScoreTeam1" Text="Equipo 1: 0"
+                               FontSize="18" FontWeight="Bold" Foreground="#333"/>
+                    <TextBlock x:Name="tbScoreTeam2" Text="Equipo 2: 0"
+                               FontSize="18" FontWeight="Bold" Foreground="#333"/>
+                </StackPanel>
+
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5">
-                <Border Background="#CCC" Width="60" Height="60" Margin="5" CornerRadius="30" BorderBrush="#FFD700" 
-                        BorderThickness="2" HorizontalAlignment="Center">
+
+                <Border Background="#CCC" Width="60" Height="60" Margin="5"
+                        CornerRadius="30" BorderBrush="#FFD700" BorderThickness="2"
+                        HorizontalAlignment="Center">
                     <Image x:Name="imgTopAvatar" Stretch="UniformToFill">
                         <Image.Clip>
                             <EllipseGeometry Center="30,30" RadiusX="30" RadiusY="30"/>
                         </Image.Clip>
                     </Image>
                 </Border>
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="5,2"/>
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="5,2"/>
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="5,2"/>
                 </StackPanel>
+
             </StackPanel>
+
         </Grid>
 
         <Grid Grid.Row="1" Margin="0,20">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -65,25 +84,29 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10,0,30,0">
-                <Border Background="#CCC" Width="60" Height="60" Margin="5" CornerRadius="30" BorderBrush="#FFD700" 
-                        BorderThickness="2" HorizontalAlignment="Center">
+                <Border Background="#CCC" Width="60" Height="60" Margin="5"
+                        CornerRadius="30" BorderBrush="#FFD700" BorderThickness="2"
+                        HorizontalAlignment="Center">
                     <Image x:Name="imgLeftAvatar" Stretch="UniformToFill">
                         <Image.Clip>
                             <EllipseGeometry Center="30,30" RadiusX="30" RadiusY="30"/>
                         </Image.Clip>
                     </Image>
                 </Border>
+
                 <StackPanel Orientation="Vertical" Margin="0,10,0,0">
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2,5">
                         <Image.LayoutTransform>
                             <RotateTransform Angle="90"/>
                         </Image.LayoutTransform>
                     </Image>
+
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2,5">
                         <Image.LayoutTransform>
                             <RotateTransform Angle="90"/>
                         </Image.LayoutTransform>
                     </Image>
+
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2,5">
                         <Image.LayoutTransform>
                             <RotateTransform Angle="90"/>
@@ -93,42 +116,76 @@
             </StackPanel>
 
             <Grid Grid.Column="1">
-                <Border Background="#22000000" CornerRadius="50" Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <TextBlock Foreground="#55FFFFFF" FontSize="30" FontWeight="Bold" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
+
+                <Border Background="#22000000" CornerRadius="50" Margin="20"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                <StackPanel x:Name="panelTableCards" Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Margin="0,50,0,0"/>
+
+                <StackPanel x:Name="panelBetOptions" Orientation="Horizontal" HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom" Margin="0,0,0,30" Visibility="Collapsed">
+                    <Button x:Name="btnCallTruco" Content="{x:Static language:Lang.GameTextTruco}" Click="ClickTruco"
+                            Margin="5" Padding="10" Background="#FFD400"/>
+                    <!--<Button x:Name="btnCallEnvido" Content="{x:Static language:Lang.GameTextEnvido}" Click="ClickEnvido"
+                            Margin="5" Padding="10" Background="#FFD400"/> -->
+                    <Button x:Name="btnRespondQuiero" Content="caca" Click="ClickAccept"
+                            Margin="5" Padding="10" Background="#FF03D400"/>
+                    <Button x:Name="btnRespondNoQuiero" Content="caca" Click="ClickReject"
+                            Margin="5" Padding="10" Background="#FFBF3333"/>
+                </StackPanel>
+
+                <StackPanel x:Name="panelEnvidoOptions" HorizontalAlignment="Center" VerticalAlignment="Center"
+            Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed">
+                    <TextBlock x:Name="tbEnvidoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
+                    <Button x:Name="btnCallEnvido" Content="Envido" Margin="5" Padding="10,5"/>
+                    <Button x:Name="btnCallRealEnvido" Content="Real Envido" Margin="5" Padding="10,5"/>
+                    <Button x:Name="btnCallFaltaEnvido" Content="Falta Envido" Margin="5" Padding="10,5"/>
+                    <Button x:Name="btnEnvidoRespondQuiero" Content="Quiero" Margin="5" Padding="10,5" Background="#FF03D400"/>
+                    <Button x:Name="btnEnvidoRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5" Background="#FFBF3333"/>
+                </StackPanel>
+                
             </Grid>
 
             <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="30,0,10,0">
-                <Border Background="#CCC" Width="60" Height="60" Margin="5" CornerRadius="30" BorderBrush="#FFD700" 
-                        BorderThickness="2" HorizontalAlignment="Center">
+                <Border Background="#CCC" Width="60" Height="60" Margin="5"
+                        CornerRadius="30" BorderBrush="#FFD700" BorderThickness="2"
+                        HorizontalAlignment="Center">
                     <Image x:Name="imgRightAvatar" Stretch="UniformToFill">
                         <Image.Clip>
                             <EllipseGeometry Center="30,30" RadiusX="30" RadiusY="30"/>
                         </Image.Clip>
                     </Image>
                 </Border>
+
                 <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2,5">
                         <Image.LayoutTransform>
                             <RotateTransform Angle="-90"/>
                         </Image.LayoutTransform>
                     </Image>
+
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2,5">
                         <Image.LayoutTransform>
                             <RotateTransform Angle="-90"/>
                         </Image.LayoutTransform>
                     </Image>
+
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="2,5">
                         <Image.LayoutTransform>
                             <RotateTransform Angle="-90"/>
                         </Image.LayoutTransform>
                     </Image>
+
                 </StackPanel>
             </StackPanel>
+
         </Grid>
 
         <Grid Grid.Row="2" Margin="10,10,10,20">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -136,7 +193,9 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Margin="5,70,5,5" VerticalAlignment="Bottom">
-                <Button Content="{x:Static language:Lang.GameTextGestures}" Width="80" Height="40" Click="ClickOpenGesturesMenu" Margin="0,0,0,10">
+
+                <Button Content="{x:Static language:Lang.GameTextGestures}" Width="80" Height="40"
+                        Click="ClickOpenGesturesMenu" Margin="0,0,0,10">
                     <Button.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="👍" Click="ClickGesture"/>
@@ -144,75 +203,114 @@
                             <MenuItem Header="😡" Click="ClickGesture"/>
                         </ContextMenu>
                     </Button.ContextMenu>
+
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="8" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border CornerRadius="8" Background="#FF2EF457"
+                                    BorderThickness="2" BorderBrush="#FF03D400">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Border Background="#CCC" Width="80" Height="80" Margin="5" CornerRadius="40" BorderBrush="#FFD700" 
-                        BorderThickness="3" HorizontalAlignment="Center">
+
+                <Border Background="#CCC" Width="80" Height="80" Margin="5"
+                        CornerRadius="40" BorderBrush="#FFD700" BorderThickness="3"
+                        HorizontalAlignment="Center">
                     <Image x:Name="imgPlayerAvatar" Stretch="UniformToFill">
                         <Image.Clip>
                             <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40"/>
                         </Image.Clip>
                     </Image>
                 </Border>
+
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0">
-                <Image Source="/Resources/Cards/sword_2.png" Width="150" Height="225" Margin="10,5,10,20" RenderTransformOrigin="0.5,1">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom" Margin="20,0" x:Name="panelPlayerCards">
+
+                <Image x:Name="imgPlayerCard1" 
+                       Width="150" Height="225" Margin="10,5,10,20" RenderTransformOrigin="0.5,1">
                     <Image.RenderTransform>
                         <RotateTransform Angle="-5"/>
                     </Image.RenderTransform>
                 </Image>
-                <Image Source="/Resources/Cards/sword_7.png" Width="150" Height="225" Margin="10,0,10,30"/>
-                <Image Source="/Resources/Cards/cup_7.png" Width="150" Height="225" Margin="10,5,10,20" RenderTransformOrigin="0.5,1">
+
+                <Image x:Name="imgPlayerCard2" 
+                       Width="150" Height="225" Margin="10,0,10,30"/>
+
+                <Image x:Name="imgPlayerCard3" 
+                       Width="150" Height="225" Margin="10,5,10,20" RenderTransformOrigin="0.5,1">
                     <Image.RenderTransform>
                         <RotateTransform Angle="5"/>
                     </Image.RenderTransform>
                 </Image>
+
             </StackPanel>
 
-            <Border Grid.Column="2" Background="#EEE" Width="250" Height="220" CornerRadius="10" Padding="5" Margin="5" VerticalAlignment="Bottom">
+            <Border Grid.Column="2" Background="#EEE" Width="250" Height="220"
+                    CornerRadius="10" Padding="5" Margin="5" VerticalAlignment="Bottom">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
                     <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel x:Name="ChatMessagesPanel" />
+                        <StackPanel x:Name="ChatMessagesPanel"/>
                     </ScrollViewer>
+
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
+
                         <Grid Width="165" Height="30" Margin="0,0,5,0">
-                            <TextBox x:Name="txtChatMessage" VerticalAlignment="Center" TextChanged="ChatMessageTextChanged" 
-                                     Background="White" Foreground="Black" Padding="5,0,0,0" KeyDown="EnterKeyDown" FontSize="14">
+
+                            <TextBox x:Name="txtChatMessage" VerticalAlignment="Center"
+                                     TextChanged="ChatMessageTextChanged"
+                                     Background="White" Foreground="Black"
+                                     Padding="5,0,0,0" KeyDown="EnterKeyDown"
+                                     FontSize="14">
                                 <TextBox.Template>
                                     <ControlTemplate TargetType="TextBox">
-                                        <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
+                                        <Border Background="White" CornerRadius="8"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="1" Padding="5">
                                             <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                                         </Border>
                                     </ControlTemplate>
                                 </TextBox.Template>
                             </TextBox>
-                            <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" 
-                                       Foreground="Gray" FontSize="14" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
+
+                            <TextBlock x:Name="blckPlaceholder"
+                                       Text="{x:Static language:Lang.GlobalTextWriteHere}"
+                                       Foreground="Gray" FontSize="14"
+                                       VerticalAlignment="Center" Margin="8,0,0,0"
+                                       IsHitTestVisible="False" Visibility="Visible"/>
+
                         </Grid>
-                        <Button x:Name="btnSendMessage" Content="{x:Static language:Lang.GlobalTextSend}" Width="65" Height="30" Click="ClickSendMessage" Cursor="Hand">
+
+                        <Button x:Name="btnSendMessage" Content="{x:Static language:Lang.GlobalTextSend}"
+                                Width="65" Height="30" Click="ClickSendMessage" Cursor="Hand">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FF5FE4FA" BorderThickness="1" BorderBrush="#FF3AB8CE">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border CornerRadius="8" Background="#FF5FE4FA"
+                                            BorderThickness="1" BorderBrush="#FF3AB8CE">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
+
                     </StackPanel>
+
                 </Grid>
+
             </Border>
+
         </Grid>
+
     </Grid>
+
 </views:GameBasePage>

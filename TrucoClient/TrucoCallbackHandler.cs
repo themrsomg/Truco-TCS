@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using TrucoClient.Helpers.Services;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -8,6 +9,42 @@ namespace TrucoClient.TrucoServer
 {
     public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
     {
+        public static List<TrucoCard> BufferedHand { get; set; }
+
+        private GameBasePage GetActiveGamePage()
+        {
+            if (Application.Current.MainWindow is InitialWindows main && main.MainFrame.Content is GameBasePage gamePage)
+            {
+                return gamePage;
+            }
+            return null;
+        }
+
+        private LobbyPage GetActiveLobbyPage()
+        {
+            if (Application.Current.MainWindow is InitialWindows main && main.MainFrame.Content is LobbyPage lobbyPage)
+            {
+                return lobbyPage;
+            }
+            return null;
+        }
+
+        public void NotifyEnvidoCall(string callerName, string betName, int totalPoints, bool needsResponse)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyEnvidoCall(callerName, betName, totalPoints, needsResponse);
+            });
+        }
+
+        public void NotifyEnvidoResult(string winnerName, int score, int totalPointsAwarded)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyEnvidoResult(winnerName, score, totalPointsAwarded);
+            });
+        }
+
         public void OnPlayerJoined(string matchCode, string player)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -73,7 +110,10 @@ namespace TrucoClient.TrucoServer
 
         public void OnCardPlayed(string matchCode, string player, string card) 
         {
-            
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.ReceiveChatMessage(string.Empty, string.Format("Modificar ESTO", player, card));
+            });
         }
 
         public void OnChatMessage(string matchCode, string player, string message)
@@ -96,7 +136,21 @@ namespace TrucoClient.TrucoServer
 
         public void OnMatchEnded(string matchCode, string winner) 
         {
-            
+            BufferedHand = null;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var gamePage = GetActiveGamePage();
+                if (gamePage != null)
+                {
+                    MessageBox.Show($"El ganador ha sido: {winner}", "Partida Terminada", MessageBoxButton.OK, MessageBoxImage.Information);
+                    (Application.Current.MainWindow as InitialWindows)?.MainFrame.Navigate(new MainPage());
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Fin", matchCode, winner), "La partida ha terminado",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            });
         }
 
         public void OnFriendRequestReceived(string fromUser)
@@ -118,12 +172,90 @@ namespace TrucoClient.TrucoServer
         }
         public void MatchFound(string matchDetails)
         {
-            
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show(string.Format("Juego encontrado", matchDetails), "Uniendote a la partida...",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            });
         }
 
         public void PlayerJoined(string username)
         {
-            
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, username));
+            });
         }
+
+        public void ReceiveCards(TrucoCard[] hand) 
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var gamePage = GetActiveGamePage();
+                var handAsList = hand.ToList(); 
+
+                if (gamePage != null)
+                {
+                    gamePage.ReceiveCards(handAsList);
+                    BufferedHand = null;
+                }
+                else
+                {
+                    BufferedHand = handAsList;
+                }
+            });
+        }
+
+        public void NotifyCardPlayed(string playerName, string cardFileName, bool isLastCardOfRound)
+        {
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    GetActiveGamePage()?.NotifyCardPlayed(playerName, cardFileName, isLastCardOfRound);
+                });
+            }
+        }
+
+        public void NotifyTurnChange(string nextPlayerName)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyTurnChange(nextPlayerName);
+            });
+        }
+
+        public void NotifyScoreUpdate(int team1Score, int team2Score)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyScoreUpdate(team1Score, team2Score);
+            });
+        }
+
+        public void NotifyTrucoCall(string callerName, string betName, bool needsResponse)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyTrucoCall(callerName, betName, needsResponse);
+            });
+        }
+
+        public void NotifyResponse(string responderName, string response)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyResponse(responderName, response);
+            });
+        }
+
+        public void NotifyRoundEnd(string winnerName, int team1Score, int team2Score)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyRoundEnd(winnerName, team1Score, team2Score);
+            });
+        }
+
+        
     }
 }
