@@ -143,7 +143,10 @@ namespace TrucoClient.Views
             imgPlayerAvatar.Opacity = 0.5;
             imgLeftAvatar.Opacity = 0.5;
             imgRightAvatar.Opacity = 0.5;
-            if (isMyTurn) imgPlayerAvatar.Opacity = 1.0;
+            if (isMyTurn)
+            {
+                imgPlayerAvatar.Opacity = 1.0;
+            }
             if (isMyTurn)
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
