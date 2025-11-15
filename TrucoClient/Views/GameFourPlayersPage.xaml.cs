@@ -26,20 +26,19 @@ namespace TrucoClient.Views
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
-            base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
-
-            this.players = players ?? new List<PlayerInfo>();
-
-            this.Loaded += GamePage_Loaded;
-
             cardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
-
+            base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
+            this.players = players ?? new List<PlayerInfo>();
+            this.Loaded += GamePage_Loaded;
             foreach (var img in cardImages)
             {
                 img.MouseDown += PlayerCard_MouseDown;
             }
 
-            btnCallTruco.Click += (s, e) => SendCallTrucoCommand("Truco");
+            btnCallTruco.Click += (s, e) => {
+                string betToSend = (s as Button).Content.ToString();
+                SendCallTrucoCommand(betToSend);
+            }; 
             btnRespondQuiero.Click += (s, e) => SendResponseCommand("Quiero");
             btnRespondNoQuiero.Click += (s, e) => SendResponseCommand("NoQuiero");
 
@@ -132,23 +131,46 @@ namespace TrucoClient.Views
                 Margin = new Thickness(10)
             };
 
-            // TODO: Determinar la posición (Top, Left, Right, Bottom) basada en el playerName
-            // y el layout de 4 jugadores.
+            // TODO: Determinar la posición (Top, Left, Right, Bottom) basada en el playerName y el layout de 4 jugadores.
 
             PanelTableCards.Children.Add(cardImage);
         }
 
-        protected override void UpdateTurnUI(string nextPlayerName)
+        protected override void UpdateTurnUI(string nextPlayerName, string currentBetState)
         {
             bool isMyTurn = nextPlayerName == CurrentPlayer;
             PanelPlayerCards.IsEnabled = isMyTurn;
-
-            // TODO: Lógica para resaltar el avatar del jugador activo
             imgPlayerAvatar.Opacity = 0.5;
             imgLeftAvatar.Opacity = 0.5;
             imgRightAvatar.Opacity = 0.5;
-
             if (isMyTurn) imgPlayerAvatar.Opacity = 1.0;
+            if (isMyTurn)
+            {
+                PanelBetOptions.Visibility = Visibility.Visible;
+                btnRespondQuiero.Visibility = Visibility.Collapsed;
+                btnRespondNoQuiero.Visibility = Visibility.Collapsed;
+                btnCallTruco.Visibility = Visibility.Visible;
+                if (currentBetState == "None")
+                {
+                    btnCallTruco.Content = "Truco";
+                }
+                else if (currentBetState == "Truco")
+                {
+                    btnCallTruco.Content = "Retruco";
+                }
+                else if (currentBetState == "Retruco")
+                {
+                    btnCallTruco.Content = "ValeCuatro";
+                }
+                else
+                {
+                    btnCallTruco.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                PanelBetOptions.Visibility = Visibility.Collapsed;
+            }
         }
 
         protected override void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse)
@@ -156,6 +178,9 @@ namespace TrucoClient.Views
             if (needsResponse)
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
+                btnCallTruco.Visibility = Visibility.Collapsed;
+                btnRespondQuiero.Visibility = Visibility.Visible;
+                btnRespondNoQuiero.Visibility = Visibility.Visible;
             }
             else
             {

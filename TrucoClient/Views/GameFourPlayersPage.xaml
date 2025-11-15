@@ -45,10 +45,14 @@
                 </Border>
 
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,0,0">
-                    <TextBlock x:Name="tbScoreTeam1" Text="Equipo 1: 0"
-                               FontSize="18" FontWeight="Bold" Foreground="#333"/>
-                    <TextBlock x:Name="tbScoreTeam2" Text="Equipo 2: 0"
-                               FontSize="18" FontWeight="Bold" Foreground="#333"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Equipo 1:" FontSize="18" Foreground="#333" Margin="5,0"/>
+                        <TextBlock x:Name="tbScoreTeam1" Text="0" FontSize="18" FontWeight="Bold" Foreground="#333" Margin="0,0,10,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Equipo 2:" FontSize="18" Foreground="#333" Margin="5,0"/>
+                        <TextBlock x:Name="tbScoreTeam2" Text="0" FontSize="18" FontWeight="Bold" Foreground="#333"/>
+                    </StackPanel>
                 </StackPanel>
 
             </StackPanel>

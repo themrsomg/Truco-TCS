@@ -27,19 +27,19 @@ namespace TrucoClient.Views
         public GameTwoPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
+            cardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
-
             this.players = players;
             this.Loaded += GamePage_Loaded;
-
-            cardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
-
             foreach (var img in cardImages)
             {
                 img.MouseDown += PlayerCard_MouseDown;
             }
 
-            btnCallTruco.Click += (s, e) => SendCallTrucoCommand("Truco");
+            btnCallTruco.Click += (s, e) => {
+                string betToSend = (s as Button).Content.ToString();
+                SendCallTrucoCommand(betToSend);
+            };
             btnRespondQuiero.Click += (s, e) => SendResponseCommand("Quiero");
             btnRespondNoQuiero.Click += (s, e) => SendResponseCommand("NoQuiero"); 
             PanelPlayerCards.IsEnabled = false;
@@ -135,13 +135,41 @@ namespace TrucoClient.Views
             PanelTableCards.Children.Add(cardImage);
         }
 
-        protected override void UpdateTurnUI(string nextPlayerName)
+        protected override void UpdateTurnUI(string nextPlayerName, string currentBetState)
         {
             bool isMyTurn = nextPlayerName == CurrentPlayer;
             PanelPlayerCards.IsEnabled = isMyTurn;
 
             imgPlayerAvatar.Opacity = isMyTurn ? 1.0 : 0.5;
             imgRivalAvatar.Opacity = isMyTurn ? 0.5 : 1.0;
+
+            if (isMyTurn)
+            {
+                PanelBetOptions.Visibility = Visibility.Visible;
+                btnRespondQuiero.Visibility = Visibility.Collapsed;
+                btnRespondNoQuiero.Visibility = Visibility.Collapsed;
+                btnCallTruco.Visibility = Visibility.Visible;
+                if (currentBetState == "None")
+                {
+                    btnCallTruco.Content = "Truco";
+                }
+                else if (currentBetState == "Truco")
+                {
+                    btnCallTruco.Content = "Retruco";
+                }
+                else if (currentBetState == "Retruco")
+                {
+                    btnCallTruco.Content = "ValeCuatro";
+                }
+                else
+                {
+                    btnCallTruco.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                PanelBetOptions.Visibility = Visibility.Collapsed;
+            }
         }
 
         protected override void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse)
@@ -149,7 +177,9 @@ namespace TrucoClient.Views
             if (needsResponse)
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
-                // TODO: Lógica para mostrar solo los botones de respuesta válidos
+                btnCallTruco.Visibility = Visibility.Collapsed;
+                btnRespondQuiero.Visibility = Visibility.Visible;
+                btnRespondNoQuiero.Visibility = Visibility.Visible;
             }
             else
             {
@@ -198,6 +228,22 @@ namespace TrucoClient.Views
         protected override void NotifyEnvidoResultUI(string winnerName, int score, int totalPointsAwarded)
         {
             HideEnvidoBetPanelUI();
+        }
+
+        private void ClickCallTruco(object sender, RoutedEventArgs e)
+        {
+            string betToSend = (sender as Button).Content.ToString();
+            SendCallTrucoCommand(betToSend);
+        }
+
+        private void ClickRespondQuiero(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClickRespondNoQuiero(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

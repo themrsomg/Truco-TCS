@@ -25,6 +25,7 @@ namespace TrucoClient.Views
         protected TextBox TxtChatMessage;
         protected Panel ChatMessagesPanel;
         protected TextBlock BlckPlaceholder;
+        protected string CurrentTrucoBetState = "None";
 
         protected abstract TextBlock TbScoreTeam1 { get; }
         protected abstract TextBlock TbScoreTeam2 { get; }
@@ -92,8 +93,7 @@ namespace TrucoClient.Views
 
         protected abstract void UpdatePlayerHandUI(List<TrucoCard> hand);
         protected abstract void UpdatePlayedCardUI(string playerName, string cardFileName, bool isLastCardOfRound);
-        protected abstract void UpdateTurnUI(string nextPlayerName);
-        protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
+        protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState); protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
         protected abstract void HideBetPanelUI();
         protected abstract void ClearTableUI();
 
@@ -135,7 +135,11 @@ namespace TrucoClient.Views
 
         public void ReceiveCards(List<TrucoCard> hand)
         {
-            Dispatcher.Invoke(() => UpdatePlayerHandUI(hand));
+            Dispatcher.Invoke(() =>
+            {
+                this.CurrentTrucoBetState = "None";
+                UpdatePlayerHandUI(hand);
+            });
         }
 
         public void NotifyCardPlayed(string playerName, string cardFileName, bool isLastCardOfRound)
@@ -145,7 +149,7 @@ namespace TrucoClient.Views
 
         public void NotifyTurnChange(string nextPlayerName)
         {
-            Dispatcher.Invoke(() => UpdateTurnUI(nextPlayerName));
+            Dispatcher.Invoke(() => UpdateTurnUI(nextPlayerName, this.CurrentTrucoBetState)); 
         }
 
         public void NotifyScoreUpdate(int team1Score, int team2Score)
@@ -173,6 +177,7 @@ namespace TrucoClient.Views
                 AddChatMessage(null, $"Ronda ganada por: {winnerName}");
                 TbScoreTeam1.Text = team1Score.ToString();
                 TbScoreTeam2.Text = team2Score.ToString();
+
                 ClearTableUI();
             });
         }
@@ -234,12 +239,13 @@ namespace TrucoClient.Views
             });
         }
 
-        public void NotifyResponse(string responderName, string response)
+        public void NotifyResponse(string responderName, string response, string newBetState)
         {
             Dispatcher.Invoke(() =>
             {
+                this.CurrentTrucoBetState = newBetState;
                 HideBetPanelUI();
-                HideEnvidoBetPanelUI(); 
+                HideEnvidoBetPanelUI();
                 AddChatMessage(null, $"{responderName} dijo: {response}");
             });
         }

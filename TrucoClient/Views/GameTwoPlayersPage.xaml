@@ -77,9 +77,9 @@
 
             <StackPanel x:Name="panelBetOptions" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed">
-                <Button x:Name="btnCallTruco" Content="Truco" Margin="5" Padding="10,5"/>
-                <Button x:Name="btnRespondQuiero" Content="Quiero" Margin="5" Padding="10,5"/>
-                <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5"/>
+                <Button x:Name="btnCallTruco" Content="Truco" Margin="5" Padding="10,5" Click="ClickCallTruco"/>
+                <Button x:Name="btnRespondQuiero" Content="Quiero" Margin="5" Padding="10,5" Click="ClickRespondQuiero"/>
+                <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5" Click="ClickRespondNoQuiero"/>
             </StackPanel>
         </Grid>
 
