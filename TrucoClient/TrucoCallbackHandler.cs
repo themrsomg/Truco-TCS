@@ -240,11 +240,11 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void NotifyResponse(string responderName, string response)
+        public void NotifyResponse(string responderName, string response, string newBetState)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.NotifyResponse(responderName, response);
+                GetActiveGamePage()?.NotifyResponse(responderName, response, newBetState);
             });
         }
 
