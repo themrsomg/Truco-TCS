@@ -39,7 +39,7 @@ namespace TrucoClient.Views
 
         protected ITrucoMatchService MatchClient { get; private set; }
 
-        public GameBasePage()
+        protected GameBasePage()
         {
             this.Unloaded += GameBasePage_Unloaded;
             // ClientManager.SetCallbackHandler(this);
@@ -84,18 +84,18 @@ namespace TrucoClient.Views
             try
             {
                 MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername);
-                // ClientManager.SetCallbackHandler(null); ESE CULO SE MERECE TO
+                // ClientManager.SetCallbackHandler(null);
             }
             catch (Exception)
             {
+                /* 
+                 * Any exceptions (e.g., CommunicationException or TimeoutException) 
+                 * that may occur when attempting to leave the WCF chat are intentionally ignored.
+                 * This is common when the channel has already been closed or is in 
+                 * a 'Faulted' state upon page loading.
+                 */
             }
         }
-
-        protected abstract void UpdatePlayerHandUI(List<TrucoCard> hand);
-        protected abstract void UpdatePlayedCardUI(string playerName, string cardFileName, bool isLastCardOfRound);
-        protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState); protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
-        protected abstract void HideBetPanelUI();
-        protected abstract void ClearTableUI();
 
         protected void SendPlayCardCommand(string cardFileName)
         {
@@ -405,146 +405,10 @@ namespace TrucoClient.Views
         }
 
         protected abstract void LoadPlayerAvatars(List<PlayerInfo> players);
-
-        /*
-         * Bla, bla, bla, bla, bla, bla
-            Ey, yo', yo', yo', yo', yo', yo', yo'
-            Yah (la, la, la, la, la, la, la), blow, blow
-            (La, la, la, la, la, la, la)
-
-            Diablo', qué safaera
-            Tú tiene' un culo cabrón
-            Cualquier cosa que te ponga' rompe la carretera (la, la, la, la, la)
-            Muévelo, muévelo, muévelo, muévelo (la, la, la, la, la, la, la)
-
-            Qué safaera (la, la, la, la, la)
-            Tú tiene' un culo cabrón
-            Cualquier cosa que te ponga' rompe la carretera
-            Muévelo, muévelo, muévelo, muévelo
-
-            Qué falta de respeto, mami
-            ¿Cómo te atreve' a venir sin panty?
-            Hoy saliste puesta pa' mí
-            Yo que pensaba que venía a dormir
-
-            No, vino ready ya
-            Puesta pa' una cepillá'
-            Me chupa la lollipop
-            Solita se arrodilla, hey
-
-            ¿Cómo te atreve', mami, a venir sin panty?
-
-            Mera, dímelo, DJ Orma
-            ¿Qué tú te cree'? Jodío' cabrón, jeje
-            Yo Hago Lo Que Me Da La Gana
-            Díselo, Conejo
-            Ey, ey
-
-            Hoy se bebe, hoy se gasta
-            Hoy se fuma como un rasta
-            Si Dio' lo permite (si Dio' lo permite), ey
-            Si Dio' lo permite (que si Dio' lo permite), ey
-
-            Hoy se bebe, hoy se gasta
-            Hoy se fuma como un rasta
-            Si Dio' lo permite, ey
-            Si Dio' lo permite (yo', yo'), ey
-
-            Real G
-            Orientando la' generacione' nueva'
-            Con la verdadera
-
-            Bellaqueo a lo galactic
-            Sí, pa' que se te mojen los panty
-            Métele bellaco a lo versátil
-            Má' puta que Betty Boop
-            La que se puso bellaca, mami, fuiste tú
-            Sigo matando con la U
-
-            Chocha con bicho, bicho con nalga
-            Cho-Chocha con bicho, bicho con nalga, sí
-            Chocha con bicho, bicho con nalga
-            Te-Te está rozando mi tetilla
-
-            Este año no quiero putilla
-            Te ven con mucha' prenda' y se quieren pegar
-            Te ven bien activa'o y se quieren pegar
-            Porque está' bien buena, porque está' bien buena
-
-            Teta' bien grande' como Lourdes Chacón
-            Las nalga' bien grande' como Iris Chacón
-            La chocha no sé, porque no la he visto
-            Pero vamo' pa' la cama a clavarte en panty
-
-            Hoy se bebe, hoy se gasta
-            Hoy se fuma como un rasta
-            Si Dio' lo permite
-            Si Dio' lo permite, yeh-yeh
-
-            Y hoy se bebe, hoy se gasta
-            Hoy se fuma como un rasta
-            Si Dio' lo permite
-            Si Dio' lo permite
-
-            Mami, ¿qué tú quiere'?
-            Aquí llegó tu tiburón
-            Yo quiero perrearte y fumarme un blunt
-            Ver lo que esconde ese pantalón
-
-            Yo quiero perrearte y perrearte y perrearte
-            Yo-Yo-Yo quiero perrearte y fumarme un blunt
-            Yo quiero perrearte y perrearte y perrear
-            Yo-Yo-Yo quiero perrearte y fumarme un blunt, un blunt
-
-            La rola ya me explotó
-            La nena bailando se botó
-            Ese culo se merece to'
-            Se merece to', se merece to', yes
-            Ese culo se merece to'
-            Se merece to' (ey, ey, ey), se merece to' (ey, ey)
-
-            Ah, yo pensaba que se ponía lenta
-            'Tá bien, 'tá bien, vamo' de nuevo, de nuevo
-            Miren a Orma, miren a Orma, que está bellaco
-
-            Mi bicho anda fuga'o y yo quiero que tú me lo esconda'
-            Agárralo como bonga
-            Se metió una pepa que la pone cachonda
-            Chinga en lo' Audi, no en lo' Honda, ey
-
-            Si te lo meto, no me llame'
-            Que esto no es pa' que me ame', ey
-            Si tu novio no te mama el culo
-            Pa' eso que no mame
-
-            Baja pa' casa, que yo te lambo to'a
-            Mami, yo te lambo to'a
-            Baja pa' casa, que yo te rompo to'a, ey
-            Que yo te rompo to'a
-
-            Baja pa' casa, que yo te lambo to'a (¡sigue!)
-            Mami, yo te lambo to'a (¡sigue!)
-            Dime, sierva (papi, sigue)
-            Si tú fuma' yerba (papi, pa-papi)
-
-            Jowell
-            Bebé, bebé, bebé
-
-            Perreando en la bichota
-            Se ve que chinga rico en la nota
-            Yo quiero tirarme un selfie con esa' nalgota'
-            Para'o, para'o, para'o lo tengo, se me nota
-            ¿Qué vamo' a hacer con esa' nalgota'?
-
-            En la uni que son A, A, A
-            Pero esa' teta' son C
-            Tú ere' una superbellaca, mami, yo lo sé
-            Yo también soy un bellaco, ¿qué vamo' a hacer? (Tú sabe', eh)
-
-            Con ese bum-bum, guíllate, bum-bum
-            Guíllate ese bum-bum, guíllate, bum-bum
-            Si tiene' ese bum-bum, guíllate, bum-bum
-            Si tiene' ese bum-bum, guíllate, ¡buoh!
-        */
+        protected abstract void UpdatePlayerHandUI(List<TrucoCard> hand);
+        protected abstract void UpdatePlayedCardUI(string playerName, string cardFileName, bool isLastCardOfRound);
+        protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState); protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
+        protected abstract void HideBetPanelUI();
+        protected abstract void ClearTableUI();
     }
 }

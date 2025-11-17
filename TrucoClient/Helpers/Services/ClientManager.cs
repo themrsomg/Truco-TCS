@@ -124,7 +124,11 @@ namespace TrucoClient.Helpers.Services
 
         internal static void SetCallbackHandler(GameBasePage gameBasePage)
         {
-            
+            /* 
+             * Implementation pending. This method is reserved to set
+             * the reference to the 'GameBasePage' in the WCF callback handler
+             * to allow game notifications on the UI thread.
+             */
         }
     }
 }

@@ -13,7 +13,6 @@ namespace TrucoClient.Views
     public partial class GameFourPlayersPage : GameBasePage
     {
         private readonly List<PlayerInfo> players;
-        private List<TrucoCard> playerHand = new List<TrucoCard>();
         private Image[] cardImages;
 
         protected override TextBlock TbScoreTeam1 => tbScoreTeam1;

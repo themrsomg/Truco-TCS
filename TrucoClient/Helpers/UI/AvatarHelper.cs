@@ -10,7 +10,10 @@ namespace TrucoClient.Helpers.UI
 {
     public static class AvatarHelper
     {
-        private const string DEFAULT_AVATAR_PATH = "pack://application:,,,/TrucoClient;component/Resources/Avatars/avatar_aaa_default.png";
+        private const string RESOURCE_BASE_PATH = "/Resources/Avatars/";
+        private const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
+        private static readonly string DEFAULT_AVATAR_PACK_URI = GetPackUri(DEFAULT_AVATAR_ID);
+
         private static readonly List<string> internalAvatars = new List<string>
         {
             "avatar_aaa_default", "avatar_c_hr_rallycarback",
@@ -60,25 +63,22 @@ namespace TrucoClient.Helpers.UI
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(avatarId))
-            {
-                avatarId = "avatar_aaa_default";
-            }
+            string idToLoad = string.IsNullOrWhiteSpace(avatarId) ? DEFAULT_AVATAR_ID : avatarId;
 
-            string relativePath = $"pack://application:,,,/TrucoClient;component/Resources/Avatars/{avatarId}.png";
+            string packUri = GetPackUri(idToLoad);
 
             try
             {
-                imageControl.Source = new BitmapImage(new Uri(relativePath, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(packUri, UriKind.Absolute));
             }
             catch (UriFormatException)
             {
-                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
         }
 
@@ -86,12 +86,17 @@ namespace TrucoClient.Helpers.UI
         {
             try
             {
-                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PATH, ex.Message));
+                MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI, ex.Message));
             }
+        }
+
+        private static string GetPackUri(string avatarId)
+        {
+            return $"pack://application:,,,/TrucoClient;component{RESOURCE_BASE_PATH}{avatarId}.png";
         }
     }
 }

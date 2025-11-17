@@ -11,20 +11,11 @@ namespace TrucoClient.TrucoServer
     {
         public static List<TrucoCard> BufferedHand { get; set; }
 
-        private GameBasePage GetActiveGamePage()
+        private static GameBasePage GetActiveGamePage()
         {
             if (Application.Current.MainWindow is InitialWindows main && main.MainFrame.Content is GameBasePage gamePage)
             {
                 return gamePage;
-            }
-            return null;
-        }
-
-        private LobbyPage GetActiveLobbyPage()
-        {
-            if (Application.Current.MainWindow is InitialWindows main && main.MainFrame.Content is LobbyPage lobbyPage)
-            {
-                return lobbyPage;
             }
             return null;
         }
@@ -170,7 +161,8 @@ namespace TrucoClient.TrucoServer
                 MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
-        public void MatchFound(string matchDetails)
+
+        public static void MatchFound(string matchDetails)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -208,12 +200,10 @@ namespace TrucoClient.TrucoServer
 
         public void NotifyCardPlayed(string playerName, string cardFileName, bool isLastCardOfRound)
         {
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    GetActiveGamePage()?.NotifyCardPlayed(playerName, cardFileName, isLastCardOfRound);
-                });
-            }
+                GetActiveGamePage()?.NotifyCardPlayed(playerName, cardFileName, isLastCardOfRound);
+            });
         }
 
         public void NotifyTurnChange(string nextPlayerName)

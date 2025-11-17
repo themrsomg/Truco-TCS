@@ -13,7 +13,6 @@ namespace TrucoClient.Views
     public partial class GameTwoPlayersPage : GameBasePage
     {
         private readonly List<PlayerInfo> players;
-        private List<TrucoCard> playerHand = new List<TrucoCard>();
         private Image[] cardImages;
         private const int CARDS_IN_HAND = 3;
 
