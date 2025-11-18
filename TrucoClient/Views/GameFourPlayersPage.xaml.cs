@@ -25,8 +25,6 @@ namespace TrucoClient.Views
         private const string RESPOND_FALTA_ENVIDO = "FaltaEnvido";
         private const int WIDTH_CARD = 100;
         private const int HEIGHT_CARD = 150;
-        private const int MARGIN_CARD = 10;
-        private const int SPACE_BETWEEN_CARDS = 20;
         private const double OPACITY_DIMMED = 0.5;
         private const double OPACITY_FULL = 1.0;
 

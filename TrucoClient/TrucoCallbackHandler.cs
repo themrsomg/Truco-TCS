@@ -9,6 +9,7 @@ namespace TrucoClient.TrucoServer
 {
     public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
     {
+        private const string MESSAGE_ERROR = "Error";
         public static List<TrucoCard> BufferedHand { get; set; }
 
         private static GameBasePage GetActiveGamePage()
@@ -92,7 +93,7 @@ namespace TrucoClient.TrucoServer
                     }
                     else
                     {
-                        MessageBox.Show(Lang.ExceptionTextErrorStartingMatch, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Lang.ExceptionTextErrorStartingMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
 
                 }
