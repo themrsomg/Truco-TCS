@@ -19,6 +19,7 @@ namespace TrucoClient.Views
         protected const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
         protected const string DEFAULT_CARD_BACK_PATH = "/Resources/back_card.png";
         private const string BET_NONE = "None";
+        private const int MESSAGE_FONT_SIZE = 13;
 
         protected string MatchCode;
         protected static string CurrentPlayer => SessionManager.CurrentUsername;
@@ -26,7 +27,7 @@ namespace TrucoClient.Views
         protected TextBox TxtChatMessage;
         protected Panel ChatMessagesPanel;
         protected TextBlock BlckPlaceholder;
-        protected string CurrentTrucoBetState = "None";
+        protected string CurrentTrucoBetState = BET_NONE;
 
         protected abstract TextBlock TbScoreTeam1 { get; }
         protected abstract TextBlock TbScoreTeam2 { get; }
@@ -334,12 +335,12 @@ namespace TrucoClient.Views
             Border messageBubble = new Border 
             { 
                 Padding = new Thickness(5), 
-                Margin = new Thickness(2) 
+                Margin = new Thickness(2)
             };
             TextBlock messageText = new TextBlock 
             { 
                 TextWrapping = TextWrapping.Wrap, 
-                FontSize = 13 
+                FontSize = MESSAGE_FONT_SIZE 
             };
 
             if (string.IsNullOrEmpty(senderName))
@@ -407,8 +408,6 @@ namespace TrucoClient.Views
             {
                 return new BitmapImage(new Uri(DEFAULT_CARD_BACK_PATH, UriKind.Relative));
             }
-        }
-
-        
+        }  
     }
 }

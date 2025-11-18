@@ -23,6 +23,13 @@ namespace TrucoClient.Views
         private const string RESPOND_ENVIDO = "Envido";
         private const string RESPOND_REAL_ENVIDO = "RealEnvido";
         private const string RESPOND_FALTA_ENVIDO = "FaltaEnvido";
+        private const int WIDTH_CARD = 100;
+        private const int HEIGHT_CARD = 150;
+        private const int MARGIN_CARD = 10;
+        private const int SPACE_BETWEEN_CARDS = 20;
+        private const double OPACITY_DIMMED = 0.5;
+        private const double OPACITY_FULL = 1.0;
+
         protected override TextBlock TbScoreTeam1 => tbScoreTeam1;
         protected override TextBlock TbScoreTeam2 => tbScoreTeam2;
         protected override StackPanel PanelPlayerCards => panelPlayerCards;
@@ -39,9 +46,11 @@ namespace TrucoClient.Views
                 imgPlayerCard2, 
                 imgPlayerCard3 
             };
+
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
             this.players = players ?? new List<PlayerInfo>();
             this.Loaded += GamePage_Loaded;
+
             foreach (var img in cardImages)
             {
                 img.MouseDown += PlayerCard_MouseDown;
@@ -78,6 +87,7 @@ namespace TrucoClient.Views
                 }
 
                 var self = players.FirstOrDefault(p => p.Username.Equals(CurrentPlayer, StringComparison.OrdinalIgnoreCase));
+
                 if (self == null)
                 {
                     MessageBox.Show(Lang.GameTextPlayerNotFound, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -138,8 +148,8 @@ namespace TrucoClient.Views
             Image cardImage = new Image
             {
                 Source = new BitmapImage(new Uri($"/Resources/Cards/{cardFileName}.png", UriKind.Relative)),
-                Width = 100,
-                Height = 150,
+                Width = WIDTH_CARD,
+                Height = HEIGHT_CARD,
                 Margin = new Thickness(10)
             };
 
@@ -152,19 +162,22 @@ namespace TrucoClient.Views
         {
             bool isMyTurn = nextPlayerName == CurrentPlayer;
             PanelPlayerCards.IsEnabled = isMyTurn;
-            imgPlayerAvatar.Opacity = 0.5;
-            imgLeftAvatar.Opacity = 0.5;
-            imgRightAvatar.Opacity = 0.5;
+            imgPlayerAvatar.Opacity = OPACITY_DIMMED;
+            imgLeftAvatar.Opacity = OPACITY_DIMMED;
+            imgRightAvatar.Opacity = OPACITY_DIMMED;
+
             if (isMyTurn)
             {
-                imgPlayerAvatar.Opacity = 1.0;
+                imgPlayerAvatar.Opacity = OPACITY_FULL;
             }
+
             if (isMyTurn)
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
                 btnRespondQuiero.Visibility = Visibility.Collapsed;
                 btnRespondNoQuiero.Visibility = Visibility.Collapsed;
                 btnCallTruco.Visibility = Visibility.Visible;
+
                 if (currentBetState == BET_STATUS)
                 {
                     btnCallTruco.Content = BET_TRUCO;

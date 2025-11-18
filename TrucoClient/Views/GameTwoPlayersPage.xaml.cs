@@ -24,6 +24,10 @@ namespace TrucoClient.Views
         private const string RESPOND_ENVIDO = "Envido";
         private const string RESPOND_REAL_ENVIDO = "RealEnvido";
         private const string RESPOND_FALTA_ENVIDO = "FaltaEnvido";
+        private const double OPACITY_ACTIVE = 1.0;
+        private const double OPACITY_INACTIVE = 0.5;
+        private const int WIDTH_CARD = 100;
+        private const int HEIGHT_CARD = 150;
 
         protected override TextBlock TbScoreTeam1 => tbScoreTeam1;
         protected override TextBlock TbScoreTeam2 => tbScoreTeam2;
@@ -35,15 +39,18 @@ namespace TrucoClient.Views
         public GameTwoPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
+            
             cardImages = new[] 
             { 
                 imgPlayerCard1, 
                 imgPlayerCard2, 
                 imgPlayerCard3 
             };
+            
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
             this.players = players;
             this.Loaded += GamePage_Loaded;
+            
             foreach (var img in cardImages)
             {
                 img.MouseDown += PlayerCard_MouseDown;
@@ -53,6 +60,7 @@ namespace TrucoClient.Views
                 string betToSend = (s as Button).Content.ToString();
                 SendCallTrucoCommand(betToSend);
             };
+
             btnRespondQuiero.Click += (s, e) => SendResponseCommand(RESPOND_QUIERO);
             btnRespondNoQuiero.Click += (s, e) => SendResponseCommand(RESPOND_NO_QUIERO); 
             PanelPlayerCards.IsEnabled = false;
@@ -94,6 +102,7 @@ namespace TrucoClient.Views
         {
             for (int i = 0; i < CARDS_IN_HAND; i++)
             {
+
                 if (i < hand.Count)
                 {
                     cardImages[i].Source = LoadCardImage(hand[i].FileName);
@@ -112,8 +121,8 @@ namespace TrucoClient.Views
             Image cardImage = new Image
             {
                 Source = new BitmapImage(new Uri($"/Resources/Cards/{cardFileName}.png", UriKind.Relative)),
-                Width = 100,
-                Height = 150,
+                Width = WIDTH_CARD,
+                Height = HEIGHT_CARD,
                 Margin = new Thickness(10)
             };
 
@@ -134,8 +143,8 @@ namespace TrucoClient.Views
             bool isMyTurn = nextPlayerName == CurrentPlayer;
             PanelPlayerCards.IsEnabled = isMyTurn;
 
-            imgPlayerAvatar.Opacity = isMyTurn ? 1.0 : 0.5;
-            imgRivalAvatar.Opacity = isMyTurn ? 0.5 : 1.0;
+            imgPlayerAvatar.Opacity = isMyTurn ? OPACITY_ACTIVE : OPACITY_INACTIVE;
+            imgRivalAvatar.Opacity = isMyTurn ? OPACITY_INACTIVE : OPACITY_ACTIVE;
 
             if (isMyTurn)
             {
@@ -143,6 +152,7 @@ namespace TrucoClient.Views
                 btnRespondQuiero.Visibility = Visibility.Collapsed;
                 btnRespondNoQuiero.Visibility = Visibility.Collapsed;
                 btnCallTruco.Visibility = Visibility.Visible;
+
                 if (currentBetState == BET_STATUS)
                 {
                     btnCallTruco.Content = BET_TRUCO;

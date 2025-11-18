@@ -131,6 +131,7 @@ namespace TrucoClient.TrucoServer
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var gamePage = GetActiveGamePage();
+
                 if (gamePage != null)
                 {
                     MessageBox.Show($"El ganador ha sido: {winner}", "Partida Terminada", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -245,7 +246,5 @@ namespace TrucoClient.TrucoServer
                 GetActiveGamePage()?.NotifyRoundEnd(winnerName, team1Score, team2Score);
             });
         }
-
-        
     }
 }
