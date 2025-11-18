@@ -15,6 +15,15 @@ namespace TrucoClient.Views
         private readonly List<PlayerInfo> players;
         private Image[] cardImages;
         private const int CARDS_IN_HAND = 3;
+        private const string BET_STATUS = "None";
+        private const string BET_TRUCO = "Truco";
+        private const string BET_RETRUCO = "Retruco";
+        private const string BET_VALE_CUATRO = "ValeCuatro";
+        private const string RESPOND_QUIERO = "Quiero";
+        private const string RESPOND_NO_QUIERO = "NoQuiero";
+        private const string RESPOND_ENVIDO = "Envido";
+        private const string RESPOND_REAL_ENVIDO = "RealEnvido";
+        private const string RESPOND_FALTA_ENVIDO = "FaltaEnvido";
 
         protected override TextBlock TbScoreTeam1 => tbScoreTeam1;
         protected override TextBlock TbScoreTeam2 => tbScoreTeam2;
@@ -44,15 +53,15 @@ namespace TrucoClient.Views
                 string betToSend = (s as Button).Content.ToString();
                 SendCallTrucoCommand(betToSend);
             };
-            btnRespondQuiero.Click += (s, e) => SendResponseCommand("Quiero");
-            btnRespondNoQuiero.Click += (s, e) => SendResponseCommand("NoQuiero"); 
+            btnRespondQuiero.Click += (s, e) => SendResponseCommand(RESPOND_QUIERO);
+            btnRespondNoQuiero.Click += (s, e) => SendResponseCommand(RESPOND_NO_QUIERO); 
             PanelPlayerCards.IsEnabled = false;
 
-            btnCallEnvido.Click += (s, e) => SendCallEnvidoCommand("Envido");
-            btnCallRealEnvido.Click += (s, e) => SendCallEnvidoCommand("RealEnvido");
-            btnCallFaltaEnvido.Click += (s, e) => SendCallEnvidoCommand("FaltaEnvido");
-            btnEnvidoRespondQuiero.Click += (s, e) => SendRespondToEnvidoCommand("Quiero");
-            btnEnvidoRespondNoQuiero.Click += (s, e) => SendRespondToEnvidoCommand("NoQuiero");
+            btnCallEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_ENVIDO);
+            btnCallRealEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_REAL_ENVIDO);
+            btnCallFaltaEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_FALTA_ENVIDO);
+            btnEnvidoRespondQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_QUIERO);
+            btnEnvidoRespondNoQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
         }
 
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
@@ -134,17 +143,17 @@ namespace TrucoClient.Views
                 btnRespondQuiero.Visibility = Visibility.Collapsed;
                 btnRespondNoQuiero.Visibility = Visibility.Collapsed;
                 btnCallTruco.Visibility = Visibility.Visible;
-                if (currentBetState == "None")
+                if (currentBetState == BET_STATUS)
                 {
-                    btnCallTruco.Content = "Truco";
+                    btnCallTruco.Content = BET_TRUCO;
                 }
-                else if (currentBetState == "Truco")
+                else if (currentBetState == BET_TRUCO)
                 {
-                    btnCallTruco.Content = "Retruco";
+                    btnCallTruco.Content = BET_RETRUCO;
                 }
-                else if (currentBetState == "Retruco")
+                else if (currentBetState == BET_RETRUCO)
                 {
-                    btnCallTruco.Content = "ValeCuatro";
+                    btnCallTruco.Content = BET_VALE_CUATRO;
                 }
                 else
                 {

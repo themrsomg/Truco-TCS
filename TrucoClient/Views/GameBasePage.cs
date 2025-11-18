@@ -18,6 +18,7 @@ namespace TrucoClient.Views
         protected const string MESSAGE_ERROR = "Error";
         protected const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
         protected const string DEFAULT_CARD_BACK_PATH = "/Resources/back_card.png";
+        private const string BET_NONE = "None";
 
         protected string MatchCode;
         protected static string CurrentPlayer => SessionManager.CurrentUsername;
@@ -141,7 +142,7 @@ namespace TrucoClient.Views
         {
             Dispatcher.Invoke(() =>
             {
-                this.CurrentTrucoBetState = "None";
+                this.CurrentTrucoBetState = BET_NONE;
                 UpdatePlayerHandUI(hand);
             });
         }

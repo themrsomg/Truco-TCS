@@ -103,7 +103,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.ReceiveChatMessage(string.Empty, string.Format("Modificar ESTO", player, card));
+                GetActiveGamePage()?.ReceiveChatMessage(string.Empty, string.Format("No hay cartas encontradas", player, card));
             });
         }
 
