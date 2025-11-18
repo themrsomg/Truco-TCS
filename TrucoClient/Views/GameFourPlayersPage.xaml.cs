@@ -25,7 +25,12 @@ namespace TrucoClient.Views
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
-            cardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
+            cardImages = new[] 
+            { 
+                imgPlayerCard1, 
+                imgPlayerCard2, 
+                imgPlayerCard3 
+            };
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
             this.players = players ?? new List<PlayerInfo>();
             this.Loaded += GamePage_Loaded;

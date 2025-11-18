@@ -36,13 +36,18 @@ namespace TrucoClient.Views
         protected abstract void UpdateEnvidoBetPanelUI(string callerName, string currentBet, int totalPoints, bool needsResponse);
         protected abstract void HideEnvidoBetPanelUI();
         protected abstract void NotifyEnvidoResultUI(string winnerName, int score, int totalPointsAwarded);
+        protected abstract void LoadPlayerAvatars(List<PlayerInfo> players);
+        protected abstract void UpdatePlayerHandUI(List<TrucoCard> hand);
+        protected abstract void UpdatePlayedCardUI(string playerName, string cardFileName, bool isLastCardOfRound);
+        protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState); protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
+        protected abstract void HideBetPanelUI();
+        protected abstract void ClearTableUI();
 
         protected ITrucoMatchService MatchClient { get; private set; }
 
         protected GameBasePage()
         {
             this.Unloaded += GameBasePage_Unloaded;
-            // ClientManager.SetCallbackHandler(this);
         }
 
         protected void InitializeBase(string matchCode, TextBox txtChatMessage, Panel chatMessagesPanel, TextBlock blckPlaceholder)
@@ -84,7 +89,6 @@ namespace TrucoClient.Views
             try
             {
                 MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername);
-                // ClientManager.SetCallbackHandler(null);
             }
             catch (Exception)
             {
@@ -404,11 +408,6 @@ namespace TrucoClient.Views
             }
         }
 
-        protected abstract void LoadPlayerAvatars(List<PlayerInfo> players);
-        protected abstract void UpdatePlayerHandUI(List<TrucoCard> hand);
-        protected abstract void UpdatePlayedCardUI(string playerName, string cardFileName, bool isLastCardOfRound);
-        protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState); protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
-        protected abstract void HideBetPanelUI();
-        protected abstract void ClearTableUI();
+        
     }
 }

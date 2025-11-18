@@ -26,7 +26,12 @@ namespace TrucoClient.Views
         public GameTwoPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
-            cardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
+            cardImages = new[] 
+            { 
+                imgPlayerCard1, 
+                imgPlayerCard2, 
+                imgPlayerCard3 
+            };
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
             this.players = players;
             this.Loaded += GamePage_Loaded;
@@ -92,26 +97,6 @@ namespace TrucoClient.Views
                 }
             }
         }
-        protected void AddCardToTableUI(string playerName, string cardFileName)
-        {
-            Image cardImage = new Image
-            {
-                Source = LoadCardImage(cardFileName), 
-                Width = 100,
-                Height = 150,
-                Margin = new Thickness(5)
-            };
-
-            if (playerName == CurrentPlayer)
-            {
-                cardImage.VerticalAlignment = VerticalAlignment.Bottom;
-            }
-            else
-            {
-                cardImage.VerticalAlignment = VerticalAlignment.Top;
-            }
-            PanelTableCards.Children.Add(cardImage);
-        }
 
         protected override void UpdatePlayedCardUI(string playerName, string cardFileName, bool isLastCardOfRound)
         {
@@ -134,6 +119,7 @@ namespace TrucoClient.Views
             PanelTableCards.Children.Add(cardImage);
         }
 
+        // TODO: Realizar correcciones referentes al llamado de apuestas
         protected override void UpdateTurnUI(string nextPlayerName, string currentBetState)
         {
             bool isMyTurn = nextPlayerName == CurrentPlayer;
