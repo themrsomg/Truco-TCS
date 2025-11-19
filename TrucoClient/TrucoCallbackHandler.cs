@@ -250,5 +250,13 @@ namespace TrucoClient.TrucoServer
                 GetActiveGamePage()?.NotifyRoundEnd(winnerName, team1Score, team2Score);
             });
         }
+
+        public void NotifyFlorCall(string callerName, string betName, int currentPoints, bool needsResponse)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyFlorCall(callerName, betName, currentPoints, needsResponse);
+            });
+        }
     }
 }

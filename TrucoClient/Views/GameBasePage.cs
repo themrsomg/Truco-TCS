@@ -28,7 +28,7 @@ namespace TrucoClient.Views
         protected Panel ChatMessagesPanel;
         protected TextBlock BlckPlaceholder;
         protected string CurrentTrucoBetState = BET_NONE;
-
+        
         protected abstract TextBlock TbScoreTeam1 { get; }
         protected abstract TextBlock TbScoreTeam2 { get; }
         protected abstract StackPanel PanelPlayerCards { get; }
@@ -44,7 +44,8 @@ namespace TrucoClient.Views
         protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState); protected abstract void UpdateBetPanelUI(string callerName, string currentBet, bool needsResponse);
         protected abstract void HideBetPanelUI();
         protected abstract void ClearTableUI();
-
+        protected abstract void UpdateFlorBetPanelUI(string callerName, string currentBet, int totalPoints, bool needsResponse);
+        protected abstract void HideFlorBetPanelUI();
         protected ITrucoMatchService MatchClient { get; private set; }
 
         protected GameBasePage()
@@ -221,6 +222,30 @@ namespace TrucoClient.Views
             }
         }
 
+        protected void SendCallFlorCommand(string betType)
+        {
+            try
+            {
+                MatchClient.CallFlor(MatchCode, betType);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void NotifyFlorCall(string callerName, string betName, int totalPoints, bool needsResponse)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                HideBetPanelUI();
+                HideEnvidoBetPanelUI();
+
+                UpdateFlorBetPanelUI(callerName, betName, totalPoints, needsResponse);
+                AddChatMessage(null, $"{callerName} cantó {betName} ({totalPoints} puntos en juego)");
+            });
+        }
+
         protected void SendRespondToEnvidoCommand(string response)
         {
             try
@@ -262,6 +287,15 @@ namespace TrucoClient.Views
                 HideEnvidoBetPanelUI();
                 AddChatMessage(null, $"{responderName} dijo: {response}");
             });
+        }
+
+        protected void SendRespondToFlorCommand(string response)
+        {
+            try
+            {
+                MatchClient.RespondToEnvido(MatchCode, response);
+            }
+            catch (Exception ex) { /* ... */ }
         }
 
         protected void ClickSendMessage(object sender, RoutedEventArgs e)

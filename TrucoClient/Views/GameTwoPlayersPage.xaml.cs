@@ -14,20 +14,29 @@ namespace TrucoClient.Views
     {
         private readonly List<PlayerInfo> players;
         private Image[] cardImages;
+        private List<TrucoCard> playerHand = new List<TrucoCard>();
+
         private const int CARDS_IN_HAND = 3;
-        private const string BET_STATUS = "None";
+        private const int WIDTH_CARD = 100;
+        private const int HEIGHT_CARD = 150;
+        private const double OPACITY_ACTIVE = 1.0;
+        private const double OPACITY_INACTIVE = 0.5;
+
+        private const string BET_STATUS_NONE = "None";
         private const string BET_TRUCO = "Truco";
         private const string BET_RETRUCO = "Retruco";
         private const string BET_VALE_CUATRO = "ValeCuatro";
+
         private const string RESPOND_QUIERO = "Quiero";
         private const string RESPOND_NO_QUIERO = "NoQuiero";
-        private const string RESPOND_ENVIDO = "Envido";
-        private const string RESPOND_REAL_ENVIDO = "RealEnvido";
-        private const string RESPOND_FALTA_ENVIDO = "FaltaEnvido";
-        private const double OPACITY_ACTIVE = 1.0;
-        private const double OPACITY_INACTIVE = 0.5;
-        private const int WIDTH_CARD = 100;
-        private const int HEIGHT_CARD = 150;
+
+        private const string BET_ENVIDO = "Envido";
+        private const string BET_REAL_ENVIDO = "RealEnvido";
+        private const string BET_FALTA_ENVIDO = "FaltaEnvido";
+
+        private const string BET_FLOR = "Flor";
+        private const string BET_CONTRA_FLOR = "ContraFlor";
+        private const string BET_CONTRA_FLOR_AL_RESTO = "ContraFlorAlResto";
 
         protected override TextBlock TbScoreTeam1 => tbScoreTeam1;
         protected override TextBlock TbScoreTeam2 => tbScoreTeam2;
@@ -65,12 +74,21 @@ namespace TrucoClient.Views
             btnRespondNoQuiero.Click += (s, e) => SendResponseCommand(RESPOND_NO_QUIERO); 
             PanelPlayerCards.IsEnabled = false;
 
-            btnCallEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_ENVIDO);
-            btnCallRealEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_REAL_ENVIDO);
-            btnCallFaltaEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_FALTA_ENVIDO);
+            btnCallEnvido.Click += (s, e) => SendCallEnvidoCommand(BET_ENVIDO);
+            btnCallRealEnvido.Click += (s, e) => SendCallEnvidoCommand(BET_REAL_ENVIDO);
+            btnCallFaltaEnvido.Click += (s, e) => SendCallEnvidoCommand(BET_FALTA_ENVIDO);
             btnEnvidoRespondQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_QUIERO);
             btnEnvidoRespondNoQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
+
             btnGoToDeck.Click += (s, e) => SendGoToDeckCommand();
+
+            btnStartFlor.Click += (s, e) => SendCallFlorCommand(BET_FLOR);
+            btnCallFlor.Click += (s, e) => SendCallFlorCommand(BET_FLOR); 
+            btnCallContraFlor.Click += (s, e) => SendCallFlorCommand(BET_CONTRA_FLOR);
+            btnCallContraFlorAlResto.Click += (s, e) => SendCallFlorCommand(BET_CONTRA_FLOR_AL_RESTO);
+
+            btnFlorRespondQuiero.Click += (s, e) => SendRespondToFlorCommand(RESPOND_QUIERO);
+            btnFlorRespondNoQuiero.Click += (s, e) => SendRespondToFlorCommand(RESPOND_NO_QUIERO);
         }
 
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
@@ -102,6 +120,7 @@ namespace TrucoClient.Views
 
         protected override void UpdatePlayerHandUI(List<TrucoCard> hand)
         {
+            this.playerHand = hand;
             for (int i = 0; i < CARDS_IN_HAND; i++)
             {
 
@@ -122,7 +141,7 @@ namespace TrucoClient.Views
         {
             Image cardImage = new Image
             {
-                Source = new BitmapImage(new Uri($"/Resources/Cards/{cardFileName}.png", UriKind.Relative)),
+                Source = LoadCardImage(cardFileName),
                 Width = WIDTH_CARD,
                 Height = HEIGHT_CARD,
                 Margin = new Thickness(10)
@@ -153,10 +172,20 @@ namespace TrucoClient.Views
                 PanelBetOptions.Visibility = Visibility.Visible;
                 btnRespondQuiero.Visibility = Visibility.Collapsed;
                 btnRespondNoQuiero.Visibility = Visibility.Collapsed;
+
                 btnCallTruco.Visibility = Visibility.Visible;
                 btnGoToDeck.Visibility = Visibility.Visible;
 
-                if (currentBetState == BET_STATUS)
+                if (currentBetState == BET_STATUS_NONE && ClientHasFlor())
+                {
+                    btnStartFlor.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    btnStartFlor.Visibility = Visibility.Collapsed;
+                }
+
+                if (currentBetState == BET_STATUS_NONE)
                 {
                     btnCallTruco.Content = BET_TRUCO;
                 }
@@ -186,6 +215,7 @@ namespace TrucoClient.Views
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
                 btnCallTruco.Visibility = Visibility.Collapsed;
+                btnStartFlor.Visibility = Visibility.Collapsed;
                 btnRespondQuiero.Visibility = Visibility.Visible;
                 btnRespondNoQuiero.Visibility = Visibility.Visible;
             }
@@ -257,6 +287,35 @@ namespace TrucoClient.Views
         private void ClickAlMazo(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        protected override void UpdateFlorBetPanelUI(string callerName, string currentBet, int totalPoints, bool needsResponse)
+        {
+            panelFlorOptions.Visibility = Visibility.Visible;
+            tbFlorCaller.Text = $"{callerName} cantó {currentBet} ({totalPoints} puntos)";
+            bool isMyTurnToRespond = needsResponse && (callerName != CurrentPlayer);
+            btnFlorRespondQuiero.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+            btnFlorRespondNoQuiero.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+            btnCallFlor.Visibility = Visibility.Collapsed; 
+            btnCallContraFlor.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+            btnCallContraFlorAlResto.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        protected override void HideFlorBetPanelUI()
+        {
+            panelFlorOptions.Visibility = Visibility.Collapsed;
+        }
+
+        private bool ClientHasFlor()
+        {
+            if (playerHand == null || playerHand.Count < 3)
+            {
+                return false;
+            }
+
+            var groups = playerHand.GroupBy(card => card.CardSuit);
+            
+            return groups.Any(g => g.Count() >= 3);
         }
     }
 }

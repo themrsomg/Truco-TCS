@@ -82,6 +82,7 @@
                 <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5" Click="ClickRespondNoQuiero"/>
                 <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Click="ClickAlMazo" Margin="5" Padding="10,5" Background="#FF555555" 
                         Foreground="White" Visibility="Collapsed"/>
+                <Button x:Name="btnStartFlor" Content="Flor" Margin="5" Padding="10,5" Background="#FFFFD700" Visibility="Collapsed"/>
             </StackPanel>
         </Grid>
 
@@ -93,6 +94,19 @@
             <Button x:Name="btnCallFaltaEnvido" Content="Falta Envido" Margin="5" Padding="10,5"/>
             <Button x:Name="btnEnvidoRespondQuiero" Content="Quiero" Margin="5" Padding="10,5" Background="#FF03D400"/>
             <Button x:Name="btnEnvidoRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5" Background="#FFBF3333"/>
+
+            <StackPanel x:Name="panelFlorOptions" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+            Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="0,0,0,50">
+
+                <TextBlock x:Name="tbFlorCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
+
+                <Button x:Name="btnCallFlor" Content="Flor" Margin="5" Padding="10,5"/>
+                <Button x:Name="btnCallContraFlor" Content="Contra Flor" Margin="5" Padding="10,5"/>
+                <Button x:Name="btnCallContraFlorAlResto" Content="Contra Flor al Resto" Margin="5" Padding="10,5"/>
+
+                <Button x:Name="btnFlorRespondQuiero" Content="Quiero" Margin="5" Padding="10,5" Background="#FF03D400"/>
+                <Button x:Name="btnFlorRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5" Background="#FFBF3333"/>
+            </StackPanel>
         </StackPanel>
 
         <Grid Grid.Row="2" Margin="10,10,10,20">
