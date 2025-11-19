@@ -70,11 +70,13 @@ namespace TrucoClient.Views
                 }
                 catch (AnimationException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextSplashAnimationError, ex.Message), Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextSplashAnimationError, ex.Message), 
+                        Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextSplashPageError, ex.Message));
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextSplashAnimationError, ex.Message), 
+                        Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             };
 

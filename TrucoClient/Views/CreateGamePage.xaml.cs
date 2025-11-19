@@ -43,7 +43,8 @@ namespace TrucoClient.Views
                 {
                     if (string.IsNullOrEmpty(code))
                     {
-                        MessageBox.Show(Lang.WarningTextNoGameCreated, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show(Lang.WarningTextNoGameCreated, MESSAGE_ERROR, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                         if (button != null)
                         {
                             button.IsEnabled = true;
@@ -62,20 +63,24 @@ namespace TrucoClient.Views
             {
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    MessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
             catch (FormatException)
             {
-                MessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (System.ServiceModel.CommunicationException)
             {
-                MessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

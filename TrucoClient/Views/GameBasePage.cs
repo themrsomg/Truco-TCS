@@ -82,7 +82,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextUnableConnectChat, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -111,7 +112,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -123,7 +125,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -135,7 +138,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -197,7 +201,9 @@ namespace TrucoClient.Views
         {
             Dispatcher.Invoke(() =>
             {
-                MessageBox.Show($"¡Partida Terminada! Ganador: {winner}", "Fin del Juego", MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner), 
+                    Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+
                 this.NavigationService.Navigate(new MainPage());
             });
         }
@@ -210,7 +216,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -222,7 +229,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -273,7 +281,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -299,15 +308,18 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
 
         protected void ClickBack(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show(Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            bool? result = CustomMessageBox.Show(Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation, 
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == true)
             {
                 try
                 {
@@ -316,7 +328,8 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

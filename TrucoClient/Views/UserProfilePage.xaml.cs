@@ -165,7 +165,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -194,11 +194,13 @@ namespace TrucoClient.Views
                     currentUserData.AvatarId = newAvatarId;
 
                     AvatarHelper.LoadAvatarImage(imgAvatar, newAvatarId);
-                    MessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show(Lang.UserProfileTextAvatarError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.UserProfileTextAvatarError, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
@@ -270,7 +272,8 @@ namespace TrucoClient.Views
                 var userClient = ClientManager.UserClient;
                 UpdateCurrentUserData(newUsername, newFacebook, newX, newInstagram);
 
-                if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal) && await UsernameExistsAsync(newUsername, userClient))
+                if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal) 
+                    && await UsernameExistsAsync(newUsername, userClient))
                 {
                     currentUserData.Username = oldUsername;
                     txtUsername.Text = oldUsername;
@@ -325,14 +328,18 @@ namespace TrucoClient.Views
                 if (!UsernameValidator.ValidateLength(newUsername, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
                 {
                     string message = newUsername.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername;
+
                     ErrorDisplayService.ShowError(txtUsername, blckUsernameError, message);
+
                     isValid = false;
                 }
 
                 if (currentUserData.NameChangeCount >= MAX_CHANGES)
                 {
                     ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.UserProfileTextChangesError);
+
                     txtUsername.Text = originalUsername;
+
                     isValid = false;
                 }
             }
@@ -412,7 +419,8 @@ namespace TrucoClient.Views
 
             if (!changed)
             {
-                MessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges, MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges, 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
             return changed;
@@ -420,13 +428,10 @@ namespace TrucoClient.Views
 
         private static bool ConfirmSaveChanges()
         {
-            MessageBoxResult confirm = MessageBox.Show(
-                Lang.UserProfileTextConfirmChanges,
-                Lang.GlobalTextConfirmation,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            bool? confirm = CustomMessageBox.Show(Lang.UserProfileTextConfirmChanges, 
+                Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            return confirm == MessageBoxResult.Yes;
+            return confirm == true;
         }
 
         private void UpdateCurrentUserData(string newUsername, string fb, string x, string ig)
@@ -465,7 +470,8 @@ namespace TrucoClient.Views
             SessionManager.CurrentUsername = currentUserData.Username;
             originalUsername = currentUserData.Username;
 
-            MessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+            CustomMessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void HandleFailedSave(string oldUsername, int oldChangeCount, string oldFacebook, string oldX, string oldInstagram)
@@ -478,7 +484,8 @@ namespace TrucoClient.Views
 
             txtUsername.Text = oldUsername;
 
-            MessageBox.Show(Lang.UserProfileTextErrorSaving, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show(Lang.UserProfileTextErrorSaving, MESSAGE_ERROR, 
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void UpdateUsernameWarning(int count)
@@ -514,12 +521,14 @@ namespace TrucoClient.Views
 
         private static void ShowConnectionError(string message)
         {
-            MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, message), 
+                Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private static void ShowGeneralError(string message)
         {
-            MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, message), 
+                MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

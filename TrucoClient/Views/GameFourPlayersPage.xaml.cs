@@ -88,7 +88,7 @@ namespace TrucoClient.Views
 
                 if (self == null)
                 {
-                    MessageBox.Show(Lang.GameTextPlayerNotFound, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.GameTextPlayerNotFound, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -119,7 +119,7 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message),
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message),
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

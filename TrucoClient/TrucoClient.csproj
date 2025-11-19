@@ -104,6 +104,9 @@
     <Compile Include="Views\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CustomMessageBox.xaml.cs">
+      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ForgotPasswordStepOnePage.xaml.cs">
       <DependentUpon>ForgotPasswordStepOnePage.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreateGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CustomMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -436,6 +443,11 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Alerts\alert_template.png" />
+    <Resource Include="Resources\Alerts\alert_error.png" />
+    <Resource Include="Resources\Alerts\alert_information.png" />
+    <Resource Include="Resources\Alerts\alert_question.png" />
+    <Resource Include="Resources\Alerts\alert_warning.png" />
     <Content Include="Resources\Songs\laughter_reaction.mp3" />
     <Content Include="Resources\Songs\music_in_start.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

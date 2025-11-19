@@ -14,6 +14,7 @@ namespace TrucoClient.Views
 {
     public partial class LastMatchPage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         public LastMatchPage()
         {
             InitializeComponent();
@@ -27,8 +28,11 @@ namespace TrucoClient.Views
 
             if (string.IsNullOrEmpty(username))
             {
-                MessageBox.Show(Lang.GlobalTextSessionError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.GlobalTextSessionError, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+
                 this.NavigationService.Navigate(new LogInPage());
+
                 return;
             }
 
@@ -50,16 +54,19 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.DialogTextNoMatches, Lang.GlobalTextInformation, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.DialogTextNoMatches, Lang.GlobalTextInformation, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

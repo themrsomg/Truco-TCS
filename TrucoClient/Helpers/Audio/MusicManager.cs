@@ -3,12 +3,15 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Views;
 
 namespace TrucoClient.Helpers.Audio
 {
     public static class MusicManager
     {
         private const double VOLUME_EPSILON = 0.000001;
+        private const string MESSAGE_ERROR = "Error";
+        private const string MENU_MUSIC_FILE_NAME = "music_in_menus.mp3";
 
         private static MediaPlayer player = new MediaPlayer();
         private static string currentTrack = string.Empty;
@@ -53,7 +56,9 @@ namespace TrucoClient.Helpers.Audio
 
                 if (!File.Exists(fullPath))
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextFileNotFound, fullPath));
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextFileNotFound, fullPath), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
                     return;
                 }
 
@@ -74,23 +79,26 @@ namespace TrucoClient.Helpers.Audio
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private static void OnMediaFailed(object sender, ExceptionEventArgs e)
         {
-            MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, e.ErrorException?.Message));
+            CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, e.ErrorException?.Message), 
+                MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public static bool IsMenuMusicPlaying()
         {
             return player.Source != null &&
-                   player.Source.AbsolutePath.EndsWith("music_in_menus.mp3", StringComparison.OrdinalIgnoreCase);
+                   player.Source.AbsolutePath.EndsWith(MENU_MUSIC_FILE_NAME, StringComparison.OrdinalIgnoreCase);
         }
 
         public static void Stop()
@@ -103,11 +111,13 @@ namespace TrucoClient.Helpers.Audio
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -132,7 +142,11 @@ namespace TrucoClient.Helpers.Audio
     public static class MusicInitializer
     {
         private const string MENU_MUSIC_FILE_NAME = "music_in_menus.mp3";
+        private const string START_MUSIC_FILE_NAME = "music_in_start.mp3";
         private const double DEFAULT_VOLUME = 0.3;
+        private const string MESSAGE_ERROR = "Error";
+        private const string RESOURCES_NAME = "Resources";
+        private const string SONGS_NAME = "Songs";
 
         public static void InitializeMenuMusic()
         {
@@ -141,7 +155,7 @@ namespace TrucoClient.Helpers.Audio
                 return;
             }
 
-            string trackPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", MENU_MUSIC_FILE_NAME);
+            string trackPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, RESOURCES_NAME, SONGS_NAME, MENU_MUSIC_FILE_NAME);
 
             MusicManager.Play(trackPath);
             MusicManager.Volume = DEFAULT_VOLUME;
@@ -154,7 +168,8 @@ namespace TrucoClient.Helpers.Audio
 
         public static MediaPlayer InitializeSplashMusic()
         {
-            string splashPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Songs", "music_in_start.mp3");
+            string splashPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, RESOURCES_NAME, SONGS_NAME, START_MUSIC_FILE_NAME);
+
             var splashPlayer = new MediaPlayer();
 
             try
@@ -165,11 +180,13 @@ namespace TrucoClient.Helpers.Audio
             }
             catch (UriFormatException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return splashPlayer;

@@ -1314,6 +1314,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Game Over! Winner: {0}.
+        /// </summary>
+        public static string GameTextMatchEnded {
+            get {
+                return ResourceManager.GetString("GameTextMatchEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a End of the Game.
+        /// </summary>
+        public static string GameTextMatchEndedTitle {
+            get {
+                return ResourceManager.GetString("GameTextMatchEndedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Only the match owner can start the game..
         /// </summary>
         public static string GameTextNotOwnerStartGame {
@@ -1809,6 +1827,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No.
+        /// </summary>
+        public static string GlobalTextNo {
+            get {
+                return ResourceManager.GetString("GlobalTextNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No thanks, continue as a guest.
         /// </summary>
         public static string GlobalTextNoThanks {
@@ -2147,6 +2174,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GlobalTextWriteHere {
             get {
                 return ResourceManager.GetString("GlobalTextWriteHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Yes.
+        /// </summary>
+        public static string GlobalTextYes {
+            get {
+                return ResourceManager.GetString("GlobalTextYes", resourceCulture);
             }
         }
         

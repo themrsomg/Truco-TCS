@@ -58,16 +58,20 @@ namespace TrucoClient.Views
                 SessionManager.CurrentUsername = username;
                 SessionManager.CurrentUserData = await userClient.GetUserProfileAsync(username);
 
-                MessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome, MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome, 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
                 this.NavigationService.Navigate(new MainPage());
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoggingIn, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoggingIn, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

@@ -93,7 +93,8 @@ namespace TrucoClient.TrucoServer
                     }
                     else
                     {
-                        MessageBox.Show(Lang.ExceptionTextErrorStartingMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show(Lang.ExceptionTextErrorStartingMatch, MESSAGE_ERROR, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
 
                 }
@@ -135,7 +136,9 @@ namespace TrucoClient.TrucoServer
 
                 if (gamePage != null)
                 {
-                    MessageBox.Show($"El ganador ha sido: {winner}", "Partida Terminada", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
+                        Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+
                     (Application.Current.MainWindow as InitialWindows)?.MainFrame.Navigate(new MainPage());
                 }
                 else
@@ -150,8 +153,8 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser), Lang.NotificactionDialogTextFriendRequestTitle, 
-                MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser), 
+                    Lang.NotificactionDialogTextFriendRequestTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
@@ -159,8 +162,8 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendAccepted, fromUser), Lang.NotificactionDialogTextFriendAcceptedTitle, 
-                MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendAccepted, fromUser),
+                    Lang.NotificactionDialogTextFriendAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
@@ -169,7 +172,7 @@ namespace TrucoClient.TrucoServer
             Application.Current.Dispatcher.Invoke(() =>
             {
                 MessageBox.Show(string.Format("Juego encontrado", matchDetails), "Uniendote a la partida...",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 

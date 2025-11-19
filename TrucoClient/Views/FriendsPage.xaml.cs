@@ -18,6 +18,7 @@ namespace TrucoClient.Views
     public class FriendDisplayData
     {
         private const String URL_AVATAR_DEFAULT = "/Resources/Avatars/avatar_aaa_default.png";
+        private const string MESSAGE_ERROR = "Error";
 
         public string Username { get; set; }
         public string AvatarId { get; set; }
@@ -36,11 +37,16 @@ namespace TrucoClient.Views
                 }
                 catch (UriFormatException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message));
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
                     return URL_AVATAR_DEFAULT;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
                     return URL_AVATAR_DEFAULT;
                 }
             }
@@ -103,11 +109,13 @@ namespace TrucoClient.Views
                 }
                 catch (EndpointNotFoundException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                        Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -130,21 +138,23 @@ namespace TrucoClient.Views
 
                 if (success)
                 {
-                    MessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), Lang.GlobalTextSuccess, 
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), 
+                        Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show(Lang.FriendsTextRequestError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.FriendsTextRequestError, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
@@ -204,22 +214,25 @@ namespace TrucoClient.Views
 
                     if (success)
                     {
-                        MessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername), Lang.FriendsTextRequestAcceptedTitle, 
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                        CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername), 
+                            Lang.FriendsTextRequestAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
-                        MessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (EndpointNotFoundException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                        Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show($"{ex.Message}", MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -243,21 +256,25 @@ namespace TrucoClient.Views
 
                     if (success)
                     {
-                        MessageBox.Show(string.Format(Lang.FriendsTextRequestRejected, targetUsername), Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                        CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestRejected, targetUsername), 
+                            Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
-                        MessageBox.Show(Lang.FriendsTextRequestRejectedError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show(Lang.FriendsTextRequestRejectedError, MESSAGE_ERROR, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (EndpointNotFoundException ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                        Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show($"{ex.Message}", MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

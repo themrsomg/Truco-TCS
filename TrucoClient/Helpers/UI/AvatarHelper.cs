@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Views;
 
 namespace TrucoClient.Helpers.UI
 {
@@ -12,6 +13,7 @@ namespace TrucoClient.Helpers.UI
     {
         private const string RESOURCE_BASE_PATH = "/Resources/Avatars/";
         private const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
+        private const string MESSAGE_ERROR = "Error";   
         private static readonly string DEFAULT_AVATAR_PACK_URI = GetPackUri(DEFAULT_AVATAR_ID);
 
         private static readonly List<string> internalAvatars = new List<string>
@@ -77,7 +79,8 @@ namespace TrucoClient.Helpers.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
         }
@@ -90,7 +93,8 @@ namespace TrucoClient.Helpers.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI, ex.Message));
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

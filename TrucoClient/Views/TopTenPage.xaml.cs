@@ -12,6 +12,7 @@ namespace TrucoClient.Views
 {
     public partial class TopTenPage : Page
     {
+        private const string MESSAGE_ERROR = "Error";   
         public TopTenPage()
         {
             InitializeComponent();
@@ -31,16 +32,19 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    MessageBox.Show(Lang.RankingsTextNoPlayersRegistered, Lang.GlobalTextInformation, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.RankingsTextNoPlayersRegistered, Lang.GlobalTextInformation, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void ClickBack(object sender, RoutedEventArgs e)

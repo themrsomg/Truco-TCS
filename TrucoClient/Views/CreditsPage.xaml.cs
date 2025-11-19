@@ -29,7 +29,7 @@ namespace TrucoClient.Views
             {
                 if (!File.Exists(fullPath))
                 {
-                    MessageBox.Show(string.Format(Lang.EasterEggTextFileNotFound, fullPath), Lang.GlobalTextRuntimeError, 
+                    CustomMessageBox.Show(string.Format(Lang.EasterEggTextFileNotFound, fullPath), Lang.GlobalTextRuntimeError, 
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
@@ -41,12 +41,12 @@ namespace TrucoClient.Views
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.EasterEggTextExecuteError, ex.Message), Lang.GlobalTextCriticalError, 
+                CustomMessageBox.Show(string.Format(Lang.EasterEggTextExecuteError, ex.Message), Lang.GlobalTextCriticalError, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", Lang.GlobalTextRuntimeError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show($"{ex.Message}", Lang.GlobalTextRuntimeError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using TrucoClient.TrucoServer;
-using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Services;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
+using TrucoClient.Views;
 
 namespace TrucoClient.Helpers.Session
 {
     public static class SessionManager
     {
+        private const string MESSAGE_ERROR = "Error";
         public static string CurrentUsername { get; set; }
         public static UserProfileData CurrentUserData { get; set; }
 
@@ -29,7 +31,8 @@ namespace TrucoClient.Helpers.Session
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorResolvingUser, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorResolvingUser, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return usernameOrEmail;

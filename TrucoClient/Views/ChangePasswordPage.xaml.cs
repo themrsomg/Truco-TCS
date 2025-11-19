@@ -17,6 +17,7 @@ namespace TrucoClient.Views
         private const int NEW_PASSWORD_MIN_LENGTH = 12;
         private const int PASSWORD_MAX_LENGTH = 50;
         private const int CURRENT_PASSWORD_MIN_LENGTH = 8;
+        private const string MESSAGE_ERROR = "Error";
 
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
@@ -49,21 +50,25 @@ namespace TrucoClient.Views
 
                 if (changed)
                 {
-                    MessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    MessageBox.Show(Lang.DialogTextPasswordChangeError, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.DialogTextPasswordChangeError, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -80,9 +85,10 @@ namespace TrucoClient.Views
 
             if (HasUnsavedFields())
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                bool? result = CustomMessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, 
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (result == true)
                 {
                     shouldNavigate = true;
                 }

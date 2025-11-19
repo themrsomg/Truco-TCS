@@ -73,21 +73,25 @@ namespace TrucoClient.Views
 
                 if (registered)
                 {
-                    MessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    MessageBox.Show(Lang.StartTextRegisterError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.StartTextRegisterError, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -95,10 +99,14 @@ namespace TrucoClient.Views
         {
             if (!HasUnsavedFields())
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation,
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
+                bool? result = CustomMessageBox.Show(
+                    Lang.DialogTextConfirmationNewUser, 
+                    Lang.GlobalTextConfirmation,        
+                    MessageBoxButton.YesNo,             
+                    MessageBoxImage.Question            
+                );
 
-                if (messageBoxResult == MessageBoxResult.Yes)
+                if (result == true)
                 {
                     this.NavigationService.Navigate(new StartPage());
                 }
@@ -303,7 +311,8 @@ namespace TrucoClient.Views
 
             if (!sent)
             {
-                MessageBox.Show(Lang.StartTextRegisterCodeSended, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.StartTextRegisterCodeSended, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return sent;
@@ -312,10 +321,13 @@ namespace TrucoClient.Views
         private static string ShowCodeInputWindow()
         {
             string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
+
             if (string.IsNullOrEmpty(code))
             {
-                MessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
             return code;
         }
 
@@ -324,7 +336,8 @@ namespace TrucoClient.Views
             bool confirmed = client.ConfirmEmailVerification(email, code);
             if (!confirmed)
             {
-                MessageBox.Show(Lang.StartTextRegisterIncorrectCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(Lang.StartTextRegisterIncorrectCode, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             return confirmed;
         }
@@ -482,7 +495,8 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(passwordBox, errorBlock, Lang.GlobalTextRequieredField);
             }
 
-            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) 
+                && !PasswordValidator.AreMatching(password, passwordConfirm))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);

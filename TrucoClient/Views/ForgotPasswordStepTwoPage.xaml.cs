@@ -50,21 +50,25 @@ namespace TrucoClient.Views
 
                 if (success)
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextSuccess, Lang.GlobalTextSuccess, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextError, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

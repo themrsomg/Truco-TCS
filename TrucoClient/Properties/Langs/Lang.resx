@@ -1056,4 +1056,16 @@ Register today and set up a proper game!</value>
   <data name="GameTextPlayerNotFound" xml:space="preserve">
     <value>No player was found.</value>
   </data>
+  <data name="GlobalTextYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="GlobalTextNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="GameTextMatchEnded" xml:space="preserve">
+    <value>Game Over! Winner: {0}</value>
+  </data>
+  <data name="GameTextMatchEndedTitle" xml:space="preserve">
+    <value>End of the Game</value>
+  </data>
 </root>

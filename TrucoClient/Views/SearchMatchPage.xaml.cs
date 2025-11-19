@@ -52,13 +52,15 @@ namespace TrucoClient.Views
                     }
                     else
                     {
-                        MessageBox.Show(Lang.PreGameJoinMatchNoSuccess, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                        CustomMessageBox.Show(Lang.PreGameJoinMatchNoSuccess, MESSAGE_ERROR, 
+                            MessageBoxButton.OK, MessageBoxImage.Warning);
                         await LoadAvailableMatchesAsync();
                     }
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 finally
                 {
@@ -102,8 +104,8 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingMatches, ex.Message),
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingMatches, ex.Message),
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
  

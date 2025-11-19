@@ -1057,4 +1057,16 @@
   <data name="GameTextPlayerNotFound" xml:space="preserve">
     <value>No se encontró un jugador.</value>
   </data>
+  <data name="GlobalTextYes" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="GlobalTextNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="GameTextMatchEnded" xml:space="preserve">
+    <value>¡Partida Terminada! Ganador: {0}</value>
+  </data>
+  <data name="GameTextMatchEndedTitle" xml:space="preserve">
+    <value>Fin del Juego</value>
+  </data>
 </root>

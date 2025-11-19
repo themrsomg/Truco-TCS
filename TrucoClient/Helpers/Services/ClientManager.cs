@@ -9,6 +9,8 @@ namespace TrucoClient.Helpers.Services
 {
     public static class ClientManager
     {
+        private const string MESSAGE_ERROR = "Error";
+
         private static TrucoCallbackHandler callbackHandler = new TrucoCallbackHandler();
         private static InstanceContext context = new InstanceContext(callbackHandler);
 
@@ -76,7 +78,8 @@ namespace TrucoClient.Helpers.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorRestartingConnections, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorRestartingConnections, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

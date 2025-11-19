@@ -43,7 +43,10 @@ namespace TrucoClient.Views
             _ = LoadPlayersAsync();
             InitializeChat();
 
-            _ = Task.Delay(200).ContinueWith(_ => Application.Current.Dispatcher.Invoke(async () => await LoadPlayersAsync()));
+            _ = Task.Delay(200).ContinueWith(_ 
+                => Application.Current.Dispatcher.Invoke(
+                    async () => await LoadPlayersAsync())
+                );
 
             this.Loaded += LobbyPage_Loaded;
         }
@@ -52,7 +55,8 @@ namespace TrucoClient.Views
         {
             if (!isOwner)
             {
-                MessageBox.Show(Lang.GameTextNotOwnerStartGame, Lang.GlobalTextAccessDenied, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(Lang.GameTextNotOwnerStartGame, Lang.GlobalTextAccessDenied, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -65,7 +69,8 @@ namespace TrucoClient.Views
             catch (Exception ex)
             {
                 btnStart.IsEnabled = true;
-                MessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -91,7 +96,8 @@ namespace TrucoClient.Views
 
             if (!isOwner && usernameToSwitch != SessionManager.CurrentUsername)
             {
-                MessageBox.Show(Lang.ExceptionTextCannotSwitchOthersTeam, Lang.GlobalTextAccessDenied, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(Lang.ExceptionTextCannotSwitchOthersTeam, Lang.GlobalTextAccessDenied, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -101,19 +107,17 @@ namespace TrucoClient.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSwitchingTeam, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSwitchingTeam, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void ClickExit(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show(
-                Lang.LobbyTextExitLobby,
-                Lang.GlobalTextConfirm,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            bool? result = CustomMessageBox.Show(Lang.LobbyTextExitLobby, Lang.GlobalTextConfirm, 
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            if (result == MessageBoxResult.Yes)
+            if (result == true)
             {
                 try
                 {
@@ -121,7 +125,8 @@ namespace TrucoClient.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 this.NavigationService.Navigate(new PlayPage());
@@ -181,7 +186,8 @@ namespace TrucoClient.Views
                     catch
                     {
                         Application.Current.Dispatcher.Invoke(() =>
-                            MessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning));
+                            CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR, 
+                                MessageBoxButton.OK, MessageBoxImage.Warning));
                     }
                 });
             }
@@ -225,7 +231,8 @@ namespace TrucoClient.Views
             catch (Exception ex)
             {
                 await Application.Current.Dispatcher.InvokeAsync(() =>
-                    MessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), 
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
             }
         }
 

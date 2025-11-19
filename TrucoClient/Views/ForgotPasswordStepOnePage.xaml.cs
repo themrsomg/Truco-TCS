@@ -14,6 +14,7 @@ namespace TrucoClient.Views
     {
         private const int MIN_EMAIL_LENGTH = 5;
         private const int MAX_EMAIL_LENGTH = 250;
+        private const string MESSAGE_ERROR = "Error";
 
         public ForgotPasswordStepOnePage()
         {
@@ -49,21 +50,25 @@ namespace TrucoClient.Views
 
                 if (sent)
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextSent2, Lang.ForgotPasswordRecovery, MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextSent2, Lang.ForgotPasswordRecovery, 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new ForgotPasswordStepTwoPage(email));
                 }
                 else
                 {
-                    MessageBox.Show(Lang.ForgotPasswordTextError2, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextError2, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
