@@ -143,7 +143,7 @@ namespace TrucoClient.TrucoServer
                 }
                 else
                 {
-                    MessageBox.Show(string.Format("Fin", matchCode, winner), "La partida ha terminado",
+                    CustomMessageBox.Show(string.Format("La partida ha terminado. Ganador: ", winner), "La partida ha terminado",
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             });
