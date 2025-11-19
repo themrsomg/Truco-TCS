@@ -143,8 +143,8 @@ namespace TrucoClient.TrucoServer
                 }
                 else
                 {
-                    CustomMessageBox.Show(string.Format("La partida ha terminado. Ganador: ", winner), "La partida ha terminado",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
+                        Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             });
         }
@@ -194,7 +194,6 @@ namespace TrucoClient.TrucoServer
                 if (gamePage != null)
                 {
                     gamePage.ReceiveCards(handAsList);
-                    BufferedHand = null;
                 }
                 else
                 {

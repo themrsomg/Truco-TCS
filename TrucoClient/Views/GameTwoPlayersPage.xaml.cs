@@ -94,6 +94,7 @@ namespace TrucoClient.Views
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
         {
             LoadPlayerAvatars(players);
+            CheckForBufferedCards();
             this.Loaded -= GamePage_Loaded;
         }
 
@@ -299,6 +300,15 @@ namespace TrucoClient.Views
             btnCallFlor.Visibility = Visibility.Collapsed; 
             btnCallContraFlor.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
             btnCallContraFlorAlResto.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+
+            if (!isMyTurnToRespond)
+            {
+                tbFlorCaller.Text = $"{callerName} cantó {currentBet}. Esperando respuesta...";
+            }
+            else
+            {
+                tbFlorCaller.Text = $"{callerName} cantó {currentBet} ({totalPoints} puntos)";
+            }
         }
 
         protected override void HideFlorBetPanelUI()

@@ -62,10 +62,14 @@ namespace TrucoClient.Views
 
             InitializeMatchClient();
             ConnectToChat();
+        }
+        
+        protected void CheckForBufferedCards()
+        {
             if (TrucoCallbackHandler.BufferedHand != null)
             {
                 ReceiveCards(TrucoCallbackHandler.BufferedHand);
-                TrucoCallbackHandler.BufferedHand = null; 
+                TrucoCallbackHandler.BufferedHand = null;
             }
         }
 
@@ -160,7 +164,11 @@ namespace TrucoClient.Views
 
         public void NotifyTurnChange(string nextPlayerName)
         {
-            Dispatcher.Invoke(() => UpdateTurnUI(nextPlayerName, this.CurrentTrucoBetState)); 
+            Dispatcher.Invoke(() =>
+            {
+                HideFlorBetPanelUI();
+                UpdateTurnUI(nextPlayerName, this.CurrentTrucoBetState);
+            });
         }
 
         public void NotifyScoreUpdate(int team1Score, int team2Score)
@@ -274,6 +282,7 @@ namespace TrucoClient.Views
             Dispatcher.Invoke(() =>
             {
                 HideEnvidoBetPanelUI();
+                HideFlorBetPanelUI();
                 AddChatMessage(null, $"Envido ganado por: {winnerName} con {score}. ({totalPointsAwarded} puntos)");
             });
         }
@@ -285,17 +294,9 @@ namespace TrucoClient.Views
                 this.CurrentTrucoBetState = newBetState;
                 HideBetPanelUI();
                 HideEnvidoBetPanelUI();
+                HideFlorBetPanelUI();
                 AddChatMessage(null, $"{responderName} dijo: {response}");
             });
-        }
-
-        protected void SendRespondToFlorCommand(string response)
-        {
-            try
-            {
-                MatchClient.RespondToEnvido(MatchCode, response);
-            }
-            catch (Exception ex) { /* ... */ }
         }
 
         protected void ClickSendMessage(object sender, RoutedEventArgs e)
@@ -459,14 +460,18 @@ namespace TrucoClient.Views
 
         protected void SendGoToDeckCommand()
         {
+            MatchClient.GoToDeck(MatchCode);
+        }
+
+        protected void SendRespondToFlorCommand(string response)
+        {
             try
             {
-                MatchClient.GoToDeck(MatchCode);
+                MatchClient.RespondToFlor(MatchCode, response);
             }
             catch (Exception ex)
             {
-                // TODO: Cambiar esto
-                CustomMessageBox.Show(string.Format("Esto se debe cambiar", ex.Message),
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message),
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

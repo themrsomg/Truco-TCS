@@ -94,7 +94,7 @@ namespace TrucoClient.Views
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
         {
             LoadPlayerAvatars(players);
-
+            CheckForBufferedCards();
             this.Loaded -= GamePage_Loaded;
         }
 
