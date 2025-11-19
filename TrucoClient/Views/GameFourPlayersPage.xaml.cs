@@ -66,6 +66,7 @@ namespace TrucoClient.Views
             btnCallFaltaEnvido.Click += (s, e) => SendCallEnvidoCommand(RESPOND_FALTA_ENVIDO);
             btnEnvidoRespondQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_QUIERO);
             btnEnvidoRespondNoQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
+            btnGoToDeck.Click += (s, e) => SendGoToDeckCommand();
         }
 
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
@@ -175,6 +176,7 @@ namespace TrucoClient.Views
                 btnRespondQuiero.Visibility = Visibility.Collapsed;
                 btnRespondNoQuiero.Visibility = Visibility.Collapsed;
                 btnCallTruco.Visibility = Visibility.Visible;
+                btnGoToDeck.Visibility = Visibility.Visible;
 
                 if (currentBetState == BET_STATUS)
                 {
@@ -196,6 +198,7 @@ namespace TrucoClient.Views
             else
             {
                 PanelBetOptions.Visibility = Visibility.Collapsed;
+                btnGoToDeck.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -269,6 +272,11 @@ namespace TrucoClient.Views
         protected override void NotifyEnvidoResultUI(string winnerName, int score, int totalPointsAwarded)
         {
             HideEnvidoBetPanelUI();
+        }
+
+        private void ClickAlMazo(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

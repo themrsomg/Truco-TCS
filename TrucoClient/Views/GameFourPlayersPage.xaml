@@ -138,6 +138,8 @@
                             Margin="5" Padding="10" Background="#FF03D400"/>
                     <Button x:Name="btnRespondNoQuiero" Content="caca" Click="ClickReject"
                             Margin="5" Padding="10" Background="#FFBF3333"/>
+                    <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Click="ClickAlMazo" 
+                            Margin="5" Padding="10,5" Background="#FF555555" Foreground="White" Visibility="Collapsed"/>
                 </StackPanel>
 
                 <StackPanel x:Name="panelEnvidoOptions" HorizontalAlignment="Center" VerticalAlignment="Center"

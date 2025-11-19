@@ -80,6 +80,8 @@
                 <Button x:Name="btnCallTruco" Content="Truco" Margin="5" Padding="10,5" Click="ClickCallTruco"/>
                 <Button x:Name="btnRespondQuiero" Content="Quiero" Margin="5" Padding="10,5" Click="ClickRespondQuiero"/>
                 <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Padding="10,5" Click="ClickRespondNoQuiero"/>
+                <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Click="ClickAlMazo" Margin="5" Padding="10,5" Background="#FF555555" 
+                        Foreground="White" Visibility="Collapsed"/>
             </StackPanel>
         </Grid>
 

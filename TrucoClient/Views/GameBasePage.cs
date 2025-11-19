@@ -421,6 +421,18 @@ namespace TrucoClient.Views
             {
                 return new BitmapImage(new Uri(DEFAULT_CARD_BACK_PATH, UriKind.Relative));
             }
-        }  
+        }
+
+        protected void SendGoToDeckCommand()
+        {
+            try
+            {
+                MatchClient.GoToDeck(MatchCode);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message), MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
