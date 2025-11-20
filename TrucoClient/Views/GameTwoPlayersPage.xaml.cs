@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -49,23 +48,25 @@ namespace TrucoClient.Views
         {
             InitializeComponent();
             
-            cardImages = new[] 
-            { 
-                imgPlayerCard1, 
-                imgPlayerCard2, 
-                imgPlayerCard3 
-            };
-            
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
+
             this.players = players;
             this.Loaded += GamePage_Loaded;
-            
+
+            cardImages = new[]
+            {
+                imgPlayerCard1,
+                imgPlayerCard2,
+                imgPlayerCard3
+            };
+
             foreach (var img in cardImages)
             {
                 img.MouseDown += PlayerCard_MouseDown;
             }
 
-            btnCallTruco.Click += (s, e) => {
+            btnCallTruco.Click += (s, e) => 
+            {
                 string betToSend = (s as Button).Content.ToString();
                 SendCallTrucoCommand(betToSend);
             };
@@ -159,7 +160,6 @@ namespace TrucoClient.Views
             PanelTableCards.Children.Add(cardImage);
         }
 
-        // TODO: Realizar correcciones referentes al llamado de apuestas
         protected override void UpdateTurnUI(string nextPlayerName, string currentBetState)
         {
             bool isMyTurn = nextPlayerName == CurrentPlayer;

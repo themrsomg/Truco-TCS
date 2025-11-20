@@ -351,20 +351,22 @@ namespace TrucoClient.Views
 
         protected void ClickBack(object sender, RoutedEventArgs e)
         {
-            bool? result = CustomMessageBox.Show(Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation, 
+            bool? result = CustomMessageBox.Show(Lang.GameTextExitGameConfirmation, Lang.GlobalTextConfirmation,
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == true)
             {
                 try
                 {
-                    ClientManager.MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername);
-                    this.NavigationService.Navigate(new MainPage());
+                    MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername);
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), 
-                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    Console.WriteLine("Error sending leave command: " + ex.Message);
+                }
+                finally
+                {
+                    this.NavigationService.Navigate(new MainPage());
                 }
             }
         }
@@ -473,6 +475,33 @@ namespace TrucoClient.Views
             {
                 CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSendingMessage, ex.Message),
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        protected void SetupCommonEventHandlers(Button btnBack, Button btnTruco, Button btnQuiero, Button btnNoQuiero)
+        {
+            if (btnBack != null)
+            {
+                btnBack.Click -= ClickBack;
+                btnBack.Click += ClickBack;
+            }
+
+            if (btnQuiero != null)
+            {
+                btnQuiero.Click += (s, e) => SendResponseCommand("Quiero");
+            }
+            if (btnNoQuiero != null)
+            {
+                btnNoQuiero.Click += (s, e) => SendResponseCommand("NoQuiero");
+            }
+
+            if (btnTruco != null)
+            {
+                btnTruco.Click += (s, e) =>
+                {
+                    string betToSend = btnTruco.Content.ToString();
+                    SendCallTrucoCommand(betToSend);
+                };
             }
         }
     }

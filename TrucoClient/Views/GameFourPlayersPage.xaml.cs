@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -48,16 +47,18 @@ namespace TrucoClient.Views
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
+
+            base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
+
+            this.players = players ?? new List<PlayerInfo>();
+            this.Loaded += GamePage_Loaded;
+
             cardImages = new[]
             {
                 imgPlayerCard1,
                 imgPlayerCard2,
                 imgPlayerCard3
             };
-
-            base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
-            this.players = players ?? new List<PlayerInfo>();
-            this.Loaded += GamePage_Loaded;
 
             foreach (var img in cardImages)
             {
@@ -174,8 +175,6 @@ namespace TrucoClient.Views
                 Height = HEIGHT_CARD,
                 Margin = new Thickness(10)
             };
-
-            // TODO: Determinar la posición (Top, Left, Right, Bottom) basada en el playerName y el layout de 4 jugadores.
 
             PanelTableCards.Children.Add(cardImage);
         }
