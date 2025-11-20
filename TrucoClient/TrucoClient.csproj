@@ -84,6 +84,7 @@
     <Compile Include="Helpers\Validation\FieldValidator.cs" />
     <Compile Include="Helpers\Validation\PasswordValidator.cs" />
     <Compile Include="Helpers\Validation\UsernameValidator.cs" />
+    <Compile Include="IChatPage.cs" />
     <Compile Include="Views\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
     </Compile>

@@ -12,6 +12,15 @@ namespace TrucoClient.TrucoServer
         private const string MESSAGE_ERROR = "Error";
         public static List<TrucoCard> BufferedHand { get; set; }
 
+        private static IChatPage GetActiveChatPage()
+        {
+            if (Application.Current.MainWindow is InitialWindows main && main.MainFrame.Content is IChatPage chatPage)
+            {
+                return chatPage;
+            }
+            return null;
+        }
+
         private static GameBasePage GetActiveGamePage()
         {
             if (Application.Current.MainWindow is InitialWindows main && main.MainFrame.Content is GameBasePage gamePage)
@@ -19,22 +28,6 @@ namespace TrucoClient.TrucoServer
                 return gamePage;
             }
             return null;
-        }
-
-        public void NotifyEnvidoCall(string callerName, string betName, int totalPoints, bool needsResponse)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                GetActiveGamePage()?.NotifyEnvidoCall(callerName, betName, totalPoints, needsResponse);
-            });
-        }
-
-        public void NotifyEnvidoResult(string winnerName, int score, int totalPointsAwarded)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                GetActiveGamePage()?.NotifyEnvidoResult(winnerName, score, totalPointsAwarded);
-            });
         }
 
         public void OnPlayerJoined(string matchCode, string player)
@@ -48,9 +41,9 @@ namespace TrucoClient.TrucoServer
                         lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedLobby, player));
                         lobby.ReloadPlayersDeferred();
                     }
-                    else if (main.MainFrame.Content is GameBasePage gamePage)
+                    else if (main.MainFrame.Content is IChatPage chatPage)
                     {
-                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
+                        chatPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, player));
                     }
                 }
             });
@@ -62,14 +55,14 @@ namespace TrucoClient.TrucoServer
             {
                 if (Application.Current.MainWindow is InitialWindows main)
                 {
-                    if (main.MainFrame.Content is LobbyPage lobbyPage)
+                    if (main.MainFrame.Content is LobbyPage lobby)
                     {
-                        lobbyPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
-                        lobbyPage.ReloadPlayersDeferred();
+                        lobby.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftLobby, player));
+                        lobby.ReloadPlayersDeferred();
                     }
-                    else if (main.MainFrame.Content is GameBasePage gamePage)
+                    else if (main.MainFrame.Content is IChatPage chatPage)
                     {
-                        gamePage.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
+                        chatPage.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerLeftMatch, player));
                     }
                 }
             });
@@ -93,11 +86,22 @@ namespace TrucoClient.TrucoServer
                     }
                     else
                     {
-                        CustomMessageBox.Show(Lang.ExceptionTextErrorStartingMatch, MESSAGE_ERROR, 
+                        CustomMessageBox.Show(Lang.ExceptionTextErrorStartingMatch, MESSAGE_ERROR,
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
                 }
+            });
+        }
+
+        public void OnMatchEnded(string matchCode, string winner)
+        {
+            BufferedHand = null;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
+                        Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+
+                (Application.Current.MainWindow as InitialWindows)?.MainFrame.Navigate(new MainPage());
             });
         }
 
@@ -105,7 +109,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.ReceiveChatMessage(string.Empty, string.Format("No hay cartas encontradas", player, card));
+                GetActiveGamePage()?.AddChatMessage(string.Empty, string.Format("No hay cartas encontradas", player, card));
             });
         }
 
@@ -113,39 +117,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (Application.Current.MainWindow is InitialWindows main)
-                {
-                    if (main.MainFrame.Content is LobbyPage lobbyPage)
-                    {
-                        lobbyPage.AddChatMessage(player, message);
-                    }
-                    else if (main.MainFrame.Content is GameBasePage gamePage)
-                    {
-                        gamePage.ReceiveChatMessage(player, message);
-                    }
-                }
-            });
-        }
-
-        public void OnMatchEnded(string matchCode, string winner) 
-        {
-            BufferedHand = null;
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var gamePage = GetActiveGamePage();
-
-                if (gamePage != null)
-                {
-                    CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
-                        Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    (Application.Current.MainWindow as InitialWindows)?.MainFrame.Navigate(new MainPage());
-                }
-                else
-                {
-                    CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
-                        Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                GetActiveChatPage()?.AddChatMessage(player, message);
             });
         }
 
@@ -180,7 +152,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.ReceiveChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, username));
+                GetActiveGamePage()?.AddChatMessage(string.Empty, string.Format(Lang.CallbacksTextPlayerJoinedMatch, username));
             });
         }
 
@@ -223,6 +195,21 @@ namespace TrucoClient.TrucoServer
             Application.Current.Dispatcher.Invoke(() =>
             {
                 GetActiveGamePage()?.NotifyScoreUpdate(team1Score, team2Score);
+            });
+        }
+        public void NotifyEnvidoCall(string callerName, string betName, int totalPoints, bool needsResponse)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyEnvidoCall(callerName, betName, totalPoints, needsResponse);
+            });
+        }
+
+        public void NotifyEnvidoResult(string winnerName, int score, int totalPointsAwarded)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveGamePage()?.NotifyEnvidoResult(winnerName, score, totalPointsAwarded);
             });
         }
 

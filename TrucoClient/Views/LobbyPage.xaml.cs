@@ -13,7 +13,7 @@ using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
-    public partial class LobbyPage : Page
+    public partial class LobbyPage : Page, IChatPage
     {
         private const string DEFAUL_AVATAR_ID = "avatar_aaa_default";
         private const string MESSAGE_ERROR = "Error";
