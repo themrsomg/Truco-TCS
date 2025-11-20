@@ -134,9 +134,9 @@
                             Margin="5" Padding="10" Background="#FFD400"/>
                     <!--<Button x:Name="btnCallEnvido" Content="{x:Static language:Lang.GameTextEnvido}" Click="ClickEnvido"
                             Margin="5" Padding="10" Background="#FFD400"/> -->
-                    <Button x:Name="btnRespondQuiero" Content="caca" Click="ClickAccept"
+                    <Button x:Name="btnRespondQuiero" Content="Quiero" Click="ClickAccept"
                             Margin="5" Padding="10" Background="#FF03D400"/>
-                    <Button x:Name="btnRespondNoQuiero" Content="caca" Click="ClickReject"
+                    <Button x:Name="btnRespondNoQuiero" Content="No quiero" Click="ClickReject"
                             Margin="5" Padding="10" Background="#FFBF3333"/>
                     <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Click="ClickAlMazo" 
                             Margin="5" Padding="10,5" Background="#FF555555" Foreground="White" Visibility="Collapsed"/>

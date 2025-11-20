@@ -43,7 +43,7 @@ namespace TrucoClient.Views
         protected override StackPanel PanelPlayerCards => panelPlayerCards;
         protected override StackPanel PanelTableCards => panelTableCards;
         protected override StackPanel PanelBetOptions => panelBetOptions;
-        protected override StackPanel PanelEnvidoOptions => throw new NotImplementedException();
+        protected override StackPanel PanelEnvidoOptions => panelEnvidoOptions;
 
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
