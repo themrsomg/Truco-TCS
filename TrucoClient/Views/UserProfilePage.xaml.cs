@@ -163,9 +163,9 @@ namespace TrucoClient.Views
                     e.Handled = true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -203,13 +203,13 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
+            catch (System.ServiceModel.EndpointNotFoundException)
             {
-                ShowConnectionError(ex.Message);
+                ShowConnectionError();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ShowGeneralError(ex.Message);
+                ShowGeneralError();
             }
             finally
             {
@@ -244,9 +244,9 @@ namespace TrucoClient.Views
                 UpdateUsernameWarning(currentUserData.NameChangeCount);
                 UpdateSocialMediaLinks();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ShowGeneralError(ex.Message);
+                ShowGeneralError();
             }
             finally
             {
@@ -291,13 +291,13 @@ namespace TrucoClient.Views
                     HandleFailedSave(oldUsername, oldChangeCount, oldFacebook, oldX, oldInstagram);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
+            catch (System.ServiceModel.EndpointNotFoundException)
             {
-                ShowConnectionError(ex.Message);
+                ShowConnectionError();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ShowGeneralError(ex.Message);
+                ShowGeneralError();
             }
             finally
             {
@@ -519,15 +519,15 @@ namespace TrucoClient.Views
             linkInstagramContainer.Visibility = string.IsNullOrWhiteSpace(txtInstagramLink.Text) ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private static void ShowConnectionError(string message)
+        private static void ShowConnectionError()
         {
-            CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, message), 
+            CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                 Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private static void ShowGeneralError(string message)
+        private static void ShowGeneralError()
         {
-            CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, message), 
+            CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                 MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }

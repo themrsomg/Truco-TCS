@@ -78,9 +78,9 @@ namespace TrucoClient.Helpers.UI
             {
                 imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingAvatar, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
@@ -92,9 +92,9 @@ namespace TrucoClient.Helpers.UI
             {
                 imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI, ex.Message), 
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }

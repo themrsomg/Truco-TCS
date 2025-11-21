@@ -102,9 +102,9 @@ namespace TrucoClient.Views
                     MaxPlayers = m.MaxPlayers
                 }).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingMatches, ex.Message),
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

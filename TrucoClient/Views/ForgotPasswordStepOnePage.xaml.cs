@@ -60,14 +60,14 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
+            catch (System.ServiceModel.EndpointNotFoundException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally

@@ -56,7 +56,7 @@ namespace TrucoClient.Helpers.Audio
 
                 if (!File.Exists(fullPath))
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextFileNotFound, fullPath), 
+                    CustomMessageBox.Show(Lang.ExceptionTextFileNotFound, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                     return;
@@ -77,21 +77,21 @@ namespace TrucoClient.Helpers.Audio
                 player.Play();
 
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorPlayingMusic, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private static void OnMediaFailed(object sender, ExceptionEventArgs e)
         {
-            CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, e.ErrorException?.Message), 
+            CustomMessageBox.Show(Lang.ExceptionTextErrorPlayingMusic, 
                 MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
@@ -109,14 +109,14 @@ namespace TrucoClient.Helpers.Audio
                 player.Close();
                 currentTrack = string.Empty;
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorPlayingMusic, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -178,14 +178,14 @@ namespace TrucoClient.Helpers.Audio
                 splashPlayer.Volume = 0.6;
                 splashPlayer.Play();
             }
-            catch (UriFormatException ex)
+            catch (UriFormatException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorPlayingMusic, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorPlayingMusic, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 

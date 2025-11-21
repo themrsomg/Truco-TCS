@@ -842,19 +842,19 @@
     <value>La nueva contraseña no puede ser igual a la anterior</value>
   </data>
   <data name="ExceptionTextAvatarIdInvalidFormat" xml:space="preserve">
-    <value>El formato no es válido para {0}. Detalles: {1}</value>
+    <value>El formato no es válido para {0}.</value>
   </data>
   <data name="ExceptionTextAvatarIdFailedToLoad" xml:space="preserve">
-    <value>Fallo al cargar el avatar {0}. Detalles: {1}</value>
+    <value>Fallo al cargar el avatar {0}.</value>
   </data>
   <data name="ExceptionTextAvatarIdFailedToLoadDefault" xml:space="preserve">
-    <value>Fallo al cargar la imagen por defecto '{0}'. Detalles: {1}</value>
+    <value>Fallo al cargar la imagen por defecto '{0}'.</value>
   </data>
   <data name="ExceptionTextConnectionError" xml:space="preserve">
     <value>No se pudo conectar al servidor. Por favor, reinicie la aplicación.</value>
   </data>
   <data name="ExceptionTextErrorOcurred" xml:space="preserve">
-    <value>Ocurrió un error: {0}</value>
+    <value>Ocurrió un error.</value>
   </data>
   <data name="WarningTextNoGameCreated" xml:space="preserve">
     <value>No se pudo crear la partida.</value>
@@ -863,28 +863,28 @@
     <value>Partida Privada</value>
   </data>
   <data name="ExceptionTextNoGameCreated" xml:space="preserve">
-    <value>No se pudo crear la partida: {0}</value>
+    <value>No se pudo crear la partida.</value>
   </data>
   <data name="GlobalTextRuntimeError" xml:space="preserve">
     <value>Error de Ejecución</value>
   </data>
   <data name="EasterEggTextFileNotFound" xml:space="preserve">
-    <value>Error de Archivo: El ejecutable no fue encontrado en la ruta: {0}</value>
+    <value>Error de Archivo: El ejecutable no fue encontrado en la ruta.</value>
   </data>
   <data name="GlobalTextCriticalError" xml:space="preserve">
     <value>Error Crítico</value>
   </data>
   <data name="EasterEggTextExecuteError" xml:space="preserve">
-    <value>No se pudo ejecutar el programa. Detalle: {0}</value>
+    <value>No se pudo ejecutar el programa.</value>
   </data>
   <data name="ExceptionTextErrorLoadingAvatar" xml:space="preserve">
-    <value>Error al cargar el avatar: {0}</value>
+    <value>Error al cargar el avatar.</value>
   </data>
   <data name="GameTextInvalidCode" xml:space="preserve">
     <value>Código inválido, partida llena o no disponible.</value>
   </data>
   <data name="GameTextErrorJoining" xml:space="preserve">
-    <value>Error al unirse: {0}</value>
+    <value>Error al unirse.</value>
   </data>
   <data name="GameTextLobbyCode" xml:space="preserve">
     <value>Código: {0}</value>
@@ -896,10 +896,10 @@
     <value>Solo el propietario de la partida puede iniciar el juego.</value>
   </data>
   <data name="GameTextErrorStartingMatch" xml:space="preserve">
-    <value>Error al iniciar la partida: {0}</value>
+    <value>Error al iniciar la partida.</value>
   </data>
   <data name="ExceptionTextErrorExitingLobby" xml:space="preserve">
-    <value>Error al salir del lobby: {0}</value>
+    <value>Error al salir del lobby.</value>
   </data>
   <data name="ExceptionTextUnableConnectChat" xml:space="preserve">
     <value>No se pudo conectar al chat del lobby.</value>
@@ -908,10 +908,10 @@
     <value>No hay jugadores en el lobby todavía.</value>
   </data>
   <data name="ExceptionTextErrorLoadingPlayers" xml:space="preserve">
-    <value>Error al cargar jugadores: {0}</value>
+    <value>Error al cargar jugadores.</value>
   </data>
   <data name="ExceptionTextErrorLoggingIn" xml:space="preserve">
-    <value>Error al iniciar sesión: {0}</value>
+    <value>Error al iniciar sesión.</value>
   </data>
   <data name="ExceptionTextErrorEmailValidation" xml:space="preserve">
     <value>Ocurrió un error al validar el correo electrónico: {0}</value>
@@ -923,7 +923,7 @@
     <value>Error de Animación al finalizar SplashPage {0}</value>
   </data>
   <data name="ExceptionTextSplashPageError" xml:space="preserve">
-    <value>Error al finalizar SplashPage: {0}</value>
+    <value>Error al finalizar SplashPage.</value>
   </data>
   <data name="GlobalTextInformation" xml:space="preserve">
     <value>Información</value>
@@ -932,16 +932,16 @@
     <value>No hay jugadores registrados aún.</value>
   </data>
   <data name="ExceptionTextErrorRestartingConnections" xml:space="preserve">
-    <value>Error al reiniciar las conexiones: {0}</value>
+    <value>Error al reiniciar las conexiones.</value>
   </data>
   <data name="ExceptionTextFileNotFound" xml:space="preserve">
-    <value>Archivo no encontrado: {0}</value>
+    <value>Archivo no encontrado.</value>
   </data>
   <data name="ExceptionTextErrorPlayingMusic" xml:space="preserve">
-    <value>Error al reproducir música: {0}</value>
+    <value>Error al reproducir música.</value>
   </data>
   <data name="ExceptionTextErrorResolvingUser" xml:space="preserve">
-    <value>Error al resolver usuario: {0}</value>
+    <value>Error al resolver usuario.</value>
   </data>
   <data name="CallbacksTextPlayerJoinedLobby" xml:space="preserve">
     <value>{0} se ha unido al lobby.</value>
@@ -980,7 +980,7 @@
     <value>Recarga esta página</value>
   </data>
   <data name="ExceptionTextErrorLoadingMatches" xml:space="preserve">
-    <value>Error al cargar partidas: {0}</value>
+    <value>Error al cargar partidas.</value>
   </data>
   <data name="PreGameTextHostLobby" xml:space="preserve">
     <value>Lobby de {0}</value>
@@ -1036,8 +1036,7 @@
     <value>Error inesperado al tratar de iniciar la partida.</value>
   </data>
   <data name="ExceptionTextErrorSwitchingTeam" xml:space="preserve">
-    <value>Error inesperado al intentar cambiar de equipo.
-</value>
+    <value>Error inesperado al intentar cambiar de equipo.</value>
   </data>
   <data name="ExceptionTextCannotSwitchOthersTeam" xml:space="preserve">
     <value>Error, no puedes cambiar de equipo a otros.</value>
@@ -1086,5 +1085,26 @@
   </data>
   <data name="GameTextWaitingResponse" xml:space="preserve">
     <value>Esperando respuesta...</value>
+  </data>
+  <data name="ExceptionTextTimeoutChat" xml:space="preserve">
+    <value>La conexión al chat excedió el tiempo límite.</value>
+  </data>
+  <data name="ExceptionTextInvalid" xml:space="preserve">
+    <value>El cliente se encuentra en un estado inválido.</value>
+  </data>
+  <data name="ExceptionTextCommunication" xml:space="preserve">
+    <value>Se ha perdido la conexión.</value>
+  </data>
+  <data name="ExceptionTextThreadsDispatch" xml:space="preserve">
+    <value>Se ha intentado acceder a elementos de la UI desde un hilo que no es el principal.</value>
+  </data>
+  <data name="ExceptionTextTaskCanceled" xml:space="preserve">
+    <value>La operación se ha cancelado.</value>
+  </data>
+  <data name="ExceptionTextArgument" xml:space="preserve">
+    <value>Acceso inválido a un elemento.</value>
+  </data>
+  <data name="ExceptionTextCardImages" xml:space="preserve">
+    <value>Error al mostrar las cartas correspondientes.</value>
   </data>
 </root>

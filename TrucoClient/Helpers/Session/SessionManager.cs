@@ -29,9 +29,9 @@ namespace TrucoClient.Helpers.Session
                     return profile.Username;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorResolvingUser, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 

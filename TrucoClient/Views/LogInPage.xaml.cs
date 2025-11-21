@@ -63,14 +63,14 @@ namespace TrucoClient.Views
 
                 this.NavigationService.Navigate(new MainPage());
             }
-            catch (System.ServiceModel.EndpointNotFoundException ex)
+            catch (System.ServiceModel.EndpointNotFoundException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoggingIn, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoggingIn, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally

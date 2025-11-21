@@ -76,9 +76,9 @@ namespace TrucoClient.Helpers.Services
                 callbackHandler = new TrucoCallbackHandler();
                 context = new InstanceContext(callbackHandler);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorRestartingConnections, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorRestartingConnections, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

@@ -77,9 +77,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextNoGameCreated, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextNoGameCreated, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally

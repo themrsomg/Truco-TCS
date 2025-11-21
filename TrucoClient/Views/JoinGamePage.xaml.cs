@@ -35,9 +35,9 @@ namespace TrucoClient.Views
                     CustomMessageBox.Show(Lang.GameTextInvalidCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.GameTextErrorJoining, ex.Message), 
+                CustomMessageBox.Show(Lang.GameTextErrorJoining, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

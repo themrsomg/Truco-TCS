@@ -66,10 +66,10 @@ namespace TrucoClient.Views
             {
                 Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 btnStart.IsEnabled = true;
-                CustomMessageBox.Show(string.Format(Lang.GameTextErrorStartingMatch, ex.Message), 
+                CustomMessageBox.Show(Lang.GameTextErrorStartingMatch, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -105,9 +105,9 @@ namespace TrucoClient.Views
             {
                 await Task.Run(() => ClientManager.MatchClient.SwitchTeam(this.matchCode, usernameToSwitch));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorSwitchingTeam, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorSwitchingTeam, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -123,9 +123,9 @@ namespace TrucoClient.Views
                 {
                     ClientManager.MatchClient.LeaveMatch(matchCode, SessionManager.CurrentUsername);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorExitingLobby, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
@@ -228,10 +228,10 @@ namespace TrucoClient.Views
                     btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await Application.Current.Dispatcher.InvokeAsync(() =>
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorLoadingPlayers, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingPlayers, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
             }
         }

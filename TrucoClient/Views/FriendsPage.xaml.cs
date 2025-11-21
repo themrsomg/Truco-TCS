@@ -35,16 +35,16 @@ namespace TrucoClient.Views
                     _ = new BitmapImage(new Uri(correctedPath, UriKind.Relative));
                     return correctedPath;
                 }
-                catch (UriFormatException ex)
+                catch (UriFormatException)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                     return URL_AVATAR_DEFAULT;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                     return URL_AVATAR_DEFAULT;
@@ -107,14 +107,14 @@ namespace TrucoClient.Views
                     });
 
                 }
-                catch (EndpointNotFoundException ex)
+                catch (EndpointNotFoundException)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextErrorOcurred, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -147,14 +147,15 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (EndpointNotFoundException ex)
+            catch (EndpointNotFoundException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                CustomMessageBox.Show($"{ex.Message}", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
@@ -224,14 +225,14 @@ namespace TrucoClient.Views
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                catch (EndpointNotFoundException ex)
+                catch (EndpointNotFoundException)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    CustomMessageBox.Show($"{ex.Message}", MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, 
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -266,14 +267,14 @@ namespace TrucoClient.Views
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                catch (EndpointNotFoundException ex)
+                catch (EndpointNotFoundException)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextConnectionError, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    CustomMessageBox.Show($"{ex.Message}", MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, 
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }

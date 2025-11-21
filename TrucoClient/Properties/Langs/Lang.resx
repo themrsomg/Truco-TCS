@@ -842,19 +842,19 @@ Sign up today and set up a proper match!</value>
     <value>The new password cannot be the same as the previous one</value>
   </data>
   <data name="ExceptionTextAvatarIdInvalidFormat" xml:space="preserve">
-    <value>The format is not valid for {0}. Details: {1}</value>
+    <value>The format is not valid for {0}.</value>
   </data>
   <data name="ExceptionTextAvatarIdFailedToLoad" xml:space="preserve">
-    <value>Failed to load avatar {0}. Details: {1}</value>
+    <value>Failed to load avatar {0}.</value>
   </data>
   <data name="ExceptionTextAvatarIdFailedToLoadDefault" xml:space="preserve">
-    <value>Failed to load default image '{0}'. Details: {1}</value>
+    <value>Failed to load default image '{0}'.</value>
   </data>
   <data name="ExceptionTextConnectionError" xml:space="preserve">
     <value>Could not connect to server. Please restart the application.</value>
   </data>
   <data name="ExceptionTextErrorOcurred" xml:space="preserve">
-    <value>An error occurred: {0}</value>
+    <value>An error occurred.</value>
   </data>
   <data name="WarningTextNoGameCreated" xml:space="preserve">
     <value>The game could not be created.</value>
@@ -863,28 +863,28 @@ Sign up today and set up a proper match!</value>
     <value>Private Match</value>
   </data>
   <data name="ExceptionTextNoGameCreated" xml:space="preserve">
-    <value>The game could not be created: {0}</value>
+    <value>The game could not be created.</value>
   </data>
   <data name="GlobalTextRuntimeError" xml:space="preserve">
     <value>Runtime Error</value>
   </data>
   <data name="EasterEggTextFileNotFound" xml:space="preserve">
-    <value>File Error: The executable was not found in the path: {0}</value>
+    <value>File Error: The executable was not found in the path.</value>
   </data>
   <data name="GlobalTextCriticalError" xml:space="preserve">
     <value>Critical Error</value>
   </data>
   <data name="EasterEggTextExecuteError" xml:space="preserve">
-    <value>The program could not be executed. Details: {0}</value>
+    <value>The program could not be executed.</value>
   </data>
   <data name="ExceptionTextErrorLoadingAvatar" xml:space="preserve">
-    <value>Error loading avatar: {0}</value>
+    <value>Error loading avatar.</value>
   </data>
   <data name="GameTextInvalidCode" xml:space="preserve">
     <value>Invalid code, match full or unavailable.</value>
   </data>
   <data name="GameTextErrorJoining" xml:space="preserve">
-    <value>Error joining: {0}</value>
+    <value>Error joining.</value>
   </data>
   <data name="GameTextLobbyCode" xml:space="preserve">
     <value>Code: {0}</value>
@@ -896,10 +896,10 @@ Sign up today and set up a proper match!</value>
     <value>Only the match owner can start the game.</value>
   </data>
   <data name="GameTextErrorStartingMatch" xml:space="preserve">
-    <value>Error starting match: {0}</value>
+    <value>Error starting match.</value>
   </data>
   <data name="ExceptionTextErrorExitingLobby" xml:space="preserve">
-    <value>Error exiting lobby: {0}</value>
+    <value>Error exiting lobby.</value>
   </data>
   <data name="ExceptionTextUnableConnectChat" xml:space="preserve">
     <value>Unable to connect to lobby chat.</value>
@@ -908,10 +908,10 @@ Sign up today and set up a proper match!</value>
     <value>There are no players in the lobby yet.</value>
   </data>
   <data name="ExceptionTextErrorLoadingPlayers" xml:space="preserve">
-    <value>Error loading players: {0}</value>
+    <value>Error loading players.</value>
   </data>
   <data name="ExceptionTextErrorLoggingIn" xml:space="preserve">
-    <value>Error logging in: {0}</value>
+    <value>Error logging in.</value>
   </data>
   <data name="ExceptionTextErrorEmailValidation" xml:space="preserve">
     <value>An error occurred while validating the email address: {0}</value>
@@ -923,7 +923,7 @@ Sign up today and set up a proper match!</value>
     <value>Animation Error at the end of SplashPage {0}</value>
   </data>
   <data name="ExceptionTextSplashPageError" xml:space="preserve">
-    <value>Error completing SplashPage: {0}</value>
+    <value>Error completing SplashPage.</value>
   </data>
   <data name="GlobalTextInformation" xml:space="preserve">
     <value>Information</value>
@@ -932,16 +932,16 @@ Sign up today and set up a proper match!</value>
     <value>There are no registered players yet.</value>
   </data>
   <data name="ExceptionTextErrorRestartingConnections" xml:space="preserve">
-    <value>Error restarting connections: {0}</value>
+    <value>Error restarting connections.</value>
   </data>
   <data name="ExceptionTextFileNotFound" xml:space="preserve">
-    <value>File not found: {0}</value>
+    <value>File not found.</value>
   </data>
   <data name="ExceptionTextErrorPlayingMusic" xml:space="preserve">
-    <value>Error playing music: {0}</value>
+    <value>Error playing music.</value>
   </data>
   <data name="ExceptionTextErrorResolvingUser" xml:space="preserve">
-    <value>Error resolving user: {0}</value>
+    <value>Error resolving user.</value>
   </data>
   <data name="CallbacksTextPlayerJoinedLobby" xml:space="preserve">
     <value>{0} has joined the lobby.</value>
@@ -980,7 +980,7 @@ Sign up today and set up a proper match!</value>
     <value>Reload this page</value>
   </data>
   <data name="ExceptionTextErrorLoadingMatches" xml:space="preserve">
-    <value>Error loading matches: {0}</value>
+    <value>Error loading matches.</value>
   </data>
   <data name="PreGameTextHostLobby" xml:space="preserve">
     <value>{0}'s Lobby</value>
@@ -1085,5 +1085,26 @@ Register today and set up a proper game!</value>
   </data>
   <data name="GameTextWaitingResponse" xml:space="preserve">
     <value>Waiting for a response...</value>
+  </data>
+  <data name="ExceptionTextTimeoutChat" xml:space="preserve">
+    <value>The chat connection exceeded the time limit.</value>
+  </data>
+  <data name="ExceptionTextInvalid" xml:space="preserve">
+    <value>The client is in an invalid state.</value>
+  </data>
+  <data name="ExceptionTextCommunication" xml:space="preserve">
+    <value>The connection has been lost.</value>
+  </data>
+  <data name="ExceptionTextThreadsDispatch" xml:space="preserve">
+    <value>An attempt has been made to access UI elements from a thread other than the main one.</value>
+  </data>
+  <data name="ExceptionTextTaskCanceled" xml:space="preserve">
+    <value>The operation has been cancelled.</value>
+  </data>
+  <data name="ExceptionTextArgument" xml:space="preserve">
+    <value>Invalid access to an item.</value>
+  </data>
+  <data name="ExceptionTextCardImages" xml:space="preserve">
+    <value>Error displaying the corresponding cards.</value>
   </data>
 </root>

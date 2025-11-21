@@ -600,7 +600,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The program could not be executed. Details: {0}.
+        ///   Busca una cadena traducida similar a The program could not be executed..
         /// </summary>
         public static string EasterEggTextExecuteError {
             get {
@@ -609,7 +609,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a File Error: The executable was not found in the path: {0}.
+        ///   Busca una cadena traducida similar a File Error: The executable was not found in the path..
         /// </summary>
         public static string EasterEggTextFileNotFound {
             get {
@@ -636,7 +636,16 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Failed to load avatar {0}. Details: {1}.
+        ///   Busca una cadena traducida similar a Invalid access to an item..
+        /// </summary>
+        public static string ExceptionTextArgument {
+            get {
+                return ResourceManager.GetString("ExceptionTextArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Failed to load avatar {0}..
         /// </summary>
         public static string ExceptionTextAvatarIdFailedToLoad {
             get {
@@ -645,7 +654,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Failed to load default image &apos;{0}&apos;. Details: {1}.
+        ///   Busca una cadena traducida similar a Failed to load default image &apos;{0}&apos;..
         /// </summary>
         public static string ExceptionTextAvatarIdFailedToLoadDefault {
             get {
@@ -654,7 +663,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The format is not valid for {0}. Details: {1}.
+        ///   Busca una cadena traducida similar a The format is not valid for {0}..
         /// </summary>
         public static string ExceptionTextAvatarIdInvalidFormat {
             get {
@@ -668,6 +677,24 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextCannotSwitchOthersTeam {
             get {
                 return ResourceManager.GetString("ExceptionTextCannotSwitchOthersTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error displaying the corresponding cards..
+        /// </summary>
+        public static string ExceptionTextCardImages {
+            get {
+                return ResourceManager.GetString("ExceptionTextCardImages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The connection has been lost..
+        /// </summary>
+        public static string ExceptionTextCommunication {
+            get {
+                return ResourceManager.GetString("ExceptionTextCommunication", resourceCulture);
             }
         }
         
@@ -690,7 +717,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error exiting lobby: {0}.
+        ///   Busca una cadena traducida similar a Error exiting lobby..
         /// </summary>
         public static string ExceptionTextErrorExitingLobby {
             get {
@@ -708,7 +735,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error loading avatar: {0}.
+        ///   Busca una cadena traducida similar a Error loading avatar..
         /// </summary>
         public static string ExceptionTextErrorLoadingAvatar {
             get {
@@ -717,7 +744,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error loading matches: {0}.
+        ///   Busca una cadena traducida similar a Error loading matches..
         /// </summary>
         public static string ExceptionTextErrorLoadingMatches {
             get {
@@ -726,7 +753,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error loading players: {0}.
+        ///   Busca una cadena traducida similar a Error loading players..
         /// </summary>
         public static string ExceptionTextErrorLoadingPlayers {
             get {
@@ -735,7 +762,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error logging in: {0}.
+        ///   Busca una cadena traducida similar a Error logging in..
         /// </summary>
         public static string ExceptionTextErrorLoggingIn {
             get {
@@ -744,7 +771,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a An error occurred: {0}.
+        ///   Busca una cadena traducida similar a An error occurred..
         /// </summary>
         public static string ExceptionTextErrorOcurred {
             get {
@@ -753,7 +780,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error playing music: {0}.
+        ///   Busca una cadena traducida similar a Error playing music..
         /// </summary>
         public static string ExceptionTextErrorPlayingMusic {
             get {
@@ -762,7 +789,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error resolving user: {0}.
+        ///   Busca una cadena traducida similar a Error resolving user..
         /// </summary>
         public static string ExceptionTextErrorResolvingUser {
             get {
@@ -771,7 +798,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error restarting connections: {0}.
+        ///   Busca una cadena traducida similar a Error restarting connections..
         /// </summary>
         public static string ExceptionTextErrorRestartingConnections {
             get {
@@ -807,7 +834,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a File not found: {0}.
+        ///   Busca una cadena traducida similar a File not found..
         /// </summary>
         public static string ExceptionTextFileNotFound {
             get {
@@ -825,7 +852,16 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The game could not be created: {0}.
+        ///   Busca una cadena traducida similar a The client is in an invalid state..
+        /// </summary>
+        public static string ExceptionTextInvalid {
+            get {
+                return ResourceManager.GetString("ExceptionTextInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The game could not be created..
         /// </summary>
         public static string ExceptionTextNoGameCreated {
             get {
@@ -843,11 +879,38 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error completing SplashPage: {0}.
+        ///   Busca una cadena traducida similar a Error completing SplashPage..
         /// </summary>
         public static string ExceptionTextSplashPageError {
             get {
                 return ResourceManager.GetString("ExceptionTextSplashPageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The operation has been cancelled..
+        /// </summary>
+        public static string ExceptionTextTaskCanceled {
+            get {
+                return ResourceManager.GetString("ExceptionTextTaskCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a An attempt has been made to access UI elements from a thread other than the main one..
+        /// </summary>
+        public static string ExceptionTextThreadsDispatch {
+            get {
+                return ResourceManager.GetString("ExceptionTextThreadsDispatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The chat connection exceeded the time limit..
+        /// </summary>
+        public static string ExceptionTextTimeoutChat {
+            get {
+                return ResourceManager.GetString("ExceptionTextTimeoutChat", resourceCulture);
             }
         }
         
@@ -1206,7 +1269,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error joining: {0}.
+        ///   Busca una cadena traducida similar a Error joining..
         /// </summary>
         public static string GameTextErrorJoining {
             get {
@@ -1215,7 +1278,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error starting match: {0}.
+        ///   Busca una cadena traducida similar a Error starting match..
         /// </summary>
         public static string GameTextErrorStartingMatch {
             get {

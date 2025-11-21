@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
@@ -52,7 +54,12 @@ namespace TrucoClient.Views
             this.players = players ?? new List<PlayerInfo>();
             this.Loaded += GamePage_Loaded;
 
-            cardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
+            cardImages = new[] 
+            { 
+                imgPlayerCard1, 
+                imgPlayerCard2, 
+                imgPlayerCard3 
+            };
 
             foreach (var img in cardImages)
             {
@@ -84,18 +91,36 @@ namespace TrucoClient.Views
 
         protected override void UpdatePlayerHandUI(List<TrucoCard> hand)
         {
-            for (int i = 0; i < cardImages.Length; i++)
+            try
             {
-                if (i < hand.Count)
+                for (int i = 0; i < cardImages.Length; i++)
                 {
-                    cardImages[i].Source = LoadCardImage(hand[i].FileName);
-                    cardImages[i].Tag = hand[i];
-                    cardImages[i].Visibility = Visibility.Visible;
+                    if (i < hand.Count)
+                    {
+                        cardImages[i].Source = LoadCardImage(hand[i].FileName);
+                        cardImages[i].Tag = hand[i];
+                        cardImages[i].Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        cardImages[i].Visibility = Visibility.Hidden;
+                    }
                 }
-                else
-                {
-                    cardImages[i].Visibility = Visibility.Hidden;
-                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCardImages,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentNullException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextArgument,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -135,9 +160,20 @@ namespace TrucoClient.Views
                     imgRightAvatar.Source = LoadAvatar(enemies[1].AvatarId);
                 }
             }
-            catch 
-            { 
-                /* error */ 
+            catch (ArgumentNullException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextArgument,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -155,10 +191,28 @@ namespace TrucoClient.Views
 
         private void PlayerCard_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Image clickedCard && clickedCard.Tag is TrucoCard card)
+            try
             {
-                clickedCard.Visibility = Visibility.Collapsed;
-                SendPlayCardCommand(card.FileName);
+                if (sender is Image clickedCard && clickedCard.Tag is TrucoCard card)
+                {
+                    clickedCard.Visibility = Visibility.Collapsed;
+                    SendPlayCardCommand(card.FileName);
+                }
+            }
+            catch (InvalidCastException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

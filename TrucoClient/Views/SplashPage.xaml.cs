@@ -68,14 +68,14 @@ namespace TrucoClient.Views
                     MusicInitializer.InitializeMenuMusic();
                     this.NavigationService?.Navigate(new StartPage());
                 }
-                catch (AnimationException ex)
+                catch (AnimationException)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextSplashAnimationError, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError, 
                         Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextSplashAnimationError, ex.Message), 
+                    CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError, 
                         Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             };
