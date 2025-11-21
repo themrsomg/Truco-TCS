@@ -197,11 +197,12 @@ namespace TrucoClient.TrucoServer
                 GetActiveGamePage()?.NotifyScoreUpdate(team1Score, team2Score);
             });
         }
-        public void NotifyEnvidoCall(string callerName, string betName, int totalPoints, bool needsResponse)
+
+        public void NotifyEnvidoCall(string callerName, string betName, bool needsResponse)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.NotifyEnvidoCall(callerName, betName, totalPoints, needsResponse);
+                GetActiveGamePage()?.NotifyEnvidoCall(callerName, betName, needsResponse);
             });
         }
 
@@ -209,7 +210,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.NotifyEnvidoResult(winnerName, score, totalPointsAwarded);
+                GetActiveGamePage()?.NotifyEnvidoFlorResult(winnerName, score);
             });
         }
 

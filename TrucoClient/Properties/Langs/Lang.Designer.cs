@@ -1170,6 +1170,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Bet won by: {0} with {1}.
+        /// </summary>
+        public static string GameTextBetWonBy {
+            get {
+                return ResourceManager.GetString("GameTextBetWonBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Card.
         /// </summary>
         public static string GameTextCard {
@@ -1341,11 +1350,38 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a {0} called {1}.
+        /// </summary>
+        public static string GameTextPlayerCalledBet {
+            get {
+                return ResourceManager.GetString("GameTextPlayerCalledBet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} has Flor. {1} won 3 points.
+        /// </summary>
+        public static string GameTextPlayerHasFlor {
+            get {
+                return ResourceManager.GetString("GameTextPlayerHasFlor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No player was found..
         /// </summary>
         public static string GameTextPlayerNotFound {
             get {
                 return ResourceManager.GetString("GameTextPlayerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} said: {1}.
+        /// </summary>
+        public static string GameTextPlayerSaidResponse {
+            get {
+                return ResourceManager.GetString("GameTextPlayerSaidResponse", resourceCulture);
             }
         }
         
@@ -1395,6 +1431,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Round won by: {0}.
+        /// </summary>
+        public static string GameTextRoundWonBy {
+            get {
+                return ResourceManager.GetString("GameTextRoundWonBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Scoreboard.
         /// </summary>
         public static string GameTextScoreboard {
@@ -1409,6 +1454,15 @@ namespace TrucoClient.Properties.Langs {
         public static string GameTextTruco {
             get {
                 return ResourceManager.GetString("GameTextTruco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Waiting for a response....
+        /// </summary>
+        public static string GameTextWaitingResponse {
+            get {
+                return ResourceManager.GetString("GameTextWaitingResponse", resourceCulture);
             }
         }
         

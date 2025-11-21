@@ -1068,4 +1068,22 @@ Register today and set up a proper game!</value>
   <data name="GameTextMatchEndedTitle" xml:space="preserve">
     <value>End of the Game</value>
   </data>
+  <data name="GameTextPlayerCalledBet" xml:space="preserve">
+    <value>{0} called {1}</value>
+  </data>
+  <data name="GameTextPlayerSaidResponse" xml:space="preserve">
+    <value>{0} said: {1}</value>
+  </data>
+  <data name="GameTextRoundWonBy" xml:space="preserve">
+    <value>Round won by: {0}</value>
+  </data>
+  <data name="GameTextBetWonBy" xml:space="preserve">
+    <value>Bet won by: {0} with {1}</value>
+  </data>
+  <data name="GameTextPlayerHasFlor" xml:space="preserve">
+    <value>{0} has Flor. {1} won 3 points</value>
+  </data>
+  <data name="GameTextWaitingResponse" xml:space="preserve">
+    <value>Waiting for a response...</value>
+  </data>
 </root>

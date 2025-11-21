@@ -1069,4 +1069,22 @@
   <data name="GameTextMatchEndedTitle" xml:space="preserve">
     <value>Fin del Juego</value>
   </data>
+  <data name="GameTextPlayerCalledBet" xml:space="preserve">
+    <value>{0} cantó {1}</value>
+  </data>
+  <data name="GameTextPlayerSaidResponse" xml:space="preserve">
+    <value>{0} dijo: {1}</value>
+  </data>
+  <data name="GameTextRoundWonBy" xml:space="preserve">
+    <value>Ronda ganada por: {0}</value>
+  </data>
+  <data name="GameTextBetWonBy" xml:space="preserve">
+    <value>Apuesta ganada por: {0} con {1}</value>
+  </data>
+  <data name="GameTextPlayerHasFlor" xml:space="preserve">
+    <value>{0} tiene Flor. {1} ganó 3 puntos</value>
+  </data>
+  <data name="GameTextWaitingResponse" xml:space="preserve">
+    <value>Esperando respuesta...</value>
+  </data>
 </root>

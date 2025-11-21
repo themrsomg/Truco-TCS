@@ -12,20 +12,20 @@ namespace TrucoClient.Views
     {
         private readonly List<PlayerInfo> players;
         private Image[] cardImages;
-        private const int CARDS_IN_HAND = 3;
         private const double OPACITY_ACTIVE = 1.0;
         private const double OPACITY_INACTIVE = 0.5;
 
-        protected override TextBlock TxtScoreTeam1 => tbScoreTeam1;
-        protected override TextBlock TxtScoreTeam2 => tbScoreTeam2;
+        protected override TextBlock TxtScoreTeam1 => blckScoreTeam1;
+        protected override TextBlock TxtScoreTeam2 => blckScoreTeam2;
         protected override StackPanel PanelPlayerCards => panelPlayerCards;
         protected override StackPanel PanelTableCards => panelTableCards;
         protected override StackPanel PanelBetOptions => panelBetOptions;
         protected override StackPanel PanelEnvidoOptions => panelEnvidoOptions;
         protected override StackPanel PanelFlorOptions => panelFlorOptions;
 
-        protected override TextBlock TxtEnvidoCaller => tbEnvidoCaller;
-        protected override TextBlock TxtFlorCaller => tbFlorCaller;
+        protected override TextBlock TxtEnvidoCaller => blckEnvidoCaller;
+        protected override TextBlock TxtFlorCaller => blckFlorCaller;
+        protected override TextBlock TxtTrucoCaller => blckTrucoCaller;
 
         protected override Button BtnCallTruco => btnCallTruco;
         protected override Button BtnRespondQuiero => btnRespondQuiero;

@@ -52,6 +52,7 @@ namespace TrucoClient.Views
         protected abstract TextBlock TxtScoreTeam1 { get; }
         protected abstract TextBlock TxtScoreTeam2 { get; }
 
+        protected abstract TextBlock TxtTrucoCaller { get; }
         protected abstract TextBlock TxtEnvidoCaller { get; }
         protected abstract TextBlock TxtFlorCaller { get; }
 
@@ -138,6 +139,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendCallTrucoCommand(string betType)
         {
             try 
@@ -149,6 +151,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendResponseCommand(string response)
         {
             try 
@@ -160,6 +163,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendCallEnvidoCommand(string betType)
         {
             try 
@@ -171,6 +175,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendCallFlorCommand(string betType)
         {
             try 
@@ -185,6 +190,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendRespondToEnvidoCommand(string response)
         {
             try 
@@ -196,6 +202,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendRespondToFlorCommand(string response)
         {
             try 
@@ -207,6 +214,7 @@ namespace TrucoClient.Views
                 ShowError(ex); 
             }
         }
+
         protected void SendGoToDeckCommand()
         {
             try 
@@ -268,6 +276,7 @@ namespace TrucoClient.Views
             if (isMyTurn)
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
+                TxtTrucoCaller.Visibility = Visibility.Collapsed;
                 BtnRespondQuiero.Visibility = Visibility.Collapsed;
                 BtnRespondNoQuiero.Visibility = Visibility.Collapsed;
 
@@ -323,7 +332,7 @@ namespace TrucoClient.Views
             Dispatcher.Invoke(() =>
             {
                 UpdateBetPanelUI(callerName, betName, needsResponse);
-                AddChatMessage(null, $"{callerName} cantó {betName}");
+                AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
             });
         }
 
@@ -332,6 +341,8 @@ namespace TrucoClient.Views
             if (needsResponse)
             {
                 PanelBetOptions.Visibility = Visibility.Visible;
+                TxtTrucoCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
+                TxtTrucoCaller.Visibility = Visibility.Visible;
                 BtnCallTruco.Visibility = Visibility.Collapsed;
                 BtnStartFlor.Visibility = Visibility.Collapsed;
                 BtnRespondQuiero.Visibility = Visibility.Visible;
@@ -339,6 +350,7 @@ namespace TrucoClient.Views
             }
             else
             {
+                TxtTrucoCaller.Visibility = Visibility.Collapsed;
                 PanelBetOptions.Visibility = Visibility.Collapsed;
             }
         }
@@ -349,7 +361,7 @@ namespace TrucoClient.Views
         {
             Dispatcher.Invoke(() =>
             {
-                AddChatMessage(null, $"Ronda ganada por: {winnerName}");
+                AddChatMessage(null, string.Format(Lang.GameTextRoundWonBy, winnerName));
                 TxtScoreTeam1.Text = team1Score.ToString();
                 TxtScoreTeam2.Text = team2Score.ToString();
                 ClearTableUI();
@@ -358,32 +370,20 @@ namespace TrucoClient.Views
 
         protected void ClearTableUI() => PanelTableCards.Children.Clear();
 
-        public void OnChatMessage(string matchCode, string player, string message) => Dispatcher.Invoke(() => AddChatMessage(player, message));
-
-        public void OnMatchEnded(string matchCode, string winner)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner), 
-                    Lang.GameTextMatchEndedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
-                this.NavigationService.Navigate(new MainPage());
-            });
-        }
-
-        public void NotifyEnvidoCall(string callerName, string betName, int totalPoints, bool needsResponse)
+        public void NotifyEnvidoCall(string callerName, string betName, bool needsResponse)
         {
             Dispatcher.Invoke(() =>
             {
                 HideBetPanelUI();
-                UpdateEnvidoBetPanelUI(callerName, betName, totalPoints, needsResponse);
-                AddChatMessage(null, $"{callerName} cantó {betName} ({totalPoints} puntos en juego)");
+                UpdateEnvidoBetPanelUI(callerName, betName, needsResponse);
+                AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
             });
         }
 
-        protected void UpdateEnvidoBetPanelUI(string callerName, string currentBet, int totalPoints, bool needsResponse)
+        protected void UpdateEnvidoBetPanelUI(string callerName, string currentBet, bool needsResponse)
         {
             PanelEnvidoOptions.Visibility = Visibility.Visible;
-            TxtEnvidoCaller.Text = $"{callerName} cantó {currentBet} ({totalPoints} puntos)";
+            TxtEnvidoCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
 
             bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
 
@@ -397,17 +397,15 @@ namespace TrucoClient.Views
 
         protected void HideEnvidoBetPanelUI() => PanelEnvidoOptions.Visibility = Visibility.Collapsed;
 
-        public void NotifyEnvidoResult(string winnerName, int score, int totalPointsAwarded)
+        public void NotifyEnvidoFlorResult(string winnerName, int score)
         {
             Dispatcher.Invoke(() =>
             {
                 HideEnvidoBetPanelUI();
                 HideFlorBetPanelUI();
-                AddChatMessage(null, $"Envido/Flor ganado por: {winnerName} con {score}. ({totalPointsAwarded} puntos)");
+                AddChatMessage(null, string.Format(Lang.GameTextBetWonBy, winnerName, score));
             });
         }
-
-        protected void NotifyEnvidoResultUI(string winnerName, int score, int totalPointsAwarded) => HideEnvidoBetPanelUI();
 
         public void NotifyFlorCall(string callerName, string betName, int totalPoints, bool needsResponse)
         {
@@ -420,19 +418,19 @@ namespace TrucoClient.Views
 
                 if (!needsResponse)
                 {
-                    AddChatMessage(null, $"{callerName} tiene Flor. Se acreditan 3 puntos automáticamente.");
+                    AddChatMessage(null, string.Format(Lang.GameTextPlayerHasFlor, callerName, callerName));
                     return;
                 }
 
-                UpdateFlorBetPanelUI(callerName, betName, totalPoints, needsResponse);
-                AddChatMessage(null, $"{callerName} cantó {betName}.");
+                UpdateFlorBetPanelUI(callerName, betName, needsResponse);
+                AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
             });
         }
 
-        protected void UpdateFlorBetPanelUI(string callerName, string currentBet, int totalPoints, bool needsResponse)
+        protected void UpdateFlorBetPanelUI(string callerName, string currentBet, bool needsResponse)
         {
             PanelFlorOptions.Visibility = Visibility.Visible;
-            TxtFlorCaller.Text = $"{callerName} cantó {currentBet} ({totalPoints} puntos)";
+            TxtFlorCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
 
             bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
 
@@ -446,7 +444,7 @@ namespace TrucoClient.Views
             else
             {
                 BtnCallContraFlor.Visibility = Visibility.Collapsed;
-                TxtFlorCaller.Text += " Esperando respuesta obligatoria...";
+                TxtFlorCaller.Text += Lang.GameTextWaitingResponse;
             }
         }
 
@@ -460,7 +458,7 @@ namespace TrucoClient.Views
                 HideBetPanelUI();
                 HideEnvidoBetPanelUI();
                 HideFlorBetPanelUI();
-                AddChatMessage(null, $"{responderName} dijo: {response}");
+                AddChatMessage(null, string.Format(Lang.GameTextPlayerSaidResponse, responderName, response));
             });
         }
 
@@ -474,11 +472,11 @@ namespace TrucoClient.Views
 
             if (btnQuiero != null)
             {
-                btnQuiero.Click += (s, e) => SendResponseCommand("Quiero");
+                btnQuiero.Click += (s, e) => SendResponseCommand(RESPOND_QUIERO);
             }
             if (btnNoQuiero != null)
             {
-                btnNoQuiero.Click += (s, e) => SendResponseCommand("NoQuiero");
+                btnNoQuiero.Click += (s, e) => SendResponseCommand(RESPOND_NO_QUIERO);
             }
 
             if (btnTruco != null)
