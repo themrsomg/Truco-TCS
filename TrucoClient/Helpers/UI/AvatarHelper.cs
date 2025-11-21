@@ -53,7 +53,8 @@ namespace TrucoClient.Helpers.UI
             "avatar_t_txt_bigbomb", "avatar_t_txt_bigreds", "avatar_t_txt_ggheart", "avatar_t_txt_hammer",
             "avatar_t_txt_lisgreen", "avatar_t_txt_lisred", "avatar_t_txt_moneybag", "avatar_t_txt_pumpkin",
             "avatar_t_txt_saucy", "avatar_t_txt_soap", "avatar_t_txt_softwaresquad", "avatar_t_txt_sq",
-            "avatar_tt_dragon", "avatar_tt_lilbird", "avatar_tt_revolver", "avatar_tt_twentydollars",
+            "avatar_tt_dragon", "avatar_tt_lilbird", "avatar_tt_revolver", "avatar_tt_twentydollars", 
+            "avatar_tt_ztv_wire", "avatar_tt_ztv_bb", "avatar_tt_ztv_lost",
         };
 
         public static readonly ReadOnlyCollection<string> availableAvatars = internalAvatars.AsReadOnly();

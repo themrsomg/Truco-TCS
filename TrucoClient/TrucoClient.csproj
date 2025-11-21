@@ -449,6 +449,9 @@
     <Resource Include="Resources\Alerts\alert_information.png" />
     <Resource Include="Resources\Alerts\alert_question.png" />
     <Resource Include="Resources\Alerts\alert_warning.png" />
+    <Resource Include="Resources\Avatars\avatar_tt_ztv_bb.png" />
+    <Resource Include="Resources\Avatars\avatar_tt_ztv_lost.png" />
+    <Resource Include="Resources\Avatars\avatar_tt_ztv_wire.png" />
     <Content Include="Resources\Songs\laughter_reaction.mp3" />
     <Content Include="Resources\Songs\music_in_start.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
