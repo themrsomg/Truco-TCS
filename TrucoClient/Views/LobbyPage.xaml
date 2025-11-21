@@ -44,7 +44,7 @@
                                 <TextBlock Grid.Column="2" Text="{Binding Team}" VerticalAlignment="Center" Foreground="#FFDDA81C"
                                     FontWeight="Bold" FontSize="18" Margin="15,0,10,0" />
                                 <Button Grid.Column="3" Content="{x:Static language:Lang.LobbyTextChange}" Click="ClickSwitchTeam"
-                                    CommandParameter="{Binding Username}" FontSize="15" Margin="5,0,0,0" VerticalAlignment="Center" Padding="10,3">
+                                    CommandParameter="{Binding Username}" FontSize="15" Margin="5,0,0,0" VerticalAlignment="Center" Padding="10,3" Cursor="Hand">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="Visibility" Value="Collapsed" />

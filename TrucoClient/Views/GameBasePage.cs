@@ -176,8 +176,6 @@ namespace TrucoClient.Views
 
         private void OnBtnRespondQuieroClick(object sender, RoutedEventArgs e)
         {
-            string response = (CurrentStateIsEnvidoOrFlor()) ? RESPOND_QUIERO : RESPOND_QUIERO;
-
             if (sender == BtnEnvidoRespondQuiero)
             {
                 SendRespondToEnvidoCommand(RESPOND_QUIERO);
@@ -223,11 +221,6 @@ namespace TrucoClient.Views
         private void OnBtnCallContraFlorClick(object sender, RoutedEventArgs e)
         {
             SendRespondToFlorCommand(BET_CONTRA_FLOR);
-        }
-
-        private bool CurrentStateIsEnvidoOrFlor()
-        {
-            return false;
         }
 
         protected void InitializeCardEvents()
@@ -785,7 +778,7 @@ namespace TrucoClient.Views
             }
         }
 
-        public void NotifyFlorCall(string callerName, string betName, int totalPoints, bool needsResponse)
+        public void NotifyFlorCall(string callerName, string betName, bool needsResponse)
         {
             try
             {

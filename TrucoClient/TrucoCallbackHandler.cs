@@ -238,11 +238,11 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void NotifyFlorCall(string callerName, string betName, int currentPoints, bool needsResponse)
+        public void NotifyFlorCall(string callerName, string betName, bool needsResponse)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.NotifyFlorCall(callerName, betName, currentPoints, needsResponse);
+                GetActiveGamePage()?.NotifyFlorCall(callerName, betName, needsResponse);
             });
         }
     }

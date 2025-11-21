@@ -78,7 +78,7 @@
             <StackPanel x:Name="panelBetOptions" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed">
                 <TextBlock x:Name="blckTrucoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
-                <Button x:Name="btnCallTruco" Content="Truco" Margin="5" Cursor="Hand" Foreground="White">
+                <Button x:Name="btnCallTruco" Content="Truco" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="8" Background="#FF000500" BorderThickness="1" BorderBrush="#FF202220">
@@ -87,7 +87,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button x:Name="btnRespondQuiero" Content="Quiero" Margin="5" Cursor="Hand" Foreground="White">
+                <Button x:Name="btnRespondQuiero" Content="Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="8" Background="#FF008148" BorderThickness="1" BorderBrush="#FF006E3C">
@@ -96,7 +96,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Cursor="Hand" Foreground="White">
+                <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="8" Background="#FFEF2917" BorderThickness="1" BorderBrush="#FFB31E10">
@@ -105,7 +105,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="White">
+                <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="White" Padding="10,5">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="8" Background="#FF362417" BorderThickness="1" BorderBrush="#FF402D1F">
@@ -114,7 +114,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button x:Name="btnStartFlor" Content="Flor" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="Black">
+                <Button x:Name="btnStartFlor" Content="Flor" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="Black" Padding="10,5">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="8" Background="#FFF1DABF" BorderThickness="1" BorderBrush="#FFDDC8AF">
@@ -129,7 +129,7 @@
         <StackPanel x:Name="panelEnvidoOptions" HorizontalAlignment="Center" VerticalAlignment="Bottom"
             Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="0,0,0,50">
             <TextBlock x:Name="blckEnvidoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
-            <Button x:Name="btnCallEnvido" Content="Envido" Margin="5" Cursor="Hand" Foreground="White">
+            <Button x:Name="btnCallEnvido" Content="Envido" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FF1B998B" BorderThickness="1" BorderBrush="#FF157569">
@@ -138,7 +138,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnCallRealEnvido" Content="Real Envido" Margin="5" Cursor="Hand" Foreground="White">
+            <Button x:Name="btnCallRealEnvido" Content="Real Envido" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FF474B6E" BorderThickness="1" BorderBrush="#FF2D3047">
@@ -147,7 +147,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnCallFaltaEnvido" Content="Falta Envido" Margin="5" Cursor="Hand" Foreground="Black">
+            <Button x:Name="btnCallFaltaEnvido" Content="Falta Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FFFFFD82" BorderThickness="1" BorderBrush="#FF9B9A50">
@@ -156,7 +156,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnEnvidoRespondQuiero" Content="Quiero" Margin="5" Cursor="Hand" Foreground="White">
+            <Button x:Name="btnEnvidoRespondQuiero" Content="Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FF008148" BorderThickness="1" BorderBrush="#FF006E3C">
@@ -165,7 +165,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnEnvidoRespondNoQuiero" Content="No Quiero" Margin="5" Cursor="Hand" Foreground="White">
+            <Button x:Name="btnEnvidoRespondNoQuiero" Content="No Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FFEF2917" BorderThickness="1" BorderBrush="#FFB31E10">
@@ -181,7 +181,7 @@
 
             <TextBlock x:Name="blckFlorCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
 
-            <Button x:Name="btnCallFlor" Content="Flor" Margin="5" Cursor="Hand" Foreground="Black">
+            <Button x:Name="btnCallFlor" Content="Flor" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FFF1DABF" BorderThickness="1" BorderBrush="#FFDDC8AF">
@@ -190,7 +190,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnCallContraFlor" Content="Contra Flor" Margin="5" Cursor="Hand" Foreground="Black">
+            <Button x:Name="btnCallContraFlor" Content="Contra Flor" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="8" Background="#FFFF9B71" BorderThickness="1" BorderBrush="#FFD07D5A">
