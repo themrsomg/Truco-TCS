@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -13,73 +10,24 @@ namespace TrucoClient.Views
     public partial class GameFourPlayersPage : GameBasePage
     {
         private readonly List<PlayerInfo> players;
-        private Image[] cardImages;
-        private const double OPACITY_DIMMED = 0.5;
-        private const double OPACITY_FULL = 1.0;
-
-        protected override TextBlock TxtScoreTeam1 => blckScoreTeam1;
-        protected override TextBlock TxtScoreTeam2 => blckScoreTeam2;
-        protected override StackPanel PanelPlayerCards => panelPlayerCards;
-        protected override StackPanel PanelTableCards => panelTableCards;
-        protected override StackPanel PanelBetOptions => panelBetOptions;
-        protected override StackPanel PanelEnvidoOptions => panelEnvidoOptions;
-        protected override StackPanel PanelFlorOptions => panelFlorOptions;
-
-        protected override TextBlock TxtEnvidoCaller => blckEnvidoCaller;
-        protected override TextBlock TxtFlorCaller => blckFlorCaller;
-        protected override TextBlock TxtTrucoCaller => blckTrucoCaller;
-
-        protected override Button BtnCallTruco => btnCallTruco;
-        protected override Button BtnRespondQuiero => btnRespondQuiero;
-        protected override Button BtnRespondNoQuiero => btnRespondNoQuiero;
-        protected override Button BtnGoToDeck => btnGoToDeck;
-
-        protected override Button BtnCallEnvido => btnCallEnvido;
-        protected override Button BtnCallRealEnvido => btnCallRealEnvido;
-        protected override Button BtnCallFaltaEnvido => btnCallFaltaEnvido;
-        protected override Button BtnEnvidoRespondQuiero => btnEnvidoRespondQuiero;
-        protected override Button BtnEnvidoRespondNoQuiero => btnEnvidoRespondNoQuiero;
-
-        protected override Button BtnStartFlor => btnStartFlor;
-        protected override Button BtnCallFlor => btnCallFlor;
-        protected override Button BtnCallContraFlor => btnCallContraFlor;
-
 
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
+
+            MapUiControls();
 
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
 
             this.players = players ?? new List<PlayerInfo>();
             this.Loaded += GamePage_Loaded;
 
-            cardImages = new[] 
-            { 
-                imgPlayerCard1, 
-                imgPlayerCard2, 
-                imgPlayerCard3 
-            };
+            base.PlayerCardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
 
-            foreach (var img in cardImages)
-            {
-                img.MouseDown += PlayerCard_MouseDown;
-            }
-
-            SetupCommonEventHandlers(btnBack, btnCallTruco, btnRespondQuiero, btnRespondNoQuiero);
+            InitializeGameEvents();
+            InitializeCardEvents();
 
             PanelPlayerCards.IsEnabled = false;
-
-            btnCallEnvido.Click += (s, e) => SendCallEnvidoCommand(BET_ENVIDO);
-            btnCallRealEnvido.Click += (s, e) => SendCallEnvidoCommand(BET_REAL_ENVIDO);
-            btnCallFaltaEnvido.Click += (s, e) => SendCallEnvidoCommand(BET_FALTA_ENVIDO);
-            btnEnvidoRespondQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_QUIERO);
-            btnEnvidoRespondNoQuiero.Click += (s, e) => SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
-
-            btnGoToDeck.Click += (s, e) => SendGoToDeckCommand();
-
-            btnStartFlor.Click += (s, e) => SendCallFlorCommand(BET_FLOR);
-            btnCallContraFlor.Click += (s, e) => SendRespondToFlorCommand(BET_CONTRA_FLOR);
         }
 
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
@@ -87,41 +35,6 @@ namespace TrucoClient.Views
             LoadPlayerAvatars(players);
             CheckForBufferedCards();
             this.Loaded -= GamePage_Loaded;
-        }
-
-        protected override void UpdatePlayerHandUI(List<TrucoCard> hand)
-        {
-            try
-            {
-                for (int i = 0; i < cardImages.Length; i++)
-                {
-                    if (i < hand.Count)
-                    {
-                        cardImages[i].Source = LoadCardImage(hand[i].FileName);
-                        cardImages[i].Tag = hand[i];
-                        cardImages[i].Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        cardImages[i].Visibility = Visibility.Hidden;
-                    }
-                }
-            }
-            catch (IndexOutOfRangeException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextCardImages,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (ArgumentNullException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextArgument,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         protected override void LoadPlayerAvatars(List<PlayerInfo> players)
@@ -182,38 +95,49 @@ namespace TrucoClient.Views
             bool isMyTurn = nextPlayerName == currentPlayer;
             PanelPlayerCards.IsEnabled = isMyTurn;
 
-            imgPlayerAvatar.Opacity = isMyTurn ? OPACITY_FULL : OPACITY_DIMMED;
-            imgLeftAvatar.Opacity = OPACITY_DIMMED;
-            imgRightAvatar.Opacity = OPACITY_DIMMED;
+            imgPlayerAvatar.Opacity = isMyTurn ? OPACITY_ACTIVE : OPACITY_INACTIVE;
+
+            imgLeftAvatar.Opacity = OPACITY_INACTIVE;
+            imgRightAvatar.Opacity = OPACITY_INACTIVE;
+
+            if (imgTopAvatar != null)
+            {
+                imgTopAvatar.Opacity = OPACITY_INACTIVE;
+            }
 
             base.UpdateTurnButtons(isMyTurn, currentBetState);
         }
 
-        private void PlayerCard_MouseDown(object sender, MouseButtonEventArgs e)
+        private void MapUiControls()
         {
-            try
-            {
-                if (sender is Image clickedCard && clickedCard.Tag is TrucoCard card)
-                {
-                    clickedCard.Visibility = Visibility.Collapsed;
-                    SendPlayCardCommand(card.FileName);
-                }
-            }
-            catch (InvalidCastException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (CommunicationException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            base.BtnBack = btnBack;
+
+            base.TxtScoreTeam1 = blckScoreTeam1;
+            base.TxtScoreTeam2 = blckScoreTeam2;
+            base.TxtEnvidoCaller = blckEnvidoCaller;
+            base.TxtFlorCaller = blckFlorCaller;
+            base.TxtTrucoCaller = blckTrucoCaller;
+
+            base.PanelPlayerCards = panelPlayerCards;
+            base.PanelTableCards = panelTableCards;
+            base.PanelBetOptions = panelBetOptions;
+            base.PanelEnvidoOptions = panelEnvidoOptions;
+            base.PanelFlorOptions = panelFlorOptions;
+
+            base.BtnCallTruco = btnCallTruco;
+            base.BtnRespondQuiero = btnRespondQuiero;
+            base.BtnRespondNoQuiero = btnRespondNoQuiero;
+            base.BtnGoToDeck = btnGoToDeck;
+
+            base.BtnCallEnvido = btnCallEnvido;
+            base.BtnCallRealEnvido = btnCallRealEnvido;
+            base.BtnCallFaltaEnvido = btnCallFaltaEnvido;
+            base.BtnEnvidoRespondQuiero = btnEnvidoRespondQuiero;
+            base.BtnEnvidoRespondNoQuiero = btnEnvidoRespondNoQuiero;
+
+            base.BtnStartFlor = btnStartFlor;
+            base.BtnCallFlor = btnCallFlor;
+            base.BtnCallContraFlor = btnCallContraFlor;
         }
     }
 }

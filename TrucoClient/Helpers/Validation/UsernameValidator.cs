@@ -1,10 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace TrucoClient.Helpers.Validation
 {
     public static class UsernameValidator
     {
-        private static readonly Regex UsernameRegex = new Regex(@"^[a-zA-Z0-9]+$", RegexOptions.Compiled);
+        private static readonly Regex UsernameRegex = new Regex(
+            @"^[a-zA-Z0-9]+$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
 
         public static bool IsValidFormat(string username)
         {

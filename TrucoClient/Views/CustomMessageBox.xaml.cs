@@ -39,7 +39,7 @@ namespace TrucoClient.Views
 
         private void SetAlertImage(MessageBoxImage icon)
         {
-            string imageName = INFORMATION_IMAGE_FILE_NAME;
+            string imageName;
 
             switch (icon)
             {
@@ -54,8 +54,6 @@ namespace TrucoClient.Views
                 case MessageBoxImage.Warning:
                     imageName = WARNING_IMAGE_FILE_NAME;
                     break;
-
-                case MessageBoxImage.Information:
 
                 default:
                     imageName = INFORMATION_IMAGE_FILE_NAME;

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
@@ -20,7 +21,8 @@ namespace TrucoClient.Helpers.Validation
             try
             {
                 var addr = new MailAddress(email);
-                return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$") && addr.Address == email;
+                return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$", 
+                    RegexOptions.None, TimeSpan.FromMilliseconds(500)) && addr.Address == email;
             }
             catch
             {

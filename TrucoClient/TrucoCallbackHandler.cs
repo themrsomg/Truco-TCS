@@ -109,7 +109,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                GetActiveGamePage()?.AddChatMessage(string.Empty, string.Format("No hay cartas encontradas", player, card));
+                GetActiveGamePage()?.AddChatMessage(string.Empty, "No cards found");
             });
         }
 
@@ -143,12 +143,12 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show(string.Format("Juego encontrado", matchDetails), "Uniendote a la partida...",
+                CustomMessageBox.Show("Match Found", "Joining the match...",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
-        public void PlayerJoined(string username)
+        public static void PlayerJoined(string username)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {

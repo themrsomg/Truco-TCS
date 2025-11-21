@@ -18,12 +18,16 @@ namespace TrucoClient.Views
 {
     public abstract class GameBasePage : Page, IChatPage
     {
+
+        private const int MESSAGE_FONT_SIZE = 13;
+        protected const double OPACITY_ACTIVE = 1.0;
+        protected const double OPACITY_INACTIVE = 0.5;
+
         protected const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
         protected const string MESSAGE_ERROR = "Error";
         protected const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
         protected const string DEFAULT_CARD_BACK_PATH = "/Resources/back_card.png";
         private const string BET_NONE = "None";
-        private const int MESSAGE_FONT_SIZE = 13;
 
         protected const string BET_STATUS_NONE = "None";
         protected const string BET_TRUCO = "Truco";
@@ -46,35 +50,37 @@ namespace TrucoClient.Views
         private bool florPlayedInCurrentHand = false;
         protected List<TrucoCard> playerHand = new List<TrucoCard>();
 
-        protected abstract StackPanel PanelBetOptions { get; }
-        protected abstract StackPanel PanelEnvidoOptions { get; }
-        protected abstract StackPanel PanelFlorOptions { get; }
-        protected abstract StackPanel PanelPlayerCards { get; }
-        protected abstract StackPanel PanelTableCards { get; }
-        protected abstract TextBlock TxtScoreTeam1 { get; }
-        protected abstract TextBlock TxtScoreTeam2 { get; }
+        protected Image[] PlayerCardImages { get; set; }
+        protected Button BtnBack { get; set; }
+        protected StackPanel PanelBetOptions { get; set; }
+        protected StackPanel PanelEnvidoOptions { get; set; }
+        protected StackPanel PanelFlorOptions { get; set; }
+        protected StackPanel PanelPlayerCards { get; set; }
+        protected StackPanel PanelTableCards { get; set; }
 
-        protected abstract TextBlock TxtTrucoCaller { get; }
-        protected abstract TextBlock TxtEnvidoCaller { get; }
-        protected abstract TextBlock TxtFlorCaller { get; }
+        protected TextBlock TxtScoreTeam1 { get; set; }
+        protected TextBlock TxtScoreTeam2 { get; set; }
+        protected TextBlock TxtTrucoCaller { get; set; }
+        protected TextBlock TxtEnvidoCaller { get; set; }
+        protected TextBlock TxtFlorCaller { get; set; }
 
-        protected abstract Button BtnCallTruco { get; }
-        protected abstract Button BtnRespondQuiero { get; }
-        protected abstract Button BtnRespondNoQuiero { get; }
-        protected abstract Button BtnGoToDeck { get; }
+        protected Button BtnCallTruco { get; set; }
+        protected Button BtnRespondQuiero { get; set; }
+        protected Button BtnRespondNoQuiero { get; set; }
+        protected Button BtnGoToDeck { get; set; }
 
-        protected abstract Button BtnCallEnvido { get; }
-        protected abstract Button BtnCallRealEnvido { get; }
-        protected abstract Button BtnCallFaltaEnvido { get; }
-        protected abstract Button BtnEnvidoRespondQuiero { get; }
-        protected abstract Button BtnEnvidoRespondNoQuiero { get; }
+        protected Button BtnCallEnvido { get; set; }
+        protected Button BtnCallRealEnvido { get; set; }
+        protected Button BtnCallFaltaEnvido { get; set; }
+        protected Button BtnEnvidoRespondQuiero { get; set; }
+        protected Button BtnEnvidoRespondNoQuiero { get; set; }
 
-        protected abstract Button BtnStartFlor { get; }
-        protected abstract Button BtnCallFlor { get; }
-        protected abstract Button BtnCallContraFlor { get; }
+        protected Button BtnStartFlor { get; set; }
+        protected Button BtnCallFlor { get; set; }
+        protected Button BtnCallContraFlor { get; set; }
 
         protected abstract void LoadPlayerAvatars(List<PlayerInfo> players);
-        protected abstract void UpdatePlayerHandUI(List<TrucoCard> hand);
+        
         protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState);
 
         protected ITrucoMatchService MatchClient { get; private set; }
@@ -93,6 +99,149 @@ namespace TrucoClient.Views
 
             InitializeMatchClient();
             ConnectToChat();
+        }
+
+        protected void InitializeGameEvents()
+        {
+            if (BtnBack != null)
+            {
+                BtnBack.Click -= ClickBack;
+                BtnBack.Click += ClickBack;
+            }
+
+            if (BtnCallTruco != null)
+            {
+                BtnCallTruco.Click -= OnBtnCallTrucoClick;
+                BtnCallTruco.Click += OnBtnCallTrucoClick;
+            }
+
+            if (BtnRespondQuiero != null)
+            {
+                BtnRespondQuiero.Click -= OnBtnRespondQuieroClick;
+                BtnRespondQuiero.Click += OnBtnRespondQuieroClick;
+            }
+            if (BtnRespondNoQuiero != null)
+            {
+                BtnRespondNoQuiero.Click -= OnBtnRespondNoQuieroClick;
+                BtnRespondNoQuiero.Click += OnBtnRespondNoQuieroClick;
+            }
+
+            if (BtnGoToDeck != null)
+            {
+                BtnGoToDeck.Click -= OnBtnGoToDeckClick;
+                BtnGoToDeck.Click += OnBtnGoToDeckClick;
+            }
+
+            if (BtnCallEnvido != null) 
+            { 
+                BtnCallEnvido.Click -= OnBtnCallEnvidoClick; BtnCallEnvido.Click += OnBtnCallEnvidoClick; 
+            }
+            if (BtnCallRealEnvido != null) 
+            { 
+                BtnCallRealEnvido.Click -= OnBtnCallRealEnvidoClick; BtnCallRealEnvido.Click += OnBtnCallRealEnvidoClick; 
+            }
+            if (BtnCallFaltaEnvido != null) 
+            { 
+                BtnCallFaltaEnvido.Click -= OnBtnCallFaltaEnvidoClick; BtnCallFaltaEnvido.Click += OnBtnCallFaltaEnvidoClick; 
+            }
+            if (BtnEnvidoRespondQuiero != null) 
+            { 
+                BtnEnvidoRespondQuiero.Click -= OnBtnRespondQuieroClick; BtnEnvidoRespondQuiero.Click += OnBtnRespondQuieroClick; 
+            }
+            if (BtnEnvidoRespondNoQuiero != null) 
+            { 
+                BtnEnvidoRespondNoQuiero.Click -= OnBtnRespondNoQuieroClick; BtnEnvidoRespondNoQuiero.Click += OnBtnRespondNoQuieroClick; 
+            }
+
+            if (BtnStartFlor != null) 
+            { 
+                BtnStartFlor.Click -= OnBtnCallFlorClick; BtnStartFlor.Click += OnBtnCallFlorClick; 
+            }
+            if (BtnCallFlor != null) 
+            { 
+                BtnCallFlor.Click -= OnBtnCallFlorClick; BtnCallFlor.Click += OnBtnCallFlorClick; 
+            }
+            if (BtnCallContraFlor != null) 
+            { 
+                BtnCallContraFlor.Click -= OnBtnCallContraFlorClick; BtnCallContraFlor.Click += OnBtnCallContraFlorClick; 
+            }
+        }
+
+
+        private void OnBtnCallTrucoClick(object sender, RoutedEventArgs e)
+        {
+            string betToSend = BtnCallTruco.Content.ToString();
+            SendCallTrucoCommand(betToSend);
+        }
+
+        private void OnBtnRespondQuieroClick(object sender, RoutedEventArgs e)
+        {
+            string response = (CurrentStateIsEnvidoOrFlor()) ? RESPOND_QUIERO : RESPOND_QUIERO;
+
+            if (sender == BtnEnvidoRespondQuiero)
+            {
+                SendRespondToEnvidoCommand(RESPOND_QUIERO);
+            }
+            else
+            {
+                SendResponseCommand(RESPOND_QUIERO);
+            }
+        }
+
+        private void OnBtnRespondNoQuieroClick(object sender, RoutedEventArgs e)
+        {
+            if (sender == BtnEnvidoRespondNoQuiero)
+            {
+                SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
+            }
+            else
+            {
+                SendResponseCommand(RESPOND_NO_QUIERO);
+            }
+        }
+
+        private void OnBtnGoToDeckClick(object sender, RoutedEventArgs e)
+        {
+            SendGoToDeckCommand();
+        }
+        private void OnBtnCallEnvidoClick(object sender, RoutedEventArgs e)
+        {
+            SendCallEnvidoCommand(BET_ENVIDO);
+        }
+        private void OnBtnCallRealEnvidoClick(object sender, RoutedEventArgs e)
+        {
+            SendCallEnvidoCommand(BET_REAL_ENVIDO);
+        }
+        private void OnBtnCallFaltaEnvidoClick(object sender, RoutedEventArgs e)
+        {
+            SendCallEnvidoCommand(BET_FALTA_ENVIDO);
+        }
+        private void OnBtnCallFlorClick(object sender, RoutedEventArgs e)
+        {
+            SendCallFlorCommand(BET_FLOR);
+        }
+        private void OnBtnCallContraFlorClick(object sender, RoutedEventArgs e)
+        {
+            SendRespondToFlorCommand(BET_CONTRA_FLOR);
+        }
+
+        private bool CurrentStateIsEnvidoOrFlor()
+        {
+            return false;
+        }
+
+        protected void InitializeCardEvents()
+        {
+            if (PlayerCardImages == null)
+            {
+                return;
+            }
+
+            foreach (var img in PlayerCardImages)
+            {
+                img.MouseDown -= PlayerCard_MouseDown;
+                img.MouseDown += PlayerCard_MouseDown;
+            }
         }
 
         private void InitializeMatchClient()
@@ -178,6 +327,73 @@ namespace TrucoClient.Views
             } catch 
             {
                 /* error */
+            }
+        }
+
+        protected virtual void UpdatePlayerHandUI(List<TrucoCard> hand)
+        {
+            try
+            {
+                if (PlayerCardImages == null)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < PlayerCardImages.Length; i++)
+                {
+                    if (i < hand.Count)
+                    {
+                        PlayerCardImages[i].Source = LoadCardImage(hand[i].FileName);
+                        PlayerCardImages[i].Tag = hand[i];
+                        PlayerCardImages[i].Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        PlayerCardImages[i].Visibility = Visibility.Hidden;
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCardImages,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentNullException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextArgument,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void PlayerCard_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (sender is Image clickedCard && clickedCard.Tag is TrucoCard card)
+                {
+                    clickedCard.Visibility = Visibility.Collapsed;
+                    SendPlayCardCommand(card.FileName);
+                }
+            }
+            catch (InvalidCastException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -941,34 +1157,6 @@ namespace TrucoClient.Views
             }
 
             return this.playerHand.GroupBy(card => card.CardSuit).Any(g => g.Count() >= 3);
-        }
-
-        protected void SetupCommonEventHandlers(Button btnBack, Button btnTruco, Button btnQuiero, Button btnNoQuiero)
-        {
-            if (btnBack != null)
-            {
-                btnBack.Click -= ClickBack;
-                btnBack.Click += ClickBack;
-            }
-
-            if (btnQuiero != null)
-            {
-                btnQuiero.Click += (s, e) => SendResponseCommand(RESPOND_QUIERO);
-            }
-
-            if (btnNoQuiero != null)
-            {
-                btnNoQuiero.Click += (s, e) => SendResponseCommand(RESPOND_NO_QUIERO);
-            }
-
-            if (btnTruco != null)
-            {
-                btnTruco.Click += (s, e) =>
-                {
-                    string betToSend = btnTruco.Content.ToString();
-                    SendCallTrucoCommand(betToSend);
-                };
-            }
         }
 
         public void AddChatMessage(string senderName, string message)
