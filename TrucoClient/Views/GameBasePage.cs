@@ -18,7 +18,6 @@ namespace TrucoClient.Views
 {
     public abstract class GameBasePage : Page, IChatPage
     {
-
         private const int MESSAGE_FONT_SIZE = 13;
         protected const double OPACITY_ACTIVE = 1.0;
         protected const double OPACITY_INACTIVE = 0.5;
@@ -48,6 +47,7 @@ namespace TrucoClient.Views
         protected TextBlock blckPlaceholder;
         protected string currentTrucoBetState = BET_NONE;
         private bool florPlayedInCurrentHand = false;
+        protected bool envidoPlayedInCurrentHand = false;
         protected List<TrucoCard> playerHand = new List<TrucoCard>();
 
         protected Image[] PlayerCardImages { get; set; }
@@ -626,7 +626,9 @@ namespace TrucoClient.Views
                     this.currentTrucoBetState = BET_NONE;
                     this.playerHand = hand;
                     this.florPlayedInCurrentHand = false;
+                    this.envidoPlayedInCurrentHand = false;
                     UpdatePlayerHandUI(hand);
+                    ClearTableUI();
                 });
             }
             catch (InvalidOperationException)
@@ -756,9 +758,16 @@ namespace TrucoClient.Views
             {
                 Dispatcher.Invoke(() =>
                 {
+                    this.envidoPlayedInCurrentHand = true;
+
                     HideBetPanelUI();
                     UpdateEnvidoBetPanelUI(callerName, betName, needsResponse);
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
+
+                    if (PanelPlayerCards.IsEnabled)
+                    {
+                        UpdateTurnButtons(true, this.currentTrucoBetState);
+                    }
                 });
             }
             catch (InvalidOperationException)
@@ -851,10 +860,22 @@ namespace TrucoClient.Views
                 Dispatcher.Invoke(() =>
                 {
                     this.currentTrucoBetState = newBetState;
+
+                    if (TxtEnvidoCaller.Visibility == Visibility.Visible)
+                    {
+                        this.envidoPlayedInCurrentHand = true;
+                        HideEnvidoBetPanelUI();
+                    }
+
                     HideBetPanelUI();
                     HideEnvidoBetPanelUI();
                     HideFlorBetPanelUI();
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerSaidResponse, responderName, response));
+
+                    if (PanelPlayerCards.IsEnabled)
+                    {
+                        UpdateTurnButtons(true, this.currentTrucoBetState);
+                    }
                 });
             }
             catch (InvalidOperationException)
@@ -957,11 +978,73 @@ namespace TrucoClient.Views
                     {
                         BtnCallTruco.Visibility = Visibility.Collapsed;
                     }
+
+                    bool hasNotPlayedCards = playerHand.Count == 3;
+                    bool isTrucoClean = currentBetState == BET_STATUS_NONE;
+
+                    if (envidoPlayedInCurrentHand)
+                    {
+                        BtnCallEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallRealEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallFaltaEnvido.Visibility = Visibility.Collapsed;
+                    }
+                    else if (isTrucoClean && hasNotPlayedCards)
+                    {
+                        PanelEnvidoOptions.Visibility = Visibility.Visible;
+                        TxtEnvidoCaller.Visibility = Visibility.Collapsed;
+
+                        BtnCallEnvido.Visibility = Visibility.Visible;
+                        BtnCallRealEnvido.Visibility = Visibility.Visible;
+                        BtnCallFaltaEnvido.Visibility = Visibility.Visible;
+
+                        BtnEnvidoRespondQuiero.Visibility = Visibility.Collapsed;
+                        BtnEnvidoRespondNoQuiero.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        BtnCallEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallRealEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallFaltaEnvido.Visibility = Visibility.Collapsed;
+
+                        if (TxtEnvidoCaller.Visibility == Visibility.Collapsed)
+                        {
+                            PanelEnvidoOptions.Visibility = Visibility.Collapsed;
+                        }
+                    }
+
+                    handJustStarted = PanelTableCards.Children.Count == 0;
+
+                    if (currentBetState == BET_STATUS_NONE && ClientHasFlor() && handJustStarted && !florPlayedInCurrentHand)
+                    {
+                        PanelFlorOptions.Visibility = Visibility.Visible;
+                        BtnStartFlor.Visibility = Visibility.Visible;
+                        TxtFlorCaller.Visibility = Visibility.Collapsed;
+                        BtnCallFlor.Visibility = Visibility.Collapsed;
+                        BtnCallContraFlor.Visibility = Visibility.Collapsed;
+                    }
+                    else if (!florPlayedInCurrentHand)
+                    {
+                        if (TxtFlorCaller.Visibility == Visibility.Collapsed)
+
+                        {
+                            PanelFlorOptions.Visibility = Visibility.Collapsed;
+                        }
+                    }
                 }
                 else
                 {
                     PanelBetOptions.Visibility = Visibility.Collapsed;
                     BtnGoToDeck.Visibility = Visibility.Collapsed;
+
+                    if (TxtEnvidoCaller.Visibility == Visibility.Collapsed)
+                    {
+                        PanelEnvidoOptions.Visibility = Visibility.Collapsed;
+                    }
+
+                    if (TxtFlorCaller.Visibility == Visibility.Collapsed)
+                    {
+                        PanelFlorOptions.Visibility = Visibility.Collapsed;
+                    }
                 }
             }
             catch (InvalidOperationException)
@@ -1091,7 +1174,8 @@ namespace TrucoClient.Views
         protected void HideEnvidoBetPanelUI()
         {
             try
-            { 
+            {
+                TxtEnvidoCaller.Visibility = Visibility.Collapsed;
                 PanelEnvidoOptions.Visibility = Visibility.Collapsed;
             }
             catch (InvalidOperationException)

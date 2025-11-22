@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using TrucoClient.Helpers.Services;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
