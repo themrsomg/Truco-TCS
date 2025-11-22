@@ -10,6 +10,9 @@ namespace TrucoClient.Views
 {
     public partial class CreditsPage : Page
     {
+        private const string EASTER_EGG_FILE_NAME = "NobodyBeatsTheHammer.exe";
+        private const string RESOURCES_FOLDER = "Resources";
+
         public CreditsPage()
         {
             InitializeComponent();
@@ -23,7 +26,7 @@ namespace TrucoClient.Views
         private void ClickEgg(object sender, RoutedEventArgs e)
         {
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string fullPath = System.IO.Path.Combine(currentDirectory, "Resources", "NobodyBeatsTheHammer.exe");
+            string fullPath = System.IO.Path.Combine(currentDirectory, RESOURCES_FOLDER, EASTER_EGG_FILE_NAME);
 
             try
             {

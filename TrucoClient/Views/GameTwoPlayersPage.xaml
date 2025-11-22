@@ -39,9 +39,9 @@
                     <StackPanel>
                         <TextBlock Text="{x:Static language:Lang.GameTextScoreboard}" FontSize="18" HorizontalAlignment="Center" FontWeight="Bold"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Equipo 1:" Margin="5,0"/>
+                            <TextBlock Text="{x:Static language:Lang.TeamOne}" Margin="5,0"/>
                             <TextBlock x:Name="blckScoreTeam1" Text="0" FontWeight="Bold" Margin="0,0,10,0"/>
-                            <TextBlock Text="Equipo 2:" Margin="5,0"/>
+                            <TextBlock Text="{x:Static language:Lang.TeamTwo}" Margin="5,0"/>
                             <TextBlock x:Name="blckScoreTeam2" Text="0" FontWeight="Bold"/>
                         </StackPanel>
                     </StackPanel>
