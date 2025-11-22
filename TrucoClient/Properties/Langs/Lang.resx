@@ -1107,4 +1107,10 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextCardImages" xml:space="preserve">
     <value>Error displaying the corresponding cards.</value>
   </data>
+  <data name="TeamOne" xml:space="preserve">
+    <value>Team 1:</value>
+  </data>
+  <data name="TeamTwo" xml:space="preserve">
+    <value>Team 2:</value>
+  </data>
 </root>

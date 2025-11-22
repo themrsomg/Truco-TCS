@@ -2808,6 +2808,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Team 1:.
+        /// </summary>
+        public static string TeamOne {
+            get {
+                return ResourceManager.GetString("TeamOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Team 2:.
+        /// </summary>
+        public static string TeamTwo {
+            get {
+                return ResourceManager.GetString("TeamTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a To view and create your profile, you need to log in or create an account!
         ///
         ///⭐ Log in (or register in seconds) and unlock everything!
