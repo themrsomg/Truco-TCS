@@ -98,5 +98,10 @@ namespace TrucoClient.Views
 
             this.NavigationService.Navigate(new SettingsPage(selectedIndex));
         }
+
+        private void ClickCards(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new CardsFirstPage());
+        }
     }
 }

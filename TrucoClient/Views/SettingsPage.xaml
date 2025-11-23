@@ -16,7 +16,7 @@
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
         </Border.Effect>
         <StackPanel>
-            <TextBlock Text="{x:Static language:Lang.GlobalTextSettings}" Margin="0,40,0,0" FontSize="40" Foreground="White"
+            <TextBlock Text="{x:Static language:Lang.GlobalTextSettings}" Margin="0,30,0,0" FontSize="40" Foreground="White"
                        HorizontalAlignment="Center"/>
             <StackPanel Margin="10,40,10,20" Width="600">
                 <Button Click="ClickCredits" Content="{x:Static language:Lang.SettingsTextCredits}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
@@ -28,7 +28,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button Click="ClickAbout" Content="{x:Static language:Lang.SettingsTextAbout}" Cursor="Hand" Margin="65,30,65,0" 
+                <Button Click="ClickAbout" Content="{x:Static language:Lang.SettingsTextAbout}" Cursor="Hand" Margin="65,10,65,0" 
                         FontSize="40">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -38,7 +38,16 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Grid Margin="0,20,0,0">
+                <Button Click="ClickCards" Content="{x:Static language:Lang.CardsText}" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#9fcee9" BorderThickness="2" BorderBrush="#9fcee9">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>

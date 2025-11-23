@@ -142,6 +142,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cards.
+        /// </summary>
+        public static string CardsText {
+            get {
+                return ResourceManager.GetString("CardsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ace.
         /// </summary>
         public static string CardsTextAce {
@@ -627,6 +636,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 11 of club.
+        /// </summary>
+        public static string ElevenClub {
+            get {
+                return ResourceManager.GetString("ElevenClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a English.
         /// </summary>
         public static string en {
@@ -942,6 +960,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 5 of club.
+        /// </summary>
+        public static string FiveClub {
+            get {
+                return ResourceManager.GetString("FiveClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Password recovery.
         /// </summary>
         public static string ForgotPasswordRecovery {
@@ -1055,6 +1082,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ForgotPasswordTextVerificationCode {
             get {
                 return ResourceManager.GetString("ForgotPasswordTextVerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Four of club.
+        /// </summary>
+        public static string FourClub {
+            get {
+                return ResourceManager.GetString("FourClub", resourceCulture);
             }
         }
         
@@ -2412,6 +2448,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Next.
+        /// </summary>
+        public static string NextPage {
+            get {
+                return ResourceManager.GetString("NextPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a {0} accepted your friend request!.
         /// </summary>
         public static string NotificactionDialogTextFriendAccepted {
@@ -2444,6 +2489,15 @@ namespace TrucoClient.Properties.Langs {
         public static string NotificactionDialogTextFriendRequestTitle {
             get {
                 return ResourceManager.GetString("NotificactionDialogTextFriendRequestTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 1 of club.
+        /// </summary>
+        public static string OneClub {
+            get {
+                return ResourceManager.GetString("OneClub", resourceCulture);
             }
         }
         
@@ -2700,6 +2754,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 7 of club.
+        /// </summary>
+        public static string SevenClub {
+            get {
+                return ResourceManager.GetString("SevenClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 6 of club.
+        /// </summary>
+        public static string SixClub {
+            get {
+                return ResourceManager.GetString("SixClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Email or Username.
         /// </summary>
         public static string StarTextEmailOrUsername {
@@ -2831,6 +2903,42 @@ namespace TrucoClient.Properties.Langs {
         public static string TeamTwo {
             get {
                 return ResourceManager.GetString("TeamTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 10 of club.
+        /// </summary>
+        public static string TenClub {
+            get {
+                return ResourceManager.GetString("TenClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 3 of club.
+        /// </summary>
+        public static string ThreeClub {
+            get {
+                return ResourceManager.GetString("ThreeClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 12 of club.
+        /// </summary>
+        public static string TwelveClub {
+            get {
+                return ResourceManager.GetString("TwelveClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 2 of club.
+        /// </summary>
+        public static string TwoClub {
+            get {
+                return ResourceManager.GetString("TwoClub", resourceCulture);
             }
         }
         

@@ -1116,4 +1116,40 @@
   <data name="DialogTextUserAlreadyLoggedIn" xml:space="preserve">
     <value>Ya existe un inicio de sesión de este usuario.</value>
   </data>
+  <data name="CardsText" xml:space="preserve">
+    <value>Cartas</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="OneClub" xml:space="preserve">
+    <value>1 de basto</value>
+  </data>
+  <data name="TwoClub" xml:space="preserve">
+    <value>2 de basto</value>
+  </data>
+  <data name="ThreeClub" xml:space="preserve">
+    <value>3 de basto</value>
+  </data>
+  <data name="FourClub" xml:space="preserve">
+    <value>4 de basto</value>
+  </data>
+  <data name="FiveClub" xml:space="preserve">
+    <value>5 de basto</value>
+  </data>
+  <data name="SixClub" xml:space="preserve">
+    <value>6 de basto</value>
+  </data>
+  <data name="SevenClub" xml:space="preserve">
+    <value>7 de basto</value>
+  </data>
+  <data name="TenClub" xml:space="preserve">
+    <value>10 de basto</value>
+  </data>
+  <data name="ElevenClub" xml:space="preserve">
+    <value>11 de basto</value>
+  </data>
+  <data name="TwelveClub" xml:space="preserve">
+    <value>12 de basto</value>
+  </data>
 </root>

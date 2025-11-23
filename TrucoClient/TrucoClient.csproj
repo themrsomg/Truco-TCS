@@ -85,6 +85,9 @@
     <Compile Include="Helpers\Validation\PasswordValidator.cs" />
     <Compile Include="Helpers\Validation\UsernameValidator.cs" />
     <Compile Include="IChatPage.cs" />
+    <Compile Include="Views\CardsFirstPage.xaml.cs">
+      <DependentUpon>CardsFirstPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +181,10 @@
     <Compile Include="Views\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CardsFirstPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ChangePasswordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

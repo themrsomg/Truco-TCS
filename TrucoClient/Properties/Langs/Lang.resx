@@ -1116,4 +1116,40 @@ Register today and set up a proper game!</value>
   <data name="DialogTextUserAlreadyLoggedIn" xml:space="preserve">
     <value>There is already a login for this user.</value>
   </data>
+  <data name="CardsText" xml:space="preserve">
+    <value>Cards</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="OneClub" xml:space="preserve">
+    <value>1 of club</value>
+  </data>
+  <data name="TwoClub" xml:space="preserve">
+    <value>2 of club</value>
+  </data>
+  <data name="ThreeClub" xml:space="preserve">
+    <value>3 of club</value>
+  </data>
+  <data name="FourClub" xml:space="preserve">
+    <value>Four of club</value>
+  </data>
+  <data name="FiveClub" xml:space="preserve">
+    <value>5 of club</value>
+  </data>
+  <data name="SixClub" xml:space="preserve">
+    <value>6 of club</value>
+  </data>
+  <data name="SevenClub" xml:space="preserve">
+    <value>7 of club</value>
+  </data>
+  <data name="TenClub" xml:space="preserve">
+    <value>10 of club</value>
+  </data>
+  <data name="ElevenClub" xml:space="preserve">
+    <value>11 of club</value>
+  </data>
+  <data name="TwelveClub" xml:space="preserve">
+    <value>12 of club</value>
+  </data>
 </root>
