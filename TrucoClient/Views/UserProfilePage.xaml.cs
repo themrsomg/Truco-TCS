@@ -1,19 +1,19 @@
-﻿    using System;
+﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using TrucoClient.Properties.Langs;
-using TrucoClient.Helpers.UI;
-using TrucoClient.Helpers.Validation;
-using TrucoClient.TrucoServer;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
-using System.Linq;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -27,8 +27,12 @@ namespace TrucoClient.Views
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
 
-        private UserProfileData currentUserData;
+        private UserProfileData localEditingData;
+
         private string originalUsername;
+        private string originalFacebook;
+        private string originalX;
+        private string originalInstagram;
 
         public UserProfilePage()
         {
@@ -40,21 +44,29 @@ namespace TrucoClient.Views
 
         private async void ClickSave(object sender, RoutedEventArgs e)
         {
-            if (currentUserData == null)
+            if (localEditingData == null)
             {
                 return;
             }
 
             string newUsername = txtUsername.Text.Trim();
-            string newFacebook = txtFacebookLink.Text.Trim();
-            string newX = txtXLink.Text.Trim();
-            string newInstagram = txtInstagramLink.Text.Trim();
 
+            string newFacebook = ExtractHandle(txtFacebookLink.Text, FACEBOOK_BASE_URL);
+            string newX = ExtractHandle(txtXLink.Text, X_BASE_URL);
+            string newInstagram = ExtractHandle(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
+
+            // Actualizamos visualmente los campos limpios
+            txtFacebookLink.Text = newFacebook;
+            txtXLink.Text = newX;
+            txtInstagramLink.Text = newInstagram;
+
+            // Validaciones
             if (!ValidateUsernameChange(newUsername))
             {
                 return;
             }
 
+            // Comparamos los nuevos valores contra los ORIGINALES (no contra el objeto local que ya cambió)
             if (!HasChangesToSave(newUsername, newFacebook, newX, newInstagram))
             {
                 return;
@@ -66,16 +78,17 @@ namespace TrucoClient.Views
             }
 
             await SaveUserProfileAsync(newUsername, newFacebook, newX, newInstagram, sender as Button);
+            UpdateSocialMediaLinks();
         }
 
         private void ClickChangeAvatar(object sender, RoutedEventArgs e)
         {
-            if (currentUserData == null)
+            if (localEditingData == null)
             {
                 return;
             }
 
-            var avatarPage = new AvatarSelectionPage(AvatarHelper.availableAvatars.ToList(), currentUserData.AvatarId);
+            var avatarPage = new AvatarSelectionPage(AvatarHelper.availableAvatars.ToList(), localEditingData.AvatarId);
             avatarPage.AvatarSelected += AvatarSelectedHandler;
             NavigationService.Navigate(avatarPage);
         }
@@ -102,7 +115,6 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-
                     ValidateUsernameInput(textBox);
                 }
             }
@@ -120,6 +132,7 @@ namespace TrucoClient.Views
             {
                 ValidateUsernameInput(textBox);
             }
+            UpdateSocialMediaLinks();
         }
 
         private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -127,46 +140,43 @@ namespace TrucoClient.Views
             e.Handled = !UsernameValidator.IsValidFormat(e.Text);
         }
 
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        // Lógica para abrir enlaces en el navegador
+        private void OpenSocialLink(string handle, string baseUrl)
         {
             try
             {
-                string handle = string.Empty;
-                string baseUrl = string.Empty;
+                string cleanHandle = ExtractHandle(handle, baseUrl);
 
-                if (sender == linkFacebook)
+                if (!string.IsNullOrWhiteSpace(cleanHandle))
                 {
-                    handle = txtFacebookLink.Text.Trim();
-                    baseUrl = FACEBOOK_BASE_URL;
-                }
-                else if (sender == linkX)
-                {
-                    handle = txtXLink.Text.Trim();
-                    baseUrl = X_BASE_URL;
-                }
-                else if (sender == linkInstagram)
-                {
-                    handle = txtInstagramLink.Text.Trim();
-                    baseUrl = INSTAGRAM_BASE_URL;
-                }
-
-                if (!string.IsNullOrWhiteSpace(handle))
-                {
-                    string finalUrl = baseUrl + handle;
-                    if (Uri.IsWellFormedUriString(finalUrl, UriKind.Absolute))
+                    string finalUrl = baseUrl + cleanHandle;
+                    Process.Start(new ProcessStartInfo
                     {
-                        Process.Start(new ProcessStartInfo(finalUrl)
-                        {
-                            UseShellExecute = true
-                        });
-                    }
-                    e.Handled = true;
+                        FileName = finalUrl,
+                        UseShellExecute = true
+                    });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error abriendo link: {ex.Message}");
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void ClickHyperlinkFacebook(object sender, RoutedEventArgs e)
+        {
+            OpenSocialLink(txtFacebookLink.Text, FACEBOOK_BASE_URL);
+        }
+
+        private void ClickHyperlinkX(object sender, RoutedEventArgs e)
+        {
+            OpenSocialLink(txtXLink.Text, X_BASE_URL);
+        }
+
+        private void ClickHyperlinkInstagram(object sender, RoutedEventArgs e)
+        {
+            OpenSocialLink(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
         }
 
         private async void AvatarSelectedHandler(object sender, string newAvatarId)
@@ -177,7 +187,7 @@ namespace TrucoClient.Views
                 avatarPage.AvatarSelected -= AvatarSelectedHandler;
             }
 
-            if (newAvatarId == currentUserData.AvatarId)
+            if (newAvatarId == localEditingData.AvatarId)
             {
                 return;
             }
@@ -191,15 +201,17 @@ namespace TrucoClient.Views
 
                 if (success)
                 {
-                    currentUserData.AvatarId = newAvatarId;
+                    // Actualizamos local y sesión global tras éxito
+                    localEditingData.AvatarId = newAvatarId;
+                    SessionManager.CurrentUserData.AvatarId = newAvatarId;
 
                     AvatarHelper.LoadAvatarImage(imgAvatar, newAvatarId);
-                    CustomMessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess, 
+                    CustomMessageBox.Show(Lang.UserProfileTextAvatarSuccess, Lang.GlobalTextSuccess,
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    CustomMessageBox.Show(Lang.UserProfileTextAvatarError, MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.UserProfileTextAvatarError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -228,20 +240,39 @@ namespace TrucoClient.Views
                     return;
                 }
 
-                currentUserData = SessionManager.CurrentUserData;
-                originalUsername = currentUserData.Username ?? string.Empty;
+                // IMPORTANTE: Creamos una COPIA de los datos para editar.
+                // Esto evita que el Binding modifique SessionManager.CurrentUserData mientras escribimos.
+                var sessionData = SessionManager.CurrentUserData;
 
-                this.DataContext = currentUserData;
+                localEditingData = new UserProfileData
+                {
+                    Username = sessionData.Username,
+                    Email = sessionData.Email,
+                    AvatarId = sessionData.AvatarId,
+                    NameChangeCount = sessionData.NameChangeCount,
+                    FacebookHandle = sessionData.FacebookHandle,
+                    XHandle = sessionData.XHandle,
+                    InstagramHandle = sessionData.InstagramHandle
+                };
 
-                AvatarHelper.LoadAvatarImage(imgAvatar, currentUserData.AvatarId);
+                // Guardamos los valores originales para comparación
+                originalUsername = localEditingData.Username ?? string.Empty;
+                originalFacebook = localEditingData.FacebookHandle ?? string.Empty;
+                originalX = localEditingData.XHandle ?? string.Empty;
+                originalInstagram = localEditingData.InstagramHandle ?? string.Empty;
 
-                txtUsername.Text = currentUserData.Username;
-                txtEmail.Text = currentUserData.Email;
-                txtFacebookLink.Text = currentUserData.FacebookHandle;
-                txtXLink.Text = currentUserData.XHandle;
-                txtInstagramLink.Text = currentUserData.InstagramHandle;
+                // Bindeamos la UI a nuestra copia local
+                this.DataContext = localEditingData;
 
-                UpdateUsernameWarning(currentUserData.NameChangeCount);
+                AvatarHelper.LoadAvatarImage(imgAvatar, localEditingData.AvatarId);
+
+                txtUsername.Text = localEditingData.Username;
+                txtEmail.Text = localEditingData.Email;
+                txtFacebookLink.Text = localEditingData.FacebookHandle;
+                txtXLink.Text = localEditingData.XHandle;
+                txtInstagramLink.Text = localEditingData.InstagramHandle;
+
+                UpdateUsernameWarning(localEditingData.NameChangeCount);
                 UpdateSocialMediaLinks();
             }
             catch (Exception)
@@ -259,45 +290,47 @@ namespace TrucoClient.Views
             saveButton.IsEnabled = false;
             Mouse.OverrideCursor = Cursors.Wait;
 
-            string oldUsername = currentUserData.Username;
-            int oldChangeCount = currentUserData.NameChangeCount;
-
-            string oldFacebook = currentUserData.FacebookHandle;
-            string oldX = currentUserData.XHandle;
-            string oldInstagram = currentUserData.InstagramHandle;
-
+            string oldUsername = originalUsername;
+            int oldChangeCount = localEditingData.NameChangeCount;
 
             try
             {
                 var userClient = ClientManager.UserClient;
-                UpdateCurrentUserData(newUsername, newFacebook, newX, newInstagram);
 
-                if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal) 
+                // Actualizamos nuestro objeto local con los valores limpios
+                UpdateLocalData(newUsername, newFacebook, newX, newInstagram);
+
+                // Verificación de nombre de usuario duplicado (si cambió)
+                if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal)
                     && await UsernameExistsAsync(newUsername, userClient))
                 {
-                    currentUserData.Username = oldUsername;
+                    localEditingData.Username = oldUsername;
                     txtUsername.Text = oldUsername;
                     return;
                 }
 
-                bool success = await userClient.SaveUserProfileAsync(currentUserData);
+                // Enviamos al servidor
+                bool success = await userClient.SaveUserProfileAsync(localEditingData);
 
                 if (success)
                 {
-                    HandleSuccessfulSave(newUsername);
+                    HandleSuccessfulSave(newUsername, newFacebook, newX, newInstagram);
                 }
                 else
                 {
-                    HandleFailedSave(oldUsername, oldChangeCount, oldFacebook, oldX, oldInstagram);
+                    // Si falla, revertimos a los originales
+                    HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
                 }
             }
             catch (System.ServiceModel.EndpointNotFoundException)
             {
                 ShowConnectionError();
+                HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
             }
             catch (Exception)
             {
                 ShowGeneralError();
+                HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
             }
             finally
             {
@@ -328,18 +361,14 @@ namespace TrucoClient.Views
                 if (!UsernameValidator.ValidateLength(newUsername, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
                 {
                     string message = newUsername.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername;
-
                     ErrorDisplayService.ShowError(txtUsername, blckUsernameError, message);
-
                     isValid = false;
                 }
 
-                if (currentUserData.NameChangeCount >= MAX_CHANGES)
+                if (localEditingData.NameChangeCount >= MAX_CHANGES)
                 {
                     ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.UserProfileTextChangesError);
-
                     txtUsername.Text = originalUsername;
-
                     isValid = false;
                 }
             }
@@ -385,41 +414,46 @@ namespace TrucoClient.Views
         private void ClearSpecificError(Control field)
         {
             TextBlock errorBlock = null;
-
             if (field == txtUsername)
             {
                 errorBlock = blckUsernameError;
             }
-
-            /*
-             *else if (field == txtFacebookLink) { errorBlock = blckFacebookError; }
-             *else if (field == txtXLink) { errorBlock = blckXError; }
-             *else if (field == txtInstagramLink) { errorBlock = blckInstagramError; }
-             */
-
             ErrorDisplayService.ClearError(field, errorBlock);
         }
 
         private void ClearAllErrors()
         {
             ErrorDisplayService.ClearError(txtUsername, blckUsernameError);
-            // ErrorDisplayService.ClearError(txtFacebookLink, blckFacebookError); 
-            // ErrorDisplayService.ClearError(txtXLink, blckXError); 
-            // ErrorDisplayService.ClearError(txtInstagramLink, blckInstagramError); 
+        }
+
+        private string Normalize(string input)
+        {
+            return input?.Trim() ?? string.Empty;
         }
 
         private bool HasChangesToSave(string newUsername, string newFacebook, string newX, string newInstagram)
         {
-            bool usernameChanged = !string.Equals(newUsername, originalUsername, StringComparison.Ordinal);
-            bool facebookChanged = !string.Equals(newFacebook, currentUserData.FacebookHandle, StringComparison.Ordinal);
-            bool xChanged = !string.Equals(newX, currentUserData.XHandle, StringComparison.Ordinal);
-            bool instagramChanged = !string.Equals(newInstagram, currentUserData.InstagramHandle, StringComparison.Ordinal);
+            // Comparamos lo que el usuario escribió contra los ORIGINALES (que no cambian al escribir)
+            string currentFb = Normalize(originalFacebook);
+            string currentX = Normalize(originalX);
+            string currentIg = Normalize(originalInstagram);
+            string currentUser = Normalize(originalUsername);
+
+            string inputFb = Normalize(newFacebook);
+            string inputX = Normalize(newX);
+            string inputIg = Normalize(newInstagram);
+            string inputUser = Normalize(newUsername);
+
+            bool usernameChanged = !string.Equals(inputUser, currentUser, StringComparison.Ordinal);
+            bool facebookChanged = !string.Equals(inputFb, currentFb, StringComparison.Ordinal);
+            bool xChanged = !string.Equals(inputX, currentX, StringComparison.Ordinal);
+            bool instagramChanged = !string.Equals(inputIg, currentIg, StringComparison.Ordinal);
 
             bool changed = usernameChanged || facebookChanged || xChanged || instagramChanged;
 
             if (!changed)
             {
-                CustomMessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges, 
+                CustomMessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges,
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
@@ -428,63 +462,66 @@ namespace TrucoClient.Views
 
         private static bool ConfirmSaveChanges()
         {
-            bool? confirm = CustomMessageBox.Show(Lang.UserProfileTextConfirmChanges, 
+            bool? confirm = CustomMessageBox.Show(Lang.UserProfileTextConfirmChanges,
                 Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             return confirm == true;
         }
 
-        private void UpdateCurrentUserData(string newUsername, string fb, string x, string ig)
+        private void UpdateLocalData(string newUsername, string fb, string x, string ig)
         {
-            if (!string.Equals(newUsername, currentUserData.Username, StringComparison.Ordinal))
-            {
-                currentUserData.Username = newUsername;
-            }
-
-            if (!string.Equals(fb, currentUserData.FacebookHandle, StringComparison.Ordinal))
-            {
-                currentUserData.FacebookHandle = fb;
-            }
-
-            if (!string.Equals(x, currentUserData.XHandle, StringComparison.Ordinal))
-            {
-                currentUserData.XHandle = x;
-            }
-
-            if (!string.Equals(ig, currentUserData.InstagramHandle, StringComparison.Ordinal))
-            {
-                currentUserData.InstagramHandle = ig;
-            }
+            localEditingData.Username = newUsername;
+            localEditingData.FacebookHandle = fb;
+            localEditingData.XHandle = x;
+            localEditingData.InstagramHandle = ig;
         }
 
-        private void HandleSuccessfulSave(string newUsername)
+        private void HandleSuccessfulSave(string newUsername, string newFacebook, string newX, string newInstagram)
         {
             if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal))
             {
-                currentUserData.NameChangeCount++;
+                localEditingData.NameChangeCount++;
             }
 
+            // Actualizamos los "originales"
+            originalUsername = newUsername;
+            originalFacebook = newFacebook;
+            originalX = newX;
+            originalInstagram = newInstagram;
+
+            // IMPORTANTE: Ahora sí actualizamos la sesión global
+            // Solo cuando el servidor confirmó el guardado.
+            SessionManager.CurrentUserData.Username = newUsername;
+            SessionManager.CurrentUserData.NameChangeCount = localEditingData.NameChangeCount;
+            SessionManager.CurrentUserData.FacebookHandle = newFacebook;
+            SessionManager.CurrentUserData.XHandle = newX;
+            SessionManager.CurrentUserData.InstagramHandle = newInstagram;
+
+            SessionManager.CurrentUsername = newUsername;
+
+            // Recargar interfaz
             LoadUserProfile();
 
-            SessionManager.CurrentUserData = currentUserData;
-            SessionManager.CurrentUsername = currentUserData.Username;
-            originalUsername = currentUserData.Username;
-
-            CustomMessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess, 
+            CustomMessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess,
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void HandleFailedSave(string oldUsername, int oldChangeCount, string oldFacebook, string oldX, string oldInstagram)
         {
-            currentUserData.Username = oldUsername;
-            currentUserData.NameChangeCount = oldChangeCount;
-            currentUserData.FacebookHandle = oldFacebook;
-            currentUserData.XHandle = oldX;
-            currentUserData.InstagramHandle = oldInstagram;
+            // Revertir objeto local
+            localEditingData.Username = oldUsername;
+            localEditingData.NameChangeCount = oldChangeCount;
+            localEditingData.FacebookHandle = oldFacebook;
+            localEditingData.XHandle = oldX;
+            localEditingData.InstagramHandle = oldInstagram;
 
+            // Revertir UI
             txtUsername.Text = oldUsername;
+            txtFacebookLink.Text = oldFacebook;
+            txtXLink.Text = oldX;
+            txtInstagramLink.Text = oldInstagram;
 
-            CustomMessageBox.Show(Lang.UserProfileTextErrorSaving, MESSAGE_ERROR, 
+            CustomMessageBox.Show(Lang.UserProfileTextErrorSaving, MESSAGE_ERROR,
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
@@ -521,14 +558,30 @@ namespace TrucoClient.Views
 
         private static void ShowConnectionError()
         {
-            CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+            CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                 Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private static void ShowGeneralError()
         {
-            CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
+            CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                 MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private string ExtractHandle(string input, string baseUrl)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return string.Empty;
+            }
+
+            string cleaned = input.Trim();
+
+            if (cleaned.StartsWith(baseUrl, StringComparison.OrdinalIgnoreCase))
+            {
+                cleaned = cleaned.Substring(baseUrl.Length);
+            }
+            return cleaned;
         }
     }
 }

@@ -97,7 +97,6 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <!-- Facebook -->
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Facebook:" Foreground="White" 
                                        VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
@@ -116,14 +115,13 @@
                                 <Border Grid.Row="0" Grid.Column="2" x:Name="linkFacebookContainer" Visibility="Collapsed" 
                                     Margin="10,0,0,0" Width="30" Height="30">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Hyperlink x:Name="linkFacebook" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF3AB8CE">
+                                        <Hyperlink x:Name="linkFacebook" Click="ClickHyperlinkFacebook" Cursor="Hand" Foreground="#FF3AB8CE">
                                             <TextBlock Text="🔗"/>
                                         </Hyperlink>
                                     </TextBlock>
                                 </Border>
                                 <TextBlock x:Name="blckFacebookError" Text=" " Foreground="Red" FontSize=" 15"/>
                             </StackPanel>
-                            <!-- X/Twitter -->
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="X (Twitter):" Foreground="White" 
                                        VerticalAlignment="Center" Margin="0,10,10,0"/>
                             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
@@ -142,14 +140,13 @@
                                 <Border Grid.Row="1" Grid.Column="2" x:Name="linkXContainer" Visibility="Collapsed" Margin="10,10,0,0" 
                                                 Width="30" Height="30">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Hyperlink x:Name="linkX" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF3AB8CE">
+                                        <Hyperlink x:Name="linkX" Click="ClickHyperlinkX" Cursor="Hand" Foreground="#FF3AB8CE">
                                             <TextBlock Text="🔗"/>
                                         </Hyperlink>
                                     </TextBlock>
                                 </Border>
                                 <TextBlock x:Name="blckXError" Text=" " Foreground="Red" FontSize=" 15"/>
                             </StackPanel>
-                            <!-- Instagram -->
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Instagram:" Foreground="White" 
                                        VerticalAlignment="Center" Margin="0,10,10,0"/>
                             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
@@ -168,7 +165,7 @@
                                 <Border Grid.Row="2" Grid.Column="2" x:Name="linkInstagramContainer" Visibility="Collapsed" Margin="10,10,0,0" 
                                     Width="30" Height="30">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Hyperlink x:Name="linkInstagram" RequestNavigate="Hyperlink_RequestNavigate" Cursor="Hand" Foreground="#FF3AB8CE">
+                                        <Hyperlink x:Name="linkInstagram" Click="ClickHyperlinkInstagram" Cursor="Hand" Foreground="#FF3AB8CE">
                                             <TextBlock Text="🔗"/>
                                         </Hyperlink>
                                     </TextBlock>
