@@ -591,6 +591,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a There is already a login for this user..
+        /// </summary>
+        public static string DialogTextUserAlreadyLoggedIn {
+            get {
+                return ResourceManager.GetString("DialogTextUserAlreadyLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Wrong Credentials.
         /// </summary>
         public static string DialogTextWrongCredentials {

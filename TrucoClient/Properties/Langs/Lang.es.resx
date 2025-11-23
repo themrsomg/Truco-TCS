@@ -1113,4 +1113,7 @@
   <data name="TeamTwo" xml:space="preserve">
     <value>Equipo 2:</value>
   </data>
+  <data name="DialogTextUserAlreadyLoggedIn" xml:space="preserve">
+    <value>Ya existe un inicio de sesión de este usuario.</value>
+  </data>
 </root>

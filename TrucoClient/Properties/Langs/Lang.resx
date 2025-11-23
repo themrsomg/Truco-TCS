@@ -1113,4 +1113,7 @@ Register today and set up a proper game!</value>
   <data name="TeamTwo" xml:space="preserve">
     <value>Team 2:</value>
   </data>
+  <data name="DialogTextUserAlreadyLoggedIn" xml:space="preserve">
+    <value>There is already a login for this user.</value>
+  </data>
 </root>

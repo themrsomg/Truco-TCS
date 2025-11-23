@@ -244,5 +244,10 @@ namespace TrucoClient.TrucoServer
                 GetActiveGamePage()?.NotifyFlorCall(callerName, betName, needsResponse);
             });
         }
+
+        public void Ping()
+        {
+            // No operation needed for ping
+        }
     }
 }

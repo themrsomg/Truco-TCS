@@ -63,6 +63,19 @@ namespace TrucoClient.Views
 
                 this.NavigationService.Navigate(new MainPage());
             }
+            catch (System.ServiceModel.FaultException ex)
+            {
+                if (ex.Message.Contains("UserAlreadyLoggedIn") || ex.Reason.ToString().Contains("UserAlreadyLoggedIn"))
+                {
+                    CustomMessageBox.Show(Lang.DialogTextUserAlreadyLoggedIn,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorLoggingIn,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
             catch (System.ServiceModel.EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
