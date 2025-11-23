@@ -247,7 +247,11 @@ namespace TrucoClient.TrucoServer
 
         public void Ping()
         {
-            // No operation needed for ping
+            /*
+             * This method is invoked by the server solely to verify the connection vitality.
+             * No logic is required inside because the successful return of the call itself
+             * acts as the confirmation (ACK) that the client session is active and reachable.
+             */
         }
     }
 }

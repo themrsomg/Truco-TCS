@@ -1,13 +1,14 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TrucoClient.Properties.Langs;
-using TrucoClient.Helpers.UI;
-using TrucoClient.Helpers.Validation;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -63,9 +64,9 @@ namespace TrucoClient.Views
 
                 this.NavigationService.Navigate(new MainPage());
             }
-            catch (System.ServiceModel.FaultException ex)
+            catch (FaultException<TrucoServer.LoginFault> ex)
             {
-                if (ex.Message.Contains("UserAlreadyLoggedIn") || ex.Reason.ToString().Contains("UserAlreadyLoggedIn"))
+                if (ex.Detail.ErrorCode == "UserAlreadyLoggedIn")
                 {
                     CustomMessageBox.Show(Lang.DialogTextUserAlreadyLoggedIn,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -76,7 +77,12 @@ namespace TrucoClient.Views
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.DialogTextUserAlreadyLoggedIn,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
