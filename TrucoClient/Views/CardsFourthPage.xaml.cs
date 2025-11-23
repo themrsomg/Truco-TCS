@@ -17,11 +17,11 @@ using TrucoClient.Helpers.Audio;
 namespace TrucoClient.Views
 {
     /// <summary>
-    /// Lógica de interacción para CardsFirstPage.xaml
+    /// Lógica de interacción para CardsFourthPage.xaml
     /// </summary>
-    public partial class CardsFirstPage : Page
+    public partial class CardsFourthPage : Page
     {
-        public CardsFirstPage()
+        public CardsFourthPage()
         {
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
@@ -29,12 +29,12 @@ namespace TrucoClient.Views
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new SettingsPage());
+            this.NavigationService.Navigate(new CardsThirdPage());
         }
 
-        private void ClickNextPage(object sender, RoutedEventArgs e)
+        private void ClickExitToSettings(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new CardsSecondPage());
+            this.NavigationService.Navigate(new SettingsPage());
         }
     }
 }

@@ -88,6 +88,15 @@
     <Compile Include="Views\CardsFirstPage.xaml.cs">
       <DependentUpon>CardsFirstPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CardsFourthPage.xaml.cs">
+      <DependentUpon>CardsFourthPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardsSecondPage.xaml.cs">
+      <DependentUpon>CardsSecondPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardsThirdPage.xaml.cs">
+      <DependentUpon>CardsThirdPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
     </Compile>
@@ -182,6 +191,18 @@
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CardsFirstPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardsFourthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardsSecondPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardsThirdPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

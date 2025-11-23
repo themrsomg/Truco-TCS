@@ -1152,4 +1152,94 @@
   <data name="TwelveClub" xml:space="preserve">
     <value>12 de basto</value>
   </data>
+  <data name="OneCup" xml:space="preserve">
+    <value>2 de copa</value>
+  </data>
+  <data name="TwoCup" xml:space="preserve">
+    <value>2 de copa</value>
+  </data>
+  <data name="OneGold" xml:space="preserve">
+    <value>1 de oro</value>
+  </data>
+  <data name="OneSword" xml:space="preserve">
+    <value>1 de espada</value>
+  </data>
+  <data name="TwoGold" xml:space="preserve">
+    <value>2 de oro</value>
+  </data>
+  <data name="TwoSword" xml:space="preserve">
+    <value>2 de espada</value>
+  </data>
+  <data name="ThreeCup" xml:space="preserve">
+    <value>3 de copa</value>
+  </data>
+  <data name="ThreeGold" xml:space="preserve">
+    <value>3 de oro</value>
+  </data>
+  <data name="ThreeSword" xml:space="preserve">
+    <value>3 de espada</value>
+  </data>
+  <data name="FourCup" xml:space="preserve">
+    <value>4 de copa</value>
+  </data>
+  <data name="FourGold" xml:space="preserve">
+    <value>4 de oro</value>
+  </data>
+  <data name="FourSword" xml:space="preserve">
+    <value>4 de espada</value>
+  </data>
+  <data name="FiveCup" xml:space="preserve">
+    <value>5 de copa</value>
+  </data>
+  <data name="FiveGold" xml:space="preserve">
+    <value>5 de oro</value>
+  </data>
+  <data name="FiveSword" xml:space="preserve">
+    <value>5 de espada</value>
+  </data>
+  <data name="SixCup" xml:space="preserve">
+    <value>6 de copa</value>
+  </data>
+  <data name="SixGold" xml:space="preserve">
+    <value>6 de oro</value>
+  </data>
+  <data name="SixSword" xml:space="preserve">
+    <value>6 de espada</value>
+  </data>
+  <data name="SevenCup" xml:space="preserve">
+    <value>7 de copa</value>
+  </data>
+  <data name="SevenGold" xml:space="preserve">
+    <value>7 de oro</value>
+  </data>
+  <data name="SevenSword" xml:space="preserve">
+    <value>7 de espada</value>
+  </data>
+  <data name="TenCup" xml:space="preserve">
+    <value>10 de copa</value>
+  </data>
+  <data name="TenGold" xml:space="preserve">
+    <value>10 de oro</value>
+  </data>
+  <data name="TenSword" xml:space="preserve">
+    <value>10 de espada</value>
+  </data>
+  <data name="ElevenCup" xml:space="preserve">
+    <value>11 de copa</value>
+  </data>
+  <data name="ElevenGold" xml:space="preserve">
+    <value>11 de oro</value>
+  </data>
+  <data name="ElevenSword" xml:space="preserve">
+    <value>11 de espada</value>
+  </data>
+  <data name="TwelveCup" xml:space="preserve">
+    <value>12 de copa</value>
+  </data>
+  <data name="TwelveGold" xml:space="preserve">
+    <value>12 de oro</value>
+  </data>
+  <data name="TwelveSword" xml:space="preserve">
+    <value>12 de espada</value>
+  </data>
 </root>

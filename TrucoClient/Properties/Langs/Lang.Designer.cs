@@ -645,6 +645,33 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 11 of cup.
+        /// </summary>
+        public static string ElevenCup {
+            get {
+                return ResourceManager.GetString("ElevenCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 11 of gold.
+        /// </summary>
+        public static string ElevenGold {
+            get {
+                return ResourceManager.GetString("ElevenGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 11 of sword.
+        /// </summary>
+        public static string ElevenSword {
+            get {
+                return ResourceManager.GetString("ElevenSword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a English.
         /// </summary>
         public static string en {
@@ -969,6 +996,33 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 5 of cup.
+        /// </summary>
+        public static string FiveCup {
+            get {
+                return ResourceManager.GetString("FiveCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 5 of gold.
+        /// </summary>
+        public static string FiveGold {
+            get {
+                return ResourceManager.GetString("FiveGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 5 of sword.
+        /// </summary>
+        public static string FiveSword {
+            get {
+                return ResourceManager.GetString("FiveSword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Password recovery.
         /// </summary>
         public static string ForgotPasswordRecovery {
@@ -1091,6 +1145,33 @@ namespace TrucoClient.Properties.Langs {
         public static string FourClub {
             get {
                 return ResourceManager.GetString("FourClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 4 of cup.
+        /// </summary>
+        public static string FourCup {
+            get {
+                return ResourceManager.GetString("FourCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 4 of gold.
+        /// </summary>
+        public static string FourGold {
+            get {
+                return ResourceManager.GetString("FourGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 4 of sword.
+        /// </summary>
+        public static string FourSword {
+            get {
+                return ResourceManager.GetString("FourSword", resourceCulture);
             }
         }
         
@@ -2502,6 +2583,33 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 1 of cup.
+        /// </summary>
+        public static string OneCup {
+            get {
+                return ResourceManager.GetString("OneCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 1 of gold.
+        /// </summary>
+        public static string OneGold {
+            get {
+                return ResourceManager.GetString("OneGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 1 of sword.
+        /// </summary>
+        public static string OneSword {
+            get {
+                return ResourceManager.GetString("OneSword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Games.
         /// </summary>
         public static string PlayTextGames {
@@ -2763,11 +2871,65 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 7 of cup.
+        /// </summary>
+        public static string SevenCup {
+            get {
+                return ResourceManager.GetString("SevenCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 7 of gold.
+        /// </summary>
+        public static string SevenGold {
+            get {
+                return ResourceManager.GetString("SevenGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 7 of sword.
+        /// </summary>
+        public static string SevenSword {
+            get {
+                return ResourceManager.GetString("SevenSword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a 6 of club.
         /// </summary>
         public static string SixClub {
             get {
                 return ResourceManager.GetString("SixClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 6 of cup.
+        /// </summary>
+        public static string SixCup {
+            get {
+                return ResourceManager.GetString("SixCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 6 of cup.
+        /// </summary>
+        public static string SixGold {
+            get {
+                return ResourceManager.GetString("SixGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 6 of sword.
+        /// </summary>
+        public static string SixSword {
+            get {
+                return ResourceManager.GetString("SixSword", resourceCulture);
             }
         }
         
@@ -2916,11 +3078,65 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 10 of cup.
+        /// </summary>
+        public static string TenCup {
+            get {
+                return ResourceManager.GetString("TenCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 10 of gold.
+        /// </summary>
+        public static string TenGold {
+            get {
+                return ResourceManager.GetString("TenGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 10 of sword.
+        /// </summary>
+        public static string TenSword {
+            get {
+                return ResourceManager.GetString("TenSword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a 3 of club.
         /// </summary>
         public static string ThreeClub {
             get {
                 return ResourceManager.GetString("ThreeClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 3 of cup.
+        /// </summary>
+        public static string ThreeCup {
+            get {
+                return ResourceManager.GetString("ThreeCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 3 of gold.
+        /// </summary>
+        public static string ThreeGold {
+            get {
+                return ResourceManager.GetString("ThreeGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 3 of sword.
+        /// </summary>
+        public static string ThreeSword {
+            get {
+                return ResourceManager.GetString("ThreeSword", resourceCulture);
             }
         }
         
@@ -2934,11 +3150,65 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a 12 of cup.
+        /// </summary>
+        public static string TwelveCup {
+            get {
+                return ResourceManager.GetString("TwelveCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 12 of gold.
+        /// </summary>
+        public static string TwelveGold {
+            get {
+                return ResourceManager.GetString("TwelveGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 12 of sword.
+        /// </summary>
+        public static string TwelveSword {
+            get {
+                return ResourceManager.GetString("TwelveSword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a 2 of club.
         /// </summary>
         public static string TwoClub {
             get {
                 return ResourceManager.GetString("TwoClub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 2 of cup.
+        /// </summary>
+        public static string TwoCup {
+            get {
+                return ResourceManager.GetString("TwoCup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 2 of gold.
+        /// </summary>
+        public static string TwoGold {
+            get {
+                return ResourceManager.GetString("TwoGold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a 2 of sword.
+        /// </summary>
+        public static string TwoSword {
+            get {
+                return ResourceManager.GetString("TwoSword", resourceCulture);
             }
         }
         
