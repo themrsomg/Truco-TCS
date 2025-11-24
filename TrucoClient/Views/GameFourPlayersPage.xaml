@@ -115,19 +115,19 @@
 
                     <StackPanel x:Name="panelEnvidoOptions" Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="5">
                         <TextBlock x:Name="blckEnvidoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
-                        <Button x:Name="btnCallEnvido" Content="Envido" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
+                        <Button x:Name="btnCallEnvido" Content="Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FF1B998B" BorderThickness="1" BorderBrush="#FF157569">
+                                    <Border CornerRadius="8" Background="#00F7FF" BorderThickness="1" BorderBrush="#00D4FF">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
-                        <Button x:Name="btnCallRealEnvido" Content="Real Envido" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
+                        <Button x:Name="btnCallRealEnvido" Content="Real Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FF474B6E" BorderThickness="1" BorderBrush="#FF2D3047">
+                                    <Border CornerRadius="8" Background="#34E4EA" BorderThickness="1" BorderBrush="#0EB1D2">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -136,7 +136,7 @@
                         <Button x:Name="btnCallFaltaEnvido" Content="Falta Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FFFFFD82" BorderThickness="1" BorderBrush="#FF9B9A50">
+                                    <Border CornerRadius="8" Background="#19CAD0" BorderThickness="1" BorderBrush="#2B9EB5">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -186,10 +186,10 @@
 
                     <StackPanel x:Name="panelBetOptions" Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="5">
                         <TextBlock x:Name="blckTrucoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
-                        <Button x:Name="btnCallTruco" Content="{x:Static language:Lang.GameTextTruco}" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
+                        <Button x:Name="btnCallTruco" Content="{x:Static language:Lang.GameTextTruco}" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FF000500" BorderThickness="1" BorderBrush="#FF202220">
+                                    <Border CornerRadius="8" Background="#FAE7DF" BorderThickness="1" BorderBrush="#BBABA1">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -216,7 +216,7 @@
                         <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="White" Padding="10,5">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FF362417" BorderThickness="1" BorderBrush="#FF402D1F">
+                                    <Border CornerRadius="8" Background="#303036" BorderThickness="1" BorderBrush="#050401">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -225,7 +225,7 @@
                         <Button x:Name="btnStartFlor" Content="Flor" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="Black" Padding="10,5">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="8" Background="#FFF1DABF" BorderThickness="1" BorderBrush="#FFDDC8AF">
+                                    <Border CornerRadius="8" Background="#BFA89E" BorderThickness="1" BorderBrush="#8B786D">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
