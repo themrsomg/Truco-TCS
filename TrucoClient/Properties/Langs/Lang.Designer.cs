@@ -600,15 +600,6 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a There is already a login for this user..
-        /// </summary>
-        public static string DialogTextUserAlreadyLoggedIn {
-            get {
-                return ResourceManager.GetString("DialogTextUserAlreadyLoggedIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Wrong Credentials.
         /// </summary>
         public static string DialogTextWrongCredentials {
@@ -978,11 +969,29 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Too many login attempts have been detected. If you&apos;ve forgotten your password, use the &apos;Forgot your password?&apos; link below. Otherwise, please wait a moment and try again..
+        /// </summary>
+        public static string ExceptionTextTooManyAttempts {
+            get {
+                return ResourceManager.GetString("ExceptionTextTooManyAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Unable to connect to lobby chat..
         /// </summary>
         public static string ExceptionTextUnableConnectChat {
             get {
                 return ResourceManager.GetString("ExceptionTextUnableConnectChat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a There is already a login for this user..
+        /// </summary>
+        public static string ExceptionTextUserAlreadyLoggedIn {
+            get {
+                return ResourceManager.GetString("ExceptionTextUserAlreadyLoggedIn", resourceCulture);
             }
         }
         

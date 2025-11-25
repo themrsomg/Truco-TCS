@@ -1113,7 +1113,7 @@ Register today and set up a proper game!</value>
   <data name="TeamTwo" xml:space="preserve">
     <value>Team 2:</value>
   </data>
-  <data name="DialogTextUserAlreadyLoggedIn" xml:space="preserve">
+  <data name="ExceptionTextUserAlreadyLoggedIn" xml:space="preserve">
     <value>There is already a login for this user.</value>
   </data>
   <data name="CardsText" xml:space="preserve">
@@ -1241,5 +1241,8 @@ Register today and set up a proper game!</value>
   </data>
   <data name="TwelveSword" xml:space="preserve">
     <value>12 of sword</value>
+  </data>
+  <data name="ExceptionTextTooManyAttempts" xml:space="preserve">
+    <value>Too many login attempts have been detected. If you've forgotten your password, use the 'Forgot your password?' link below. Otherwise, please wait a moment and try again.</value>
   </data>
 </root>

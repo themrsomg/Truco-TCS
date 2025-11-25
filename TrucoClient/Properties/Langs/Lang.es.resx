@@ -1113,7 +1113,7 @@
   <data name="TeamTwo" xml:space="preserve">
     <value>Equipo 2:</value>
   </data>
-  <data name="DialogTextUserAlreadyLoggedIn" xml:space="preserve">
+  <data name="ExceptionTextUserAlreadyLoggedIn" xml:space="preserve">
     <value>Ya existe un inicio de sesión de este usuario.</value>
   </data>
   <data name="CardsText" xml:space="preserve">
@@ -1241,5 +1241,8 @@
   </data>
   <data name="TwelveSword" xml:space="preserve">
     <value>12 de espada</value>
+  </data>
+  <data name="ExceptionTextTooManyAttempts" xml:space="preserve">
+    <value>Se han detectado demasiados intentos de inicio de sesión. Si has olvidado tu contraseña, utiliza el enlace '¿Olvidaste tu contraseña?' de abajo. De lo contrario, espera un momento y vuelve a intentarlo.</value>
   </data>
 </root>

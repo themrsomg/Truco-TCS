@@ -9,6 +9,7 @@ using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
 using TrucoClient.Helpers.Validation;
+using System.Threading.Tasks;
 using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
@@ -67,9 +68,23 @@ namespace TrucoClient.Views
             }
             catch (FaultException<TrucoServer.LoginFault> ex)
             {
+                if (ex.Detail.ErrorCode == "TooManyAttempts")
+                {
+                    CustomMessageBox.Show(
+                        Lang.ExceptionTextTooManyAttempts,
+                        MESSAGE_ERROR,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+
+                    btnLogIn.IsEnabled = false;
+                    await Task.Delay(5000);
+                    btnLogIn.IsEnabled = true;
+                    return;
+                }
+
                 if (ex.Detail.ErrorCode == "UserAlreadyLoggedIn")
                 {
-                    CustomMessageBox.Show(Lang.DialogTextUserAlreadyLoggedIn,
+                    CustomMessageBox.Show(Lang.ExceptionTextUserAlreadyLoggedIn,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
@@ -80,7 +95,7 @@ namespace TrucoClient.Views
             }
             catch (FaultException)
             {
-                CustomMessageBox.Show(Lang.DialogTextUserAlreadyLoggedIn,
+                CustomMessageBox.Show(Lang.ExceptionTextUserAlreadyLoggedIn,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (EndpointNotFoundException)
