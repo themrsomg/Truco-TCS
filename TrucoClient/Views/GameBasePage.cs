@@ -19,6 +19,8 @@ namespace TrucoClient.Views
     public abstract class GameBasePage : Page, IChatPage
     {
         private const int MESSAGE_FONT_SIZE = 13;
+        private const int TWO_PLAYERS_CAPACITY = 2;
+        private const int FOUR_PLAYERS_CAPACITY = 4;
         protected const double OPACITY_ACTIVE = 1.0;
         protected const double OPACITY_INACTIVE = 0.5;
 
@@ -40,18 +42,22 @@ namespace TrucoClient.Views
         protected const string BET_FLOR = "Flor";
         protected const string BET_CONTRA_FLOR = "ContraFlor";
 
-        protected string MatchCode;
         protected static string currentPlayer => SessionManager.CurrentUsername;
+        protected List<PlayerInfo> CurrentMatchPlayers { get; set; }
+
+        protected List<TrucoCard> playerHand = new List<TrucoCard>();
         protected TextBox txtChatMessage;
         protected Panel chatMessagesPanel;
         protected TextBlock blckPlaceholder;
+
+        protected string MatchCode;
         protected string currentTrucoBetState = BET_NONE;
         protected string currentTurnPlayerName = string.Empty;
-        private bool florPlayedInCurrentHand = false;
+
+        protected bool florPlayedInCurrentHand = false;
         protected bool envidoPlayedInCurrentHand = false;
         protected bool envidoPendingResponse = false;
         protected bool trucoPendingResponse = false;
-        protected List<TrucoCard> playerHand = new List<TrucoCard>();
 
         protected Image[] PlayerCardImages { get; set; }
         protected Button BtnBack { get; set; }
@@ -766,8 +772,9 @@ namespace TrucoClient.Views
                     HideFlorBetPanelUI();
 
                     bool iAmCaller = (callerName == currentPlayer);
+                    bool isMyTeammate = IsPlayerTeammate(callerName);
 
-                    if (iAmCaller)
+                    if (iAmCaller || isMyTeammate)
                     {
                         UpdateBetPanelUI(callerName, betName, true);
                     }
@@ -805,7 +812,18 @@ namespace TrucoClient.Views
                     this.envidoPlayedInCurrentHand = true;
 
                     HideBetPanelUI();
-                    UpdateEnvidoBetPanelUI(callerName, betName, needsResponse);
+
+                    bool iAmCaller = (callerName == currentPlayer);
+                    bool isMyTeammate = IsPlayerTeammate(callerName);
+
+                    if (iAmCaller || isMyTeammate)
+                    {
+                        UpdateEnvidoBetPanelUI(callerName, betName, true);
+                    }
+                    else
+                    {
+                        UpdateEnvidoBetPanelUI(callerName, betName, needsResponse);
+                    }
 
                     if (PanelPlayerCards.IsEnabled)
                     {
@@ -847,7 +865,18 @@ namespace TrucoClient.Views
                         return;
                     }
 
-                    UpdateFlorBetPanelUI(callerName, betName, needsResponse);
+                    bool iAmCaller = (callerName == currentPlayer);
+                    bool isMyTeammate = IsPlayerTeammate(callerName);
+
+                    if (iAmCaller || isMyTeammate)
+                    {
+                        UpdateFlorBetPanelUI(callerName, betName, false);
+                    }
+                    else
+                    {
+                        UpdateFlorBetPanelUI(callerName, betName, needsResponse);
+                    }
+
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
                 });
             }
@@ -1563,9 +1592,18 @@ namespace TrucoClient.Views
             }
         }
 
-        private string GetCurrentTurnPlayerName()
+        protected bool IsPlayerTeammate(string otherPlayerName)
         {
-            return currentTurnPlayerName;
+            if (CurrentMatchPlayers == null || string.IsNullOrEmpty(otherPlayerName)) return false;
+
+            var me = CurrentMatchPlayers.FirstOrDefault(p => p.Username.Equals(currentPlayer, StringComparison.OrdinalIgnoreCase));
+            var other = CurrentMatchPlayers.FirstOrDefault(p => p.Username.Equals(otherPlayerName, StringComparison.OrdinalIgnoreCase));
+
+            if (me != null && other != null)
+            {
+                return me.Team == other.Team;
+            }
+            return false;
         }
 
         protected static BitmapImage LoadAvatar(string avatarId)

@@ -10,19 +10,27 @@ namespace TrucoClient.Views
     public partial class GameFourPlayersPage : GameBasePage
     {
         private readonly List<PlayerInfo> players;
+        private readonly string topPlayerName;
+        private readonly string leftPlayerName;
+        private readonly string rightPlayerName;
 
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
-
             MapUiControls();
-
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
 
             this.players = players ?? new List<PlayerInfo>();
+            base.CurrentMatchPlayers = this.players;
+
             this.Loaded += GamePage_Loaded;
 
-            base.PlayerCardImages = new[] { imgPlayerCard1, imgPlayerCard2, imgPlayerCard3 };
+            base.PlayerCardImages = new[] 
+            { 
+                imgPlayerCard1, 
+                imgPlayerCard2, 
+                imgPlayerCard3 
+            };
 
             InitializeGameEvents();
             InitializeCardEvents();
@@ -103,6 +111,19 @@ namespace TrucoClient.Views
             if (imgTopAvatar != null)
             {
                 imgTopAvatar.Opacity = OPACITY_INACTIVE;
+            }
+            else if (nextPlayerName == topPlayerName && imgTopAvatar != null)
+            { 
+                imgTopAvatar.Opacity = OPACITY_ACTIVE;
+                
+            }
+            else if (nextPlayerName == leftPlayerName)
+            {
+                imgLeftAvatar.Opacity = OPACITY_ACTIVE;
+            }
+            else if (nextPlayerName == rightPlayerName)
+            {
+                imgRightAvatar.Opacity = OPACITY_ACTIVE;
             }
 
             base.UpdateTurnButtons(isMyTurn, currentBetState);

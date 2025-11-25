@@ -24,7 +24,7 @@
             <StackPanel Margin="10,1,10,0" Width="450">
                 <TextBlock Text="{x:Static language:Lang.StarTextEmailOrUsername}" Foreground="White"/>
                 <TextBox x:Name="txtEmailUsername" Cursor="Hand" TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" 
-                         KeyDown="EnterKeyDown">
+                         KeyDown="EnterKeyDown" PreviewTextInput="UsernamePreviewTextInput">
                     <TextBox.Template>
                         <ControlTemplate TargetType="TextBox">
                             <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 

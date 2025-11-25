@@ -55,18 +55,15 @@ namespace TrucoClient.Views
             string newX = ExtractHandle(txtXLink.Text, X_BASE_URL);
             string newInstagram = ExtractHandle(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
 
-            // Actualizamos visualmente los campos limpios
             txtFacebookLink.Text = newFacebook;
             txtXLink.Text = newX;
             txtInstagramLink.Text = newInstagram;
 
-            // Validaciones
             if (!ValidateUsernameChange(newUsername))
             {
                 return;
             }
 
-            // Comparamos los nuevos valores contra los ORIGINALES (no contra el objeto local que ya cambió)
             if (!HasChangesToSave(newUsername, newFacebook, newX, newInstagram))
             {
                 return;
@@ -140,7 +137,6 @@ namespace TrucoClient.Views
             e.Handled = !UsernameValidator.IsValidFormat(e.Text);
         }
 
-        // Lógica para abrir enlaces en el navegador
         private void OpenSocialLink(string handle, string baseUrl)
         {
             try
@@ -201,7 +197,6 @@ namespace TrucoClient.Views
 
                 if (success)
                 {
-                    // Actualizamos local y sesión global tras éxito
                     localEditingData.AvatarId = newAvatarId;
                     SessionManager.CurrentUserData.AvatarId = newAvatarId;
 
@@ -240,8 +235,6 @@ namespace TrucoClient.Views
                     return;
                 }
 
-                // IMPORTANTE: Creamos una COPIA de los datos para editar.
-                // Esto evita que el Binding modifique SessionManager.CurrentUserData mientras escribimos.
                 var sessionData = SessionManager.CurrentUserData;
 
                 localEditingData = new UserProfileData
@@ -255,13 +248,11 @@ namespace TrucoClient.Views
                     InstagramHandle = sessionData.InstagramHandle
                 };
 
-                // Guardamos los valores originales para comparación
                 originalUsername = localEditingData.Username ?? string.Empty;
                 originalFacebook = localEditingData.FacebookHandle ?? string.Empty;
                 originalX = localEditingData.XHandle ?? string.Empty;
                 originalInstagram = localEditingData.InstagramHandle ?? string.Empty;
 
-                // Bindeamos la UI a nuestra copia local
                 this.DataContext = localEditingData;
 
                 AvatarHelper.LoadAvatarImage(imgAvatar, localEditingData.AvatarId);
@@ -297,10 +288,8 @@ namespace TrucoClient.Views
             {
                 var userClient = ClientManager.UserClient;
 
-                // Actualizamos nuestro objeto local con los valores limpios
                 UpdateLocalData(newUsername, newFacebook, newX, newInstagram);
 
-                // Verificación de nombre de usuario duplicado (si cambió)
                 if (!string.Equals(newUsername, originalUsername, StringComparison.Ordinal)
                     && await UsernameExistsAsync(newUsername, userClient))
                 {
@@ -309,7 +298,6 @@ namespace TrucoClient.Views
                     return;
                 }
 
-                // Enviamos al servidor
                 bool success = await userClient.SaveUserProfileAsync(localEditingData);
 
                 if (success)
@@ -318,7 +306,6 @@ namespace TrucoClient.Views
                 }
                 else
                 {
-                    // Si falla, revertimos a los originales
                     HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
                 }
             }
@@ -433,7 +420,6 @@ namespace TrucoClient.Views
 
         private bool HasChangesToSave(string newUsername, string newFacebook, string newX, string newInstagram)
         {
-            // Comparamos lo que el usuario escribió contra los ORIGINALES (que no cambian al escribir)
             string currentFb = Normalize(originalFacebook);
             string currentX = Normalize(originalX);
             string currentIg = Normalize(originalInstagram);
@@ -483,14 +469,11 @@ namespace TrucoClient.Views
                 localEditingData.NameChangeCount++;
             }
 
-            // Actualizamos los "originales"
             originalUsername = newUsername;
             originalFacebook = newFacebook;
             originalX = newX;
             originalInstagram = newInstagram;
 
-            // IMPORTANTE: Ahora sí actualizamos la sesión global
-            // Solo cuando el servidor confirmó el guardado.
             SessionManager.CurrentUserData.Username = newUsername;
             SessionManager.CurrentUserData.NameChangeCount = localEditingData.NameChangeCount;
             SessionManager.CurrentUserData.FacebookHandle = newFacebook;
@@ -499,7 +482,6 @@ namespace TrucoClient.Views
 
             SessionManager.CurrentUsername = newUsername;
 
-            // Recargar interfaz
             LoadUserProfile();
 
             CustomMessageBox.Show(Lang.UserProfileTextSuccess, Lang.GlobalTextSuccess,
@@ -508,14 +490,12 @@ namespace TrucoClient.Views
 
         private void HandleFailedSave(string oldUsername, int oldChangeCount, string oldFacebook, string oldX, string oldInstagram)
         {
-            // Revertir objeto local
             localEditingData.Username = oldUsername;
             localEditingData.NameChangeCount = oldChangeCount;
             localEditingData.FacebookHandle = oldFacebook;
             localEditingData.XHandle = oldX;
             localEditingData.InstagramHandle = oldInstagram;
 
-            // Revertir UI
             txtUsername.Text = oldUsername;
             txtFacebookLink.Text = oldFacebook;
             txtXLink.Text = oldX;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -239,6 +240,11 @@ namespace TrucoClient.Views
             {
                 ErrorDisplayService.ShowError(passwordBox, blckPasswordError, Lang.GlobalTextRequieredField);
             }
+        }
+
+        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         }
     }
 }
