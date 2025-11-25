@@ -1097,6 +1097,7 @@ namespace TrucoClient.Views
             {
                 PanelEnvidoOptions.Visibility = Visibility.Visible;
                 TxtEnvidoCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
+                TxtEnvidoCaller.Visibility = Visibility.Collapsed;
 
                 bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
 
@@ -1125,6 +1126,7 @@ namespace TrucoClient.Views
             {
                 PanelFlorOptions.Visibility = Visibility.Visible;
                 TxtFlorCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
+                TxtFlorCaller.Visibility = Visibility.Visible;
 
                 bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
 
