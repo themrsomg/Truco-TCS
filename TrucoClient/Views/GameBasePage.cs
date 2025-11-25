@@ -48,6 +48,8 @@ namespace TrucoClient.Views
         protected string currentTrucoBetState = BET_NONE;
         private bool florPlayedInCurrentHand = false;
         protected bool envidoPlayedInCurrentHand = false;
+        protected bool envidoPendingResponse = false;
+        protected bool trucoPendingResponse = false;
         protected List<TrucoCard> playerHand = new List<TrucoCard>();
 
         protected Image[] PlayerCardImages { get; set; }
@@ -179,10 +181,16 @@ namespace TrucoClient.Views
             if (sender == BtnEnvidoRespondQuiero)
             {
                 SendRespondToEnvidoCommand(RESPOND_QUIERO);
+
+                HideEnvidoBetPanelUI();
+                envidoPlayedInCurrentHand = true;
+                envidoPendingResponse = false;
             }
             else
             {
                 SendResponseCommand(RESPOND_QUIERO);
+                HideBetPanelUI();
+                trucoPendingResponse = false;
             }
         }
 
@@ -191,10 +199,17 @@ namespace TrucoClient.Views
             if (sender == BtnEnvidoRespondNoQuiero)
             {
                 SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
+
+                HideEnvidoBetPanelUI();
+                envidoPlayedInCurrentHand = true;
+                envidoPendingResponse = false;
             }
             else
             {
                 SendResponseCommand(RESPOND_NO_QUIERO);
+
+                HideBetPanelUI();
+                trucoPendingResponse = false;
             }
         }
 
@@ -421,7 +436,12 @@ namespace TrucoClient.Views
         protected void SendCallTrucoCommand(string betType)
         {
             try 
-            { 
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    UpdateBetPanelUI(currentPlayer, betType, true);
+                });
+
                 MatchClient.CallTruco(MatchCode, betType);
             }
             catch (CommunicationException)
@@ -731,6 +751,9 @@ namespace TrucoClient.Views
             {
                 Dispatcher.Invoke(() =>
                 {
+                    HideEnvidoBetPanelUI();
+                    HideFlorBetPanelUI();
+
                     UpdateBetPanelUI(callerName, betName, needsResponse);
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
                 });
@@ -762,7 +785,6 @@ namespace TrucoClient.Views
 
                     HideBetPanelUI();
                     UpdateEnvidoBetPanelUI(callerName, betName, needsResponse);
-                    AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
 
                     if (PanelPlayerCards.IsEnabled)
                     {
@@ -867,9 +889,13 @@ namespace TrucoClient.Views
                         HideEnvidoBetPanelUI();
                     }
 
+                    envidoPendingResponse = false;
+                    trucoPendingResponse = false;
+
                     HideBetPanelUI();
                     HideEnvidoBetPanelUI();
                     HideFlorBetPanelUI();
+
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerSaidResponse, responderName, response));
 
                     if (PanelPlayerCards.IsEnabled)
@@ -944,7 +970,7 @@ namespace TrucoClient.Views
                 if (isMyTurn)
                 {
                     PanelBetOptions.Visibility = Visibility.Visible;
-                    TxtTrucoCaller.Visibility = Visibility.Collapsed;
+
                     BtnRespondQuiero.Visibility = Visibility.Collapsed;
                     BtnRespondNoQuiero.Visibility = Visibility.Collapsed;
 
@@ -1030,10 +1056,47 @@ namespace TrucoClient.Views
                             PanelFlorOptions.Visibility = Visibility.Collapsed;
                         }
                     }
+
+                    if (envidoPendingResponse)
+                    {
+                        BtnCallTruco.Visibility = Visibility.Collapsed;
+                        BtnGoToDeck.Visibility = Visibility.Collapsed;
+                        BtnStartFlor.Visibility = Visibility.Collapsed;
+
+                        BtnCallEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallRealEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallFaltaEnvido.Visibility = Visibility.Collapsed;
+                    }
+
+                    if (trucoPendingResponse)
+                    {
+                        BtnCallTruco.Visibility = Visibility.Collapsed;
+                        BtnGoToDeck.Visibility = Visibility.Collapsed;
+                        BtnStartFlor.Visibility = Visibility.Collapsed;
+                    }
                 }
                 else
                 {
-                    PanelBetOptions.Visibility = Visibility.Collapsed;
+                    if (!trucoPendingResponse)
+                    {
+                        PanelBetOptions.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        PanelBetOptions.Visibility = Visibility.Visible;
+
+                        BtnCallTruco.Visibility = Visibility.Collapsed;
+                        BtnGoToDeck.Visibility = Visibility.Collapsed;
+                        BtnRespondQuiero.Visibility = Visibility.Collapsed;
+                        BtnRespondNoQuiero.Visibility = Visibility.Collapsed;
+                        BtnStartFlor.Visibility = Visibility.Collapsed;
+                        BtnCallEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallRealEnvido.Visibility = Visibility.Collapsed;
+                        BtnCallFaltaEnvido.Visibility = Visibility.Collapsed;
+                        PanelEnvidoOptions.Visibility = Visibility.Collapsed;
+                        PanelFlorOptions.Visibility = Visibility.Collapsed;
+                    }
+
                     BtnGoToDeck.Visibility = Visibility.Collapsed;
 
                     if (TxtEnvidoCaller.Visibility == Visibility.Collapsed)
@@ -1065,16 +1128,46 @@ namespace TrucoClient.Views
             {
                 if (needsResponse)
                 {
+                    HideEnvidoBetPanelUI();
+                    HideFlorBetPanelUI();
+
                     PanelBetOptions.Visibility = Visibility.Visible;
-                    TxtTrucoCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
-                    TxtTrucoCaller.Visibility = Visibility.Visible;
-                    BtnCallTruco.Visibility = Visibility.Collapsed;
-                    BtnStartFlor.Visibility = Visibility.Collapsed;
-                    BtnRespondQuiero.Visibility = Visibility.Visible;
-                    BtnRespondNoQuiero.Visibility = Visibility.Visible;
+
+                    bool isResponder = callerName != currentPlayer;
+                    trucoPendingResponse = true;
+
+                    if (isResponder)
+                    {
+                        TxtTrucoCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
+                        TxtTrucoCaller.Visibility = Visibility.Visible;
+
+                        BtnRespondQuiero.Visibility = Visibility.Visible;
+                        BtnRespondNoQuiero.Visibility = Visibility.Visible;
+
+                        BtnCallTruco.Visibility = Visibility.Collapsed;
+                        BtnStartFlor.Visibility = Visibility.Collapsed;
+                        BtnGoToDeck.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        TxtTrucoCaller.Text = string.Format(Lang.GameTextWaitingResponse, callerName, currentBet);
+                        TxtTrucoCaller.Visibility = Visibility.Visible;
+
+                        BtnRespondQuiero.Visibility = Visibility.Collapsed;
+                        BtnRespondNoQuiero.Visibility = Visibility.Collapsed;
+
+                        BtnCallTruco.Visibility = Visibility.Collapsed;
+                        BtnStartFlor.Visibility = Visibility.Collapsed;
+                        BtnGoToDeck.Visibility = Visibility.Collapsed;
+
+                        UpdateTurnButtons(false, this.currentTrucoBetState);
+                    }
                 }
                 else
                 {
+                    trucoPendingResponse = false;
+
+                    TxtTrucoCaller.Text = string.Empty;
                     TxtTrucoCaller.Visibility = Visibility.Collapsed;
                     PanelBetOptions.Visibility = Visibility.Collapsed;
                 }
@@ -1095,18 +1188,45 @@ namespace TrucoClient.Views
         {
             try
             {
-                PanelEnvidoOptions.Visibility = Visibility.Visible;
-                TxtEnvidoCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
-                TxtEnvidoCaller.Visibility = Visibility.Collapsed;
+                if (needsResponse)
+                {
+                    if (!trucoPendingResponse)
+                    {
+                        TxtTrucoCaller.Text = string.Empty;
+                        TxtTrucoCaller.Visibility = Visibility.Collapsed;
+                        trucoPendingResponse = false;
+                    }
 
-                bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
+                    PanelEnvidoOptions.Visibility = Visibility.Visible;
 
-                BtnEnvidoRespondQuiero.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
-                BtnEnvidoRespondNoQuiero.Visibility = isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+                    bool isResponder = callerName != currentPlayer;
+                    envidoPendingResponse = needsResponse;
 
-                BtnCallEnvido.Visibility = !isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
-                BtnCallRealEnvido.Visibility = !isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
-                BtnCallFaltaEnvido.Visibility = !isMyTurnToRespond ? Visibility.Visible : Visibility.Collapsed;
+                    TxtEnvidoCaller.Text = isResponder ?
+                        string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet) :
+                        string.Format(Lang.GameTextWaitingResponse, callerName, currentBet);
+                    TxtEnvidoCaller.Visibility = Visibility.Visible;
+
+                    BtnEnvidoRespondQuiero.Visibility = isResponder ? Visibility.Visible : Visibility.Collapsed;
+                    BtnEnvidoRespondNoQuiero.Visibility = isResponder ? Visibility.Visible : Visibility.Collapsed;
+
+                    BtnCallEnvido.Visibility = Visibility.Collapsed;
+                    BtnCallRealEnvido.Visibility = Visibility.Collapsed;
+                    BtnCallFaltaEnvido.Visibility = Visibility.Collapsed;
+
+                    BtnCallTruco.Visibility = Visibility.Collapsed;
+                    BtnStartFlor.Visibility = Visibility.Collapsed;
+                    BtnGoToDeck.Visibility = Visibility.Collapsed;
+
+                    PanelBetOptions.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    envidoPendingResponse = false;
+
+                    TxtEnvidoCaller.Visibility = Visibility.Collapsed;
+                    PanelEnvidoOptions.Visibility = Visibility.Collapsed;
+                }
             }
             catch (InvalidOperationException)
             {
@@ -1124,23 +1244,35 @@ namespace TrucoClient.Views
         {
             try
             {
-                PanelFlorOptions.Visibility = Visibility.Visible;
-                TxtFlorCaller.Text = string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet);
-                TxtFlorCaller.Visibility = Visibility.Visible;
-
-                bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
-
-                BtnStartFlor.Visibility = Visibility.Collapsed;
-                BtnCallFlor.Visibility = Visibility.Collapsed;
-
-                if (isMyTurnToRespond)
+                if (needsResponse)
                 {
-                    BtnCallContraFlor.Visibility = Visibility.Visible;
+                    PanelFlorOptions.Visibility = Visibility.Visible;
+
+                    bool isMyTurnToRespond = needsResponse && (callerName != currentPlayer);
+
+                    TxtFlorCaller.Text = isMyTurnToRespond ?
+                        string.Format(Lang.GameTextPlayerCalledBet, callerName, currentBet) :
+                        string.Format(Lang.GameTextWaitingResponse, callerName, currentBet);
+                    TxtFlorCaller.Visibility = Visibility.Visible;
+
+                    BtnStartFlor.Visibility = Visibility.Collapsed;
+                    BtnCallFlor.Visibility = Visibility.Collapsed;
+
+                    if (isMyTurnToRespond)
+                    {
+                        BtnCallContraFlor.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        BtnCallContraFlor.Visibility = Visibility.Collapsed;
+                        TxtFlorCaller.Text += Lang.GameTextWaitingResponse;
+                    }
+
                 }
                 else
                 {
-                    BtnCallContraFlor.Visibility = Visibility.Collapsed;
-                    TxtFlorCaller.Text += Lang.GameTextWaitingResponse;
+                    TxtFlorCaller.Visibility = Visibility.Collapsed;
+                    PanelFlorOptions.Visibility = Visibility.Collapsed;
                 }
             }
             catch (InvalidOperationException)
@@ -1159,7 +1291,22 @@ namespace TrucoClient.Views
         {
             try
             {
+                if (trucoPendingResponse)
+                {
+                    BtnRespondQuiero.Visibility = Visibility.Collapsed;
+                    BtnRespondNoQuiero.Visibility = Visibility.Collapsed;
+                    BtnCallTruco.Visibility = Visibility.Collapsed;
+                    BtnStartFlor.Visibility = Visibility.Collapsed;
+                    BtnGoToDeck.Visibility = Visibility.Collapsed;
+                    return;
+                }
+
                 PanelBetOptions.Visibility = Visibility.Collapsed;
+
+                TxtTrucoCaller.Text = string.Empty;
+                TxtTrucoCaller.Visibility = Visibility.Collapsed;
+
+                trucoPendingResponse = false;
             }
             catch (InvalidOperationException)
             {
