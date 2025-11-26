@@ -25,5 +25,21 @@
 
             return false;
         }
+
+        public static string SanitizeForCodeInput(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return string.Empty;
+            }
+
+            foreach (string pattern in dangerousPatterns)
+            {
+                input = input.Replace(pattern, string.Empty);
+            }
+
+            return input;
+        }
+
     }
 }

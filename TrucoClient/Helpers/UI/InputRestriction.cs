@@ -353,5 +353,27 @@ namespace TrucoClient.Helpers.UI
                 }
             });
         }
+
+        public static string RestrictToAllowedCharacters(string input, Regex allowed)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+
+            StringBuilder builder = new StringBuilder();
+
+            foreach (char c in input)
+            {
+                string s = c.ToString();
+                if (allowed.IsMatch(s))
+                {
+                    builder.Append(c);
+                }
+            }
+
+            return builder.ToString();
+        }
+
     }
 }
