@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -153,9 +155,16 @@ namespace TrucoClient.Views
                     });
                 }
             }
+            catch (Win32Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FormatException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error abriendo link: {ex.Message}");
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
