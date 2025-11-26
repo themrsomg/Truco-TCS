@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Runtime.InteropServices;
+using System.Security;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.UI;
@@ -23,12 +26,23 @@ namespace TrucoClient.Views
         private const int MIN_EMAIL_LENGTH = 5;
         private const int MAX_EMAIL_LENGTH = 250;
 
-        private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        private static readonly Regex loginAllowedRegex = new Regex(@"^[a-zA-Z0-9@._+-]+$", RegexOptions.Compiled);
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^[^\s]+$", RegexOptions.Compiled);
+        private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public NewUserPage()
         {
             InitializeComponent();
+            InitializeValidation();
             MusicInitializer.InitializeMenuMusic();
+        }
+
+        private void InitializeValidation()
+        {
+            InputRestriction.AttachRegexValidation(txtEmail, loginAllowedRegex);
+            InputRestriction.AttachRegexValidation(txtUsername, loginAllowedRegex);
+            InputRestriction.AttachRegexValidation(txtPassword, passwordAllowedRegex);
+            InputRestriction.AttachRegexValidation(txtPasswordConfirm, passwordAllowedRegex);
         }
 
         private void ClickRegister(object sender, RoutedEventArgs e)
@@ -45,76 +59,228 @@ namespace TrucoClient.Views
                 return;
             }
 
+            TryRegisterUser(email, username, password);
+        }
+
+        private void TryRegisterUser(string email, string username, string password)
+        {
+            TrucoUserServiceClient client;
+
             try
             {
-                var userClient = ClientManager.UserClient;
+                client = ClientManager.UserClient;
 
-                if (EmailOrUsernameExists(email, username, userClient))
+                if (EmailOrUsernameExists(email, username, client))
                 {
                     return;
                 }
 
-                if (!RequestedEmail(email, userClient))
+                if (!RequestedEmail(email, client))
                 {
                     return;
                 }
 
                 string code = ShowCodeInputWindow();
+
                 if (string.IsNullOrEmpty(code))
                 {
                     return;
                 }
 
-                if (!ConfirmedEmail(email, code, userClient))
+                if (!ConfirmedEmail(email, code, client))
                 {
                     return;
                 }
 
-                bool registered = userClient.Register(username, password, email);
+                RegisterUser(username, password, email, client);
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (SecurityException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ExternalException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private static string ShowCodeInputWindow()
+        {
+            string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
+
+            if (string.IsNullOrEmpty(code))
+            {
+                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            return code;
+        }
+
+        private bool EmailOrUsernameExists(string email, string username, TrucoUserServiceClient client)
+        {
+            try
+            {
+                bool emailExists = client.EmailExists(email);
+                bool usernameExists = client.UsernameExists(username);
+
+                if (emailExists)
+                {
+                    ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextEmailAlreadyInUse);
+                }
+
+                if (usernameExists)
+                {
+                    ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextUsernameAlreadyInUse);
+                }
+
+                CheckFormStatusAndToggleRegisterButton();
+
+                return emailExists || usernameExists;
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return true;
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                return true;
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return true;
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return true;
+            }
+        }
+
+        private bool RequestedEmail(string email, TrucoUserServiceClient client)
+        {
+            try
+            {
+                bool sent = client.RequestEmailVerification(email, languageCode);
+
+                if (!sent)
+                {
+                    CustomMessageBox.Show(Lang.StartTextRegisterCodeSended, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                return sent;
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
+        private bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
+        {
+            try
+            {
+                bool confirmed = client.ConfirmEmailVerification(email, code);
+
+                if (!confirmed)
+                {
+                    CustomMessageBox.Show(Lang.StartTextRegisterIncorrectCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                return confirmed;
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
+        private void RegisterUser(string username, string password, string email, TrucoUserServiceClient client)
+        {
+            try
+            {
+                bool registered = client.Register(username, password, email);
 
                 if (registered)
                 {
-                    CustomMessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, 
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    CustomMessageBox.Show(Lang.StartTextRegisterSuccess, Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    CustomMessageBox.Show(Lang.StartTextRegisterError, MESSAGE_ERROR, 
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.StartTextRegisterError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (FaultException)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
-                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void ClickBack(object sender, RoutedEventArgs e)
-        {
-            if (!HasUnsavedFields())
-            {
-                bool? result = CustomMessageBox.Show(
-                    Lang.DialogTextConfirmationNewUser, 
-                    Lang.GlobalTextConfirmation,        
-                    MessageBoxButton.YesNo,             
-                    MessageBoxImage.Question            
-                );
-
-                if (result == true)
-                {
-                    this.NavigationService.Navigate(new StartPage());
-                }
-            }
-            else
-            {
-                this.NavigationService.Navigate(new StartPage());
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -126,6 +292,7 @@ namespace TrucoClient.Views
             bool confirmValid = ValidatePasswordConfirmation(password, confirm);
 
             CheckFormStatusAndToggleRegisterButton();
+
             return emailValid && usernameValid && passwordValid && confirmValid;
         }
 
@@ -136,17 +303,26 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextRequieredField);
                 return false;
             }
+
             if (!FieldValidator.IsLengthInRange(email, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
             {
                 string error = email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail;
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, error);
                 return false;
             }
+
+            if (InputSanitizer.ContainsDangerousCharacters(email))
+            {
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.DialogTextInvalidCharacters);
+                return false;
+            }
+
             if (!EmailValidator.IsValidEmail(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
                 return false;
             }
+
             if (!EmailValidator.IsCommonDomain(email))
             {
                 ErrorDisplayService.ShowWarning(txtEmail, blckEmailError, Lang.StartTextUncommonEmailDomain);
@@ -163,17 +339,26 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextRequieredField);
                 return false;
             }
+
             if (!FieldValidator.IsLengthInRange(username, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
             {
                 string error = username.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername;
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, error);
                 return false;
             }
+
+            if (InputSanitizer.ContainsDangerousCharacters(username))
+            {
+                ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.DialogTextInvalidCharacters);
+                return false;
+            }
+
             if (!UsernameValidator.IsValidFormat(username))
             {
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextInvalidUsername);
                 return false;
             }
+
             ErrorDisplayService.ClearError(txtUsername, blckUsernameError);
             return true;
         }
@@ -185,16 +370,25 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
                 return false;
             }
+
+            if (InputSanitizer.ContainsDangerousCharacters(password))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextInvalidCharacters);
+                return false;
+            }
+
             if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
                 return false;
             }
+
             if (!PasswordValidator.IsComplex(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
                 return false;
             }
+
             ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
             return true;
         }
@@ -206,6 +400,7 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.GlobalTextRequieredField);
                 return false;
             }
+
             if (!PasswordValidator.AreMatching(password, confirm))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
@@ -216,6 +411,201 @@ namespace TrucoClient.Views
 
             ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
             return true;
+        }
+
+        private void ClickBack(object sender, RoutedEventArgs e)
+        {
+            if (!HasUnsavedFields())
+            {
+                bool? result = CustomMessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == true)
+                {
+                    this.NavigationService.Navigate(new StartPage());
+                }
+            }
+            else
+            {
+                this.NavigationService.Navigate(new StartPage());
+            }
+        }
+
+        private void TextBoxChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (textBox == null)
+            {
+                return;
+            }
+
+            string text = textBox.Text.Trim();
+            TextBlock errorBlock = GetErrorTextBlock(textBox);
+
+            ErrorDisplayService.ClearError(textBox, errorBlock);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                CheckFormStatusAndToggleRegisterButton();
+                return;
+            }
+
+            if (textBox == txtEmail)
+            {
+                ValidateEmailChange(textBox, errorBlock, text);
+            }
+            else if (textBox == txtUsername)
+            {
+                ValidateUsernameChange(textBox, errorBlock, text);
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+
+        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (textBox == null)
+            {
+                return;
+            }
+
+            string text = textBox.Text.Trim();
+            TextBlock errorBlock = GetErrorTextBlock(textBox);
+
+            if (!FieldValidator.IsRequired(text))
+            {
+                ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextRequieredField);
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+
+        private void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+
+            if (passwordBox == null)
+            {
+                return;
+            }
+
+            ErrorDisplayService.ClearError(passwordBox, blckPasswordError);
+
+            string password = txtPassword.Password.Trim();
+            string passwordConfirm = txtPasswordConfirm.Password.Trim();
+
+            if (passwordBox == txtPassword)
+            {
+                ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+            }
+            else if (passwordBox == txtPasswordConfirm)
+            {
+                ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+            }
+
+            if (string.IsNullOrEmpty(password) && string.IsNullOrEmpty(passwordConfirm))
+            {
+                CheckFormStatusAndToggleRegisterButton();
+                return;
+            }
+
+            ValidatePasswordLengthAndComplexity(password);
+            ValidatePasswordMatching(password, passwordConfirm);
+            SyncVisiblePasswordBoxes(passwordBox);
+            CheckFormStatusAndToggleRegisterButton();
+        }
+
+        private void PasswordLostFocus(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+
+            if (passwordBox == null)
+            {
+                return;
+
+            }
+            TextBlock errorBlock = GetErrorTextBlock(passwordBox);
+
+            if (!FieldValidator.IsRequired(passwordBox.Password))
+            {
+                ErrorDisplayService.ShowError(passwordBox, errorBlock, Lang.GlobalTextRequieredField);
+            }
+
+            string password = txtPassword.Password.Trim();
+            string passwordConfirm = txtPasswordConfirm.Password.Trim();
+
+            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
+            {
+                string errorMessage = Lang.DialogTextPasswordsDontMatch;
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+            }
+
+            CheckFormStatusAndToggleRegisterButton();
+        }
+
+        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
+        {
+            if (sender == btnToggleVisibility)
+            {
+                PasswordVisibilityService.ToggleVisibility(txtPassword, txtVisiblePassword, blckEyeEmoji);
+
+                if (txtVisiblePassword.Visibility == Visibility.Visible)
+                {
+                    txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
+                }
+                else
+                {
+                    txtPassword.BorderBrush = txtVisiblePassword.BorderBrush;
+                }
+            }
+            else if (sender == btnToggleVisibilityConfirm)
+            {
+                PasswordVisibilityService.ToggleVisibility(txtPasswordConfirm, txtVisiblePasswordConfirm, blckEyeEmojiConfirm);
+
+                if (txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
+                {
+                    txtVisiblePasswordConfirm.BorderBrush = txtPasswordConfirm.BorderBrush;
+                }
+                else
+                {
+                    txtPasswordConfirm.BorderBrush = txtVisiblePasswordConfirm.BorderBrush;
+                }
+            }
+        }
+
+        private void EnterKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (btnRegister.IsEnabled)
+                {
+                    ClickRegister(btnRegister, null);
+                    return;
+                }
+
+                if (sender == txtEmail)
+                {
+                    txtUsername.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtUsername)
+                {
+                    txtPassword.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtPassword)
+                {
+                    txtPasswordConfirm.Focus();
+                    e.Handled = true;
+                }
+                else if (sender == txtPasswordConfirm && btnRegister.IsEnabled)
+                {
+                    ClickRegister(btnRegister, null);
+                }
+            }
         }
 
         private static void ValidateEmailChange(TextBox textBox, TextBlock errorBlock, string text)
@@ -247,6 +637,7 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextInvalidUsername);
             }
         }
+
         private void ValidatePasswordLengthAndComplexity(string password)
         {
             if (!string.IsNullOrEmpty(password))
@@ -265,11 +656,12 @@ namespace TrucoClient.Views
                 }
             }
         }
-        private void ValidatePasswordMatching(string password, string confirm)
+
+        private void ValidatePasswordMatching(string password, string confirmation)
         {
-            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(confirm))
+            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(confirmation))
             {
-                if (!PasswordValidator.AreMatching(password, confirm))
+                if (!PasswordValidator.AreMatching(password, confirmation))
                 {
                     string errorMessage = Lang.DialogTextPasswordsDontMatch;
                     ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
@@ -281,66 +673,6 @@ namespace TrucoClient.Views
                     ValidatePasswordLengthAndComplexity(password);
                 }
             }
-        }
-
-        private bool EmailOrUsernameExists(string email, string username, TrucoUserServiceClient client)
-        {
-            bool eitherExists = false;
-
-            bool emailExists = client.EmailExists(email);
-            bool usernameExists = client.UsernameExists(username);
-
-            if (emailExists)
-            {
-                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextEmailAlreadyInUse);
-                eitherExists = true;
-            }
-
-            if (usernameExists)
-            {
-                ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextUsernameAlreadyInUse);
-                eitherExists = true;
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-            return eitherExists;
-        }
-
-        private bool RequestedEmail(string email, TrucoUserServiceClient client)
-        {
-            bool sent = client.RequestEmailVerification(email, languageCode);
-
-            if (!sent)
-            {
-                CustomMessageBox.Show(Lang.StartTextRegisterCodeSended, MESSAGE_ERROR, 
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            return sent;
-        }
-
-        private static string ShowCodeInputWindow()
-        {
-            string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
-
-            if (string.IsNullOrEmpty(code))
-            {
-                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR, 
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-
-            return code;
-        }
-
-        private static bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
-        {
-            bool confirmed = client.ConfirmEmailVerification(email, code);
-            if (!confirmed)
-            {
-                CustomMessageBox.Show(Lang.StartTextRegisterIncorrectCode, MESSAGE_ERROR, 
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            return confirmed;
         }
 
         private void SyncVisiblePasswordBoxes(PasswordBox changedBox)
@@ -361,14 +693,17 @@ namespace TrucoClient.Views
             {
                 return blckEmailError;
             }
+
             if (field == txtUsername)
             {
                 return blckUsernameError;
             }
+
             if (field == txtPassword)
             {
                 return blckPasswordError;
             }
+
             if (field == txtPasswordConfirm)
             {
                 return blckPasswordConfirmError;
@@ -410,168 +745,6 @@ namespace TrucoClient.Views
                                    && !string.IsNullOrWhiteSpace(txtPasswordConfirm.Password);
 
             btnRegister.IsEnabled = !hasErrorMessages && allFieldsFilled;
-        }
-
-        private void TextBoxChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            string text = textBox.Text.Trim();
-            TextBlock errorBlock = GetErrorTextBlock(textBox);
-
-            ErrorDisplayService.ClearError(textBox, errorBlock);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                CheckFormStatusAndToggleRegisterButton();
-                return;
-            }
-
-            if (textBox == txtEmail)
-            {
-                ValidateEmailChange(textBox, errorBlock, text);
-            }
-            else if (textBox == txtUsername)
-            {
-                ValidateUsernameChange(textBox, errorBlock, text);
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-
-        private void TextBoxLostFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            string text = textBox.Text.Trim();
-            TextBlock errorBlock = GetErrorTextBlock(textBox);
-
-            if (!FieldValidator.IsRequired(text))
-            {
-                ErrorDisplayService.ShowError(textBox, errorBlock, Lang.GlobalTextRequieredField);
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-
-        private void PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            var passwordBox = sender as PasswordBox;
-
-            string password = txtPassword.Password.Trim();
-            string passwordConfirm = txtPasswordConfirm.Password.Trim();
-
-            if (passwordBox == txtPassword)
-            {
-                ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
-            }
-            else if (passwordBox == txtPasswordConfirm)
-            {
-                ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
-            }
-
-            if (string.IsNullOrEmpty(password) && string.IsNullOrEmpty(passwordConfirm))
-            {
-                CheckFormStatusAndToggleRegisterButton();
-                return;
-            }
-
-            ValidatePasswordLengthAndComplexity(password);
-
-            ValidatePasswordMatching(password, passwordConfirm);
-
-            SyncVisiblePasswordBoxes(passwordBox);
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-
-        private void PasswordLostFocus(object sender, RoutedEventArgs e)
-        {
-            var passwordBox = sender as PasswordBox;
-            TextBlock errorBlock = GetErrorTextBlock(passwordBox);
-
-            string password = txtPassword.Password.Trim();
-            string passwordConfirm = txtPasswordConfirm.Password.Trim();
-
-            if (!FieldValidator.IsRequired(passwordBox.Password))
-            {
-                ErrorDisplayService.ShowError(passwordBox, errorBlock, Lang.GlobalTextRequieredField);
-            }
-
-            if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) 
-                && !PasswordValidator.AreMatching(password, passwordConfirm))
-            {
-                string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-            }
-
-            CheckFormStatusAndToggleRegisterButton();
-        }
-
-        private void ClickToggleVisibility(object sender, RoutedEventArgs e)
-        {
-            if (sender == btnToggleVisibility)
-            {
-                PasswordVisibilityService.ToggleVisibility(txtPassword, txtVisiblePassword, blckEyeEmoji);
-
-                if (txtVisiblePassword.Visibility == Visibility.Visible)
-                {
-                    txtVisiblePassword.BorderBrush = txtPassword.BorderBrush;
-                }
-                else
-                {
-                    txtPassword.BorderBrush = txtVisiblePassword.BorderBrush;
-                }
-            }
-
-            if (sender == btnToggleVisibilityConfirm)
-            {
-                PasswordVisibilityService.ToggleVisibility(txtPasswordConfirm, txtVisiblePasswordConfirm, blckEyeEmojiConfirm);
-
-                if (txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
-                {
-                    txtVisiblePasswordConfirm.BorderBrush = txtPasswordConfirm.BorderBrush;
-                }
-                else
-                {
-                    txtPasswordConfirm.BorderBrush = txtVisiblePasswordConfirm.BorderBrush;
-                }
-            }
-        }
-
-        private void EnterKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (btnRegister.IsEnabled)
-                {
-                    ClickRegister(btnRegister, null);
-                }
-
-                if (sender == txtEmail)
-                {
-                    txtUsername.Focus();
-                    e.Handled = true;
-                }
-                else if (sender == txtUsername)
-                {
-                    txtPassword.Focus();
-                    e.Handled = true;
-                }
-                else if (sender == txtPassword)
-                {
-                    txtPasswordConfirm.Focus();
-                    e.Handled = true;
-                }
-                else if (sender == txtPasswordConfirm && btnRegister.IsEnabled)
-                {
-                    ClickRegister(btnRegister, null);
-                }
-            }
-        }
-
-        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         }
     }
 }

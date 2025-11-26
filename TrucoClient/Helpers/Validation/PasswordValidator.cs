@@ -24,9 +24,9 @@ namespace TrucoClient.Helpers.Validation
             return !string.IsNullOrEmpty(password) && password.Length >= min && password.Length <= max;
         }
 
-        public static bool AreMatching(string pass1, string pass2)
+        public static bool AreMatching(string password1, string password2)
         {
-            return string.Equals(pass1, pass2);
+            return string.Equals(password1, password2);
         }
     }
 }
