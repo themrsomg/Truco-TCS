@@ -122,10 +122,6 @@ namespace TrucoClient.Views
             Properties.Settings.Default.IsMusicMuted = userData.IsMusicMuted;
             Properties.Settings.Default.Save();
 
-            // ---------------------------------------------------------
-            // FIN NUEVA LÓGICA
-            // ---------------------------------------------------------
-
             CustomMessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome,
                 MessageBoxButton.OK, MessageBoxImage.Information);
 
