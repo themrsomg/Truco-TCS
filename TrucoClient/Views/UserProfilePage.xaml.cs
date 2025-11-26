@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.ServiceModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -275,6 +276,10 @@ namespace TrucoClient.Views
                 UpdateUsernameWarning(localEditingData.NameChangeCount);
                 UpdateSocialMediaLinks();
             }
+            catch (EndpointNotFoundException)
+            {
+                ShowConnectionError();
+            }
             catch (Exception)
             {
                 ShowGeneralError();
@@ -318,7 +323,7 @@ namespace TrucoClient.Views
                     HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (EndpointNotFoundException)
             {
                 ShowConnectionError();
                 HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
