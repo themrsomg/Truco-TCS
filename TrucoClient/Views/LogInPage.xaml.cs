@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Localization;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
@@ -103,7 +104,27 @@ namespace TrucoClient.Views
         {
             string username = await SessionManager.ResolveUsernameAsync(identifier);
             SessionManager.CurrentUsername = username;
-            SessionManager.CurrentUserData = await userClient.GetUserProfileAsync(username);
+            var userData = await userClient.GetUserProfileAsync(username);
+            SessionManager.CurrentUserData = userData;
+
+            if (!string.IsNullOrEmpty(userData.LanguageCode))
+            {
+                Properties.Settings.Default.languageCode = userData.LanguageCode;
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(userData.LanguageCode);
+                LanguageManager.ApplyLanguage();
+            }
+
+            if (MusicManager.IsMuted != userData.IsMusicMuted)
+            {
+                MusicManager.ToggleMute();
+            }
+            
+            Properties.Settings.Default.IsMusicMuted = userData.IsMusicMuted;
+            Properties.Settings.Default.Save();
+
+            // ---------------------------------------------------------
+            // FIN NUEVA LÓGICA
+            // ---------------------------------------------------------
 
             CustomMessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome,
                 MessageBoxButton.OK, MessageBoxImage.Information);
