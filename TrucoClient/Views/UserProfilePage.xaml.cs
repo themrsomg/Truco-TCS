@@ -220,7 +220,7 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (EndpointNotFoundException)
             {
                 ShowConnectionError();
             }
@@ -415,16 +415,33 @@ namespace TrucoClient.Views
         private void ClearSpecificError(Control field)
         {
             TextBlock errorBlock = null;
+
             if (field == txtUsername)
             {
                 errorBlock = blckUsernameError;
             }
+            else if (field == txtFacebookLink)
+            {
+                errorBlock = blckFacebookError;
+            }
+            else if (field == txtXLink)
+            {
+                errorBlock = blckXError;
+            }
+            else if (field == txtInstagramLink)
+            {
+                errorBlock = blckInstagramError;
+            }
+            
             ErrorDisplayService.ClearError(field, errorBlock);
         }
 
         private void ClearAllErrors()
         {
             ErrorDisplayService.ClearError(txtUsername, blckUsernameError);
+            ErrorDisplayService.ClearError(txtFacebookLink, blckFacebookError);
+            ErrorDisplayService.ClearError(txtXLink, blckXError);
+            ErrorDisplayService.ClearError(txtInstagramLink, blckInstagramError);
         }
 
         private string Normalize(string input)
