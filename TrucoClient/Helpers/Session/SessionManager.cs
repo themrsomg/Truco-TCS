@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
@@ -43,6 +44,11 @@ namespace TrucoClient.Helpers.Session
             CurrentUserData = null;
             CurrentUsername = null;
             ClientManager.ResetConnections();
+
+            if (MusicManager.IsMuted)
+            {
+                MusicManager.ToggleMute();
+            }
         }
     }
 }
