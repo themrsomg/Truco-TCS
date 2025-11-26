@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.ServiceModel;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.UI;
 using TrucoClient.Helpers.Validation;
@@ -34,6 +35,7 @@ namespace TrucoClient.Views
             string confirmPassword = txtPasswordConfirm.Password.Trim();
 
             ClearAllErrors();
+            
             if (!FieldsValidation(currentPassword, newPassword, confirmPassword))
             {
                 return;
@@ -60,7 +62,7 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -167,6 +169,7 @@ namespace TrucoClient.Views
             }
 
             CheckFormStatusAndToggleSaveButton();
+            
             return areValid;
         }
 
@@ -176,10 +179,12 @@ namespace TrucoClient.Views
             { 
                 return blckCurrentError; 
             }
+            
             if (field == txtPassword)
             {
                 return blckPasswordError;
             }
+            
             if (field == txtPasswordConfirm)
             {
                 return blckPasswordConfirmError;

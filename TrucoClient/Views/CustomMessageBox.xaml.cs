@@ -42,6 +42,7 @@ namespace TrucoClient.Views
             MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None)
         {
             var msgWindow = new CustomMessageBox(messageBoxText, caption, button, icon, isInputMode: false);
+            
             return msgWindow.ShowDialog();
         }
 
@@ -207,6 +208,7 @@ namespace TrucoClient.Views
             if (e.DataObject.GetDataPresent(typeof(string)))
             {
                 string text = (string)e.DataObject.GetData(typeof(string));
+                
                 if (IsTextNumeric(text))
                 {
                     e.CancelCommand();

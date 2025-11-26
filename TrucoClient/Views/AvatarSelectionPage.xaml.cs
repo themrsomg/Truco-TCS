@@ -67,6 +67,7 @@ namespace TrucoClient.Views
             }
 
             button.Click += ClickAvatar;
+            
             return button;
         }
 
@@ -90,6 +91,7 @@ namespace TrucoClient.Views
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             AvatarSelected?.Invoke(this, currentSelectedId);
+            
             if (NavigationService?.CanGoBack == true)
             {
                 NavigationService.GoBack();

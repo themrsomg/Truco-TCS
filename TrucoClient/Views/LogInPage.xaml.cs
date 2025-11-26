@@ -53,6 +53,7 @@ namespace TrucoClient.Views
             }
 
             btnLogIn.IsEnabled = false;
+            
             await AttemptLoginAsync(identifier, password);
         }
 
@@ -151,12 +152,14 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(identifier))
             {
                 ErrorDisplayService.ShowError(txtEmailUsername, blckEmailUsernameError, Lang.GlobalTextRequieredField);
+                
                 return false;
             }
 
             if (InputSanitizer.ContainsDangerousCharacters(identifier))
             {
                 ErrorDisplayService.ShowError(txtEmailUsername, blckEmailUsernameError, Lang.DialogTextInvalidCharacters);
+                
                 return false;
             }
 
@@ -170,6 +173,7 @@ namespace TrucoClient.Views
                 if (!EmailValidator.IsValidEmail(text))
                 {
                     ErrorDisplayService.ShowError(control, errorBlock, Lang.DialogTextInvalidEmail);
+                    
                     return false;
                 }
             }
@@ -179,6 +183,7 @@ namespace TrucoClient.Views
                     !UsernameValidator.IsValidFormat(text))
                 {
                     ErrorDisplayService.ShowError(control, errorBlock, Lang.DialogTextInvalidUsername);
+                    
                     return false;
                 }
             }
@@ -190,12 +195,14 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
+                
                 return false;
             }
 
             if (InputSanitizer.ContainsDangerousCharacters(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextInvalidCharacters);
+                
                 return false;
             }
 
@@ -207,12 +214,14 @@ namespace TrucoClient.Views
             if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {
                 ErrorDisplayService.ShowError(control, errorBlock, Lang.DialogTextShortPassword);
+                
                 return false;
             }
 
             if (!PasswordValidator.IsComplex(password))
             {
                 ErrorDisplayService.ShowError(control, errorBlock, Lang.DialogTextInvalidPassword);
+                
                 return false;
             }
 
@@ -273,6 +282,7 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsLengthInRange(text, MIN_TEXT_LENGTH, MAX_TEXT_LENGTH))
             {
                 string error;
+                
                 if (text.Length < MIN_TEXT_LENGTH)
                 {
                     error = Lang.DialogTextShortEmailOrUsername;
@@ -288,6 +298,7 @@ namespace TrucoClient.Views
         private void TextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;
+           
             if (textBox == null)
             {
                 return;

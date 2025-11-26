@@ -34,6 +34,7 @@ namespace TrucoClient.Views
                 try
                 {
                     _ = new BitmapImage(new Uri(correctedPath, UriKind.Relative));
+                    
                     return correctedPath;
                 }
                 catch (UriFormatException)
@@ -90,6 +91,7 @@ namespace TrucoClient.Views
                 try
                 {
                     var friends = await friendClient.GetFriendsAsync(currentUsername);
+                    
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         foreach (var friend in friends)
@@ -99,6 +101,7 @@ namespace TrucoClient.Views
                     });
 
                     var pending = await friendClient.GetPendingFriendRequestsAsync(currentUsername);
+                    
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         foreach (var req in pending)

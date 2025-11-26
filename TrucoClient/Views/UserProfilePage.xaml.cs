@@ -206,6 +206,7 @@ namespace TrucoClient.Views
         private async void AvatarSelectedHandler(object sender, string newAvatarId)
         {
             AvatarSelectionPage avatarPage = sender as AvatarSelectionPage;
+           
             if (avatarPage != null)
             {
                 avatarPage.AvatarSelected -= AvatarSelectedHandler;

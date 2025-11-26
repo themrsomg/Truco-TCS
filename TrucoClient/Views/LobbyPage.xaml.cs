@@ -57,6 +57,7 @@ namespace TrucoClient.Views
             {
                 CustomMessageBox.Show(Lang.GameTextNotOwnerStartGame, Lang.GlobalTextAccessDenied, 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                
                 return;
             }
 
@@ -77,6 +78,7 @@ namespace TrucoClient.Views
         private void ClickSendMessage(object sender, RoutedEventArgs e)
         {
             string text = txtChatMessage.Text.Trim();
+            
             if (string.IsNullOrEmpty(text))
             {
                 return;
@@ -98,6 +100,7 @@ namespace TrucoClient.Views
             {
                 CustomMessageBox.Show(Lang.ExceptionTextCannotSwitchOthersTeam, Lang.GlobalTextAccessDenied, 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+               
                 return;
             }
 
@@ -250,6 +253,7 @@ namespace TrucoClient.Views
             try
             {
                 string path = $"/Resources/Avatars/{avatarId}.png";
+                
                 return new BitmapImage(new Uri(path, UriKind.Relative));
             }
             catch
@@ -279,6 +283,7 @@ namespace TrucoClient.Views
             try
             {
                 var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
+               
                 string avatarId = string.IsNullOrEmpty(profile?.AvatarId) ? DEFAUL_AVATAR_ID : profile.AvatarId;
                 string username = profile?.Username ?? p.Username;
 

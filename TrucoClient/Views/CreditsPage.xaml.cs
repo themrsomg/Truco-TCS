@@ -37,6 +37,7 @@ namespace TrucoClient.Views
                     return;
                 }
                 Process.Start(fullPath);
+                
                 if (this.NavigationService != null)
                 {
                     this.NavigationService.Navigate(new SettingsPage());

@@ -57,6 +57,7 @@ namespace TrucoClient.Views
         private async Task NavigateAfterDelayAsync(TimeSpan delay)
         {
             await Task.Delay(delay);
+           
             var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
             fadeOut.Completed += (s, e) =>
             {

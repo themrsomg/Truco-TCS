@@ -31,6 +31,7 @@ namespace TrucoClient.Views
             try
             {
                 bool joined = ClientManager.MatchClient.JoinMatch(code, player);
+               
                 if (joined)
                 {
                     this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch));

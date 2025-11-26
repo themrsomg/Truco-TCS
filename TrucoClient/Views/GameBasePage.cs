@@ -129,6 +129,7 @@ namespace TrucoClient.Views
                 BtnRespondQuiero.Click -= OnBtnRespondQuieroClick;
                 BtnRespondQuiero.Click += OnBtnRespondQuieroClick;
             }
+            
             if (BtnRespondNoQuiero != null)
             {
                 BtnRespondNoQuiero.Click -= OnBtnRespondNoQuieroClick;
@@ -145,18 +146,22 @@ namespace TrucoClient.Views
             { 
                 BtnCallEnvido.Click -= OnBtnCallEnvidoClick; BtnCallEnvido.Click += OnBtnCallEnvidoClick; 
             }
+            
             if (BtnCallRealEnvido != null) 
             { 
                 BtnCallRealEnvido.Click -= OnBtnCallRealEnvidoClick; BtnCallRealEnvido.Click += OnBtnCallRealEnvidoClick; 
             }
+            
             if (BtnCallFaltaEnvido != null) 
             { 
                 BtnCallFaltaEnvido.Click -= OnBtnCallFaltaEnvidoClick; BtnCallFaltaEnvido.Click += OnBtnCallFaltaEnvidoClick; 
             }
+            
             if (BtnEnvidoRespondQuiero != null) 
             { 
                 BtnEnvidoRespondQuiero.Click -= OnBtnRespondQuieroClick; BtnEnvidoRespondQuiero.Click += OnBtnRespondQuieroClick; 
             }
+            
             if (BtnEnvidoRespondNoQuiero != null) 
             { 
                 BtnEnvidoRespondNoQuiero.Click -= OnBtnRespondNoQuieroClick; BtnEnvidoRespondNoQuiero.Click += OnBtnRespondNoQuieroClick; 
@@ -166,10 +171,12 @@ namespace TrucoClient.Views
             { 
                 BtnStartFlor.Click -= OnBtnCallFlorClick; BtnStartFlor.Click += OnBtnCallFlorClick; 
             }
+           
             if (BtnCallFlor != null) 
             { 
                 BtnCallFlor.Click -= OnBtnCallFlorClick; BtnCallFlor.Click += OnBtnCallFlorClick; 
             }
+            
             if (BtnCallContraFlor != null) 
             { 
                 BtnCallContraFlor.Click -= OnBtnCallContraFlorClick; BtnCallContraFlor.Click += OnBtnCallContraFlorClick; 
@@ -342,7 +349,11 @@ namespace TrucoClient.Views
                 MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername); 
             } catch 
             {
-                /* error */
+                /* 
+                 * The exception is ignored to prevent the application from crashing.
+                 * If a visual resource is missing, the window will be displayed without a background image.
+                 * But it will still be functional.
+                 */
             }
         }
 
@@ -1528,6 +1539,7 @@ namespace TrucoClient.Views
         protected void ClickSendMessage(object sender, RoutedEventArgs e)
         {
             string messageText = txtChatMessage.Text.Trim();
+            
             if (string.IsNullOrEmpty(messageText))
             {
                 return;
@@ -1535,6 +1547,7 @@ namespace TrucoClient.Views
 
             AddChatMessage(Lang.ChatTextYou, messageText);
             txtChatMessage.Clear();
+            
             try
             {
                 ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, messageText);
@@ -1603,6 +1616,7 @@ namespace TrucoClient.Views
             {
                 return me.Team == other.Team;
             }
+            
             return false;
         }
 
@@ -1612,6 +1626,7 @@ namespace TrucoClient.Views
             {
                 avatarId = DEFAULT_AVATAR_ID;
             }
+           
             try
             {
                 return new BitmapImage(new Uri($"/Resources/Avatars/{avatarId}.png", UriKind.Relative));

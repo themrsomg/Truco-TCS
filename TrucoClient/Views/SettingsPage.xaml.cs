@@ -69,6 +69,7 @@ namespace TrucoClient.Views
         private void SetInitialLanguage()
         {
             string currentLang = Settings.Default.languageCode;
+            
             if (currentLang == "es-MX")
             {
                 cbLanguages.SelectedIndex = 1;

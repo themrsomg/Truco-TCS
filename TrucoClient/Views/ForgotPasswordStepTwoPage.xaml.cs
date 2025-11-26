@@ -162,6 +162,7 @@ namespace TrucoClient.Views
             }
 
             ErrorDisplayService.ClearError(txtVerificationCode, blckCodeError);
+            
             return true;
         }
 
@@ -170,22 +171,26 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
+                
                 return false;
             }
 
             if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                
                 return false;
             }
 
             if (!PasswordValidator.IsComplex(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
+                
                 return false;
             }
 
             ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+            
             return true;
         }
 
@@ -194,6 +199,7 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(confirm))
             {
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.GlobalTextRequieredField);
+                
                 return false;
             }
 
@@ -202,10 +208,12 @@ namespace TrucoClient.Views
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+                
                 return false;
             }
 
             ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+            
             return true;
         }
 
@@ -215,10 +223,12 @@ namespace TrucoClient.Views
             {
                 return blckCodeError;
             }
+            
             if (field == txtPassword)
             {
                 return blckPasswordError;
             }
+            
             if (field == txtPasswordConfirm)
             {
                 return blckPasswordConfirmError;
@@ -284,6 +294,7 @@ namespace TrucoClient.Views
             {
                 ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextRequieredField);
             }
+            
             CheckFormStatusAndToggleSaveButton();
         }
 

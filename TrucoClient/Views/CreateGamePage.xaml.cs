@@ -12,6 +12,7 @@ namespace TrucoClient.Views
     public partial class CreateGamePage : Page
     {
         private const string MESSAGE_ERROR = "Error";
+        
         public CreateGamePage()
         {
             InitializeComponent();
@@ -45,6 +46,7 @@ namespace TrucoClient.Views
                     {
                         CustomMessageBox.Show(Lang.WarningTextNoGameCreated, MESSAGE_ERROR, 
                             MessageBoxButton.OK, MessageBoxImage.Error);
+                        
                         if (button != null)
                         {
                             button.IsEnabled = true;

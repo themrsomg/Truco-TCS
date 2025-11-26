@@ -137,6 +137,7 @@ namespace TrucoClient.Views
             {
                 CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                
                 return null;
             }
 
@@ -167,21 +168,25 @@ namespace TrucoClient.Views
             catch (FaultException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+               
                 return true;
             }
             catch (EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+               
                 return true;
             }
             catch (CommunicationException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return true;
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return true;
             }
         }
@@ -202,21 +207,25 @@ namespace TrucoClient.Views
             catch (FaultException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return false;
             }
             catch (EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+               
                 return false;
             }
             catch (CommunicationException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return false;
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+               
                 return false;
             }
         }
@@ -237,21 +246,25 @@ namespace TrucoClient.Views
             catch (FaultException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+               
                 return false;
             }
             catch (EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return false;
             }
             catch (CommunicationException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return false;
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
                 return false;
             }
         }
@@ -311,6 +324,7 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextRequieredField);
+               
                 return false;
             }
 
@@ -318,18 +332,21 @@ namespace TrucoClient.Views
             {
                 string error = email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail;
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, error);
+                
                 return false;
             }
 
             if (InputSanitizer.ContainsDangerousCharacters(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.DialogTextInvalidCharacters);
+                
                 return false;
             }
 
             if (!EmailValidator.IsValidEmail(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
+                
                 return false;
             }
 
@@ -339,6 +356,7 @@ namespace TrucoClient.Views
             }
 
             ErrorDisplayService.ClearError(txtEmail, blckEmailError);
+            
             return true;
         }
 
@@ -347,6 +365,7 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(username))
             {
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextRequieredField);
+                
                 return false;
             }
 
@@ -354,22 +373,26 @@ namespace TrucoClient.Views
             {
                 string error = username.Length < MIN_USERNAME_LENGTH ? Lang.DialogTextShortUsername : Lang.DialogTextLongUsername;
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, error);
+              
                 return false;
             }
 
             if (InputSanitizer.ContainsDangerousCharacters(username))
             {
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.DialogTextInvalidCharacters);
+               
                 return false;
             }
 
             if (!UsernameValidator.IsValidFormat(username))
             {
                 ErrorDisplayService.ShowError(txtUsername, blckUsernameError, Lang.GlobalTextInvalidUsername);
+               
                 return false;
             }
 
             ErrorDisplayService.ClearError(txtUsername, blckUsernameError);
+           
             return true;
         }
 
@@ -378,28 +401,33 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
+               
                 return false;
             }
 
             if (InputSanitizer.ContainsDangerousCharacters(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextInvalidCharacters);
+             
                 return false;
             }
 
             if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                
                 return false;
             }
 
             if (!PasswordValidator.IsComplex(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
+               
                 return false;
             }
 
             ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+           
             return true;
         }
 
@@ -408,6 +436,7 @@ namespace TrucoClient.Views
             if (!FieldValidator.IsRequired(confirm))
             {
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.GlobalTextRequieredField);
+                
                 return false;
             }
 
@@ -416,10 +445,12 @@ namespace TrucoClient.Views
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+                
                 return false;
             }
 
             ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+           
             return true;
         }
 
@@ -518,6 +549,7 @@ namespace TrucoClient.Views
             if (string.IsNullOrEmpty(password) && string.IsNullOrEmpty(passwordConfirm))
             {
                 CheckFormStatusAndToggleRegisterButton();
+                
                 return;
             }
 
@@ -593,6 +625,7 @@ namespace TrucoClient.Views
                 if (btnRegister.IsEnabled)
                 {
                     ClickRegister(btnRegister, null);
+                    
                     return;
                 }
 
