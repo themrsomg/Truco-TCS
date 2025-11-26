@@ -107,25 +107,34 @@ namespace TrucoClient.Views
             var userData = await userClient.GetUserProfileAsync(username);
             SessionManager.CurrentUserData = userData;
 
+            HandleGlobalization(userData);
+            HandleMusicInitilizer(userData);
+
+            CustomMessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome,
+                MessageBoxButton.OK, MessageBoxImage.Information);
+
+            this.NavigationService.Navigate(new MainPage());
+        }
+
+        private void HandleGlobalization(UserProfileData userData)
+        {
             if (!string.IsNullOrEmpty(userData.LanguageCode))
             {
                 Properties.Settings.Default.languageCode = userData.LanguageCode;
                 System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(userData.LanguageCode);
                 LanguageManager.ApplyLanguage();
             }
+        }
 
+        private void HandleMusicInitilizer(UserProfileData userData)
+        {
             if (MusicManager.IsMuted != userData.IsMusicMuted)
             {
                 MusicManager.ToggleMute();
             }
-            
+
             Properties.Settings.Default.IsMusicMuted = userData.IsMusicMuted;
             Properties.Settings.Default.Save();
-
-            CustomMessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome,
-                MessageBoxButton.OK, MessageBoxImage.Information);
-
-            this.NavigationService.Navigate(new MainPage());
         }
 
         private async Task HandleLoginFault(FaultException<LoginFault> ex)

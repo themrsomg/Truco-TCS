@@ -88,12 +88,12 @@ namespace TrucoClient.Views
 
                 await ClientManager.UserClient.SaveUserProfileAsync(SessionManager.CurrentUserData);
             }
-            catch (ServiceException ex)
+            catch (ServiceException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextArgument, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }

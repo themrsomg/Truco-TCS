@@ -24,15 +24,11 @@ namespace TrucoClient.Helpers.Localization
 
         public static void ApplyLanguage()
         {
-            string code = Properties.Settings.Default.languageCode ?? "en-US";
-           
-            if (string.IsNullOrEmpty(code))
-            {
-                var osCulture = CultureInfo.InstalledUICulture;
-                code = osCulture.TwoLetterISOLanguageName.Equals("es", StringComparison.OrdinalIgnoreCase)
-                       ? "es-MX"
-                       : "en-US";
+            string code = Properties.Settings.Default.languageCode;
 
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                code = "es-MX";
                 Properties.Settings.Default.languageCode = code;
                 Properties.Settings.Default.Save();
             }

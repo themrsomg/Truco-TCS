@@ -1,20 +1,57 @@
-﻿using System;
+﻿using Microsoft.ServiceFabric.Services.Communication;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Localization;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Properties;
+using TrucoClient.Properties.Langs;
 
 
 namespace TrucoClient.Views
 {
     public partial class StartPage : Page
     {
+        private const string MESSAGE_ERROR = "Error";
         public StartPage()
         {
             InitializeComponent();
             SessionManager.Clear();
+            ApplyDefaultLanguageAndAudio();
 
             MusicInitializer.InitializeMenuMusic();
+        }
+
+        private void ApplyDefaultLanguageAndAudio()
+        {
+            try
+            {
+                const string DEFAULT_LANG = "es-MX";
+
+                if (Settings.Default.languageCode != DEFAULT_LANG)
+                {
+                    Settings.Default.languageCode = DEFAULT_LANG;
+                    Settings.Default.Save();
+
+                    LanguageManager.ChangeLanguage(DEFAULT_LANG);
+                }
+
+                if (MusicManager.IsMuted)
+                {
+                    MusicManager.ToggleMute();
+                }
+            }
+            catch (ServiceException ex)
+            {
+                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClickLogIn(object sender, RoutedEventArgs e)
