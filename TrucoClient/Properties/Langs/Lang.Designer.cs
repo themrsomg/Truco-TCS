@@ -331,6 +331,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Are you sure to leave without saving your changes?.
+        /// </summary>
+        public static string ClimbUpAndLook {
+            get {
+                return ResourceManager.GetString("ClimbUpAndLook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Creative design.
         /// </summary>
         public static string CreditsTextCreativeDesign {

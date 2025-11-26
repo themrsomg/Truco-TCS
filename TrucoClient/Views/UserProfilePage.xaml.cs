@@ -100,7 +100,25 @@ namespace TrucoClient.Views
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            string currentUsername = txtUsername.Text.Trim();
+            string currentFacebook = ExtractHandle(txtFacebookLink.Text, FACEBOOK_BASE_URL);
+            string currentX = ExtractHandle(txtXLink.Text, X_BASE_URL);
+            string currentInstagram = ExtractHandle(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
+
+            if (HasChangesToSave(currentUsername, currentFacebook, currentX, currentInstagram))
+            {
+                bool? result = CustomMessageBox.Show(Lang.ClimbUpAndLook, Lang.GlobalTextConfirmation,
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == true)
+                {
+                    this.NavigationService.Navigate(new MainPage());
+                }
+            }
+            else
+            {
+                this.NavigationService.Navigate(new MainPage());
+            }
         }
 
         private void TextBoxLostFocus(object sender, RoutedEventArgs e)
