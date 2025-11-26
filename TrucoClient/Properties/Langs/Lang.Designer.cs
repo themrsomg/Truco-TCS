@@ -331,15 +331,6 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Are you sure to leave without saving your changes?.
-        /// </summary>
-        public static string ClimbUpAndLook {
-            get {
-                return ResourceManager.GetString("ClimbUpAndLook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Creative design.
         /// </summary>
         public static string CreditsTextCreativeDesign {
@@ -398,6 +389,15 @@ namespace TrucoClient.Properties.Langs {
         public static string DialogTextConfirmationNewUser {
             get {
                 return ResourceManager.GetString("DialogTextConfirmationNewUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Are you sure to leave without saving your changes?.
+        /// </summary>
+        public static string DialogTextConfirmationUserProfile {
+            get {
+                return ResourceManager.GetString("DialogTextConfirmationUserProfile", resourceCulture);
             }
         }
         

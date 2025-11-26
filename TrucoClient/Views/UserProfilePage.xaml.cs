@@ -1,12 +1,16 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.ServiceModel;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.ServiceModel;
-using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -30,6 +34,9 @@ namespace TrucoClient.Views
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
 
+        private static readonly Regex usernameCharRegex = new Regex("^[A-Za-z0-9._-]$", RegexOptions.Compiled);
+        private static readonly Regex urlCharRegex = new Regex(@"^[A-Za-z0-9\-\._:/\?#\[\]@!$&'()*+,;=%]$", RegexOptions.Compiled);
+
         private UserProfileData localEditingData;
 
         private string originalUsername;
@@ -52,8 +59,12 @@ namespace TrucoClient.Views
                 return;
             }
 
-            string newUsername = txtUsername.Text.Trim();
+            SanitizeAndRestrictTextBox(txtUsername);
+            SanitizeAndRestrictTextBox(txtFacebookLink);
+            SanitizeAndRestrictTextBox(txtXLink);
+            SanitizeAndRestrictTextBox(txtInstagramLink);
 
+            string newUsername = txtUsername.Text.Trim();
             string newFacebook = ExtractHandle(txtFacebookLink.Text, FACEBOOK_BASE_URL);
             string newX = ExtractHandle(txtXLink.Text, X_BASE_URL);
             string newInstagram = ExtractHandle(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
@@ -69,6 +80,8 @@ namespace TrucoClient.Views
 
             if (!HasChangesToSave(newUsername, newFacebook, newX, newInstagram))
             {
+                CustomMessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges,
+                    MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -100,6 +113,11 @@ namespace TrucoClient.Views
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
+            SanitizeAndRestrictTextBox(txtUsername);
+            SanitizeAndRestrictTextBox(txtFacebookLink);
+            SanitizeAndRestrictTextBox(txtXLink);
+            SanitizeAndRestrictTextBox(txtInstagramLink);
+
             string currentUsername = txtUsername.Text.Trim();
             string currentFacebook = ExtractHandle(txtFacebookLink.Text, FACEBOOK_BASE_URL);
             string currentX = ExtractHandle(txtXLink.Text, X_BASE_URL);
@@ -107,7 +125,7 @@ namespace TrucoClient.Views
 
             if (HasChangesToSave(currentUsername, currentFacebook, currentX, currentInstagram))
             {
-                bool? result = CustomMessageBox.Show(Lang.ClimbUpAndLook, Lang.GlobalTextConfirmation,
+                bool? result = CustomMessageBox.Show(Lang.DialogTextConfirmationUserProfile, Lang.GlobalTextConfirmation,
                     MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == true)
@@ -124,6 +142,8 @@ namespace TrucoClient.Views
         private void TextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;
+
+            SanitizeAndRestrictTextBox(textBox);
 
             if (textBox == txtUsername)
             {
@@ -144,18 +164,279 @@ namespace TrucoClient.Views
         {
             var textBox = sender as TextBox;
 
+            if (textBox == null)
+            {
+                return;
+            }
+
+            SanitizeAndRestrictTextBox(textBox);
             ClearSpecificError(textBox);
 
             if (textBox == txtUsername)
             {
                 ValidateUsernameInput(textBox);
             }
+
             UpdateSocialMediaLinks();
         }
 
-        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void GenericPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !UsernameValidator.IsValidFormat(e.Text);
+            try
+            {
+                TextBox tb = sender as TextBox;
+                if (tb == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                var allowed = tb == txtUsername ? usernameCharRegex : urlCharRegex;
+
+                e.Handled = !allowed.IsMatch(e.Text);
+            }
+            catch (ArgumentNullException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+            catch (ArgumentException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+            catch (ExternalException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+            catch (SecurityException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+        }
+
+        private void GenericPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Space || e.Key == Key.Tab)
+                {
+                    e.Handled = true;
+                }
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void UsernamePasting(object sender, DataObjectPastingEventArgs e)
+        {
+            try
+            {
+                if (!e.DataObject.GetDataPresent(DataFormats.Text))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                string pasted = (string)e.DataObject.GetData(DataFormats.Text);
+
+                if (string.IsNullOrEmpty(pasted))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                pasted = InputSanitizer.SanitizeForCodeInput(pasted);
+                pasted = pasted.Normalize(NormalizationForm.FormC);
+
+                pasted = InputRestriction.RestrictToAllowedCharacters(pasted, usernameCharRegex);
+
+                if (pasted.Length > txtUsername.MaxLength)
+                {
+                    pasted = pasted.Substring(0, txtUsername.MaxLength);
+                }
+
+                if (string.IsNullOrEmpty(pasted))
+                {
+                    e.CancelCommand();
+                }
+            }
+            catch (FormatException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (ArgumentNullException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (ArgumentException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (ExternalException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                e.CancelCommand();
+            }
+            catch (SecurityException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                e.CancelCommand();
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+        }
+
+        private void SocialPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            try
+            {
+                if (!e.DataObject.GetDataPresent(DataFormats.Text))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                string pasted = (string)e.DataObject.GetData(DataFormats.Text);
+                if (string.IsNullOrEmpty(pasted))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                pasted = InputSanitizer.SanitizeForCodeInput(pasted);
+                pasted = pasted.Normalize(NormalizationForm.FormC);
+
+                pasted = InputRestriction.RestrictToAllowedCharacters(pasted, urlCharRegex);
+
+                TextBox tb = sender as TextBox;
+                if (tb != null && pasted.Length > tb.MaxLength)
+                {
+                    pasted = pasted.Substring(0, tb.MaxLength);
+                }
+
+                if (string.IsNullOrEmpty(pasted))
+                {
+                    e.CancelCommand();
+                }
+            }
+            catch (FormatException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (ArgumentNullException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (ArgumentException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+            catch (ExternalException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                e.CancelCommand();
+            }
+            catch (SecurityException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                e.CancelCommand();
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                e.CancelCommand();
+            }
+        }
+
+        private void SanitizeAndRestrictTextBox(TextBox textBox)
+        {
+            if (textBox == null) return;
+
+            try
+            {
+                int caret = textBox.CaretIndex;
+                string original = textBox.Text ?? string.Empty;
+
+                string sanitized = InputSanitizer.SanitizeForCodeInput(original);
+                sanitized = sanitized.Normalize(NormalizationForm.FormC);
+
+                var allowed = textBox == txtUsername ? usernameCharRegex : urlCharRegex;
+
+
+                sanitized = InputRestriction.RestrictToAllowedCharacters(sanitized, allowed);
+
+                if (textBox.MaxLength > 0 && sanitized.Length > textBox.MaxLength)
+                {
+                    sanitized = sanitized.Substring(0, textBox.MaxLength);
+                }
+
+                if (!string.Equals(original, sanitized, StringComparison.Ordinal))
+                {
+                    textBox.Text = sanitized;
+                    textBox.CaretIndex = Math.Min(caret, sanitized.Length);
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (RegexMatchTimeoutException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ExternalException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (SecurityException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OpenSocialLink(string handle, string baseUrl)
@@ -486,12 +767,6 @@ namespace TrucoClient.Views
             bool instagramChanged = !string.Equals(inputIg, currentIg, StringComparison.Ordinal);
 
             bool changed = usernameChanged || facebookChanged || xChanged || instagramChanged;
-
-            if (!changed)
-            {
-                CustomMessageBox.Show(Lang.UserProfileTextSaveNoChanges, Lang.UserProfileTextNoChanges,
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
 
             return changed;
         }

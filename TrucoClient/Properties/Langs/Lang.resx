@@ -1263,7 +1263,7 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextTimeout" xml:space="preserve">
     <value>It seems the server is taking a long time to respond. Please try again later.</value>
   </data>
-  <data name="ClimbUpAndLook" xml:space="preserve">
+  <data name="DialogTextConfirmationUserProfile" xml:space="preserve">
     <value>Are you sure to leave without saving your changes?</value>
   </data>
 </root>

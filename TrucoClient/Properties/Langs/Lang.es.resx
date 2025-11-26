@@ -1263,7 +1263,7 @@
   <data name="ExceptionTextTimeout" xml:space="preserve">
     <value>Parece que el servidor está tardando mucho en responder. Inténtalo de nuevo más tarde.</value>
   </data>
-  <data name="ClimbUpAndLook" xml:space="preserve">
+  <data name="DialogTextConfirmationUserProfile" xml:space="preserve">
     <value>Estás seguro de salir sin guardar tus cambios?</value>
   </data>
 </root>
