@@ -41,7 +41,7 @@
                 <Button Click="ClickCards" Content="{x:Static language:Lang.CardsText}" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="10" Background="#9fcee9" BorderThickness="2" BorderBrush="#9fcee9">
+                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFFF9595">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
