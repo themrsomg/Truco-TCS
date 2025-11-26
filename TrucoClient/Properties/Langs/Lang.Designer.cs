@@ -438,6 +438,42 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The field contains invalid characters.
+        /// </summary>
+        public static string DialogTextInvalidCharacters {
+            get {
+                return ResourceManager.GetString("DialogTextInvalidCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invalid email address.
+        /// </summary>
+        public static string DialogTextInvalidEmail {
+            get {
+                return ResourceManager.GetString("DialogTextInvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invalid password.
+        /// </summary>
+        public static string DialogTextInvalidPassword {
+            get {
+                return ResourceManager.GetString("DialogTextInvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invalid username.
+        /// </summary>
+        public static string DialogTextInvalidUsername {
+            get {
+                return ResourceManager.GetString("DialogTextInvalidUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Invalid username or password.
         /// </summary>
         public static string DialogTextInvalidUserPass {
@@ -749,6 +785,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextConnectionError {
             get {
                 return ResourceManager.GetString("ExceptionTextConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Data reading error, please try again.
+        /// </summary>
+        public static string ExceptionTextDataReadingError {
+            get {
+                return ResourceManager.GetString("ExceptionTextDataReadingError", resourceCulture);
             }
         }
         

@@ -79,9 +79,11 @@
     </Compile>
     <Compile Include="Helpers\UI\AvatarHelper.cs" />
     <Compile Include="Helpers\UI\ErrorDisplayService.cs" />
+    <Compile Include="Helpers\UI\InputRestriction.cs" />
     <Compile Include="Helpers\UI\PasswordVisibilityService.cs" />
     <Compile Include="Helpers\Validation\EmailValidator.cs" />
     <Compile Include="Helpers\Validation\FieldValidator.cs" />
+    <Compile Include="Helpers\Validation\InputSanitizer.cs" />
     <Compile Include="Helpers\Validation\PasswordValidator.cs" />
     <Compile Include="Helpers\Validation\UsernameValidator.cs" />
     <Compile Include="IChatPage.cs" />

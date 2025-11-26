@@ -1245,4 +1245,19 @@
   <data name="ExceptionTextTooManyAttempts" xml:space="preserve">
     <value>Se han detectado demasiados intentos de inicio de sesión. Si has olvidado tu contraseña, utiliza el enlace '¿Olvidaste tu contraseña?' de abajo. De lo contrario, espera un momento y vuelve a intentarlo.</value>
   </data>
+  <data name="DialogTextInvalidCharacters" xml:space="preserve">
+    <value>El campo contiene caracteres inválidos</value>
+  </data>
+  <data name="DialogTextInvalidEmail" xml:space="preserve">
+    <value>Dirección de correo electrónico inválida</value>
+  </data>
+  <data name="DialogTextInvalidUsername" xml:space="preserve">
+    <value>Nombre de usuario inválido</value>
+  </data>
+  <data name="DialogTextInvalidPassword" xml:space="preserve">
+    <value>Contraseña inválida</value>
+  </data>
+  <data name="ExceptionTextDataReadingError" xml:space="preserve">
+    <value>Error en la lectura de datos, vuelve a intentarlo</value>
+  </data>
 </root>
