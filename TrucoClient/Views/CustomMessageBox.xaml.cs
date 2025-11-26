@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -191,7 +190,7 @@ namespace TrucoClient.Views
 
             if (text.Length != 6)
             {
-                MessageBox.Show("The code must be 6 digits.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show("The code must be 6 digits.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 

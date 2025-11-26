@@ -217,5 +217,141 @@ namespace TrucoClient.Helpers.UI
                 }
             });
         }
+
+        public static void AttachTextBoxValidation(TextBox textBox, string pattern)
+        {
+            if (textBox == null)
+            {
+                throw new ArgumentNullException("TextBox");
+            }
+
+            if (string.IsNullOrWhiteSpace(pattern))
+            {
+                throw new ArgumentException("Pattern cannot be null or empty");
+            }
+
+            Regex allowed;
+            try
+            {
+                allowed = new Regex(pattern, RegexOptions.Compiled);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("Invalid regex pattern: " + ex.Message, MESSAGE_ERROR, ex);
+            }
+
+            textBox.PreviewTextInput += (sender, e) =>
+            {
+                try
+                {
+                    string normalized = (e.Text ?? string.Empty).Normalize(NormalizationForm.FormC);
+                    e.Handled = !allowed.IsMatch(normalized);
+                }
+                catch (ArgumentException)
+                {
+                    e.Handled = true;
+                }
+                catch (RegexMatchTimeoutException)
+                {
+                    e.Handled = true;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    e.Handled = true;
+                }
+            };
+
+            textBox.PreviewKeyDown += (sender, e) =>
+            {
+                if (e.Key == Key.Space)
+                {
+                    if (!allowed.IsMatch(" "))
+                    {
+                        e.Handled = true;
+                    }
+                }
+            };
+
+            DataObject.AddPastingHandler(textBox, (sender, e) =>
+            {
+                try
+                {
+                    if (e == null || e.DataObject == null)
+                    {
+                        e?.CancelCommand();
+                        return;
+                    }
+
+                    if (!e.DataObject.GetDataPresent(DataFormats.Text))
+                    {
+                        e.CancelCommand();
+                        return;
+                    }
+
+                    object data = e.DataObject.GetData(DataFormats.Text);
+                    if (data == null)
+                    {
+                        e.CancelCommand();
+                        return;
+                    }
+
+                    string pasteText = data.ToString();
+                    if (string.IsNullOrWhiteSpace(pasteText))
+                    {
+                        e.CancelCommand();
+                        return;
+                    }
+
+                    string normalized = pasteText.Normalize(NormalizationForm.FormC);
+
+                    bool allowedMatch;
+                    try
+                    {
+                        allowedMatch = allowed.IsMatch(normalized);
+                    }
+                    catch (ArgumentException)
+                    {
+                        allowedMatch = false;
+                    }
+                    catch (RegexMatchTimeoutException)
+                    {
+                        allowedMatch = false;
+                    }
+
+                    if (!allowedMatch)
+                    {
+                        e.CancelCommand();
+                    }
+                }
+                catch (ArgumentNullException)
+                {
+                    e.CancelCommand();
+                }
+                catch (ArgumentException)
+                {
+                    e.CancelCommand();
+                }
+                catch (RegexMatchTimeoutException)
+                {
+                    e.CancelCommand();
+                }
+                catch (ExternalException)
+                {
+                    MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    e.CancelCommand();
+                }
+                catch (SecurityException)
+                {
+                    MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    e.CancelCommand();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    e.CancelCommand();
+                }
+            });
+        }
     }
 }

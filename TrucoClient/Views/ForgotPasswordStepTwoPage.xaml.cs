@@ -1,22 +1,27 @@
 ﻿using System;
+using System.ServiceModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using TrucoClient.Properties.Langs;
-using TrucoClient.Helpers.UI;
-using TrucoClient.Helpers.Validation;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
     public partial class ForgotPasswordStepTwoPage : Page
     {
         private const int CODE_LENGTH = 6;
-        private const int MIN_PASSWORD_LENGTH = 8;
+        private const int MIN_PASSWORD_LENGTH = 12;
         private const int MAX_PASSWORD_LENGTH = 50;
         private const string MESSAGE_ERROR = "Error";
+
+        private static readonly Regex verificationCodeRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^[^\s]+$", RegexOptions.Compiled);
 
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
         private string email;
@@ -24,9 +29,10 @@ namespace TrucoClient.Views
         public ForgotPasswordStepTwoPage(string email)
         {
             InitializeComponent();
-            this.email = email;
+            this.email = email ?? string.Empty;
             MusicInitializer.InitializeMenuMusic();
             blckVerificationCodeText.Text = string.Format(Lang.ForgotPasswordTextSent, email);
+            InitializeValidation();
         }
 
         private void ClickSave(object sender, RoutedEventArgs e)
@@ -36,8 +42,22 @@ namespace TrucoClient.Views
             string passwordConfirm = txtPasswordConfirm.Password.Trim();
 
             ClearAllErrors();
-            if (!FieldsValidation(code, password, passwordConfirm))
+            bool codeOk = ValidateCode(code);
+            bool passwordOk = ValidatePassword(password);
+            bool confirmOk = ValidatePasswordConfirm(password, passwordConfirm);
+
+            CheckFormStatusAndToggleSaveButton();
+
+            if (!codeOk || !passwordOk || !confirmOk)
             {
+                return;
+            }
+
+            if (InputSanitizer.ContainsDangerousCharacters(code) ||
+                InputSanitizer.ContainsDangerousCharacters(password) ||
+                InputSanitizer.ContainsDangerousCharacters(passwordConfirm))
+            {
+                CustomMessageBox.Show(Lang.DialogTextInvalidCharacters, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -46,24 +66,35 @@ namespace TrucoClient.Views
             try
             {
                 var userClient = ClientManager.UserClient;
+
                 bool success = userClient.PasswordReset(email, code, password, languageCode);
 
                 if (success)
                 {
-                    CustomMessageBox.Show(Lang.ForgotPasswordTextSuccess, Lang.GlobalTextSuccess, 
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextSuccess, Lang.GlobalTextSuccess,
                         MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    CustomMessageBox.Show(Lang.ForgotPasswordTextError, MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (EndpointNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
@@ -84,78 +115,98 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new StartPage());
         }
 
-        private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void InitializeValidation()
         {
-            if (e.Key == Key.Enter)
+            try
             {
-                if (sender == txtVerificationCode)
-                {
-                    txtPassword.Focus();
-                }
-                else if (sender == txtPassword)
-                {
-                    txtPasswordConfirm.Focus();
-                }
-                else if (sender == txtPasswordConfirm && btnSave.IsEnabled)
-                {
-                    ClickSave(btnSave, null);
-                }
+                InputRestriction.AttachRegexValidation(txtVerificationCode, verificationCodeRegex);
 
-                e.Handled = true;
+                InputRestriction.AttachRegexValidation(txtPassword, passwordAllowedRegex);
+                InputRestriction.AttachRegexValidation(txtPasswordConfirm, passwordAllowedRegex);
+
+                InputRestriction.AttachRegexValidation(txtVisiblePassword, passwordAllowedRegex);
+                InputRestriction.AttachRegexValidation(txtVisiblePasswordConfirm, passwordAllowedRegex);
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private bool FieldsValidation(string code, string password, string passwordConfirm)
+        private bool ValidateCode(string code)
         {
-            bool areValid = true;
-
             if (!FieldValidator.IsRequired(code))
             {
                 ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextRequieredField);
-                areValid = false;
-            }
-            else if (!FieldValidator.IsExactLength(code, CODE_LENGTH))
-            {
-                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeLength);
-                areValid = false;
-            }
-            else if (!FieldValidator.TryParseInt(code))
-            {
-                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeNumber);
-                areValid = false;
+                return false;
             }
 
+            if (!FieldValidator.IsExactLength(code, CODE_LENGTH))
+            {
+                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeLength);
+                return false;
+            }
+
+            if (!verificationCodeRegex.IsMatch(code))
+            {
+                ErrorDisplayService.ShowError(txtVerificationCode, blckCodeError, Lang.GlobalTextVerificationCodeNumber);
+                return false;
+            }
+
+            ErrorDisplayService.ClearError(txtVerificationCode, blckCodeError);
+            return true;
+        }
+
+        private bool ValidatePassword(string password)
+        {
             if (!FieldValidator.IsRequired(password))
             {
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextRequieredField);
-                areValid = false;
-            }
-            else if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
-            {
-                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
-                areValid = false;
-            }
-            else if (!PasswordValidator.IsComplex(password))
-            {
-                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
-                areValid = false;
+                return false;
             }
 
-            if (!FieldValidator.IsRequired(passwordConfirm))
+            if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                return false;
+            }
+
+            if (!PasswordValidator.IsComplex(password))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
+                return false;
+            }
+
+            ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
+            return true;
+        }
+
+        private bool ValidatePasswordConfirm(string password, string confirm)
+        {
+            if (!FieldValidator.IsRequired(confirm))
             {
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.GlobalTextRequieredField);
-                areValid = false;
+                return false;
             }
-            else if (!PasswordValidator.AreMatching(password, passwordConfirm))
+
+            if (!PasswordValidator.AreMatching(password, confirm))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
                 ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
-                areValid = false;
+                return false;
             }
 
-            CheckFormStatusAndToggleSaveButton();
-            return areValid;
+            ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
+            return true;
         }
 
         private TextBlock GetErrorTextBlock(Control field)
@@ -290,6 +341,7 @@ namespace TrucoClient.Views
 
             string password = txtPassword.Password;
             string passwordConfirm = txtPasswordConfirm.Password;
+
             if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
             {
                 string errorMessage = Lang.DialogTextPasswordsDontMatch;
@@ -329,6 +381,27 @@ namespace TrucoClient.Views
             else if (passwordBox == txtPasswordConfirm && txtVisiblePasswordConfirm.Visibility == Visibility.Visible)
             {
                 txtVisiblePasswordConfirm.Text = txtPasswordConfirm.Password;
+            }
+        }
+
+        private void EnterKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender == txtVerificationCode)
+                {
+                    txtPassword.Focus();
+                }
+                else if (sender == txtPassword)
+                {
+                    txtPasswordConfirm.Focus();
+                }
+                else if (sender == txtPasswordConfirm && btnSave.IsEnabled)
+                {
+                    ClickSave(btnSave, null);
+                }
+
+                e.Handled = true;
             }
         }
     }

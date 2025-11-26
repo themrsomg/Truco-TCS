@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace TrucoClient.Helpers.Validation
+﻿namespace TrucoClient.Helpers.Validation
 {
     public static class InputSanitizer
     {

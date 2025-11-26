@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TrucoClient.Properties.Langs;
-using TrucoClient.Helpers.UI;
-using TrucoClient.Helpers.Validation;
+using System.ServiceModel;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -20,6 +22,7 @@ namespace TrucoClient.Views
         {
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
+            ApplyInputSanitization();
         }
 
         private async void ClickSendCode(object sender, RoutedEventArgs e)
@@ -27,7 +30,8 @@ namespace TrucoClient.Views
             string email = txtEmail.Text.Trim();
 
             ErrorDisplayService.ClearError(txtEmail, blckEmailError);
-            if (!FieldsValidation(email))
+
+            if (!ValidateEmailField(email))
             {
                 return;
             }
@@ -39,6 +43,7 @@ namespace TrucoClient.Views
                 var userClient = ClientManager.UserClient;
 
                 bool exists = await userClient.EmailExistsAsync(email);
+
                 if (!exists)
                 {
                     ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextEmailDoesntExist);
@@ -50,7 +55,7 @@ namespace TrucoClient.Views
 
                 if (sent)
                 {
-                    CustomMessageBox.Show(Lang.ForgotPasswordTextSent2, Lang.ForgotPasswordRecovery, 
+                    CustomMessageBox.Show(Lang.ForgotPasswordTextSent2, Lang.ForgotPasswordRecovery,
                         MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new ForgotPasswordStepTwoPage(email));
                 }
@@ -60,14 +65,28 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (System.ServiceModel.EndpointNotFoundException)
+            catch (FaultException)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
@@ -87,36 +106,72 @@ namespace TrucoClient.Views
             }
         }
 
-        private void EnterKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void ApplyInputSanitization()
         {
-            if (e.Key == Key.Enter && sender == txtEmail)
+            const string emailPattern = @"^[a-zA-Z0-9@._+-]+$";
+
+            try
+            {
+                InputRestriction.AttachTextBoxValidation(txtEmail, emailPattern);
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show("Null argument in sanitizer: " + ex.Message,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show("Invalid regex pattern: " + ex.Message,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unexpected sanitizer error: " + ex.Message,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void EmailPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            ErrorDisplayService.ClearError(txtEmail, blckEmailError);
+        }
+
+        private void EmailPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
                 ClickSendCode(btnSendCode, null);
                 e.Handled = true;
             }
         }
 
-        private bool FieldsValidation(string email)
+        private void EmailPastingHandler(object sender, DataObjectPastingEventArgs e)
         {
-            bool areValid = true;
+            ErrorDisplayService.ClearError(txtEmail, blckEmailError);
+        }
 
+        private bool ValidateEmailField(string email)
+        {
             if (!FieldValidator.IsRequired(email))
             {
                 ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextRequieredField);
-                areValid = false;
-            }
-            else if (!FieldValidator.IsLengthInRange(email, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
-            {
-                ErrorDisplayService.ShowError(txtEmail, blckEmailError, email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail);
-                areValid = false;
-            }
-            else if (!EmailValidator.IsValidEmail(email))
-            {
-                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
-                areValid = false;
+                return false;
             }
 
-            return areValid;
+            if (!FieldValidator.IsLengthInRange(email, MIN_EMAIL_LENGTH, MAX_EMAIL_LENGTH))
+            {
+                string msg = email.Length < MIN_EMAIL_LENGTH ? Lang.DialogTextShortEmail : Lang.DialogTextLongEmail;
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, msg);
+                return false;
+            }
+
+            if (!EmailValidator.IsValidEmail(email))
+            {
+                ErrorDisplayService.ShowError(txtEmail, blckEmailError, Lang.GlobalTextInvalidEmail);
+                return false;
+            }
+
+            return true;
         }
 
         private void TextBoxChanged(object sender, TextChangedEventArgs e)

@@ -1260,4 +1260,7 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextDataReadingError" xml:space="preserve">
     <value>Data reading error, please try again</value>
   </data>
+  <data name="ExceptionTextTimeout" xml:space="preserve">
+    <value>It seems the server is taking a long time to respond. Please try again later.</value>
+  </data>
 </root>

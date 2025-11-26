@@ -1260,4 +1260,7 @@
   <data name="ExceptionTextDataReadingError" xml:space="preserve">
     <value>Error en la lectura de datos, vuelve a intentarlo</value>
   </data>
+  <data name="ExceptionTextTimeout" xml:space="preserve">
+    <value>Parece que el servidor está tardando mucho en responder. Inténtalo de nuevo más tarde.</value>
+  </data>
 </root>

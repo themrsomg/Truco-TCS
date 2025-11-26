@@ -996,6 +996,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a It seems the server is taking a long time to respond. Please try again later..
+        /// </summary>
+        public static string ExceptionTextTimeout {
+            get {
+                return ResourceManager.GetString("ExceptionTextTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The chat connection exceeded the time limit..
         /// </summary>
         public static string ExceptionTextTimeoutChat {
