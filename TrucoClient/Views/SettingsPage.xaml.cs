@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Microsoft.ServiceFabric.Services.Communication;
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using TrucoClient.Properties;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Localization;
+using TrucoClient.Helpers.Services;
+using TrucoClient.Helpers.Session;
+using TrucoClient.Properties;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -12,6 +17,7 @@ namespace TrucoClient.Views
     {
         private const String VOLUME_ICON_MUTED_PATH = "/Resources/Logos/logo_muted.png";
         private const String VOLUME_ICON_VOLUME_PATH = "/Resources/Logos/logo_volume.png";
+        private const String MESSAGE_ERROR = "Error";
 
         public SettingsPage()
         {
@@ -57,13 +63,40 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new CreditsPage());
         }
 
-        private void ClickSave(object sender, RoutedEventArgs e)
+        private async void ClickSave(object sender, RoutedEventArgs e)
         {
             Settings.Default.IsMusicMuted = MusicManager.IsMuted;
-
             Settings.Default.Save();
 
+            await SavePreferencesToServer();
+
             this.NavigationService.Navigate(new MainPage());
+        }
+
+        private async Task SavePreferencesToServer()
+        {
+            if (SessionManager.CurrentUserData == null ||
+               (SessionManager.CurrentUsername != null && SessionManager.CurrentUsername.StartsWith("Guest_")))
+            {
+                return;
+            }
+
+            try
+            {
+                SessionManager.CurrentUserData.LanguageCode = Settings.Default.languageCode;
+                SessionManager.CurrentUserData.IsMusicMuted = MusicManager.IsMuted;
+
+                await ClientManager.UserClient.SaveUserProfileAsync(SessionManager.CurrentUserData);
+            }
+            catch (ServiceException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextArgument, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void SetInitialLanguage()
