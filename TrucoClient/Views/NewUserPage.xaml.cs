@@ -122,12 +122,22 @@ namespace TrucoClient.Views
 
         private static string ShowCodeInputWindow()
         {
-            string code = Microsoft.VisualBasic.Interaction.InputBox(Lang.StartTextRegisterIntroduceCode, Lang.StartTextRegisterEmailVerification, "");
+            string code = CustomMessageBox.ShowInput(
+                Lang.StartTextRegisterIntroduceCode,
+                Lang.StartTextRegisterEmailVerification,
+                MessageBoxImage.Question
+            );
+
+            if (code == null)
+            {
+                return null;
+            }
 
             if (string.IsNullOrEmpty(code))
             {
-                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR,
+                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                return null;
             }
 
             return code;

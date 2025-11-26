@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Properties.Langs;
@@ -15,16 +18,37 @@ namespace TrucoClient.Views
         private const string ERROR_IMAGE_FILE_NAME = "alert_error.png";
         private const string WARNING_IMAGE_FILE_NAME = "alert_warning.png";
         private const string QUESTION_IMAGE_FILE_NAME = "alert_question.png";
-        private CustomMessageBox(string message, string caption, MessageBoxButton buttons, MessageBoxImage icon)
+
+        private static readonly Regex numericRegex = new Regex("[^0-9]+");
+        public string InputResult { get; private set; }
+
+        private CustomMessageBox(string message, string caption, MessageBoxButton buttons, MessageBoxImage icon, bool isInputMode)
         {
             InitializeComponent();
-
-            txtMessage.Text = message;
-            this.Title = caption;
-
+            ConfigureWindow(caption);
+            SetMessageAndInput(message, isInputMode);
             SetAlertImage(icon);
-
             CreateButtons(buttons);
+        }
+
+        public static string ShowInput(string messageBoxText, string caption = "Input", MessageBoxImage icon = MessageBoxImage.Question)
+        {
+            var msgWindow = new CustomMessageBox(messageBoxText, caption, MessageBoxButton.OKCancel, icon, isInputMode: true);
+            var result = msgWindow.ShowDialog();
+
+            return (result == true) ? msgWindow.InputResult : null;
+        }
+
+        public static bool? Show(string messageBoxText, string caption = "Message",
+            MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None)
+        {
+            var msgWindow = new CustomMessageBox(messageBoxText, caption, button, icon, isInputMode: false);
+            return msgWindow.ShowDialog();
+        }
+
+        private void ConfigureWindow(string caption)
+        {
+            this.Title = caption;
 
             if (Application.Current != null && Application.Current.MainWindow != null && Application.Current.MainWindow.IsVisible)
             {
@@ -37,39 +61,51 @@ namespace TrucoClient.Views
             }
         }
 
+        private void SetMessageAndInput(string message, bool isInputMode)
+        {
+            blckMessage.Text = message;
+
+            if (isInputMode)
+            {
+                txtInput.Visibility = Visibility.Visible;
+                txtInput.Focus();
+            }
+            else
+            {
+                txtInput.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void SetAlertImage(MessageBoxImage icon)
         {
-            string imageName;
+            string imageName = GetImageNameFromIcon(icon);
+            LoadAndSetBackgroundImage(imageName);        
+        }
 
+        private string GetImageNameFromIcon(MessageBoxImage icon)
+        {
             switch (icon)
             {
-                case MessageBoxImage.Error:
-                    imageName = ERROR_IMAGE_FILE_NAME;
-                    break;
-
-                case MessageBoxImage.Question:
-                    imageName = QUESTION_IMAGE_FILE_NAME;
-                    break;
-
-                case MessageBoxImage.Warning:
-                    imageName = WARNING_IMAGE_FILE_NAME;
-                    break;
-
-                default:
-                    imageName = INFORMATION_IMAGE_FILE_NAME;
-                    break;
+                case MessageBoxImage.Error: return ERROR_IMAGE_FILE_NAME;
+                case MessageBoxImage.Question: return QUESTION_IMAGE_FILE_NAME;
+                case MessageBoxImage.Warning: return WARNING_IMAGE_FILE_NAME;
+                default: return INFORMATION_IMAGE_FILE_NAME;
             }
+        }
 
+        private void LoadAndSetBackgroundImage(string imageName)
+        {
             try
             {
                 var uriSource = new Uri($"pack://application:,,,/Resources/Alerts/{imageName}", UriKind.Absolute);
-
-                var brush = new ImageBrush();
-                brush.ImageSource = new BitmapImage(uriSource);
-                brush.Stretch = Stretch.Uniform;
+                var brush = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(uriSource),
+                    Stretch = Stretch.Uniform
+                };
                 brdAlertBackground.Background = brush;
             }
-            catch 
+            catch (Exception)
             {
                 /* 
                  * The exception is ignored to prevent the application from crashing.
@@ -120,18 +156,72 @@ namespace TrucoClient.Views
 
             button.Click += (sender, e) =>
             {
-                this.DialogResult = result;
+                OnButtonClick(result);
             };
 
             ButtonsPanel.Children.Add(button);
         }
 
-        public static bool? Show(string messageBoxText, string caption = "Message", 
-            MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None)
+        private void OnButtonClick(bool? result)
         {
-            var msgWindow = new CustomMessageBox(messageBoxText, caption, button, icon);
+            if (txtInput.Visibility == Visibility.Visible && result == true)
+            {
+                if (!ValidateInput())
+                {
+                    return;
+                }
 
-            return msgWindow.ShowDialog();
+                InputResult = txtInput.Text;
+            }
+
+            this.DialogResult = result;
+        }
+
+        private bool ValidateInput()
+        {
+            string text = txtInput.Text;
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                System.Media.SystemSounds.Beep.Play();
+                txtInput.Focus();
+
+                return false;
+            }
+
+            if (text.Length != 6)
+            {
+                MessageBox.Show("The code must be 6 digits.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void InputPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = IsTextNumeric(e.Text);
+        }
+
+        private void InputPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                string text = (string)e.DataObject.GetData(typeof(string));
+                if (IsTextNumeric(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
+        private static bool IsTextNumeric(string text)
+        {
+            return numericRegex.IsMatch(text);
         }
     }
 }
