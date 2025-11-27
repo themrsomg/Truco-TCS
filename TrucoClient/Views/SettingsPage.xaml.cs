@@ -1,5 +1,4 @@
-﻿using Microsoft.ServiceFabric.Services.Communication;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -87,11 +86,6 @@ namespace TrucoClient.Views
                 SessionManager.CurrentUserData.IsMusicMuted = MusicManager.IsMuted;
 
                 await ClientManager.UserClient.SaveUserProfileAsync(SessionManager.CurrentUserData);
-            }
-            catch (ServiceException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-
             }
             catch (Exception)
             {

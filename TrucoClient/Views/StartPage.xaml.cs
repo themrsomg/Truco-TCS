@@ -1,5 +1,4 @@
-﻿using Microsoft.ServiceFabric.Services.Communication;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
@@ -41,11 +40,6 @@ namespace TrucoClient.Views
                 {
                     MusicManager.ToggleMute();
                 }
-            }
-            catch (ServiceException ex)
-            {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR,
-                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
