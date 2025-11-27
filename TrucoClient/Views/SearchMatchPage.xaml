@@ -10,11 +10,17 @@
     
     <Grid>
         <StackPanel Margin="0,50,0,0">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
-                    TextAlignment="Center" Margin="20,15,0,20" HorizontalAlignment="Center"/>
-                <Button Click="ClickReloadPage" Content="{x:Static language:Lang.GameTextReloadPage}" Cursor="Hand" Width="190" 
-                        Height="40" FontSize="20" Margin="150,0,0,0" HorizontalAlignment="Right">
+            <Grid Margin="20,15,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
+                           TextAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap"/>
+
+                <Button Grid.Column="1" Click="ClickReloadPage" Content="{x:Static language:Lang.GameTextReloadPage}" Cursor="Hand" 
+                        Width="190" Height="40"  FontSize="20" Margin="10,0,0,0" HorizontalAlignment="Right">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
@@ -23,7 +29,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-            </StackPanel>
+            </Grid>
             <StackPanel>
                 <ListBox x:Name="lstMatches" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
                          ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">

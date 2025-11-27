@@ -14,6 +14,13 @@ namespace TrucoClient.Views
     public partial class SearchMatchPage : Page
     {
         private const string MESSAGE_ERROR = "Error";
+        private const int MAX_CLICKS_ALLOWED = 5; 
+        private const int TIME_WINDOW_SECONDS = 5;  
+        private const int COOLDOWN_SECONDS = 10;
+
+        private Queue<DateTime> clickTimestamps = new Queue<DateTime>();
+        private bool isCooldownActive = false;
+
         public class MatchInfo
         {
             public string MatchName { get; set; }
@@ -74,13 +81,71 @@ namespace TrucoClient.Views
 
         private async void ClickReloadPage(object sender, RoutedEventArgs e)
         {
+            if (isCooldownActive)
+            {
+                return;
+            }
+
+            var button = sender as Button;
+            var now = DateTime.Now;
+
+            while (clickTimestamps.Count > 0 && (now - clickTimestamps.Peek()).TotalSeconds > TIME_WINDOW_SECONDS)
+            {
+                clickTimestamps.Dequeue();
+            }
+
+            if (clickTimestamps.Count >= MAX_CLICKS_ALLOWED)
+            {
+                await ActivateCooldown(button);
+                return;
+            }
+
+            clickTimestamps.Enqueue(now);
+
+            if (button != null)
+            {
+                button.IsEnabled = false;
+            }
+
             await LoadAvailableMatchesAsync();
+
+            if (button != null)
+            {
+                button.IsEnabled = true;
+            }
         }
 
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new PlayPage());
+        }
+
+        private async Task ActivateCooldown(Button btn)
+        {
+            isCooldownActive = true;
+            clickTimestamps.Clear();
+
+            if (btn != null)
+            {
+                btn.IsEnabled = false;
+                var originalContent = btn.Content;
+
+                for (int i = COOLDOWN_SECONDS; i > 0; i--)
+                {
+                    btn.Content = $"{i}s...";
+                    await Task.Delay(1000);
+                }
+
+                btn.Content = originalContent;
+                btn.IsEnabled = true;
+            }
+            else
+            {
+                await Task.Delay(COOLDOWN_SECONDS * 1000);
+            }
+
+            isCooldownActive = false;
         }
 
         private async Task LoadAvailableMatchesAsync()
@@ -109,7 +174,6 @@ namespace TrucoClient.Views
             }
         }
  
-
         private static List<T> ConvertArrayToList<T>(T[] array)
         {
             if (array == null || array.Length == 0)
