@@ -302,35 +302,38 @@ namespace TrucoClient.Views
 
         private void ConnectToChat()
         {
-            try
+            Task.Run(() =>
             {
-                ClientManager.MatchClient.JoinMatchChat(this.MatchCode, SessionManager.CurrentUsername);
-            }
-            catch (EndpointNotFoundException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (CommunicationException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (TimeoutException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (InvalidOperationException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextInvalid,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                try
+                {
+                    ClientManager.MatchClient.JoinMatchChat(this.MatchCode, SessionManager.CurrentUsername);
+                }
+                catch (EndpointNotFoundException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (CommunicationException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (TimeoutException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (InvalidOperationException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextInvalid,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
         }
 
         protected void CheckForBufferedCards()
