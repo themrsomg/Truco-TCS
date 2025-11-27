@@ -1266,4 +1266,7 @@
   <data name="DialogTextConfirmationUserProfile" xml:space="preserve">
     <value>Estás seguro de salir sin guardar tus cambios?</value>
   </data>
+  <data name="DialogTextInvalidLenghtPassword" xml:space="preserve">
+    <value>La contraseña no tiene la longitud esperada</value>
+  </data>
 </root>

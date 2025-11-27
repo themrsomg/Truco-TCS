@@ -26,8 +26,9 @@ namespace TrucoClient.Views
         private const int MIN_EMAIL_LENGTH = 5;
         private const int MAX_EMAIL_LENGTH = 250;
 
-        private static readonly Regex loginAllowedRegex = new Regex(@"^[a-zA-Z0-9@._+-]+$", RegexOptions.Compiled);
-        private static readonly Regex passwordAllowedRegex = new Regex(@"^[^\s]+$", RegexOptions.Compiled);
+        private static readonly Regex usernameAllowedRegex = new Regex(@"^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$", RegexOptions.Compiled);
+        private static readonly Regex emailAllowedRegex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", RegexOptions.Compiled);
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_+=-])[A-Za-z\d@$!%*?&.#_+=-]{12,64}$", RegexOptions.Compiled);
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public NewUserPage()
@@ -39,8 +40,8 @@ namespace TrucoClient.Views
 
         private void InitializeValidation()
         {
-            InputRestriction.AttachRegexValidation(txtEmail, loginAllowedRegex);
-            InputRestriction.AttachRegexValidation(txtUsername, loginAllowedRegex);
+            InputRestriction.AttachRegexValidation(txtEmail, emailAllowedRegex);
+            InputRestriction.AttachRegexValidation(txtUsername, usernameAllowedRegex);
             InputRestriction.AttachRegexValidation(txtPassword, passwordAllowedRegex);
             InputRestriction.AttachRegexValidation(txtPasswordConfirm, passwordAllowedRegex);
         }
@@ -687,7 +688,7 @@ namespace TrucoClient.Views
             {
                 if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
                 {
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextInvalidLenghtPassword);
                 }
                 else if (!PasswordValidator.IsComplex(password))
                 {

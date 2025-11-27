@@ -328,7 +328,7 @@ namespace TrucoClient.Views
 
         private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         }
 
 

@@ -465,6 +465,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The password is not the expected length.
+        /// </summary>
+        public static string DialogTextInvalidLenghtPassword {
+            get {
+                return ResourceManager.GetString("DialogTextInvalidLenghtPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Invalid password.
         /// </summary>
         public static string DialogTextInvalidPassword {

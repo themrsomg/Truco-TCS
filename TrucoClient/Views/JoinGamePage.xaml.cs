@@ -15,7 +15,7 @@ namespace TrucoClient.Views
     public partial class JoinGamePage : Page
     {
         private const string MESSAGE_ERROR = "Error";
-        private static readonly Regex allowedCodeRegex = new Regex("^[A-Z0-9]+$", RegexOptions.Compiled);
+        private static readonly Regex allowedCodeRegex = new Regex("^[A-Z0-9]{6}$", RegexOptions.Compiled);
 
         public JoinGamePage()
         {

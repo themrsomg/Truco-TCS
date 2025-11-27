@@ -25,8 +25,8 @@ namespace TrucoClient.Views
         private const int MAX_PASSWORD_LENGTH = 50;
         private const int LOGIN_DELAY_MS = 5000;
 
-        private static readonly Regex loginAllowedRegex = new Regex(@"^[a-zA-Z0-9@._+-]+$", RegexOptions.Compiled);
-        private static readonly Regex passwordAllowedRegex = new Regex(@"^[^\s]+$", RegexOptions.Compiled);
+        private static readonly Regex loginAllowedRegex = new Regex(@"^([a-zA-Z0-9]+(_[a-zA-Z0-9]+)?|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$", RegexOptions.Compiled);
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_+=-])[A-Za-z\d@$!%*?&.#_+=-]{12,64}$", RegexOptions.Compiled);
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public LogInPage()

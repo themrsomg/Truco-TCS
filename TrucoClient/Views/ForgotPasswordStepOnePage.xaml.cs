@@ -108,7 +108,7 @@ namespace TrucoClient.Views
 
         private void ApplyInputSanitization()
         {
-            const string emailPattern = @"^[a-zA-Z0-9@._+-]+$";
+            const string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 
             try
             {
