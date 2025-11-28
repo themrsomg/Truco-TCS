@@ -22,7 +22,7 @@ namespace TrucoClient.Views
             MusicInitializer.InitializeMenuMusic();
         }
 
-        private void ApplyDefaultLanguageAndAudio()
+        private static void ApplyDefaultLanguageAndAudio()
         {
             try
             {

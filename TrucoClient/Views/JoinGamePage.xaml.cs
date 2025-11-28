@@ -6,8 +6,8 @@ using System.Windows.Input;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
-using TrucoClient.Helpers.UI;        // Necesario para InputRestriction y ErrorDisplayService
-using TrucoClient.Helpers.Validation; // Necesario para FieldValidator
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation; 
 using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
@@ -16,7 +16,7 @@ namespace TrucoClient.Views
     {
         private const string MESSAGE_ERROR = "Error";
 
-        private static readonly Regex codeInputRegex = new Regex(@"^[0-9a-zA-Z]*$", RegexOptions.Compiled);
+        private static readonly Regex codeInputRegex = new Regex(@"^[0-9a-zA-Z]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
 
         public JoinGamePage()
         {

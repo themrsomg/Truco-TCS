@@ -21,7 +21,7 @@ namespace TrucoClient.Views
         private const int CURRENT_PASSWORD_MIN_LENGTH = 8;
         private const string MESSAGE_ERROR = "Error";
 
-        private static readonly Regex passwordInputRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled);
+        private static readonly Regex passwordInputRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
 
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 

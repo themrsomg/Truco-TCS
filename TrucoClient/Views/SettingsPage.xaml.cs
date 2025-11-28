@@ -72,10 +72,11 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new MainPage());
         }
 
-        private async Task SavePreferencesToServer()
+        private static async Task SavePreferencesToServer()
         {
             if (SessionManager.CurrentUserData == null ||
-               (SessionManager.CurrentUsername != null && SessionManager.CurrentUsername.StartsWith("Guest_")))
+               (SessionManager.CurrentUsername != null && 
+               SessionManager.CurrentUsername.StartsWith("Guest_")))
             {
                 return;
             }

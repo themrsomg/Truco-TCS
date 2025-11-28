@@ -26,9 +26,9 @@ namespace TrucoClient.Views
         private const int MIN_EMAIL_LENGTH = 5;
         private const int MAX_EMAIL_LENGTH = 250;
 
-        private static readonly Regex usernameInputRegex = new Regex(@"^[a-zA-Z0-9_]*$", RegexOptions.Compiled);
-        private static readonly Regex emailInputRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled);
-        private static readonly Regex passwordInputRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled);
+        private static readonly Regex usernameInputRegex = new Regex(@"^[a-zA-Z0-9_]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+        private static readonly Regex emailInputRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+        private static readonly Regex passwordInputRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public NewUserPage()
@@ -231,7 +231,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
+        private static bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)
         {
             try
             {

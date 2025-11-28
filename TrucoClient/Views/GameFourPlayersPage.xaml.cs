@@ -10,9 +10,9 @@ namespace TrucoClient.Views
     public partial class GameFourPlayersPage : GameBasePage
     {
         private readonly List<PlayerInfo> players;
-        private readonly string topPlayerName;
-        private readonly string leftPlayerName;
-        private readonly string rightPlayerName;
+        private string topPlayerName;
+        private string leftPlayerName;
+        private string rightPlayerName;
 
         public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
         {
@@ -69,16 +69,19 @@ namespace TrucoClient.Views
                 if (allies.Count > 0)
                 {
                     imgTopAvatar.Source = LoadAvatar(allies[0].AvatarId);
+                    topPlayerName = allies[0].Username;
                 }
 
                 if (enemies.Count > 0)
                 {
                     imgLeftAvatar.Source = LoadAvatar(enemies[0].AvatarId);
+                    leftPlayerName = enemies[0].Username;
                 }
 
                 if (enemies.Count > 1)
                 {
                     imgRightAvatar.Source = LoadAvatar(enemies[1].AvatarId);
+                    rightPlayerName = enemies[1].Username;
                 }
             }
             catch (ArgumentNullException)
@@ -108,14 +111,9 @@ namespace TrucoClient.Views
             imgLeftAvatar.Opacity = OPACITY_INACTIVE;
             imgRightAvatar.Opacity = OPACITY_INACTIVE;
 
-            if (imgTopAvatar != null)
-            {
-                imgTopAvatar.Opacity = OPACITY_INACTIVE;
-            }
-            else if (nextPlayerName == topPlayerName && imgTopAvatar != null)
+            if (nextPlayerName == topPlayerName && imgTopAvatar != null)
             { 
                 imgTopAvatar.Opacity = OPACITY_ACTIVE;
-                
             }
             else if (nextPlayerName == leftPlayerName)
             {
@@ -159,6 +157,9 @@ namespace TrucoClient.Views
             base.BtnStartFlor = btnStartFlor;
             base.BtnCallFlor = btnCallFlor;
             base.BtnCallContraFlor = btnCallContraFlor;
+
+            base.txtBaseChatMessage = txtChatMessage;
+            base.blckBasePlaceholder = blckPlaceholder;
         }
     }
 }

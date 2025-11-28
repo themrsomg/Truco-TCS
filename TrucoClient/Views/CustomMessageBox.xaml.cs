@@ -18,7 +18,7 @@ namespace TrucoClient.Views
         private const string WARNING_IMAGE_FILE_NAME = "alert_warning.png";
         private const string QUESTION_IMAGE_FILE_NAME = "alert_question.png";
 
-        private static readonly Regex numericRegex = new Regex("[^0-9]+");
+        private static readonly Regex numericRegex = new Regex("[^0-9]+", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
         public string InputResult { get; private set; }
 
         private CustomMessageBox(string message, string caption, MessageBoxButton buttons, MessageBoxImage icon, bool isInputMode)
@@ -82,7 +82,7 @@ namespace TrucoClient.Views
             LoadAndSetBackgroundImage(imageName);        
         }
 
-        private string GetImageNameFromIcon(MessageBoxImage icon)
+        private static string GetImageNameFromIcon(MessageBoxImage icon)
         {
             switch (icon)
             {

@@ -28,13 +28,12 @@ namespace TrucoClient.Utilities
 
             bannedWords.Clear();
 
-            foreach (var word in serverList.BannedWords)
-            {
-                if (!string.IsNullOrWhiteSpace(word))
-                {
-                    bannedWords.Add(word.Trim());
-                }
-            }
+            bannedWords.UnionWith(
+                serverList.BannedWords
+                .Where(word => !string.IsNullOrWhiteSpace(word))
+                .Select(word => word.Trim())
+            );
+
             isInitialized = true;
         }
 
@@ -58,16 +57,20 @@ namespace TrucoClient.Utilities
 
             string processedText = text;
 
-            foreach (var badWord in bannedWords)
+            var wordsFoundInText = bannedWords
+                .Where(word => processedText.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            foreach (var badWord in wordsFoundInText)
             {
-                if (processedText.IndexOf(badWord, StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    string pattern = $@"\b{Regex.Escape(badWord)}\b";
+                string pattern = $@"\b{Regex.Escape(badWord)}\b";
+                string replacement = new string('*', badWord.Length);
 
-                    string replacement = new string('*', badWord.Length);
-
-                    processedText = Regex.Replace(processedText, pattern, replacement, RegexOptions.IgnoreCase);
-                }
+                processedText = Regex.Replace(
+                    processedText,
+                    pattern,
+                    replacement,
+                    RegexOptions.IgnoreCase,
+                    TimeSpan.FromMilliseconds(500));
             }
 
             return processedText;

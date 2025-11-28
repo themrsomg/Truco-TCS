@@ -1,4 +1,6 @@
-﻿namespace TrucoClient.Helpers.Validation
+﻿using System.Linq;
+
+namespace TrucoClient.Helpers.Validation
 {
     public static class InputSanitizer
     {
@@ -15,15 +17,7 @@
                 return false;
             }
 
-            foreach (string pattern in dangerousPatterns)
-            {
-                if (input.Contains(pattern))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return dangerousPatterns.Any(pattern => input.Contains(pattern));
         }
 
         public static string SanitizeForCodeInput(string input)

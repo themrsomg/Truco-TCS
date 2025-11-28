@@ -20,8 +20,8 @@ namespace TrucoClient.Views
         private const int MAX_PASSWORD_LENGTH = 50;
         private const string MESSAGE_ERROR = "Error";
 
-        private static readonly Regex verificationCodeRegex = new Regex(@"^[0-9]*$", RegexOptions.Compiled);
-        private static readonly Regex passwordAllowedRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled);
+        private static readonly Regex verificationCodeRegex = new Regex(@"^[0-9]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
 
         private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
         private string email;

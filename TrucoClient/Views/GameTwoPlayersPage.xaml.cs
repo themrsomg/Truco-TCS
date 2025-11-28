@@ -119,6 +119,10 @@ namespace TrucoClient.Views
             base.BtnStartFlor = btnStartFlor;
             base.BtnCallFlor = btnCallFlor;
             base.BtnCallContraFlor = btnCallContraFlor;
+
+            base.txtBaseChatMessage = txtChatMessage;
+            base.blckBasePlaceholder = blckPlaceholder;
+
         }
     }
 }

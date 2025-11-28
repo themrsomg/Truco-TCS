@@ -25,8 +25,8 @@ namespace TrucoClient.Views
         private const int MAX_PASSWORD_LENGTH = 50;
         private const int LOGIN_DELAY_MS = 5000;
 
-        private static readonly Regex loginAllowedRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled);
-        private static readonly Regex passwordAllowedRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled);
+        private static readonly Regex loginAllowedRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public LogInPage()
@@ -116,7 +116,7 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new MainPage());
         }
 
-        private void HandleGlobalization(UserProfileData userData)
+        private static void HandleGlobalization(UserProfileData userData)
         {
             if (!string.IsNullOrEmpty(userData.LanguageCode))
             {
@@ -126,7 +126,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private void HandleMusicInitilizer(UserProfileData userData)
+        private static void HandleMusicInitilizer(UserProfileData userData)
         {
             if (MusicManager.IsMuted != userData.IsMusicMuted)
             {
@@ -192,7 +192,7 @@ namespace TrucoClient.Views
             return ValidateIdentifierFormat(identifier, txtEmailUsername, blckEmailUsernameError);
         }
 
-        private bool ValidateIdentifierFormat(string text, TextBox control, TextBlock errorBlock)
+        private static bool ValidateIdentifierFormat(string text, TextBox control, TextBlock errorBlock)
         {
             if (text.Contains("@"))
             {
@@ -235,7 +235,7 @@ namespace TrucoClient.Views
             return ValidatePasswordFormat(password, txtPassword, blckPasswordError);
         }
 
-        private bool ValidatePasswordFormat(string password, PasswordBox control, TextBlock errorBlock)
+        private static bool ValidatePasswordFormat(string password, PasswordBox control, TextBlock errorBlock)
         {
             if (!PasswordValidator.ValidateLength(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             {

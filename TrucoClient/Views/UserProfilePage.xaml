@@ -103,90 +103,129 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+
+                            <!-- FILA FACEBOOK -->
+                            
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Facebook:" Foreground="White" 
                                        VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            
-                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
-                                
-                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtFacebookLink" VerticalAlignment="Center" 
-                                     Text="{Binding FacebookHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" PreviewTextInput="GenericPreviewTextInput" 
-                                     PreviewKeyDown="GenericPreviewKeyDown" DataObject.Pasting="SocialPasting" MaxLength="150">
+
+                            <Grid Grid.Row="0" Grid.Column="1" Margin="0,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox  Grid.Row="0" Grid.Column="0" x:Name="txtFacebookLink" VerticalAlignment="Center" 
+                                          Text="{Binding FacebookHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBoxChanged" 
+                                          LostFocus="TextBoxLostFocus" PreviewTextInput="GenericPreviewTextInput" PreviewKeyDown="GenericPreviewKeyDown" 
+                                          DataObject.Pasting="SocialPasting" MaxLength="150">
                                     <TextBox.Template>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                BorderThickness="2" Padding="5">
+                                                    BorderThickness="2" Padding="5">
                                                 <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                                             </Border>
                                         </ControlTemplate>
                                     </TextBox.Template>
                                 </TextBox>
-                                <Border Grid.Row="0" Grid.Column="2" x:Name="linkFacebookContainer" Visibility="Collapsed" 
-                                    Margin="10,0,0,0" Width="30" Height="30">
+
+                                <Border  Grid.Row="0" Grid.Column="1" x:Name="linkFacebookContainer" Visibility="Collapsed" 
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Hyperlink x:Name="linkFacebook" Click="ClickHyperlinkFacebook" Cursor="Hand" Foreground="#FF3AB8CE">
                                             <TextBlock Text="🔗"/>
                                         </Hyperlink>
                                     </TextBlock>
                                 </Border>
-                                <TextBlock x:Name="blckFacebookError" Text=" " Foreground="Red" FontSize=" 15"/>
-                            </StackPanel>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="blckFacebookError" Text=" " Foreground="Red" FontSize="15"/>
+                            </Grid>
+
+                            <!-- FILA X -->
+                            
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="X (Twitter):" Foreground="White" 
                                        VerticalAlignment="Center" Margin="0,10,10,0"/>
+                            
+                                <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>  
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-
-                                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtXLink" VerticalAlignment="Center" Margin="0,10,0,0" 
-                                        Text="{Binding XHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" PreviewTextInput="GenericPreviewTextInput" 
-                                        PreviewKeyDown="GenericPreviewKeyDown" DataObject.Pasting="SocialPasting" MaxLength="150">
+                                <TextBox Grid.Row="0" Grid.Column="0" x:Name="txtXLink" VerticalAlignment="Center" 
+                                         Text="{Binding XHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" PreviewTextInput="GenericPreviewTextInput" 
+                                         PreviewKeyDown="GenericPreviewKeyDown" DataObject.Pasting="SocialPasting" MaxLength="150">
                                     <TextBox.Template>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                BorderThickness="2" Padding="5">
+                                                    BorderThickness="2" Padding="5">
                                                 <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                                             </Border>
                                         </ControlTemplate>
                                     </TextBox.Template>
                                 </TextBox>
-                                <Border Grid.Row="1" Grid.Column="2" x:Name="linkXContainer" Visibility="Collapsed" Margin="10,10,0,0" 
-                                                Width="30" Height="30">
+
+                                <Border Grid.Row="0" Grid.Column="1" x:Name="linkXContainer" Visibility="Collapsed" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Hyperlink x:Name="linkX" Click="ClickHyperlinkX" Cursor="Hand" Foreground="#FF3AB8CE">
                                             <TextBlock Text="🔗"/>
                                         </Hyperlink>
                                     </TextBlock>
                                 </Border>
-                                <TextBlock x:Name="blckXError" Text=" " Foreground="Red" FontSize=" 15"/>
-                            </StackPanel>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="blckXError" Text=" " Foreground="Red" FontSize="15"/>
+                            </Grid>
+
+                            <!-- FILA INSTAGRAM -->
+
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Instagram:" Foreground="White" 
-                                       VerticalAlignment="Center" Margin="0,10,10,0"/>
-                            
-                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
-                                
-                                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInstagramLink" VerticalAlignment="Center" Margin="0,10,0,0" 
-                                        Text="{Binding InstagramHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" PreviewTextInput="GenericPreviewTextInput" 
-                                        PreviewKeyDown="GenericPreviewKeyDown" DataObject.Pasting="SocialPasting" MaxLength="150">
+                                    VerticalAlignment="Center" Margin="0,10,10,0"/>
+
+                            <Grid Grid.Row="2" Grid.Column="1" Margin="0,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox Grid.Row="0" Grid.Column="0" x:Name="txtInstagramLink" VerticalAlignment="Center" 
+                                     Text="{Binding InstagramHandle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" PreviewTextInput="GenericPreviewTextInput" 
+                                     PreviewKeyDown="GenericPreviewKeyDown" DataObject.Pasting="SocialPasting" MaxLength="150">
                                     <TextBox.Template>
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                BorderThickness="2" Padding="5">
+                                                    BorderThickness="2" Padding="5">
                                                 <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                                             </Border>
                                         </ControlTemplate>
                                     </TextBox.Template>
                                 </TextBox>
-                                <Border Grid.Row="2" Grid.Column="2" x:Name="linkInstagramContainer" Visibility="Collapsed" Margin="10,10,0,0" 
-                                    Width="30" Height="30">
+
+                                <Border Grid.Row="0" Grid.Column="1" x:Name="linkInstagramContainer" Visibility="Collapsed"  
+                                        HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Hyperlink x:Name="linkInstagram" Click="ClickHyperlinkInstagram" Cursor="Hand" Foreground="#FF3AB8CE">
                                             <TextBlock Text="🔗"/>
                                         </Hyperlink>
-                                    </TextBlock>
+                                    </TextBlock>                
                                 </Border>
-                                <TextBlock x:Name="blckInstagramError" Text=" " Foreground="Red" FontSize=" 15"/>
-                            </StackPanel>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="blckInstagramError" Text=" " Foreground="Red" FontSize="15"/>
+                            </Grid>
                         </Grid>
                     </StackPanel>
                 </Grid>

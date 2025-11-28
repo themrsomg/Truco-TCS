@@ -34,8 +34,8 @@ namespace TrucoClient.Views
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
 
-        private static readonly Regex usernameCharRegex = new Regex("^[a-zA-Z0-9_]*$", RegexOptions.Compiled);
-        private static readonly Regex urlCharRegex = new Regex(@"^[A-Za-z0-9\-\._:/\?#\[\]@!$&'()*+,;=%]$", RegexOptions.Compiled);
+        private static readonly Regex usernameCharRegex = new Regex("^[a-zA-Z0-9_]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+        private static readonly Regex urlCharRegex = new Regex(@"^[A-Za-z0-9\-\._:/\?#\[\]@!$&'()*+,;=%]$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
 
         private UserProfileData localEditingData;
 
@@ -744,7 +744,7 @@ namespace TrucoClient.Views
             ErrorDisplayService.ClearError(txtInstagramLink, blckInstagramError);
         }
 
-        private string Normalize(string input)
+        private static string Normalize(string input)
         {
             return input?.Trim() ?? string.Empty;
         }
@@ -873,7 +873,7 @@ namespace TrucoClient.Views
                 MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private string ExtractHandle(string input, string baseUrl)
+        private static string ExtractHandle(string input, string baseUrl)
         {
             if (string.IsNullOrWhiteSpace(input))
             {

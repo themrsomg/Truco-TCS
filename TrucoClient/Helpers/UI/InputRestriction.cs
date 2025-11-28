@@ -14,215 +14,31 @@ namespace TrucoClient.Helpers.UI
     public static class InputRestriction
     {
         private const string MESSAGE_ERROR = "Error";
+        private static readonly TimeSpan RegexTimeout = TimeSpan.FromMilliseconds(500);
+
         public static void AttachRegexValidation(TextBox textBox, Regex allowedCharacters)
         {
-            if (textBox == null)
-            {
-                throw new ArgumentNullException(nameof(textBox));
-            }
+            ValidateArguments(textBox, allowedCharacters);
 
-            if (allowedCharacters == null)
-            {
-                throw new ArgumentNullException(nameof(allowedCharacters));
-            }
-
-            textBox.PreviewTextInput += (sender, e) =>
-            {
-                string normalized;
-
-                try
-                {
-                    normalized = e.Text.Normalize(NormalizationForm.FormC);
-                }
-                catch (ArgumentException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.Handled = true;
-                    return;
-                }
-                catch (Exception)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.Handled = true;
-                    return;
-                }
-
-                e.Handled = !allowedCharacters.IsMatch(normalized);
-            };
-
-            textBox.PreviewKeyDown += (sender, e) =>
-            {
-                if (e.Key == Key.Space)
-                {
-                    e.Handled = true;
-                }
-            };
-
-            DataObject.AddPastingHandler(textBox, (sender, e) =>
-            {
-                try
-                {
-                    if (!e.DataObject.GetDataPresent(DataFormats.Text))
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    string pasteText = e.DataObject.GetData(DataFormats.Text) as string;
-
-                    if (pasteText == null)
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    string normalized = pasteText.Normalize(NormalizationForm.FormC);
-
-                    if (!allowedCharacters.IsMatch(normalized))
-                    {
-                        e.CancelCommand();
-                    }
-                }
-                catch (ArgumentNullException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (ArgumentException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (RegexMatchTimeoutException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (ExternalException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (SecurityException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (Exception)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-            });
+            textBox.PreviewTextInput += (s, e) => HandlePreviewTextInput(e, allowedCharacters);
+            textBox.PreviewKeyDown += HandlePreviewKeyDown;
+            DataObject.AddPastingHandler(textBox, (s, e) => HandlePasting(e, allowedCharacters));
         }
 
         public static void AttachRegexValidation(PasswordBox passwordBox, Regex allowedCharacters)
         {
-            if (passwordBox == null)
-            {
-                throw new ArgumentNullException(nameof(passwordBox));
-            }
+            ValidateArguments(passwordBox, allowedCharacters);
 
-            if (allowedCharacters == null)
-            {
-                throw new ArgumentNullException(nameof(allowedCharacters));
-            }
-
-            passwordBox.PreviewTextInput += (sender, e) =>
-            {
-                string normalized;
-
-                try
-                {
-                    normalized = e.Text.Normalize(NormalizationForm.FormC);
-                }
-                catch (ArgumentException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.Handled = true;
-                    return;
-                }
-                catch (Exception)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.Handled = true;
-                    return;
-                }
-
-                e.Handled = !allowedCharacters.IsMatch(normalized);
-            };
-
-            passwordBox.PreviewKeyDown += (sender, e) =>
-            {
-                if (e.Key == Key.Space)
-                {
-                    e.Handled = true;
-                }
-            };
-
-            DataObject.AddPastingHandler(passwordBox, (sender, e) =>
-            {
-                try
-                {
-                    if (!e.DataObject.GetDataPresent(DataFormats.Text))
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    string pasteText = e.DataObject.GetData(DataFormats.Text) as string;
-
-                    if (pasteText == null)
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    string normalized = pasteText.Normalize(NormalizationForm.FormC);
-
-                    if (!allowedCharacters.IsMatch(normalized))
-                    {
-                        e.CancelCommand();
-                    }
-                }
-                catch (ArgumentNullException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (ArgumentException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (RegexMatchTimeoutException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (ExternalException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (SecurityException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-                catch (Exception)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-            });
+            passwordBox.PreviewTextInput += (s, e) => HandlePreviewTextInput(e, allowedCharacters);
+            passwordBox.PreviewKeyDown += HandlePreviewKeyDown;
+            DataObject.AddPastingHandler(passwordBox, (s, e) => HandlePasting(e, allowedCharacters));
         }
 
         public static void AttachTextBoxValidation(TextBox textBox, string pattern)
         {
             if (textBox == null)
             {
-                throw new ArgumentNullException("TextBox");
+                throw new ArgumentNullException(nameof(textBox));
             }
 
             if (string.IsNullOrWhiteSpace(pattern))
@@ -231,127 +47,17 @@ namespace TrucoClient.Helpers.UI
             }
 
             Regex allowed;
+
             try
             {
-                allowed = new Regex(pattern, RegexOptions.Compiled);
+                allowed = new Regex(pattern, RegexOptions.Compiled, RegexTimeout);
             }
             catch (ArgumentException ex)
             {
-                throw new ArgumentException("Invalid regex pattern: " + ex.Message, MESSAGE_ERROR, ex);
+                throw new ArgumentException("Invalid regex pattern: " + ex.Message, MESSAGE_ERROR);
             }
 
-            textBox.PreviewTextInput += (sender, e) =>
-            {
-                try
-                {
-                    string normalized = (e.Text ?? string.Empty).Normalize(NormalizationForm.FormC);
-                    e.Handled = !allowed.IsMatch(normalized);
-                }
-                catch (ArgumentException)
-                {
-                    e.Handled = true;
-                }
-                catch (RegexMatchTimeoutException)
-                {
-                    e.Handled = true;
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.Handled = true;
-                }
-            };
-
-            textBox.PreviewKeyDown += (sender, e) =>
-            {
-                if (e.Key == Key.Space)
-                {
-                    if (!allowed.IsMatch(" "))
-                    {
-                        e.Handled = true;
-                    }
-                }
-            };
-
-            DataObject.AddPastingHandler(textBox, (sender, e) =>
-            {
-                try
-                {
-                    if (e == null || e.DataObject == null)
-                    {
-                        e?.CancelCommand();
-                        return;
-                    }
-
-                    if (!e.DataObject.GetDataPresent(DataFormats.Text))
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    object data = e.DataObject.GetData(DataFormats.Text);
-                    if (data == null)
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    string pasteText = data.ToString();
-                    if (string.IsNullOrWhiteSpace(pasteText))
-                    {
-                        e.CancelCommand();
-                        return;
-                    }
-
-                    string normalized = pasteText.Normalize(NormalizationForm.FormC);
-
-                    bool allowedMatch;
-                    try
-                    {
-                        allowedMatch = allowed.IsMatch(normalized);
-                    }
-                    catch (ArgumentException)
-                    {
-                        allowedMatch = false;
-                    }
-                    catch (RegexMatchTimeoutException)
-                    {
-                        allowedMatch = false;
-                    }
-
-                    if (!allowedMatch)
-                    {
-                        e.CancelCommand();
-                    }
-                }
-                catch (ArgumentNullException)
-                {
-                    e.CancelCommand();
-                }
-                catch (ArgumentException)
-                {
-                    e.CancelCommand();
-                }
-                catch (RegexMatchTimeoutException)
-                {
-                    e.CancelCommand();
-                }
-                catch (ExternalException)
-                {
-                    MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    e.CancelCommand();
-                }
-                catch (SecurityException)
-                {
-                    MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    e.CancelCommand();
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.CancelCommand();
-                }
-            });
+            AttachRegexValidation(textBox, allowed);
         }
 
         public static string RestrictToAllowedCharacters(string input, Regex allowed)
@@ -365,15 +71,130 @@ namespace TrucoClient.Helpers.UI
 
             foreach (char c in input)
             {
-                string s = c.ToString();
-                if (allowed.IsMatch(s))
+                try
                 {
-                    builder.Append(c);
+                    if (allowed.IsMatch(c.ToString()))
+                    {
+                        builder.Append(c);
+                    }
+                }
+                catch (RegexMatchTimeoutException)
+                {
+                    /*
+                     * It is ignored to avoid UI blocking: if the regular 
+                     * expression exceeds the timeout (500 ms) by one 
+                     * character, it is skipped to keep the application 
+                     * responsive and safe, excluding dubious input 
+                     * without interrupting the flow.
+                     */
                 }
             }
-
             return builder.ToString();
         }
 
+        private static void ValidateArguments(object control, Regex regex)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException(nameof(control));
+            }
+
+            if (regex == null)
+            {
+                throw new ArgumentNullException(nameof(regex));
+            }
+        }
+
+        private static void HandlePreviewTextInput(TextCompositionEventArgs e, Regex allowedCharacters)
+        {
+            try
+            {
+                string normalized = e.Text.Normalize(NormalizationForm.FormC);
+                e.Handled = !allowedCharacters.IsMatch(normalized);
+            }
+            catch (ArgumentException)
+            {
+                HandleInputError(e);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                e.Handled = true;
+            }
+            catch (Exception)
+            {
+                HandleInputError(e);
+            }
+        }
+
+        private static void HandlePreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static void HandlePasting(DataObjectPastingEventArgs e, Regex allowedCharacters)
+        {
+            try
+            {
+                if (!e.DataObject.GetDataPresent(DataFormats.Text))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                string pasteText = e.DataObject.GetData(DataFormats.Text) as string;
+
+                if (string.IsNullOrEmpty(pasteText))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                string normalized = pasteText.Normalize(NormalizationForm.FormC);
+
+                if (!allowedCharacters.IsMatch(normalized))
+                {
+                    e.CancelCommand();
+                }
+            }
+            catch (ArgumentNullException) 
+            { 
+                HandlePasteError(e); 
+            }
+            catch (ArgumentException) 
+            { 
+                HandlePasteError(e); 
+            }
+            catch (RegexMatchTimeoutException) 
+            { 
+                e.CancelCommand(); 
+            }
+            catch (ExternalException) 
+            { 
+                HandlePasteError(e); 
+            }
+            catch (SecurityException) 
+            { 
+                HandlePasteError(e); 
+            }
+            catch (Exception) 
+            { 
+                HandlePasteError(e); 
+            }
+        }
+
+        private static void HandleInputError(TextCompositionEventArgs e)
+        {
+            CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+        }
+
+        private static void HandlePasteError(DataObjectPastingEventArgs e)
+        {
+            CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            e.CancelCommand();
+        }
     }
 }
