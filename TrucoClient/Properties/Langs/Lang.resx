@@ -661,7 +661,7 @@
     <value>Your password has been changed successfully.</value>
   </data>
   <data name="DialogTextPasswordChangeError" xml:space="preserve">
-    <value>Could not change the password. Please verify the code or try again later.</value>
+    <value>Could not change the password. Try again later.</value>
   </data>
   <data name="DialogTextPasswordChangeErrorTwo" xml:space="preserve">
     <value>The current user's email was not found.</value>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -108,7 +107,7 @@ namespace TrucoClient.Views
 
         private void ApplyInputSanitization()
         {
-            const string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            const string emailPattern = @"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$";
 
             try
             {

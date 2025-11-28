@@ -1,15 +1,16 @@
 ﻿using System;
+using System.ServiceModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.ServiceModel;
-using TrucoClient.Properties.Langs;
-using TrucoClient.Helpers.UI;
-using TrucoClient.Helpers.Validation;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -20,12 +21,22 @@ namespace TrucoClient.Views
         private const int CURRENT_PASSWORD_MIN_LENGTH = 8;
         private const string MESSAGE_ERROR = "Error";
 
-        private string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        private static readonly Regex passwordInputRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled);
+
+        private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public ChangePasswordPage()
         {
             InitializeComponent();
+            InitializeValidation();
             MusicInitializer.InitializeMenuMusic();
+        }
+
+        private void InitializeValidation()
+        {
+            InputRestriction.AttachRegexValidation(txtCurrentPassword, passwordInputRegex);
+            InputRestriction.AttachRegexValidation(txtPassword, passwordInputRegex);
+            InputRestriction.AttachRegexValidation(txtPasswordConfirm, passwordInputRegex);
         }
 
         private void ClickSave(object sender, RoutedEventArgs e)
@@ -35,7 +46,7 @@ namespace TrucoClient.Views
             string confirmPassword = txtPasswordConfirm.Password.Trim();
 
             ClearAllErrors();
-            
+
             if (!FieldsValidation(currentPassword, newPassword, confirmPassword))
             {
                 return;
@@ -52,24 +63,24 @@ namespace TrucoClient.Views
 
                 if (changed)
                 {
-                    CustomMessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess, 
+                    CustomMessageBox.Show(Lang.DialogTextPasswordChangedSuccess, Lang.GlobalTextSuccess,
                         MessageBoxButton.OK, MessageBoxImage.Information);
                     this.NavigationService.Navigate(new LogInPage());
                 }
                 else
                 {
-                    CustomMessageBox.Show(Lang.DialogTextPasswordChangeError, MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.DialogTextPasswordChangeError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (EndpointNotFoundException)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
@@ -83,24 +94,17 @@ namespace TrucoClient.Views
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            bool shouldNavigate = false;
-
             if (HasUnsavedFields())
             {
-                bool? result = CustomMessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation, 
+                bool? result = CustomMessageBox.Show(Lang.DialogTextConfirmationNewUser, Lang.GlobalTextConfirmation,
                     MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == true)
                 {
-                    shouldNavigate = true;
+                    this.NavigationService.Navigate(new UserProfilePage());
                 }
             }
             else
-            {
-                shouldNavigate = true;
-            }
-
-            if (shouldNavigate)
             {
                 this.NavigationService.Navigate(new UserProfilePage());
             }
@@ -113,11 +117,9 @@ namespace TrucoClient.Views
 
         private bool HasUnsavedFields()
         {
-            bool allEmpty = string.IsNullOrEmpty(txtCurrentPassword.Password.Trim()) &&
-                            string.IsNullOrEmpty(txtPassword.Password.Trim()) &&
-                            string.IsNullOrEmpty(txtPasswordConfirm.Password.Trim());
-
-            return !allEmpty;
+            return !string.IsNullOrEmpty(txtCurrentPassword.Password.Trim()) ||
+                   !string.IsNullOrEmpty(txtPassword.Password.Trim()) ||
+                   !string.IsNullOrEmpty(txtPasswordConfirm.Password.Trim());
         }
 
         private bool FieldsValidation(string currentPassword, string newPassword, string confirmPassword)
@@ -150,6 +152,11 @@ namespace TrucoClient.Views
                 ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
                 areValid = false;
             }
+            else if (string.Equals(currentPassword, newPassword))
+            {
+                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextPasswordSameAsOld);
+                areValid = false;
+            }
 
             if (!FieldValidator.IsRequired(confirmPassword))
             {
@@ -158,33 +165,27 @@ namespace TrucoClient.Views
             }
             else if (!PasswordValidator.AreMatching(newPassword, confirmPassword))
             {
-                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, Lang.DialogTextPasswordsDontMatch);
-                areValid = false;
-            }
-
-            if (areValid && string.Equals(currentPassword, newPassword))
-            {
-                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextPasswordSameAsOld);
+                string errorMsg = Lang.DialogTextPasswordsDontMatch;
+                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMsg);
                 areValid = false;
             }
 
             CheckFormStatusAndToggleSaveButton();
-            
             return areValid;
         }
 
         private TextBlock GetErrorTextBlock(Control field)
         {
             if (field == txtCurrentPassword)
-            { 
-                return blckCurrentError; 
+            {
+                return blckCurrentError;
             }
-            
+
             if (field == txtPassword)
             {
                 return blckPasswordError;
             }
-            
+
             if (field == txtPasswordConfirm)
             {
                 return blckPasswordConfirmError;
@@ -220,20 +221,24 @@ namespace TrucoClient.Views
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
+            if (passwordBox == null)
+            {
+                return;
+            }
+
             string currentPassword = txtCurrentPassword.Password.Trim();
             string newPassword = txtPassword.Password.Trim();
             string confirmPassword = txtPasswordConfirm.Password.Trim();
 
             ErrorDisplayService.ClearError(passwordBox, GetErrorTextBlock(passwordBox));
 
-            bool validationFailed = false;
+            bool isCurrentValid = true;
 
             if (passwordBox == txtCurrentPassword)
             {
                 if (!FieldValidator.IsLengthInRange(currentPassword, CURRENT_PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH))
                 {
                     ErrorDisplayService.ShowError(txtCurrentPassword, blckCurrentError, Lang.DialogTextShortPassword);
-                    validationFailed = true;
                 }
             }
             else if (passwordBox == txtPassword)
@@ -241,29 +246,29 @@ namespace TrucoClient.Views
                 if (!PasswordValidator.ValidateLength(newPassword, NEW_PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH))
                 {
                     ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextShortPassword);
-                    validationFailed = true;
+                    isCurrentValid = false;
                 }
                 else if (!PasswordValidator.IsComplex(newPassword))
                 {
                     ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.GlobalTextPasswordNoComplex);
-                    validationFailed = true;
+                    isCurrentValid = false;
                 }
-                else if (string.Equals(currentPassword, newPassword))
+                else if (string.Equals(currentPassword, newPassword) && !string.IsNullOrEmpty(currentPassword))
                 {
                     ErrorDisplayService.ShowError(txtPassword, blckPasswordError, Lang.DialogTextPasswordSameAsOld);
-                    validationFailed = true;
+                    isCurrentValid = false;
                 }
             }
 
-            if (FieldValidator.IsRequired(newPassword) && FieldValidator.IsRequired(confirmPassword))
+            if (!string.IsNullOrEmpty(newPassword) && !string.IsNullOrEmpty(confirmPassword))
             {
                 if (!PasswordValidator.AreMatching(newPassword, confirmPassword))
                 {
-                    string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
+                    string msg = Lang.DialogTextPasswordsDontMatch;
+                    ErrorDisplayService.ShowError(txtPassword, blckPasswordError, msg);
+                    ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, msg);
                 }
-                else if (!validationFailed)
+                else if (isCurrentValid)
                 {
                     ErrorDisplayService.ClearError(txtPassword, blckPasswordError);
                     ErrorDisplayService.ClearError(txtPasswordConfirm, blckPasswordConfirmError);
@@ -271,7 +276,6 @@ namespace TrucoClient.Views
             }
 
             SyncVisiblePasswordFields(passwordBox);
-
             CheckFormStatusAndToggleSaveButton();
         }
 
@@ -294,19 +298,11 @@ namespace TrucoClient.Views
         private void PasswordLostFocus(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            string password = txtPassword.Password.Trim();
-            string passwordConfirm = txtPasswordConfirm.Password.Trim();
+            if (passwordBox == null) return;
 
             if (!FieldValidator.IsRequired(passwordBox.Password))
             {
                 ErrorDisplayService.ShowError(passwordBox, GetErrorTextBlock(passwordBox), Lang.GlobalTextRequieredField);
-            }
-
-            if (FieldValidator.IsRequired(password) && FieldValidator.IsRequired(passwordConfirm) && !PasswordValidator.AreMatching(password, passwordConfirm))
-            {
-                string errorMessage = Lang.DialogTextPasswordsDontMatch;
-                ErrorDisplayService.ShowError(txtPassword, blckPasswordError, errorMessage);
-                ErrorDisplayService.ShowError(txtPasswordConfirm, blckPasswordConfirmError, errorMessage);
             }
 
             CheckFormStatusAndToggleSaveButton();
@@ -314,28 +310,35 @@ namespace TrucoClient.Views
 
         private void ClickToggleVisibility(object sender, RoutedEventArgs e)
         {
+            PasswordBox passBox = null;
+            TextBox textBox = null;
+            TextBlock icon = null;
+
             if (sender == btnToggleVisibilityCurrent)
             {
-                PasswordVisibilityService.ToggleVisibility(txtCurrentPassword, txtVisibleCurrentPassword, blckEyeEmojiCurrent);
-
-                Control visibleBox = txtVisibleCurrentPassword.Visibility == Visibility.Visible ? (Control)txtVisibleCurrentPassword : (Control)txtCurrentPassword;
-                Control hiddenBox = visibleBox == txtVisibleCurrentPassword ? (Control)txtCurrentPassword : (Control)txtVisibleCurrentPassword;
-                visibleBox.BorderBrush = hiddenBox.BorderBrush;
+                passBox = txtCurrentPassword;
+                textBox = txtVisibleCurrentPassword;
+                icon = blckEyeEmojiCurrent;
             }
             else if (sender == btnToggleVisibility)
             {
-                PasswordVisibilityService.ToggleVisibility(txtPassword, txtVisiblePassword, blckEyeEmoji);
-
-                Control visibleBox = txtVisiblePassword.Visibility == Visibility.Visible ? (Control)txtVisiblePassword : (Control)txtPassword;
-                Control hiddenBox = visibleBox == txtVisiblePassword ? (Control)txtPassword : (Control)txtVisiblePassword;
-                visibleBox.BorderBrush = hiddenBox.BorderBrush;
+                passBox = txtPassword;
+                textBox = txtVisiblePassword;
+                icon = blckEyeEmoji;
             }
             else if (sender == btnToggleVisibilityConfirm)
             {
-                PasswordVisibilityService.ToggleVisibility(txtPasswordConfirm, txtVisiblePasswordConfirm, blckEyeEmojiConfirm);
+                passBox = txtPasswordConfirm;
+                textBox = txtVisiblePasswordConfirm;
+                icon = blckEyeEmojiConfirm;
+            }
 
-                Control visibleBox = txtVisiblePasswordConfirm.Visibility == Visibility.Visible ? (Control)txtVisiblePasswordConfirm : (Control)txtPasswordConfirm;
-                Control hiddenBox = visibleBox == txtVisiblePasswordConfirm ? (Control)txtPasswordConfirm : (Control)txtVisiblePasswordConfirm;
+            if (passBox != null)
+            {
+                PasswordVisibilityService.ToggleVisibility(passBox, textBox, icon);
+
+                Control visibleBox = textBox.Visibility == Visibility.Visible ? (Control)textBox : (Control)passBox;
+                Control hiddenBox = visibleBox == textBox ? (Control)passBox : (Control)textBox;
                 visibleBox.BorderBrush = hiddenBox.BorderBrush;
             }
         }

@@ -94,7 +94,7 @@
                     <TextBox x:Name="txtSearch" Foreground="Black" 
                                  VerticalAlignment="Center" Margin="8,0,0,0" Cursor="Hand" Width="280"
                                  TextChanged="SearchTextChanged" Background="White" Padding="5,0,0,0" 
-                                KeyDown="EnterKeyDown" PreviewTextInput="UsernamePreviewTextInput">
+                                KeyDown="EnterKeyDown">
                         <TextBox.Template>
                             <ControlTemplate TargetType="TextBox">
                                 <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 

@@ -573,7 +573,7 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Could not change the password. Please verify the code or try again later..
+        ///   Busca una cadena traducida similar a Could not change the password. Try again later..
         /// </summary>
         public static string DialogTextPasswordChangeError {
             get {

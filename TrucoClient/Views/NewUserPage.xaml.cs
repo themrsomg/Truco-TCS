@@ -26,9 +26,9 @@ namespace TrucoClient.Views
         private const int MIN_EMAIL_LENGTH = 5;
         private const int MAX_EMAIL_LENGTH = 250;
 
-        private static readonly Regex usernameAllowedRegex = new Regex(@"^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$", RegexOptions.Compiled);
-        private static readonly Regex emailAllowedRegex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", RegexOptions.Compiled);
-        private static readonly Regex passwordAllowedRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_+=-])[A-Za-z\d@$!%*?&.#_+=-]{12,64}$", RegexOptions.Compiled);
+        private static readonly Regex usernameInputRegex = new Regex(@"^[a-zA-Z0-9_]*$", RegexOptions.Compiled);
+        private static readonly Regex emailInputRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled);
+        private static readonly Regex passwordInputRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled);
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public NewUserPage()
@@ -40,10 +40,10 @@ namespace TrucoClient.Views
 
         private void InitializeValidation()
         {
-            InputRestriction.AttachRegexValidation(txtEmail, emailAllowedRegex);
-            InputRestriction.AttachRegexValidation(txtUsername, usernameAllowedRegex);
-            InputRestriction.AttachRegexValidation(txtPassword, passwordAllowedRegex);
-            InputRestriction.AttachRegexValidation(txtPasswordConfirm, passwordAllowedRegex);
+            InputRestriction.AttachRegexValidation(txtEmail, emailInputRegex);
+            InputRestriction.AttachRegexValidation(txtUsername, usernameInputRegex);
+            InputRestriction.AttachRegexValidation(txtPassword, passwordInputRegex);
+            InputRestriction.AttachRegexValidation(txtPasswordConfirm, passwordInputRegex);
         }
 
         private void ClickRegister(object sender, RoutedEventArgs e)

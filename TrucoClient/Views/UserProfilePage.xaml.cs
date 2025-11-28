@@ -34,7 +34,7 @@ namespace TrucoClient.Views
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
 
-        private static readonly Regex usernameCharRegex = new Regex("^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$", RegexOptions.Compiled);
+        private static readonly Regex usernameCharRegex = new Regex("^[a-zA-Z0-9_]*$", RegexOptions.Compiled);
         private static readonly Regex urlCharRegex = new Regex(@"^[A-Za-z0-9\-\._:/\?#\[\]@!$&'()*+,;=%]$", RegexOptions.Compiled);
 
         private UserProfileData localEditingData;

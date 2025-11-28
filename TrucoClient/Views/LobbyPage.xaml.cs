@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
+using TrucoClient.Utilities;
 
 namespace TrucoClient.Views
 {
@@ -77,15 +78,17 @@ namespace TrucoClient.Views
 
         private void ClickSendMessage(object sender, RoutedEventArgs e)
         {
-            string text = txtChatMessage.Text.Trim();
+            string originalMessage = txtChatMessage.Text.Trim();
             
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(originalMessage))
             {
                 return;
             }
 
-            ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, text);
-            AddChatMessage(SessionManager.CurrentUsername, text);
+            string cleanMessage = ProfanityValidator.Instance.CensorText(originalMessage);
+
+            ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, cleanMessage);
+            AddChatMessage(SessionManager.CurrentUsername, cleanMessage);
             txtChatMessage.Clear();
         }
 
@@ -181,6 +184,24 @@ namespace TrucoClient.Views
         {
             try
             {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        var bannedList = ClientManager.MatchClient.GetBannedWords();
+
+                        ProfanityValidator.Instance.Initialize(bannedList);
+                    }
+                    catch
+                    {
+                        /* 
+                         * Silently ignore if banned words fail to load - 
+                         * the feature is non-critical and we don't want to 
+                         * disrupt the user experience with error messages
+                         */
+                    }
+                });
+
                 Task.Run(() => {
                     try
                     {

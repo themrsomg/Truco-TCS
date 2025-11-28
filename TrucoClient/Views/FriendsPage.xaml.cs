@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.Validation;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -34,21 +35,18 @@ namespace TrucoClient.Views
                 try
                 {
                     _ = new BitmapImage(new Uri(correctedPath, UriKind.Relative));
-                    
                     return correctedPath;
                 }
                 catch (UriFormatException)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-
                     return URL_AVATAR_DEFAULT;
                 }
                 catch (Exception)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-
                     return URL_AVATAR_DEFAULT;
                 }
             }
@@ -61,6 +59,8 @@ namespace TrucoClient.Views
         private const int MAX_USERNAME_LENGTH = 20;
         private const string MESSAGE_ERROR = "Error";
 
+        private static readonly Regex usernameInputRegex = new Regex(@"^[a-zA-Z0-9_]*$", RegexOptions.Compiled);
+
         public ObservableCollection<FriendDisplayData> FriendsList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public ObservableCollection<FriendDisplayData> PendingList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public FriendDisplayData SelectedFriend { get; set; }
@@ -71,7 +71,15 @@ namespace TrucoClient.Views
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
             this.DataContext = this;
+
+            InitializeValidation();
+
             _ = LoadDataAsync();
+        }
+
+        private void InitializeValidation()
+        {
+            InputRestriction.AttachRegexValidation(txtSearch, usernameInputRegex);
         }
 
         private async Task LoadDataAsync()
@@ -91,7 +99,7 @@ namespace TrucoClient.Views
                 try
                 {
                     var friends = await friendClient.GetFriendsAsync(currentUsername);
-                    
+
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         foreach (var friend in friends)
@@ -101,7 +109,7 @@ namespace TrucoClient.Views
                     });
 
                     var pending = await friendClient.GetPendingFriendRequestsAsync(currentUsername);
-                    
+
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         foreach (var req in pending)
@@ -113,12 +121,12 @@ namespace TrucoClient.Views
                 }
                 catch (EndpointNotFoundException)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -133,7 +141,7 @@ namespace TrucoClient.Views
             {
                 return;
             }
-            
+
             try
             {
                 var friendClient = ClientManager.FriendClient;
@@ -142,62 +150,64 @@ namespace TrucoClient.Views
 
                 if (success)
                 {
-                    CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername), 
+                    CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestSuccess, targetUsername),
                         Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    txtSearch.Text = string.Empty;
+                    ErrorDisplayService.ClearError(txtSearch, blckFriendError);
                 }
                 else
                 {
-                    CustomMessageBox.Show(Lang.FriendsTextRequestError, MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.FriendsTextRequestError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (EndpointNotFoundException)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
+
         }
 
         private bool FieldValidation(string targetUsername, string currentUsername)
         {
-            ClearError(txtSearch);
-            bool isValid = true;
+            ErrorDisplayService.ClearError(txtSearch, blckFriendError);
 
-            if (string.IsNullOrEmpty(targetUsername))
+            if (!FieldValidator.IsRequired(targetUsername))
             {
-                ShowError(txtSearch, Lang.GlobalTextRequieredField);
-                isValid = false;
-            }
-
-            if (!isValid)
-            {
+                ErrorDisplayService.ShowError(txtSearch, blckFriendError, Lang.GlobalTextRequieredField);
                 return false;
             }
 
-            if (targetUsername.Length < MIN_USERNAME_LENGTH)
+            if (!FieldValidator.IsLengthInRange(targetUsername, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
             {
-                ShowError(txtSearch, Lang.DialogTextShortUsername);
-                isValid = false;
+                string errorMsg = targetUsername.Length < MIN_USERNAME_LENGTH
+                    ? Lang.DialogTextShortUsername
+                    : Lang.DialogTextLongUsername;
+
+                ErrorDisplayService.ShowError(txtSearch, blckFriendError, errorMsg);
+                return false;
             }
-            else if (targetUsername.Length > MAX_USERNAME_LENGTH)
+
+            if (!UsernameValidator.IsValidFormat(targetUsername))
             {
-                ShowError(txtSearch, Lang.DialogTextLongUsername);
-                isValid = false;
+                ErrorDisplayService.ShowError(txtSearch, blckFriendError, Lang.GlobalTextInvalidUsername);
+                return false;
             }
 
             if (targetUsername.Equals(currentUsername, StringComparison.OrdinalIgnoreCase))
             {
-                ShowError(txtSearch, Lang.FriendsTextRequestSelf);
-                isValid = false;
+                ErrorDisplayService.ShowError(txtSearch, blckFriendError, Lang.FriendsTextRequestSelf);
+                return false;
             }
 
-            return isValid;
+            return true;
         }
 
         private async void ClickAcceptRequest(object sender, RoutedEventArgs e)
@@ -219,24 +229,24 @@ namespace TrucoClient.Views
 
                     if (success)
                     {
-                        CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername), 
+                        CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestAccepted, requesterUsername),
                             Lang.FriendsTextRequestAcceptedTitle, MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
-                        CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, 
+                        CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR,
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (EndpointNotFoundException)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception)
                 {
-                    CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -261,24 +271,24 @@ namespace TrucoClient.Views
 
                     if (success)
                     {
-                        CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestRejected, targetUsername), 
+                        CustomMessageBox.Show(string.Format(Lang.FriendsTextRequestRejected, targetUsername),
                             Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadDataAsync();
                     }
                     else
                     {
-                        CustomMessageBox.Show(Lang.FriendsTextRequestRejectedError, MESSAGE_ERROR, 
+                        CustomMessageBox.Show(Lang.FriendsTextRequestRejectedError, MESSAGE_ERROR,
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch (EndpointNotFoundException)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception)
                 {
-                    CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR, 
+                    CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -288,7 +298,7 @@ namespace TrucoClient.Views
         {
             this.NavigationService.Navigate(new MainPage());
         }
-        
+
         private void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
             if (blckPlaceholder != null)
@@ -298,7 +308,7 @@ namespace TrucoClient.Views
                     : Visibility.Collapsed;
             }
 
-            ClearError(txtSearch);
+            ErrorDisplayService.ClearError(txtSearch, blckFriendError);
 
             string text = txtSearch.Text.Trim();
 
@@ -307,13 +317,13 @@ namespace TrucoClient.Views
                 return;
             }
 
-            if (text.Length < MIN_USERNAME_LENGTH)
+            if (!FieldValidator.IsLengthInRange(text, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH))
             {
-                ShowError(txtSearch, Lang.DialogTextShortUsername);
-            }
-            else if (text.Length > MAX_USERNAME_LENGTH)
-            {
-                ShowError(txtSearch, Lang.DialogTextLongUsername);
+                string errorMsg = text.Length < MIN_USERNAME_LENGTH
+                   ? Lang.DialogTextShortUsername
+                   : Lang.DialogTextLongUsername;
+
+                ErrorDisplayService.ShowError(txtSearch, blckFriendError, errorMsg);
             }
         }
 
@@ -324,36 +334,6 @@ namespace TrucoClient.Views
                 ClickAddFriend(btnAdd, null);
                 e.Handled = true;
             }
-        }
-
-        private void UsernamePreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
-        }
-
-
-        private void ShowError(Control field, string errorMessage)
-        {
-            TextBlock errorBlock = blckFriendError;
-
-            if (errorBlock != null)
-            {
-                errorBlock.Text = errorMessage;
-            }
-
-            field.BorderBrush = new SolidColorBrush(Colors.Red);
-        }
-
-        private void ClearError(Control field)
-        {
-            TextBlock errorBlock = blckFriendError;
-
-            if (errorBlock != null)
-            {
-                errorBlock.Text = string.Empty;
-            }
-
-            field.ClearValue(Border.BorderBrushProperty);
         }
     }
 }

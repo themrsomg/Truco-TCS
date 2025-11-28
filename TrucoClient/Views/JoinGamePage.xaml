@@ -22,8 +22,7 @@
                        HorizontalAlignment="Center" Margin="0,0,0,10"/>
             <TextBox x:Name="txtCode" Width="300" Height="40" FontSize="20" HorizontalAlignment="Center" 
                      VerticalAlignment="Center" Background="White" Foreground="Black" TextAlignment="Center" 
-                     MaxLength="6" PreviewTextInput="CodePreviewTextInput" PreviewKeyDown="CodePreviewKeyDown"
-                     TextChanged="CodeTextChanged" DataObject.Pasting="CodePasting" KeyDown="EnterKeyDown">
+                     MaxLength="6" TextChanged="CodeTextChanged" KeyDown="EnterKeyDown">
                 <TextBox.Template>
                     <ControlTemplate TargetType="TextBox">
                         <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 

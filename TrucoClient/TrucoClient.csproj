@@ -123,6 +123,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Profanity\ProfanityValidator.cs" />
     <Compile Include="Helpers\UI\AvatarHelper.cs" />
     <Compile Include="Helpers\UI\ErrorDisplayService.cs" />
     <Compile Include="Helpers\UI\InputRestriction.cs" />
@@ -410,6 +411,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.BannedWordList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\TrucoServer\TrucoClient.TrucoServer.FriendData.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

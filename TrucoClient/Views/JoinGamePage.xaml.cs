@@ -6,8 +6,8 @@ using System.Windows.Input;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
-using TrucoClient.Helpers.UI;
-using TrucoClient.Helpers.Validation;
+using TrucoClient.Helpers.UI;        // Necesario para InputRestriction y ErrorDisplayService
+using TrucoClient.Helpers.Validation; // Necesario para FieldValidator
 using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
@@ -15,23 +15,38 @@ namespace TrucoClient.Views
     public partial class JoinGamePage : Page
     {
         private const string MESSAGE_ERROR = "Error";
-        private static readonly Regex allowedCodeRegex = new Regex("^[A-Z0-9]{6}$", RegexOptions.Compiled);
+
+        private static readonly Regex codeInputRegex = new Regex(@"^[0-9a-zA-Z]*$", RegexOptions.Compiled);
 
         public JoinGamePage()
         {
             InitializeComponent();
+            InitializeValidation();
             MusicInitializer.InitializeMenuMusic();
+        }
+
+        private void InitializeValidation()
+        {
+            InputRestriction.AttachRegexValidation(txtCode, codeInputRegex);
         }
 
         private void ClickJoin(object sender, RoutedEventArgs e)
         {
-            string code = txtCode.Text.Trim();
+            string code = txtCode.Text.Trim().ToUpperInvariant();
             string player = SessionManager.CurrentUsername;
+
+            ErrorDisplayService.ClearError(txtCode, null);
+
+            if (!FieldValidator.IsRequired(code))
+            {
+                ErrorDisplayService.ShowError(txtCode, null, Lang.GlobalTextRequieredField);
+                return;
+            }
 
             try
             {
                 bool joined = ClientManager.MatchClient.JoinMatch(code, player);
-               
+
                 if (joined)
                 {
                     this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch));
@@ -43,7 +58,7 @@ namespace TrucoClient.Views
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.GameTextErrorJoining, 
+                CustomMessageBox.Show(Lang.GameTextErrorJoining,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -53,92 +68,27 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new PlayPage());
         }
 
-        private void CodePreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            try
-            {
-                e.Handled = !allowedCodeRegex.IsMatch(e.Text.ToUpperInvariant());
-            }
-            catch (ArgumentException ex)
-            {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                e.Handled = true;
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                e.Handled = true;
-            }
-        }
-
-        private void CodePreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space || e.Key == Key.Tab)
-            {
-                e.Handled = true;
-            }
-        }
-
         private void CodeTextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                TextBox textBox = (TextBox)sender;
-                int caret = textBox.CaretIndex;
+            ErrorDisplayService.ClearError(txtCode, null);
 
-                string sanitized = InputSanitizer.SanitizeForCodeInput(textBox.Text).ToUpperInvariant();
-                sanitized = sanitized.ToUpperInvariant();
-                sanitized = InputRestriction.RestrictToAllowedCharacters(sanitized, allowedCodeRegex);
+            TextBox textBox = sender as TextBox;
 
-                if (textBox.Text != sanitized)
-                {
-                    textBox.Text = sanitized;
-                    textBox.CaretIndex = Math.Min(caret, textBox.Text.Length);
-                }
-            }
-            catch (NullReferenceException ex)
+            if (textBox == null)
             {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            catch (Exception ex)
+
+            int caretIndex = textBox.CaretIndex;
+            string text = textBox.Text;
+            string upperText = text.ToUpperInvariant();
+
+            if (text != upperText)
             {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                textBox.Text = upperText;
+                textBox.CaretIndex = caretIndex;
             }
         }
-
-        private void CodePasting(object sender, DataObjectPastingEventArgs e)
-        {
-            try
-            {
-                if (!e.DataObject.GetDataPresent(DataFormats.Text))
-                {
-                    e.CancelCommand();
-                    return;
-                }
-
-                string text = (string)e.DataObject.GetData(DataFormats.Text);
-
-                text = InputSanitizer.SanitizeForCodeInput(text);
-                text = text.ToUpperInvariant();
-                text = InputRestriction.RestrictToAllowedCharacters(text, allowedCodeRegex);
-
-                if (string.IsNullOrWhiteSpace(text))
-                {
-                    e.CancelCommand();
-                }
-            }
-            catch (FormatException ex)
-            {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                e.CancelCommand();
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show(ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                e.CancelCommand();
-            }
-        }
-
 
         private void EnterKeyDown(object sender, KeyEventArgs e)
         {
