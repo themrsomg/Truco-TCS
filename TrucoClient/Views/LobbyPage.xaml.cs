@@ -127,7 +127,12 @@ namespace TrucoClient.Views
             {
                 try
                 {
-                    ClientManager.MatchClient.LeaveMatch(matchCode, SessionManager.CurrentUsername);
+                    if (!SessionManager.CurrentUsername.StartsWith("Guest_"))
+                    {
+                        ClientManager.MatchClient.LeaveMatch(matchCode, SessionManager.CurrentUsername);
+                    }
+
+                    ClientManager.MatchClient.LeaveMatchChat(matchCode, SessionManager.CurrentUsername);
                 }
                 catch (Exception)
                 {
@@ -202,15 +207,23 @@ namespace TrucoClient.Views
                     }
                 });
 
-                Task.Run(() => {
+                Task.Run(async () => {
                     try
                     {
+                        if (!SessionManager.CurrentUsername.StartsWith("Guest_"))
+                        {
+                            await Task.Delay(200);
+                        }
+
                         ClientManager.MatchClient.JoinMatchChat(matchCode, SessionManager.CurrentUsername);
+
+                        await Task.Delay(100);
+                        await Application.Current.Dispatcher.InvokeAsync(async () => await LoadPlayersAsync());
                     }
                     catch
                     {
                         Application.Current.Dispatcher.Invoke(() =>
-                            CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR, 
+                            CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR,
                                 MessageBoxButton.OK, MessageBoxImage.Warning));
                     }
                 });
