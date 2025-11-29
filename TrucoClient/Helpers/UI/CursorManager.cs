@@ -9,8 +9,8 @@ namespace TrucoClient.Helpers.UI
     public static class CursorManager
     {
         private static readonly Cursor clickCursor;
-        private static readonly Cursor loadingCursor;
-        private static readonly Cursor handCursor;
+        // private static readonly Cursor loadingCursor;
+        // private static readonly Cursor handCursor;
 
         static CursorManager()
         {
@@ -45,13 +45,17 @@ namespace TrucoClient.Helpers.UI
         {
             return clickCursor;
         }
+
+        /*
         public static Cursor Loading()
         {
             return loadingCursor;
         }
+
         public static Cursor Hand()
         {
             return handCursor;
         }
+        */
     }
 }

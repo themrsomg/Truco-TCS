@@ -55,7 +55,7 @@ namespace TrucoClient.Views
                 }
 
                 var self = players.FirstOrDefault(p => p.Username.Equals(currentPlayer, StringComparison.OrdinalIgnoreCase));
-                
+
                 if (self == null)
                 {
                     return;
@@ -63,25 +63,41 @@ namespace TrucoClient.Views
 
                 imgPlayerAvatar.Source = LoadAvatar(self.AvatarId);
 
-                var allies = players.Where(p => p.Team == self.Team && !p.Username.Equals(currentPlayer, StringComparison.OrdinalIgnoreCase)).ToList();
-                var enemies = players.Where(p => p.Team != self.Team).ToList();
+                int myIndex = players.IndexOf(self);
 
-                if (allies.Count > 0)
+                Console.WriteLine($"[LOAD AVATARS] My position: {myIndex}, My username: {currentPlayer}, My team: {self.Team}");
+                Console.WriteLine($"[LOAD AVATARS] Full player list:");
+                for (int i = 0; i < players.Count; i++)
                 {
-                    imgTopAvatar.Source = LoadAvatar(allies[0].AvatarId);
-                    topPlayerName = allies[0].Username;
+                    Console.WriteLine($"  [{i}] {players[i].Username} - {players[i].Team}");
                 }
 
-                if (enemies.Count > 0)
-                {
-                    imgLeftAvatar.Source = LoadAvatar(enemies[0].AvatarId);
-                    leftPlayerName = enemies[0].Username;
-                }
+                int topIndex = (myIndex + 2) % 4;
+                int leftIndex = (myIndex + 1) % 4;
+                int rightIndex = (myIndex + 3) % 4;
 
-                if (enemies.Count > 1)
+                imgTopAvatar.Source = LoadAvatar(players[topIndex].AvatarId);
+                topPlayerName = players[topIndex].Username;
+
+                imgLeftAvatar.Source = LoadAvatar(players[leftIndex].AvatarId);
+                leftPlayerName = players[leftIndex].Username;
+
+                imgRightAvatar.Source = LoadAvatar(players[rightIndex].AvatarId);
+                rightPlayerName = players[rightIndex].Username;
+
+                Console.WriteLine($"[LOAD AVATARS] Visual layout:");
+                Console.WriteLine($"  Me (Bottom): {currentPlayer} (pos {myIndex}, {self.Team})");
+                Console.WriteLine($"  Top: {topPlayerName} (pos {topIndex}, {players[topIndex].Team})");
+                Console.WriteLine($"  Left: {leftPlayerName} (pos {leftIndex}, {players[leftIndex].Team})");
+                Console.WriteLine($"  Right: {rightPlayerName} (pos {rightIndex}, {players[rightIndex].Team})");
+
+                if (players[topIndex].Team != self.Team)
                 {
-                    imgRightAvatar.Source = LoadAvatar(enemies[1].AvatarId);
-                    rightPlayerName = enemies[1].Username;
+                    Console.WriteLine($"[LOAD AVATARS ERROR] Top player {topPlayerName} should be teammate but is {players[topIndex].Team}!");
+                }
+                else
+                {
+                    Console.WriteLine($"[LOAD AVATARS] ✓ Top player is correctly my teammate");
                 }
             }
             catch (ArgumentNullException)

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using TrucoClient.Helpers.Services;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -8,7 +11,6 @@ namespace TrucoClient.TrucoServer
 {
     public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
     {
-        private const string MESSAGE_ERROR = "Error";
         public static List<TrucoCard> BufferedHand { get; set; }
 
         private static IChatPage GetActiveChatPage()
@@ -71,23 +73,46 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (Application.Current.MainWindow is InitialWindows main)
+                try
                 {
-                    var playerList = players?.ToList() ?? new List<PlayerInfo>();
+                    Console.WriteLine($"[CLIENT] OnMatchStarted for {matchCode}");
+                    Console.WriteLine($"[CLIENT] Received {players.Length} players:");
 
-                    if (playerList.Count == 2)
+                    for (int i = 0; i < players.Length; i++)
                     {
-                        main.MainFrame.Navigate(new GameTwoPlayersPage(matchCode, playerList));
+                        Console.WriteLine($"  [{i}] {players[i].Username} - {players[i].Team}");
                     }
-                    else if (playerList.Count == 4)
+
+                    if (Application.Current.MainWindow?.Content is Frame frame)
                     {
-                        main.MainFrame.Navigate(new GameFourPlayersPage(matchCode, playerList));
+                        if (frame.Content is LobbyPage lobbyPage)
+                        {
+                            var orderedPlayers = ClientManager.MatchClient.GetLobbyPlayers(matchCode);
+
+                            Console.WriteLine($"[CLIENT] After GetLobbyPlayers - {orderedPlayers.Length} players:");
+                            for (int i = 0; i < orderedPlayers.Length; i++)
+                            {
+                                Console.WriteLine($"  [{i}] {orderedPlayers[i].Username} - {orderedPlayers[i].Team}");
+                            }
+
+                            var playersList = orderedPlayers.ToList();
+
+                            if (playersList.Count == 2)
+                            {
+                                frame.Navigate(new GameTwoPlayersPage(matchCode, playersList));
+                            }
+                            else if (playersList.Count == 4)
+                            {
+                                frame.Navigate(new GameFourPlayersPage(matchCode, playersList));
+                            }
+                        }
                     }
-                    else
-                    {
-                        CustomMessageBox.Show(Lang.ExceptionTextErrorStartingMatch, MESSAGE_ERROR,
-                            MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[CLIENT ERROR] OnMatchStarted: {ex.Message}");
+                    CustomMessageBox.Show($"Error al iniciar partida: {ex.Message}", /////////
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
         }
