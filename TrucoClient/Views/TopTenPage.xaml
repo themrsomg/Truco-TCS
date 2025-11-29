@@ -11,10 +11,12 @@
     <StackPanel>
         <Label Content="{x:Static language:Lang.GlobalTextTop10}" FontSize="40" HorizontalAlignment="Center" 
                Margin="0,15,0,0" Foreground="White"/>
+        
         <StackPanel Margin="120,40,120,0">
             <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <DataGrid x:Name="dgRankings" AutoGenerateColumns="False" RowHeaderWidth="0" IsReadOnly="True" 
                           FontSize="20" Background="White" Foreground="Black">
+                    
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Height" Value="45" />
@@ -22,6 +24,7 @@
                             <Setter Property="FontSize" Value="25"/>
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
+                    
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static language:Lang.GlobalTextPlayer}" Binding="{Binding PlayerName}" 
                                             Width="*"/>
@@ -31,6 +34,7 @@
                 </DataGrid>
             </Grid>
         </StackPanel>
+        
         <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" 
                 FontSize="25" HorizontalAlignment="Right">
             <Button.Template>
@@ -40,6 +44,20 @@
                     </Border>
                 </ControlTemplate>
             </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
+        
     </StackPanel>
 </Page>

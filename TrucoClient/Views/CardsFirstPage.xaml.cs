@@ -14,7 +14,7 @@ namespace TrucoClient.Views
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new SettingsPage());
+            this.NavigationService.Navigate(new MainPage());
         }
 
         private void ClickNextPage(object sender, RoutedEventArgs e)

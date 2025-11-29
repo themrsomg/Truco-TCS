@@ -17,9 +17,9 @@ namespace TrucoClient.Views
             this.NavigationService.Navigate(new CardsThirdPage());
         }
 
-        private void ClickExitToSettings(object sender, RoutedEventArgs e)
+        private void ClickExit(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new SettingsPage());
+            this.NavigationService.Navigate(new MainPage());
         }
     }
 }

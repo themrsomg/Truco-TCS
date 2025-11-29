@@ -9,9 +9,12 @@
       Title="{x:Static language:Lang.GlobalTextFriends}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
     
     <ScrollViewer VerticalScrollBarVisibility="Auto">
+        
         <StackPanel HorizontalAlignment="Center">
+            
             <TextBlock Text="{x:Static language:Lang.FriendsTextMyFriends}" FontSize="32" Foreground="White" 
                        HorizontalAlignment="Center" Margin="0,30,0,10"/>
+            
             <ListBox x:Name="lstFriends" Margin="10" SelectionMode="Single" Width="600" Height="150" 
                      ItemsSource="{Binding FriendsList}" SelectedItem="{Binding SelectedFriend, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
@@ -21,6 +24,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+                            
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
                                 <Image Width="30" Height="30" Margin="0,0,10,0" Source="{Binding AvatarImagePath}" 
                                        Stretch="UniformToFill">
@@ -28,27 +32,47 @@
                                         <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15"/>
                                     </Image.Clip>
                                 </Image>
+                                
                                 <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
+
                             <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextDeleteFriend}" FontSize="20" 
                                     Foreground="White" Width="150" Height="30" Margin="10,0" 
                                     Click="ClickRejectRequest" Tag="{Binding Username}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
                                         <Border CornerRadius="10" Background="#CC0000" BorderThickness="2" BorderBrush="#FFBF3333">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                             </Button>
+                            
                         </Grid>
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
             <TextBlock Text="{x:Static language:Lang.FriendsTextRequestsReceived}" FontSize="28" Foreground="White" 
                        HorizontalAlignment="Center" Margin="0,20,0,10"/>
+            
             <ListBox x:Name="lstPending" Margin="10" SelectionMode="Single" Width="600" Height="100" ItemsSource="{Binding PendingList}" 
                      SelectedItem="{Binding SelectedPending, Mode=TwoWay}">
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -57,14 +81,17 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
                                 <Image Width="30" Height="30" Margin="0,0,10,0" Source="{Binding AvatarImagePath}" Stretch="UniformToFill">
                                     <Image.Clip>
                                         <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15"/>
                                     </Image.Clip>
                                 </Image>
+
                                 <TextBlock Text="{Binding Username}" FontSize="20" Foreground="Black" VerticalAlignment="Center"/>
                             </StackPanel>
+
                             <Button Grid.Column="1" Content="{x:Static language:Lang.FriendsTextAcceptRequest}" FontSize="20" 
                                     Width="110" Height="30" Margin="10,0" Click="ClickAcceptRequest" Tag="{Binding Username}">
                                 <Button.Template>
@@ -74,7 +101,21 @@
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                             </Button>
+
                             <Button Grid.Column="2" Content="{x:Static language:Lang.FriendsTextRejectRequest}" FontSize="20" 
                                     Width="110" Height="30" Margin="10,0" Background="#FFA07A" Click="ClickRejectRequest" Tag="{Binding Username}">
                                 <Button.Template>
@@ -84,11 +125,26 @@
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                             </Button>
+
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
                 <Grid>
                     <TextBox x:Name="txtSearch" Foreground="Black" 
@@ -104,10 +160,12 @@
                             </ControlTemplate>
                         </TextBox.Template>
                     </TextBox>
+                    
                     <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.FriendsTextSearchUser}" 
                                Foreground="Gray" VerticalAlignment="Center" Margin="20,0,0,0" IsHitTestVisible="False" 
                                Visibility="Visible"/>
                 </Grid>
+                
                 <Button x:Name="btnAdd" Click="ClickAddFriend" Content="{x:Static language:Lang.FriendsTextAdd}" Cursor="Hand" 
                         Margin="15,0,0,0" FontSize="28" Width="120" Height="40">
                     <Button.Template>
@@ -117,11 +175,27 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
+                
             </StackPanel>
+            
             <StackPanel>
                 <TextBlock x:Name="blckFriendError" Text=" " Foreground="Red" FontSize=" 15" Width="425"/>
             </StackPanel>
+            
             <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,30" 
                     FontSize="25" HorizontalAlignment="Right">
                 <Button.Template>
@@ -131,7 +205,21 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+            
         </StackPanel>
     </ScrollViewer>
 </Page>

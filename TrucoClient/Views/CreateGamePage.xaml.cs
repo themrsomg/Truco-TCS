@@ -55,9 +55,6 @@ namespace TrucoClient.Views
                         return;
                     }
 
-                    txtGeneratedCode.Text = code;
-                    popupCode.IsOpen = true;
-
                     this.NavigationService.Navigate(new LobbyPage(code, matchName));
                 });
             }
@@ -94,11 +91,6 @@ namespace TrucoClient.Views
                     }
                 });
             }
-        }
-
-        private void ClickClosePopup(object sender, RoutedEventArgs e)
-        {
-            popupCode.IsOpen = false;
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)

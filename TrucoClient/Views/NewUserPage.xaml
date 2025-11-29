@@ -13,17 +13,22 @@
         <Border.Background>
             <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity=".8"/>
         </Border.Background>
+        
         <Border.Effect>
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
         </Border.Effect>
+        
         <StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="{x:Static language:Lang.GlobalTextNewUser}" FontSize="40" Margin="30,50,0,0" 
                            Foreground="White" Width="297" TextWrapping="Wrap"/>
                 <Image Source="/Resources/Logos/logo.png" Width="200" Height="200" Margin="50,0,0,0"/>
             </StackPanel>
+            
             <StackPanel Margin="10,1,10,0" Width="350">
+                
                 <TextBlock Text="{x:Static language:Lang.GlobalTextEmail}" Foreground="White"/>
+                
                 <TextBox x:Name="txtEmail" Cursor="Hand" TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" 
                          KeyDown="EnterKeyDown">
                     <TextBox.Template>
@@ -35,8 +40,11 @@
                         </ControlTemplate>
                     </TextBox.Template>
                 </TextBox>
+                
                 <TextBlock x:Name="blckEmailError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
+                
                 <TextBlock Text="{x:Static language:Lang.GlobalTextUsername}" Margin="0,15,0,0" Foreground="White"/>
+                
                 <TextBox x:Name="txtUsername" Cursor="Hand" TextChanged="TextBoxChanged" LostFocus="TextBoxLostFocus" 
                          KeyDown="EnterKeyDown">
                     <TextBox.Template>
@@ -48,9 +56,13 @@
                         </ControlTemplate>
                     </TextBox.Template>
                 </TextBox>
+                
                 <TextBlock x:Name="blckUsernameError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
+                
                 <TextBlock Text="{x:Static language:Lang.GlobalTextPassword}" Margin="0,15,0,0" Foreground="White"/>
+                
                 <Grid x:Name="PasswordContainer" Width="350">
+                    
                     <PasswordBox x:Name="txtPassword" Cursor="Hand" Width="350" PasswordChanged="PasswordChanged" LostFocus="PasswordLostFocus" 
                             KeyDown="EnterKeyDown">
                         <PasswordBox.Template>
@@ -62,6 +74,7 @@
                             </ControlTemplate>
                         </PasswordBox.Template>
                     </PasswordBox>
+                    
                     <TextBox x:Name="txtVisiblePassword" Visibility="Collapsed" Width="350">
                         <TextBox.Template>
                             <ControlTemplate TargetType="TextBox">
@@ -72,6 +85,7 @@
                             </ControlTemplate>
                         </TextBox.Template>
                     </TextBox>
+                    
                     <Button x:Name="btnToggleVisibility" Click="ClickToggleVisibility" HorizontalAlignment="Right" 
                             VerticalAlignment="Center" Width="35" Height="30" Margin="0,0,10,0">
                         <TextBlock x:Name="blckEyeEmoji" Text="👁️" FontSize="21" Foreground="Black"/>
@@ -83,9 +97,13 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
+                    
                 </Grid>
+                
                 <TextBlock x:Name="blckPasswordError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
+                
                 <TextBlock Text="{x:Static language:Lang.GlobalTextConfirmPassword}" Margin="0,15,0,0" Foreground="White"/>
+                
                 <Grid x:Name="ConfirmPasswordContainer" Width="350">
                     <PasswordBox x:Name="txtPasswordConfirm" Cursor="Hand" Width="350" PasswordChanged="PasswordChanged" 
                                 LostFocus="PasswordLostFocus" KeyDown="EnterKeyDown">
@@ -98,6 +116,7 @@
                             </ControlTemplate>
                         </PasswordBox.Template>
                     </PasswordBox>
+                    
                     <TextBox x:Name="txtVisiblePasswordConfirm" Visibility="Collapsed" Width="350">
                         <TextBox.Template>
                             <ControlTemplate TargetType="TextBox">
@@ -108,6 +127,7 @@
                             </ControlTemplate>
                         </TextBox.Template>
                     </TextBox>
+                    
                     <Button x:Name="btnToggleVisibilityConfirm" Click="ClickToggleVisibility" HorizontalAlignment="Right" 
                              VerticalAlignment="Center" Width="35" Height="30" Margin="0,0,10,0">
                         <TextBlock x:Name="blckEyeEmojiConfirm" Text="👁️" FontSize="21" Foreground="Black"/>
@@ -119,8 +139,11 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
+                    
                 </Grid>
+                
                 <TextBlock x:Name="blckPasswordConfirmError" Text=" " Foreground="Red" FontSize=" 15" TextWrapping="Wrap"/>
+                
                 <Button x:Name="btnRegister" Content="{x:Static language:Lang.GlobalTextCreateAccount}" Click="ClickRegister" 
                         Cursor="Hand" Margin="0,30,0,0" Width="240" FontSize="30" HorizontalAlignment="Center" IsEnabled="False">
                     <Button.Template>
@@ -137,8 +160,23 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
+                
             </StackPanel>
+            
             <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,30,30,0" 
                     FontSize="30" HorizontalAlignment="Right">
                 <Button.Template>
@@ -148,7 +186,21 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+            
         </StackPanel>
     </Border>
 </Page>

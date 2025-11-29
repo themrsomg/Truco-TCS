@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Helpers\Profanity\ProfanityValidator.cs" />
     <Compile Include="Helpers\UI\AvatarHelper.cs" />
+    <Compile Include="Helpers\UI\CursorManager.cs" />
     <Compile Include="Helpers\UI\ErrorDisplayService.cs" />
     <Compile Include="Helpers\UI\InputRestriction.cs" />
     <Compile Include="Helpers\UI\PasswordVisibilityService.cs" />
@@ -538,6 +539,7 @@
     <Resource Include="Resources\Avatars\avatar_tt_ztv_bb.png" />
     <Resource Include="Resources\Avatars\avatar_tt_ztv_lost.png" />
     <Resource Include="Resources\Avatars\avatar_tt_ztv_wire.png" />
+    <Resource Include="Resources\Cursors\cursorClick.cur" />
     <Content Include="Resources\Songs\laughter_reaction.mp3" />
     <Content Include="Resources\Songs\music_in_start.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -703,6 +705,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\TrucoServer\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

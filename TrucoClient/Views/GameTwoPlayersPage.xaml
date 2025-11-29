@@ -24,6 +24,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Top">
+                
                 <Button x:Name="btnBack" Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="10,10,15,10" 
                         FontSize="20" VerticalAlignment="Center">
                     <Button.Template>
@@ -33,17 +34,33 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
 
                 <Border Background="#DDD" Padding="15,5" Margin="5" VerticalAlignment="Center" CornerRadius="5">
                     <StackPanel>
+                        
                         <TextBlock Text="{x:Static language:Lang.GameTextScoreboard}" FontSize="18" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock Text="{x:Static language:Lang.TeamOne}" Margin="5,0"/>
                             <TextBlock x:Name="blckScoreTeam1" Text="0" FontWeight="Bold" Margin="0,0,10,0"/>
                             <TextBlock Text="{x:Static language:Lang.TeamTwo}" Margin="5,0"/>
                             <TextBlock x:Name="blckScoreTeam2" Text="0" FontWeight="Bold"/>
                         </StackPanel>
+                        
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -57,6 +74,7 @@
                         </Image.Clip>
                     </Image>
                 </Border>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="5,0"/>
                     <Image Source="/Resources/back_card.png" Width="60" Height="90" Margin="5,0"/>
@@ -79,7 +97,9 @@
 
                 <StackPanel x:Name="panelEnvidoOptions" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                             Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="5">
+                    
                     <TextBlock x:Name="blckEnvidoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
+                    
                     <Button x:Name="btnCallEnvido" Content="Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -88,7 +108,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnCallRealEnvido" Content="Real Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -97,7 +131,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnCallFaltaEnvido" Content="Falta Envido" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -106,7 +154,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnEnvidoRespondQuiero" Content="Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -115,7 +177,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnEnvidoRespondNoQuiero" Content="No Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -124,12 +200,27 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </StackPanel>
 
                 <StackPanel x:Name="panelFlorOptions" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                             Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="5">
+                    
                     <TextBlock x:Name="blckFlorCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
+                    
                     <Button x:Name="btnCallFlor" Content="Flor" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -138,7 +229,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+
                     <Button x:Name="btnCallContraFlor" Content="Contra Flor" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -147,12 +252,27 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </StackPanel>
 
                 <StackPanel x:Name="panelBetOptions" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                             Background="#AAFFFFFF" Orientation="Vertical" Visibility="Collapsed" Margin="5">
+                    
                     <TextBlock x:Name="blckTrucoCaller" HorizontalAlignment="Center" Margin="5" FontSize="14" FontWeight="Bold"/>
+                    
                     <Button x:Name="btnCallTruco" Content="Truco" Margin="5" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -161,7 +281,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnRespondQuiero" Content="Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -170,7 +304,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnRespondNoQuiero" Content="No Quiero" Margin="5" Cursor="Hand" Foreground="White" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -179,7 +327,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnGoToDeck" Content="Ir al Mazo" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="White" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -188,7 +350,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button x:Name="btnStartFlor" Content="Flor" Margin="5" Visibility="Collapsed" Cursor="Hand" Foreground="Black" Padding="10,5">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -197,6 +373,19 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </StackPanel>
 
@@ -226,7 +415,21 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
+                
                 <Border Background="#CCC" Width="80" Height="80" Margin="5" CornerRadius="40" BorderBrush="#FFD700" 
                         BorderThickness="3">
                     <Image x:Name="imgPlayerAvatar" Stretch="UniformToFill">
@@ -244,6 +447,7 @@
                         <RotateTransform Angle="-5"/>
                     </Image.RenderTransform>
                 </Image>
+                
                 <Image x:Name="imgPlayerCard2" Width="150" Height="225" Margin="10,0,10,30" 
                        Cursor="Hand"/>
                 <Image x:Name="imgPlayerCard3" Width="150" Height="225" Margin="10,5,10,20" RenderTransformOrigin="0.5,1" 
@@ -260,11 +464,14 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    
                     <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel x:Name="ChatMessagesPanel" />
                     </ScrollViewer>
+                    
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                         <Grid Width="165" Height="30" Margin="0,0,5,0">
+
                             <TextBox x:Name="txtChatMessage" VerticalAlignment="Center" TextChanged="ChatMessageTextChanged" 
                                      Background="White" Foreground="Black" Padding="5,0,0,0" KeyDown="EnterKeyDown" FontSize="14">
                                 <TextBox.Template>
@@ -276,6 +483,7 @@
                                     </ControlTemplate>
                                 </TextBox.Template>
                             </TextBox>
+                            
                             <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" 
                                        Foreground="Gray" FontSize="14" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False" Visibility="Visible"/>
                         </Grid>
@@ -287,7 +495,21 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.7"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                         </Button>
+                        
                     </StackPanel>
                 </Grid>
             </Border>

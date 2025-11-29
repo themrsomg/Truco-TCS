@@ -12,14 +12,20 @@
         <Border.Background>
             <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
         </Border.Background>
+        
         <Border.Effect>
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
         </Border.Effect>
+        
         <StackPanel Margin="0,50,0,0">
+            
             <TextBlock Text="{x:Static language:Lang.GameTextCreateMatch}" FontSize="40" 
             Foreground="White" TextAlignment="Center" Margin="0,0,0,20"/>
+            
             <StackPanel Margin="0,20,0,0" Orientation="Vertical" HorizontalAlignment="Center">
+                
                 <TextBlock Text="{x:Static language:Lang.PreGameTextMatchType}" Foreground="White" FontSize="25"/>
+                
                 <ComboBox x:Name="cbPrivacy" Width="200" SelectedIndex="0">
                     <ComboBoxItem Content="{x:Static language:Lang.PreGameTextPrivacyPublic}" Tag="public"/>
                     <ComboBoxItem Content="{x:Static language:Lang.PreGameTextPrivacyPrivate}" Tag="private"/>
@@ -31,6 +37,7 @@
                     <ComboBoxItem Content="{x:Static language:Lang.PreGameTextFourPlayers}" Tag="4"/>
                 </ComboBox>
             </StackPanel>
+            
             <StackPanel>
                 <Button Click="ClickCreateMatch" Content="{x:Static language:Lang.GameTextCreateMatch}" 
                         Cursor="Hand" Width="300" Height="50" FontSize="30" Margin="0,40,0,0">
@@ -41,18 +48,22 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
-                <Popup x:Name="popupCode" Placement="Center" StaysOpen="False" AllowsTransparency="True">
-                    <Border Background="#CC1E1E1E" CornerRadius="15" Padding="20" BorderBrush="White" BorderThickness="2">
-                        <StackPanel Width="350" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="{x:Static language:Lang.PreGameShareCode}" FontSize="20" Foreground="White" TextAlignment="Center"/>
-                            <TextBlock x:Name="txtGeneratedCode" FontSize="28" FontWeight="Bold" Foreground="#FF2EF457" TextAlignment="Center"/>
-                            <Button Content="{x:Static language:Lang.GlobalTextClose}" Width="100" 
-                                    Height="40" FontSize="18" HorizontalAlignment="Center" Click="ClickClosePopup"/>
-                        </StackPanel>
-                    </Border>
-                </Popup>
             </StackPanel>
+            
             <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" 
                     Margin="0,60,40,30" FontSize="25" HorizontalAlignment="Right">
                 <Button.Template>
@@ -63,6 +74,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            
         </StackPanel>
     </Border>
 </Page>

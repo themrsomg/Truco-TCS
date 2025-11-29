@@ -824,6 +824,7 @@ namespace TrucoClient.Views
                     this.envidoPlayedInCurrentHand = true;
 
                     HideBetPanelUI();
+                    HideFlorBetPanelUI();
 
                     bool iAmCaller = (callerName == currentPlayer);
                     bool isMyTeammate = IsPlayerTeammate(callerName);

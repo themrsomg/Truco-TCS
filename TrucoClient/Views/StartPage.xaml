@@ -14,7 +14,9 @@
                 <ImageBrush ImageSource="/Resources/Logos/logo.png"/>
             </Grid.Background>
         </Grid>
+        
         <StackPanel Margin="10,15,10,20" Width="500">
+            
             <Button Click="ClickLogIn" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -23,6 +25,20 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                
                 <Grid>
                     <TextBlock Text="{x:Static language:Lang.StartTextLogIn}" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                Margin="60,0,0,0"/>
@@ -30,6 +46,7 @@
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
+            
             <Button Click="ClickPlayAsGuest" Cursor="Hand" Margin="0,20,0,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -38,6 +55,20 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                
                 <Grid>
                     <TextBlock Text="{x:Static language:Lang.StartTextPlayAsGuest}" VerticalAlignment="Center" 
                                HorizontalAlignment="Left" Margin="60,0,0,0"/>
@@ -45,6 +76,7 @@
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
+            
             <Button Click="ClickSingUp" Cursor="Hand" Margin="50,20,50,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -53,6 +85,20 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                
                 <Grid>
                     <TextBlock Text="{x:Static language:Lang.StartTextSingUp}" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                Margin="60,0,0,0"/>
@@ -60,6 +106,7 @@
                            VerticalAlignment="Center"/>
                 </Grid>
             </Button>
+            
             <Button Click="ClickExit" Cursor="Hand" Margin="50,20,50,0" FontSize="40">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -68,17 +115,34 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="0*"/>
                     </Grid.RowDefinitions>
+                    
                     <TextBlock Text="{x:Static language:Lang.MenuTextExit}" VerticalAlignment="Center" 
-                   HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                        HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    
                     <Image Source="/Resources/Logos/logo_exit.png" Width="50" Height="50" HorizontalAlignment="Left" 
-               VerticalAlignment="Center"/>
+                        VerticalAlignment="Center"/>
                 </Grid>
             </Button>
+            
         </StackPanel>
     </StackPanel>
 </Page>

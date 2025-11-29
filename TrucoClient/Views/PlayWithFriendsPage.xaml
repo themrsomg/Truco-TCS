@@ -11,6 +11,7 @@
     <StackPanel>
         <TextBlock Text="{x:Static language:Lang.PlayTextTrucoMatch}" FontSize="40" Foreground="White" 
                    HorizontalAlignment="Center" Margin="0,40,0,0"/>
+        
         <Button Click="ClickJoinMatch" Content="{x:Static language:Lang.JoinGameTextJoinGame}" Width="350" Height="60" 
                 Cursor="Hand" Margin="0,70,0,0">
             <Button.Template>
@@ -20,7 +21,21 @@
                     </Border>
                 </ControlTemplate>
             </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
+        
         <Button Click="ClickCreateMatch" Content="{x:Static language:Lang.GameTextCreateMatch}" Width="350" Height="60" 
                 Cursor="Hand" Margin="0,30,0,0">
             <Button.Template>
@@ -30,7 +45,21 @@
                     </Border>
                 </ControlTemplate>
             </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
+        
         <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,60,40,30" 
                 FontSize="25" HorizontalAlignment="Right">
             <Button.Template>
@@ -40,6 +69,20 @@
                     </Border>
                 </ControlTemplate>
             </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
+        
     </StackPanel>
 </Page>

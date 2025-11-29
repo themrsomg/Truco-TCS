@@ -85,7 +85,9 @@
                                    HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                     </StackPanel>
                 </StackPanel>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    
                     <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" 
                         Cursor="Hand" Margin="0,30,30,20" FontSize="25" HorizontalAlignment="Right" Width="150" Height="50">
                         <Button.Template>
@@ -95,7 +97,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                     <Button Click="ClickNextPage" Content="{x:Static language:Lang.NextPage}" 
                         Cursor="Hand" Margin="0,30,30,20" FontSize="25" HorizontalAlignment="Right" Width="150" Height="50">
                         <Button.Template>
@@ -105,7 +121,21 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
+                    
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

@@ -37,6 +37,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="CancelButtonStyle" TargetType="Button">
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontFamily" Value="Book Antiqua"/>
@@ -59,6 +60,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
             <Setter Property="FontFamily" Value="Book Antiqua"/>
             <Setter Property="FontSize" Value="35"/>
@@ -77,6 +79,7 @@
             <Border.Effect>
                 <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="25" ShadowDepth="0"/>
             </Border.Effect>
+            
             <Border.Background>
                 <SolidColorBrush Color="#FFF5DEB3"/>
             </Border.Background>
@@ -90,6 +93,7 @@
                 </Grid.RowDefinitions>
                 
                 <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    
                     <TextBlock x:Name="blckMessage" Grid.Row="1" Text="Example." FontFamily="Book Antiqua" FontSize="45" FontWeight="ExtraBold"
                         TextWrapping="Wrap" TextAlignment="Center" Foreground="#2A2019" HorizontalAlignment="Center" VerticalAlignment="Center"
                         MaxWidth="480" MaxHeight="400" Margin="20,0"/>

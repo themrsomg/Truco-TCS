@@ -12,20 +12,24 @@ namespace TrucoClient.Views
             InitializeComponent();
             MusicInitializer.InitializeMenuMusic();
         }
+
         private void ClickMatch(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new PlayPage());
         }
+
         private void ClickRankings(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new RankingsPage());
         }
+
         private void ClickLogOut(object sender, RoutedEventArgs e)
         {
             SessionManager.Clear();
             this.NavigationService.Navigate(new StartPage());
 
         }
+
         private void ClickProfile(object sender, RoutedEventArgs e)
         {
             if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername.StartsWith("Guest_"))
@@ -37,14 +41,22 @@ namespace TrucoClient.Views
                 this.NavigationService.Navigate(new UserProfilePage());
             }
         }
+
         private void ClickExit(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Close();
         }
+
+        private void ClickCards(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new CardsFirstPage());
+        }
+
         private void ClickSettings(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new SettingsPage());
         }
+
         private void ClickFriends(object sender, RoutedEventArgs e)
         {
             if (SessionManager.CurrentUserData == null || SessionManager.CurrentUsername.StartsWith("Guest_"))

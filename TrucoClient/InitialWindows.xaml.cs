@@ -1,6 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using TrucoClient.Helpers.UI;
 
 namespace TrucoClient
 {
@@ -9,9 +10,12 @@ namespace TrucoClient
         public InitialWindows()
         {
             InitializeComponent();
+
             MainFrame.Navigate(new Views.SplashPage());
             MainFrame.Navigated += MainFrameNavigated;
+            Mouse.OverrideCursor = CursorManager.Click();
         }
+
         private void MainFrameNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             Page page = MainFrame.Content as Page;

@@ -54,7 +54,8 @@ namespace TrucoClient.Views
             }
 
             btnLogIn.IsEnabled = false;
-            
+            // Mouse.OverrideCursor = CursorManager.Loading();
+
             await AttemptLoginAsync(identifier, password);
         }
 
@@ -96,6 +97,7 @@ namespace TrucoClient.Views
                 if (this.IsLoaded)
                 {
                     btnLogIn.IsEnabled = true;
+                    Mouse.OverrideCursor = CursorManager.Click();
                 }
             }
         }
@@ -109,6 +111,8 @@ namespace TrucoClient.Views
 
             HandleGlobalization(userData);
             HandleMusicInitilizer(userData);
+
+            Mouse.OverrideCursor = CursorManager.Click();
 
             CustomMessageBox.Show($"{Lang.GlobalTextWelcome} {username}!", Lang.GlobalTextWelcome,
                 MessageBoxButton.OK, MessageBoxImage.Information);
@@ -144,6 +148,12 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextTooManyAttempts, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 btnLogIn.IsEnabled = false;
                 await Task.Delay(LOGIN_DELAY_MS);
+
+                if (this.IsLoaded)
+                {
+                    btnLogIn.IsEnabled = true;
+                    this.Cursor = CursorManager.Click();
+                }
 
                 return;
             }

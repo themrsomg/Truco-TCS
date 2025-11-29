@@ -12,13 +12,17 @@
         <Border.Background>
             <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
         </Border.Background>
+        
         <Border.Effect>
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
         </Border.Effect>
+        
         <StackPanel>
             <TextBlock Text="{x:Static language:Lang.GlobalTextSettings}" Margin="0,30,0,0" FontSize="40" Foreground="White"
                        HorizontalAlignment="Center"/>
+            
             <StackPanel Margin="10,40,10,20" Width="600">
+                
                 <Button Click="ClickCredits" Content="{x:Static language:Lang.SettingsTextCredits}" Cursor="Hand" Margin="65,0,65,0" FontSize="40">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -27,7 +31,21 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
+                
                 <Button Click="ClickAbout" Content="{x:Static language:Lang.SettingsTextAbout}" Cursor="Hand" Margin="65,10,65,0" 
                         FontSize="40">
                     <Button.Template>
@@ -37,24 +55,32 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
-                <Button Click="ClickCards" Content="{x:Static language:Lang.CardsText}" Cursor="Hand" Margin="65,10,65,0" FontSize="40">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFFF9595">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                
                 <Grid Margin="0,10,0,0">
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
                     <StackPanel Grid.Column="0" HorizontalAlignment="Center">
                         <TextBlock Text="{x:Static language:Lang.SettingsTextVolume}" FontSize="40" Foreground="White" 
                                    HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                        
                         <Button Click="ClickVolume" Cursor="Hand" Margin="0,10,0,0" FontSize="40" Height="120" Width="120">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
@@ -63,23 +89,42 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.7"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                             <Grid>
                                 <Image x:Name="imgVolumeIcon" Source="/Resources/app_logo.ico" Width="120" Height="120" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
+                        
                     </StackPanel>
+                    
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                        
                         <TextBlock Text="{x:Static language:Lang.SettingsTextLanguage}" FontSize="40" Foreground="White" 
                                    HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                        
                         <ComboBox x:Name="cbLanguages" SelectionChanged="LanguageSelectionChanged" Cursor="Hand" Width="150" 
                                   HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="20" Padding="5">
                             <ComboBoxItem Content="{x:Static language:Lang.en}"/>
                             <ComboBoxItem Content="{x:Static language:Lang.es}"/>
                         </ComboBox>
+                        
                     </StackPanel>
                 </Grid>
             </StackPanel>
+            
             <Button Click="ClickSave" Content="{x:Static language:Lang.GlobalTextSave}" Cursor="Hand" Margin="0,0,45,40" FontSize="30" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Button.Template>
@@ -89,7 +134,21 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+            
         </StackPanel>
     </Border>
 </Page>

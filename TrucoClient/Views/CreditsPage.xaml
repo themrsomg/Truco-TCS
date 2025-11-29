@@ -12,9 +12,11 @@
         <Border.Background>
             <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
         </Border.Background>
+        
         <Border.Effect>
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
         </Border.Effect>
+        
         <StackPanel>
             <TextBlock Text="{x:Static language:Lang.SettingsTextCredits}" FontSize="41" Foreground="White" 
                        HorizontalAlignment="Center" Margin="0,30,0,0"/>
@@ -30,6 +32,7 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"/>
             <TextBlock Text="Gemini" FontSize="26" Foreground="White"
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            
             <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Margin="0,20,30,30" 
                     FontSize="26" HorizontalAlignment="Right">
                 <Button.Template>
@@ -39,7 +42,21 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+            
             <Button Click="ClickEgg" Content="^" Cursor="Hand" Margin="20,-45,0,30" FontSize="5" HorizontalAlignment="Left">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -48,7 +65,21 @@
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+            
         </StackPanel>
     </Border>
 </Page>

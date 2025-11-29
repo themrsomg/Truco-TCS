@@ -25,6 +25,7 @@
                 </Image.RenderTransform>
             </Image>
         </Border>
+        
         <TextBlock Grid.Row="1" Text="{x:Static language:Lang.GlobalTextLoading}" Foreground="LightGray" FontSize="16" 
                    HorizontalAlignment="Center" Margin="0,0,0,20" Opacity="0"/>
     </Grid>

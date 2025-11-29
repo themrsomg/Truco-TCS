@@ -12,9 +12,11 @@
         <Border.Background>
             <ImageBrush ImageSource="/Resources/wallpaper_main.png" Stretch="UniformToFill" Opacity="1"/>
         </Border.Background>
+        
         <Border.Effect>
             <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
         </Border.Effect>
+        
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Text="{x:Static language:Lang.CardsText}" Margin="0,30,0,10" FontSize="40" Foreground="White"
@@ -85,7 +87,9 @@
                                    HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                     </StackPanel>
                 </StackPanel>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    
                     <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" 
                         Cursor="Hand" Margin="0,30,30,20" FontSize="25" HorizontalAlignment="Right" Width="150" Height="50">
                         <Button.Template>
@@ -95,8 +99,22 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
-                    <Button Click="ClickExitToSettings" Content="{x:Static language:Lang.GlobalTextExit}" 
+                    
+                    <Button Click="ClickExit" Content="{x:Static language:Lang.GlobalTextExit}" 
                         Cursor="Hand" Margin="0,30,30,20" FontSize="25" HorizontalAlignment="Right" Width="150" Height="50">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -105,6 +123,19 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </StackPanel>
             </StackPanel>
