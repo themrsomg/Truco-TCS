@@ -123,6 +123,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Path\ResourcePaths.cs" />
     <Compile Include="Helpers\Profanity\ProfanityValidator.cs" />
     <Compile Include="Helpers\UI\AvatarHelper.cs" />
     <Compile Include="Helpers\UI\CursorManager.cs" />
