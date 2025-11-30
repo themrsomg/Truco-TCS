@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Localization;
+using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties;
@@ -14,8 +15,6 @@ namespace TrucoClient.Views
 {
     public partial class SettingsPage : Page
     {
-        private const String VOLUME_ICON_MUTED_PATH = "/Resources/Logos/logo_muted.png";
-        private const String VOLUME_ICON_VOLUME_PATH = "/Resources/Logos/logo_volume.png";
         private const String MESSAGE_ERROR = "Error";
 
         public SettingsPage()
@@ -40,8 +39,8 @@ namespace TrucoClient.Views
         private void UpdateVolumeIcon()
         {
             string iconPath = MusicManager.IsMuted
-                ? VOLUME_ICON_MUTED_PATH
-                : VOLUME_ICON_VOLUME_PATH;
+                ? ResourcePaths.VOLUME_ICON_MUTED_PATH
+                : ResourcePaths.VOLUME_ICON_VOLUME_PATH;
 
             imgVolumeIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
         }

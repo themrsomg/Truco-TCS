@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
@@ -27,9 +28,6 @@ namespace TrucoClient.Views
     public partial class UserProfilePage : Page
     {
         private const string MESSAGE_ERROR = "Error";
-        private const string FACEBOOK_BASE_URL = "https://www.facebook.com/";
-        private const string X_BASE_URL = "https://x.com/";
-        private const string INSTAGRAM_BASE_URL = "https://www.instagram.com/";
         private const int MAX_CHANGES = 2;
         private const int MIN_USERNAME_LENGTH = 4;
         private const int MAX_USERNAME_LENGTH = 20;
@@ -65,9 +63,9 @@ namespace TrucoClient.Views
             SanitizeAndRestrictTextBox(txtInstagramLink);
 
             string newUsername = txtUsername.Text.Trim();
-            string newFacebook = ExtractHandle(txtFacebookLink.Text, FACEBOOK_BASE_URL);
-            string newX = ExtractHandle(txtXLink.Text, X_BASE_URL);
-            string newInstagram = ExtractHandle(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
+            string newFacebook = ExtractHandle(txtFacebookLink.Text, ResourcePaths.FACEBOOK_BASE_URL);
+            string newX = ExtractHandle(txtXLink.Text, ResourcePaths.X_BASE_URL);
+            string newInstagram = ExtractHandle(txtInstagramLink.Text, ResourcePaths.INSTAGRAM_BASE_URL);
 
             txtFacebookLink.Text = newFacebook;
             txtXLink.Text = newX;
@@ -119,9 +117,9 @@ namespace TrucoClient.Views
             SanitizeAndRestrictTextBox(txtInstagramLink);
 
             string currentUsername = txtUsername.Text.Trim();
-            string currentFacebook = ExtractHandle(txtFacebookLink.Text, FACEBOOK_BASE_URL);
-            string currentX = ExtractHandle(txtXLink.Text, X_BASE_URL);
-            string currentInstagram = ExtractHandle(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
+            string currentFacebook = ExtractHandle(txtFacebookLink.Text, ResourcePaths.FACEBOOK_BASE_URL);
+            string currentX = ExtractHandle(txtXLink.Text, ResourcePaths.X_BASE_URL);
+            string currentInstagram = ExtractHandle(txtInstagramLink.Text, ResourcePaths.INSTAGRAM_BASE_URL);
 
             if (HasChangesToSave(currentUsername, currentFacebook, currentX, currentInstagram))
             {
@@ -471,17 +469,17 @@ namespace TrucoClient.Views
 
         private void ClickHyperlinkFacebook(object sender, RoutedEventArgs e)
         {
-            OpenSocialLink(txtFacebookLink.Text, FACEBOOK_BASE_URL);
+            OpenSocialLink(txtFacebookLink.Text, ResourcePaths.FACEBOOK_BASE_URL);
         }
 
         private void ClickHyperlinkX(object sender, RoutedEventArgs e)
         {
-            OpenSocialLink(txtXLink.Text, X_BASE_URL);
+            OpenSocialLink(txtXLink.Text, ResourcePaths.X_BASE_URL);
         }
 
         private void ClickHyperlinkInstagram(object sender, RoutedEventArgs e)
         {
-            OpenSocialLink(txtInstagramLink.Text, INSTAGRAM_BASE_URL);
+            OpenSocialLink(txtInstagramLink.Text, ResourcePaths.INSTAGRAM_BASE_URL);
         }
 
         private async void AvatarSelectedHandler(object sender, string newAvatarId)
