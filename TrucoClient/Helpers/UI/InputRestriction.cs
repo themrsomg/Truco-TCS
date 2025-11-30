@@ -117,7 +117,7 @@ namespace TrucoClient.Helpers.UI
             {
                 HandleInputError(e);
             }
-            catch (RegexMatchTimeoutException)
+            catch (RegexMatchTimeoutException ex)
             {
                 ClientException.HandleError(ex, nameof(HandlePreviewTextInput));
                 e.Handled = true;
