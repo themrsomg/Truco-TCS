@@ -11,6 +11,7 @@ using TrucoClient.TrucoServer;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using System.ServiceModel;
+using TrucoClient.Helpers.Path;
 using System.Threading.Tasks;
 using System.IO;
 
@@ -24,8 +25,6 @@ namespace TrucoClient.Views
 
         protected const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
         protected const string MESSAGE_ERROR = "Error";
-        protected const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
-        protected const string DEFAULT_CARD_BACK_PATH = "/Resources/back_card.png";
         private const string BET_NONE = "None";
 
         protected const string BET_STATUS_NONE = "None";
@@ -1719,28 +1718,28 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextAvatarIdFailedToLoad,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
             catch (ArgumentNullException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
             catch (FileNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextFileNotFound,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
         }
 
@@ -1748,7 +1747,7 @@ namespace TrucoClient.Views
         {
             if (string.IsNullOrWhiteSpace(cardFileName))
             {
-                return new BitmapImage(new Uri(DEFAULT_CARD_BACK_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_CARD_BACK_PATH, UriKind.Relative));
             }
 
             try
@@ -1760,28 +1759,28 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextAvatarIdFailedToLoad,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
             catch (ArgumentNullException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
             catch (FileNotFoundException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextFileNotFound,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
         }
     }

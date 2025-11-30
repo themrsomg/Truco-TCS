@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using TrucoClient.Helpers.Path;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -11,7 +12,6 @@ namespace TrucoClient.Helpers.UI
 {
     public static class AvatarHelper
     {
-        private const string RESOURCE_BASE_PATH = "/Resources/Avatars/";
         private const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
         private const string MESSAGE_ERROR = "Error";   
         private static readonly string DEFAULT_AVATAR_PACK_URI = GetPackUri(DEFAULT_AVATAR_ID);
@@ -101,7 +101,7 @@ namespace TrucoClient.Helpers.UI
 
         private static string GetPackUri(string avatarId)
         {
-            return $"pack://application:,,,/TrucoClient;component{RESOURCE_BASE_PATH}{avatarId}.png";
+            return $"pack://application:,,,/TrucoClient;component{ResourcePaths.RESOURCE_BASE_PATH}{avatarId}.png";
         }
     }
 }
