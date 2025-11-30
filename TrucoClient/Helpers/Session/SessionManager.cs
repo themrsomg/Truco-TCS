@@ -26,6 +26,7 @@ namespace TrucoClient.Helpers.Session
             try
             {
                 var profile = await ClientManager.UserClient.GetUserProfileByEmailAsync(usernameOrEmail);
+               
                 if (profile != null && !string.IsNullOrWhiteSpace(profile.Username))
                 {
                     return profile.Username;

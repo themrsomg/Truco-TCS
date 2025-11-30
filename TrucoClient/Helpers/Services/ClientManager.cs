@@ -27,6 +27,7 @@ namespace TrucoClient.Helpers.Services
                     SafeAbort(userClient);
                     userClient = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
                 }
+                
                 return userClient;
             }
         }
@@ -40,6 +41,7 @@ namespace TrucoClient.Helpers.Services
                     SafeAbort(matchClient);
                     matchClient = new TrucoMatchServiceClient(context, "NetTcpBinding_ITrucoMatchService");
                 }
+                
                 return matchClient;
             }
         }
@@ -53,6 +55,7 @@ namespace TrucoClient.Helpers.Services
                     SafeAbort(friendClient);
                     friendClient = new TrucoFriendServiceClient(context, "NetTcpBinding_ITrucoFriendService");
                 }
+                
                 return friendClient;
             }
         }
