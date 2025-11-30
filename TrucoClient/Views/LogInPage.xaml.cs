@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Localization;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
@@ -84,8 +85,9 @@ namespace TrucoClient.Views
             {
                 CustomMessageBox.Show(Lang.ExceptionTextUserAlreadyLoggedIn, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(AttemptLoginAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
