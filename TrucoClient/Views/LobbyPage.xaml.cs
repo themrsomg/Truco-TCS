@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
@@ -18,7 +19,6 @@ namespace TrucoClient.Views
     {
         private const string DEFAUL_AVATAR_ID = "avatar_aaa_default";
         private const string MESSAGE_ERROR = "Error";
-        private const string DEFAULT_AVATAR_PATH = "/Resources/Avatars/avatar_aaa_default.png";
         private const int FONT_SIZE = 13;
         private readonly string matchCode;
         private readonly string matchName;
@@ -292,7 +292,7 @@ namespace TrucoClient.Views
             }
             catch
             {
-                return new BitmapImage(new Uri(DEFAULT_AVATAR_PATH, UriKind.Relative));
+                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
         }
 

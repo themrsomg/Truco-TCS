@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
@@ -19,7 +20,6 @@ namespace TrucoClient.Views
 {
     public class FriendDisplayData
     {
-        private const String URL_AVATAR_DEFAULT = "/Resources/Avatars/avatar_aaa_default.png";
         private const string MESSAGE_ERROR = "Error";
 
         public string Username { get; set; }
@@ -41,13 +41,13 @@ namespace TrucoClient.Views
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return URL_AVATAR_DEFAULT;
+                    return ResourcePaths.DEFAULT_AVATAR_PATH;
                 }
                 catch (Exception)
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return URL_AVATAR_DEFAULT;
+                    return ResourcePaths.DEFAULT_AVATAR_PATH;
                 }
             }
         }
