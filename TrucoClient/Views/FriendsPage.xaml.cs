@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
@@ -119,8 +120,9 @@ namespace TrucoClient.Views
                     });
 
                 }
-                catch (EndpointNotFoundException)
+                catch (EndpointNotFoundException ex)
                 {
+                    ClientException.HandleError(ex, nameof(LoadDataAsync));
                     CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -162,8 +164,9 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickAddFriend));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -239,8 +242,9 @@ namespace TrucoClient.Views
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                catch (EndpointNotFoundException)
+                catch (EndpointNotFoundException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickAcceptRequest));
                     CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -281,8 +285,9 @@ namespace TrucoClient.Views
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                catch (EndpointNotFoundException)
+                catch (EndpointNotFoundException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickRejectRequest));
                     CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }

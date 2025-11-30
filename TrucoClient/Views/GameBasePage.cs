@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TrucoClient.Properties.Langs;
-using TrucoClient.TrucoServer;
+using TrucoClient.Helpers.Exceptions;
+using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
-using System.ServiceModel;
-using System.Threading.Tasks;
-using System.IO;
-using TrucoClient.Helpers.Paths;
+using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -270,8 +271,9 @@ namespace TrucoClient.Views
             {
                 MatchClient = ClientManager.MatchClient;
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(InitializeMatchClient));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -280,8 +282,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(InitializeMatchClient));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -305,8 +308,9 @@ namespace TrucoClient.Views
                 {
                     ClientManager.MatchClient.JoinMatchChat(this.MatchCode, SessionManager.CurrentUsername);
                 }
-                catch (EndpointNotFoundException)
+                catch (EndpointNotFoundException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ConnectToChat));
                     CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -315,8 +319,9 @@ namespace TrucoClient.Views
                     CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (TimeoutException)
+                catch (TimeoutException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ConnectToChat));
                     CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -441,8 +446,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendPlayCardCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -469,8 +475,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallTrucoCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -497,8 +504,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendResponseCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -525,8 +533,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallEnvidoCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -553,8 +562,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendRespondToEnvidoCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -581,8 +591,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendRespondToFlorCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -609,8 +620,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendGoToDeckCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -640,8 +652,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallFlorCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

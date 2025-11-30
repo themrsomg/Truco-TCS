@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.UI;
 using TrucoClient.Helpers.Validation;
@@ -81,8 +82,9 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSave));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -91,8 +93,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSave));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
