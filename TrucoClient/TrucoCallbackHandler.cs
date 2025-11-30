@@ -20,6 +20,7 @@ namespace TrucoClient.TrucoServer
             {
                 return chatPage;
             }
+          
             return null;
         }
 
@@ -29,6 +30,7 @@ namespace TrucoClient.TrucoServer
             {
                 return gamePage;
             }
+            
             return null;
         }
 
@@ -91,6 +93,7 @@ namespace TrucoClient.TrucoServer
                             var orderedPlayers = ClientManager.MatchClient.GetLobbyPlayers(matchCode);
 
                             Console.WriteLine($"[CLIENT] After GetLobbyPlayers - {orderedPlayers.Length} players:");
+                          
                             for (int i = 0; i < orderedPlayers.Length; i++)
                             {
                                 Console.WriteLine($"  [{i}] {orderedPlayers[i].Username} - {orderedPlayers[i].Team}");
@@ -127,6 +130,7 @@ namespace TrucoClient.TrucoServer
         public void OnMatchEnded(string matchCode, string winner)
         {
             BufferedHand = null;
+            
             Application.Current.Dispatcher.Invoke(() =>
             {
                 CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
