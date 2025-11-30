@@ -816,6 +816,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error sending message.
+        /// </summary>
+        public static string ExceptionTextErrorChatMatch {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorChatMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a An error occurred while validating the email address: {0}.
         /// </summary>
         public static string ExceptionTextErrorEmailValidation {

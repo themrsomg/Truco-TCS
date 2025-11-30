@@ -11,9 +11,9 @@ using TrucoClient.TrucoServer;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using System.ServiceModel;
-using TrucoClient.Helpers.Path;
 using System.Threading.Tasks;
 using System.IO;
+using TrucoClient.Helpers.Paths;
 
 namespace TrucoClient.Views
 {
@@ -347,7 +347,8 @@ namespace TrucoClient.Views
             try 
             { 
                 MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername); 
-            } catch 
+            } 
+            catch 
             {
                 /* 
                  * The exception is ignored to prevent the application from crashing.
@@ -1576,6 +1577,11 @@ namespace TrucoClient.Views
                 { 
                     MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername); 
                 }
+                catch (FaultException ex) 
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorChatMatch, Lang.GlobalTextRuntimeError,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 catch (Exception) 
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, Lang.GlobalTextRuntimeError,
@@ -1604,6 +1610,11 @@ namespace TrucoClient.Views
             {
                 ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, messageText);
             }
+            catch (FaultException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
@@ -1628,11 +1639,16 @@ namespace TrucoClient.Views
                 string emoji = item.Header.ToString();
                 AddChatMessage(Lang.ChatTextYou, emoji);
 
-                try 
-                { 
-                    ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, emoji); 
+                try
+                {
+                    ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, emoji);
                 }
-                catch (Exception) 
+                catch (FaultException ex) 
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception)
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);

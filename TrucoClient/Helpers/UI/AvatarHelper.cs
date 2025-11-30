@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using TrucoClient.Helpers.Path;
+using TrucoClient.Helpers.Paths;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -91,6 +92,16 @@ namespace TrucoClient.Helpers.UI
             try
             {
                 imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
+            }
+            catch (FileNotFoundException)
+            {
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (UriFormatException)
+            {
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI), 
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception)
             {

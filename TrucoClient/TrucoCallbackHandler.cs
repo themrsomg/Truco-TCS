@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Services;
@@ -107,6 +108,12 @@ namespace TrucoClient.TrucoServer
                             }
                         }
                     }
+                }
+                catch (FaultException ex)
+                {
+                    Console.WriteLine($"[CLIENT FAULT] OnMatchStarted: {ex.Message}");
+                    CustomMessageBox.Show($"Error al iniciar partida: {ex.Message}", /////////
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)
                 {

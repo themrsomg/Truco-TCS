@@ -35,6 +35,14 @@ namespace TrucoClient.Helpers.UI
 
                 return new Cursor(info.Stream);
             }
+            catch (FileNotFoundException)
+            {
+                return Cursors.Arrow;
+            }
+            catch (UriFormatException)
+            {
+                return Cursors.Arrow;
+            }
             catch (Exception)
             {
                 return Cursors.Arrow;

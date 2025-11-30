@@ -1269,4 +1269,7 @@
   <data name="DialogTextInvalidLenghtPassword" xml:space="preserve">
     <value>La contraseña no tiene la longitud esperada</value>
   </data>
+  <data name="ExceptionTextErrorChatMatch" xml:space="preserve">
+    <value>Error al enviar mensaje</value>
+  </data>
 </root>

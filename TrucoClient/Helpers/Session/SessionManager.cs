@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using TrucoClient.Helpers.Audio;
@@ -29,6 +30,10 @@ namespace TrucoClient.Helpers.Session
                 {
                     return profile.Username;
                 }
+            }
+            catch (FaultException ex)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
