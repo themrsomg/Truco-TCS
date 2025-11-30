@@ -6,6 +6,7 @@ using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.Exceptions;
 
 namespace TrucoClient.Views
 {
@@ -58,8 +59,9 @@ namespace TrucoClient.Views
                     this.NavigationService.Navigate(new LobbyPage(code, matchName));
                 });
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickCreateMatch));
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextTimeoutCreatingMatch, MESSAGE_ERROR, 
