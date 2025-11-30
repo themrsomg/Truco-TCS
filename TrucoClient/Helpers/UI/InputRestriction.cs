@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -118,6 +119,7 @@ namespace TrucoClient.Helpers.UI
             }
             catch (RegexMatchTimeoutException)
             {
+                ClientException.HandleError(ex, nameof(HandlePreviewTextInput));
                 e.Handled = true;
             }
             catch (Exception)
@@ -167,9 +169,9 @@ namespace TrucoClient.Helpers.UI
             { 
                 HandlePasteError(e); 
             }
-            catch (RegexMatchTimeoutException) 
-            { 
-                e.CancelCommand(); 
+            catch (RegexMatchTimeoutException ex) 
+            {
+                ClientException.HandleError(ex, nameof(HandlePasting));
             }
             catch (ExternalException) 
             { 

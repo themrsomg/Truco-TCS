@@ -15,6 +15,7 @@ namespace TrucoClient.Helpers.Validation
             {
                 return false;
             }
+          
             return value.Length >= min && value.Length <= max;
         }
 
@@ -24,12 +25,14 @@ namespace TrucoClient.Helpers.Validation
             {
                 return false;
             }
+           
             return value.Length == length;
         }
 
         public static bool TryParseInt(string value)
         {
             int tmp;
+           
             return int.TryParse(value, out tmp);
         }
     }

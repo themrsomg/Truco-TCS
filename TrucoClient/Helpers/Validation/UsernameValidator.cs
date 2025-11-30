@@ -14,6 +14,7 @@ namespace TrucoClient.Helpers.Validation
             {
                 return false;
             }
+         
             return UsernameRegex.IsMatch(username);
         }
 
