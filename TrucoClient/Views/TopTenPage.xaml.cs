@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.ServiceModel;
-using TrucoClient.Properties.Langs;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -36,8 +37,9 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadTopTenPlayersAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
