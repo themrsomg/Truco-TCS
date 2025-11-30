@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
@@ -56,8 +57,9 @@ namespace TrucoClient.Views
                     CustomMessageBox.Show(Lang.GameTextInvalidCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(JoinGamePage));
                 CustomMessageBox.Show(Lang.GameTextErrorJoining,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

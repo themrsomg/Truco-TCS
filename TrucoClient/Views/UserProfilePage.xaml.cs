@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
@@ -203,8 +204,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
-            catch (RegexMatchTimeoutException)
+            catch (RegexMatchTimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(GenericPreviewTextInput));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
@@ -288,8 +290,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (RegexMatchTimeoutException)
+            catch (RegexMatchTimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
@@ -361,8 +364,9 @@ namespace TrucoClient.Views
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (RegexMatchTimeoutException)
+            catch (RegexMatchTimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
@@ -421,6 +425,7 @@ namespace TrucoClient.Views
             }
             catch (RegexMatchTimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SanitizeAndRestrictTextBox));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ExternalException ex)
@@ -518,8 +523,9 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(AvatarSelectedHandler));
                 ShowConnectionError();
             }
             catch (Exception)
@@ -574,8 +580,9 @@ namespace TrucoClient.Views
                 UpdateUsernameWarning(localEditingData.NameChangeCount);
                 UpdateSocialMediaLinks();
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadUserProfile));
                 ShowConnectionError();
             }
             catch (Exception)
@@ -621,8 +628,9 @@ namespace TrucoClient.Views
                     HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(SaveUserProfileAsync));
                 ShowConnectionError();
                 HandleFailedSave(oldUsername, oldChangeCount, originalFacebook, originalX, originalInstagram);
             }
