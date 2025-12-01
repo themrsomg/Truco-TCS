@@ -90,16 +90,7 @@ namespace TrucoClient.TrucoServer
                     {
                         if (frame.Content is LobbyPage lobbyPage)
                         {
-                            var orderedPlayers = ClientManager.MatchClient.GetLobbyPlayers(matchCode);
-
-                            Console.WriteLine($"[CLIENT] After GetLobbyPlayers - {orderedPlayers.Length} players:");
-                          
-                            for (int i = 0; i < orderedPlayers.Length; i++)
-                            {
-                                Console.WriteLine($"  [{i}] {orderedPlayers[i].Username} - {orderedPlayers[i].Team}");
-                            }
-
-                            var playersList = orderedPlayers.ToList();
+                            List<PlayerInfo> playersList = players.ToList();
 
                             if (playersList.Count == 2)
                             {
@@ -112,16 +103,10 @@ namespace TrucoClient.TrucoServer
                         }
                     }
                 }
-                catch (FaultException ex)
-                {
-                    Console.WriteLine($"[CLIENT FAULT] OnMatchStarted: {ex.Message}");
-                    CustomMessageBox.Show($"Error al iniciar partida: {ex.Message}", /////////
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"[CLIENT ERROR] OnMatchStarted: {ex.Message}");
-                    CustomMessageBox.Show($"Error al iniciar partida: {ex.Message}", /////////
+                    CustomMessageBox.Show($"Error al iniciar partida: {ex.Message}",
                         "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
