@@ -78,35 +78,29 @@ namespace TrucoClient.TrucoServer
             {
                 try
                 {
-                    Console.WriteLine($"[CLIENT] OnMatchStarted for {matchCode}");
-                    Console.WriteLine($"[CLIENT] Received {players.Length} players:");
-
-                    for (int i = 0; i < players.Length; i++)
+                    if (Application.Current.MainWindow is InitialWindows main)
                     {
-                        Console.WriteLine($"  [{i}] {players[i].Username} - {players[i].Team}");
-                    }
-
-                    if (Application.Current.MainWindow?.Content is Frame frame)
-                    {
-                        if (frame.Content is LobbyPage lobbyPage)
+                        if (main.MainFrame != null)
                         {
-                            List<PlayerInfo> playersList = players.ToList();
+                            if (main.MainFrame.Content is LobbyPage lobbyPage)
+                            {
+                                List<PlayerInfo> playersList = players.ToList();
 
-                            if (playersList.Count == 2)
-                            {
-                                frame.Navigate(new GameTwoPlayersPage(matchCode, playersList));
-                            }
-                            else if (playersList.Count == 4)
-                            {
-                                frame.Navigate(new GameFourPlayersPage(matchCode, playersList));
+                                if (playersList.Count == 2)
+                                {
+                                    main.MainFrame.Navigate(new GameTwoPlayersPage(matchCode, playersList));
+                                }
+                                else if (playersList.Count == 4)
+                                {
+                                    main.MainFrame.Navigate(new GameFourPlayersPage(matchCode, playersList));
+                                }
                             }
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine($"[CLIENT ERROR] OnMatchStarted: {ex.Message}");
-                    CustomMessageBox.Show($"Error al iniciar partida: {ex.Message}",
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
                         "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
