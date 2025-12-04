@@ -65,13 +65,6 @@ namespace TrucoClient.Views
 
                 int myIndex = players.IndexOf(self);
 
-                Console.WriteLine($"[LOAD AVATARS] My position: {myIndex}, My username: {currentPlayer}, My team: {self.Team}");
-                Console.WriteLine($"[LOAD AVATARS] Full player list:");
-                for (int i = 0; i < players.Count; i++)
-                {
-                    Console.WriteLine($"  [{i}] {players[i].Username} - {players[i].Team}");
-                }
-
                 int topIndex = (myIndex + 2) % 4;
                 int leftIndex = (myIndex + 1) % 4;
                 int rightIndex = (myIndex + 3) % 4;
@@ -84,21 +77,6 @@ namespace TrucoClient.Views
 
                 imgRightAvatar.Source = LoadAvatar(players[rightIndex].AvatarId);
                 rightPlayerName = players[rightIndex].Username;
-
-                Console.WriteLine($"[LOAD AVATARS] Visual layout:");
-                Console.WriteLine($"  Me (Bottom): {currentPlayer} (pos {myIndex}, {self.Team})");
-                Console.WriteLine($"  Top: {topPlayerName} (pos {topIndex}, {players[topIndex].Team})");
-                Console.WriteLine($"  Left: {leftPlayerName} (pos {leftIndex}, {players[leftIndex].Team})");
-                Console.WriteLine($"  Right: {rightPlayerName} (pos {rightIndex}, {players[rightIndex].Team})");
-
-                if (players[topIndex].Team != self.Team)
-                {
-                    Console.WriteLine($"[LOAD AVATARS ERROR] Top player {topPlayerName} should be teammate but is {players[topIndex].Team}!");
-                }
-                else
-                {
-                    Console.WriteLine($"[LOAD AVATARS] ✓ Top player is correctly my teammate");
-                }
             }
             catch (ArgumentNullException)
             {

@@ -39,8 +39,6 @@ namespace TrucoClient
                 Thread.CurrentThread.CurrentCulture = fallbackCulture;
                 Thread.CurrentThread.CurrentUICulture = fallbackCulture;
 
-                Console.WriteLine(ex);
-
                 base.OnStartup(e);
                 LanguageManager.ApplyLanguage();
 

@@ -300,7 +300,10 @@ namespace TrucoClient.Views
         private void PasswordLostFocus(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
-            if (passwordBox == null) return;
+            if (passwordBox == null)
+            {
+                return;
+            }
 
             if (!FieldValidator.IsRequired(passwordBox.Password))
             {

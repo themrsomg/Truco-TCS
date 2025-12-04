@@ -393,7 +393,10 @@ namespace TrucoClient.Views
 
         private void SanitizeAndRestrictTextBox(TextBox textBox)
         {
-            if (textBox == null) return;
+            if (textBox == null)
+            {
+                return;
+            }
 
             try
             {

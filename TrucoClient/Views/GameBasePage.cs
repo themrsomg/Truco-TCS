@@ -737,8 +737,6 @@ namespace TrucoClient.Views
 
                     bool isMyTurn = (nextPlayerName == currentPlayer);
 
-                    Console.WriteLine($"[TURN CHANGE] Next player: {nextPlayerName}, Is my turn: {isMyTurn}");
-
                     if (!isMyTurn)
                     {
                         HideFlorBetPanelUI();
@@ -816,21 +814,16 @@ namespace TrucoClient.Views
 
                     bool iAmCaller = (callerName == currentPlayer);
 
-                    Console.WriteLine($"[CLIENT TRUCO CALL] Caller: {callerName}, Bet: {betName}, NeedsResponse: {needsResponse}, I am caller: {iAmCaller}, My username: {currentPlayer}");
-
                     if (iAmCaller)
                     {
-                        Console.WriteLine("[CLIENT TRUCO CALL] I am the caller - showing waiting panel");
                         UpdateBetPanelUI(callerName, betName, true);
                     }
                     else if (needsResponse)
                     {
-                        Console.WriteLine("[CLIENT TRUCO CALL] I must respond - showing response buttons");
                         UpdateBetPanelUI(callerName, betName, true);
                     }
                     else
-                    {
-                        Console.WriteLine("[CLIENT TRUCO CALL] I am observing - showing info panel");
+                    { 
                         UpdateBetPanelUI(callerName, betName, false);
                     }
 
@@ -868,28 +861,22 @@ namespace TrucoClient.Views
                     bool iAmCaller = (callerName == currentPlayer);
                     bool isMyTeammate = IsPlayerTeammate(callerName);
 
-                    Console.WriteLine($"[ENVIDO CALL] Caller: {callerName}, I am caller: {iAmCaller}, Is teammate: {isMyTeammate}, Should I respond: {needsResponse}, My username: {currentPlayer}");
-
                     if (iAmCaller)
                     {
-                        Console.WriteLine("[ENVIDO CALL] I am the caller - showing waiting panel");
                         UpdateEnvidoBetPanelUI(callerName, betName, true);
                     }
                     else if (isMyTeammate)
                     {
-                        Console.WriteLine("[ENVIDO CALL] My teammate called - hiding panels");
                         HideEnvidoBetPanelUI();
 
                         AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
                     }
                     else if (needsResponse)
                     {
-                        Console.WriteLine("[ENVIDO CALL] I must respond - showing response buttons");
                         UpdateEnvidoBetPanelUI(callerName, betName, true);
                     }
                     else
                     {
-                        Console.WriteLine("[ENVIDO CALL] Other player responding - hiding panels");
                         HideEnvidoBetPanelUI();
                         AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
                     }
@@ -997,8 +984,6 @@ namespace TrucoClient.Views
                 {
                     this.currentTrucoBetState = newBetState;
 
-                    Console.WriteLine($"[NOTIFY RESPONSE] Responder: {responderName}, Response: {response}, New bet state: {newBetState}, Current turn: {currentTurnPlayerName}");
-
                     if (TxtEnvidoCaller.Visibility == Visibility.Visible)
                     {
                         this.envidoPlayedInCurrentHand = true;
@@ -1014,8 +999,6 @@ namespace TrucoClient.Views
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerSaidResponse, responderName, response));
 
                     bool isMyTurn = (currentTurnPlayerName == currentPlayer);
-
-                    Console.WriteLine($"[NOTIFY RESPONSE] Is my turn: {isMyTurn}");
 
                     if (isMyTurn)
                     {
@@ -1255,8 +1238,6 @@ namespace TrucoClient.Views
                     bool iAmCaller = (callerName == currentPlayer);
                     trucoPendingResponse = true;
 
-                    Console.WriteLine($"[UPDATE BET UI] Caller: {callerName}, I am caller: {iAmCaller}");
-
                     if (iAmCaller)
                     {
                         TxtTrucoCaller.Text = string.Format(Lang.GameTextWaitingResponse, callerName, currentBet);
@@ -1269,8 +1250,6 @@ namespace TrucoClient.Views
                         BtnGoToDeck.Visibility = Visibility.Collapsed;
 
                         PanelPlayerCards.IsEnabled = false;
-
-                        Console.WriteLine("[UPDATE BET UI] Showing waiting panel");
                     }
                     else
                     {
@@ -1289,8 +1268,6 @@ namespace TrucoClient.Views
                         BtnCallFaltaEnvido.Visibility = Visibility.Collapsed;
 
                         PanelPlayerCards.IsEnabled = false;
-
-                        Console.WriteLine("[UPDATE BET UI] Showing response buttons");
                     }
                 }
                 else
@@ -1300,8 +1277,6 @@ namespace TrucoClient.Views
                     TxtTrucoCaller.Text = string.Empty;
                     TxtTrucoCaller.Visibility = Visibility.Collapsed;
                     PanelBetOptions.Visibility = Visibility.Collapsed;
-
-                    Console.WriteLine("[UPDATE BET UI] Hiding bet panel");
                 }
             }
             catch (InvalidOperationException)
@@ -1334,8 +1309,6 @@ namespace TrucoClient.Views
                     bool iAmCaller = (callerName == currentPlayer);
                     envidoPendingResponse = needsResponse;
 
-                    Console.WriteLine($"[UPDATE ENVIDO UI] Caller: {callerName}, I am caller: {iAmCaller}");
-
                     if (iAmCaller)
                     {
                         TxtEnvidoCaller.Text = string.Format(Lang.GameTextWaitingResponse, callerName, currentBet);
@@ -1354,8 +1327,6 @@ namespace TrucoClient.Views
 
                         PanelBetOptions.Visibility = Visibility.Collapsed;
                         PanelPlayerCards.IsEnabled = false;
-
-                        Console.WriteLine("[UPDATE ENVIDO UI] Showing waiting panel for caller");
                     }
                     else
                     {
@@ -1375,8 +1346,6 @@ namespace TrucoClient.Views
 
                         PanelBetOptions.Visibility = Visibility.Collapsed;
                         PanelPlayerCards.IsEnabled = false;
-
-                        Console.WriteLine("[UPDATE ENVIDO UI] Showing response buttons");
                     }
                 }
                 else
@@ -1385,8 +1354,6 @@ namespace TrucoClient.Views
 
                     TxtEnvidoCaller.Visibility = Visibility.Collapsed;
                     PanelEnvidoOptions.Visibility = Visibility.Collapsed;
-
-                    Console.WriteLine("[UPDATE ENVIDO UI] Hiding envido panel");
                 }
             }
             catch (InvalidOperationException)
@@ -1590,7 +1557,7 @@ namespace TrucoClient.Views
                 { 
                     MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername); 
                 }
-                catch (FaultException ex) 
+                catch (FaultException) 
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorChatMatch, Lang.GlobalTextRuntimeError,
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1623,7 +1590,7 @@ namespace TrucoClient.Views
             {
                 ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, messageText);
             }
-            catch (FaultException ex)
+            catch (FaultException)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1656,7 +1623,7 @@ namespace TrucoClient.Views
                 {
                     ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, emoji);
                 }
-                catch (FaultException ex) 
+                catch (FaultException) 
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1688,7 +1655,10 @@ namespace TrucoClient.Views
 
         protected bool IsPlayerTeammate(string otherPlayerName)
         {
-            if (CurrentMatchPlayers == null || string.IsNullOrEmpty(otherPlayerName)) return false;
+            if (CurrentMatchPlayers == null || string.IsNullOrEmpty(otherPlayerName))
+            {
+                return false;
+            }
 
             var me = CurrentMatchPlayers.FirstOrDefault(p => p.Username.Equals(currentPlayer, StringComparison.OrdinalIgnoreCase));
             var other = CurrentMatchPlayers.FirstOrDefault(p => p.Username.Equals(otherPlayerName, StringComparison.OrdinalIgnoreCase));
