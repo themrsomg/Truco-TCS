@@ -33,7 +33,7 @@ namespace TrucoClient
                 this.MainWindow = mainWindow;
                 mainWindow.Show();
             }
-            catch (CultureNotFoundException ex)
+            catch (CultureNotFoundException)
             {
                 CultureInfo fallbackCulture = new CultureInfo("es-MX");
                 Thread.CurrentThread.CurrentCulture = fallbackCulture;

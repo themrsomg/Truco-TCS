@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
@@ -24,7 +21,7 @@ namespace TrucoClient.Helpers.Exceptions
 
                 userClient.LogClientException(ex.Message, ex.StackTrace, username);
             }
-            catch (Exception sendEx)
+            catch (Exception)
             {
                 // Ignote
             }

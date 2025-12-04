@@ -11,6 +11,7 @@ using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.UI;
 using TrucoClient.Helpers.Validation;
 using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -67,8 +68,15 @@ namespace TrucoClient.Views
             try
             {
                 var userClient = ClientManager.UserClient;
+                var passwordResetOptions = new PasswordResetOptions
+                {
+                    Email = email,
+                    Code = code,
+                    NewPassword = password,
+                    LanguageCode = languageCode
 
-                bool success = userClient.PasswordReset(email, code, password, languageCode);
+                };
+                bool success = userClient.PasswordReset(passwordResetOptions);
 
                 if (success)
                 {
