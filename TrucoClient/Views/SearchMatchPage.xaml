@@ -7,114 +7,115 @@
       mc:Ignorable="d" 
       xmlns:language="clr-namespace:TrucoClient.Properties.Langs"
       Title="{x:Static language:Lang.GameTextActiveMatch}" FontFamily="Book Antiqua" FontSize="30" Height="600" Width="800">
-    
+
     <Grid>
-        <StackPanel Margin="0,50,0,0">
-            <Grid Margin="20,15,20,20">
-                
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
-                           TextAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap"/>
+        <Grid Grid.Row="0" Margin="20,50,20,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Click="ClickReloadPage" Content="{x:Static language:Lang.GameTextReloadPage}" Cursor="Hand" 
-                        Width="190" Height="40"  FontSize="20" Margin="10,0,0,0" HorizontalAlignment="Right">
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Opacity" Value="1"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Opacity" Value="0.7"/>
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Opacity" Value="0.5"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                
-            </Grid>
-            
-            <StackPanel>
-                <ListBox x:Name="lstMatches" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
-                         ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="White" BorderThickness="1" CornerRadius="10" Margin="0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <TextBlock Text="{Binding MatchName}" FontSize="25" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                    
-                                    <Button Grid.Column="3" Content="{x:Static language:Lang.JoinGameTextJoin}" FontSize="25" Width="90" Height="35" Click="ClickJoinMatch" 
-                                            Cursor="" Margin="10,0,0,0">
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="1" BorderBrush="#FF3AB8CE">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Button.Template>
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Opacity" Value="1"/>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Opacity" Value="0.7"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Opacity" Value="0.5"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
-                                    
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                
-                <Button Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="100" Height="40" 
-                        FontSize="25" Margin="0,100,40,0" HorizontalAlignment="Right">
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Opacity" Value="1"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Opacity" Value="0.7"/>
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Opacity" Value="0.5"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                
-            </StackPanel>
-        </StackPanel>
+            <TextBlock Grid.Column="0" Text="{x:Static language:Lang.GameTextActiveMatch}" FontSize="40" Foreground="White" 
+                       TextAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap"/>
+
+            <Button Grid.Column="1" Click="ClickReloadPage" Content="{x:Static language:Lang.GameTextReloadPage}" Cursor="Hand" 
+                    Width="190" Height="40" FontSize="20" Margin="10,0,0,0" HorizontalAlignment="Right">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <ListBox Grid.Row="1" x:Name="lstMatches" Background="#2E2E2E" Foreground="White" BorderThickness="0" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ItemContainerStyle="{StaticResource {x:Type ListBoxItem}}" Margin="20,0,20,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="White" BorderThickness="1" CornerRadius="10" Margin="0,5,0,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding MatchName}" FontSize="25" VerticalAlignment="Center" Margin="10,0,0,0"/>
+
+                            <Button Grid.Column="1" Content="{x:Static language:Lang.JoinGameTextJoin}" FontSize="25" Width="90" Height="35" Click="ClickJoinMatch" 
+                                    Cursor="Hand" Margin="10,5,10,5">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="1" BorderBrush="#FF3AB8CE">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Grid.Row="2" Click="ClickBack" Content="{x:Static language:Lang.GlobalTextBack}" Cursor="Hand" Width="100" Height="40" 
+                FontSize="25" Margin="0,10,40,20" HorizontalAlignment="Right">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
     </Grid>
 </Page>
