@@ -909,6 +909,7 @@ namespace TrucoClient.Views
 
                     HideBetPanelUI();
                     HideEnvidoBetPanelUI();
+                    HideFlorBetPanelUI();
 
                     if (!needsResponse)
                     {
@@ -922,6 +923,8 @@ namespace TrucoClient.Views
                     if (iAmCaller || isMyTeammate)
                     {
                         UpdateFlorBetPanelUI(callerName, betName, false);
+                        HideEnvidoBetPanelUI();
+                        PanelEnvidoOptions.Visibility = Visibility.Collapsed;
                     }
                     else
                     {
@@ -1110,7 +1113,17 @@ namespace TrucoClient.Views
 
             ConfigureFlorButton(currentBetState);
             ConfigureTrucoButtonLabel(currentBetState);
-            ConfigureEnvidoButtons(currentBetState);
+
+            if (!florPlayedInCurrentHand)
+            {
+                ConfigureEnvidoButtons(currentBetState);
+            }
+            else
+            {
+                HideAllEnvidoCallButtons();
+                PanelEnvidoOptions.Visibility = Visibility.Collapsed;
+            }
+
             CheckPendingPanels();
         }
 
@@ -1165,6 +1178,7 @@ namespace TrucoClient.Views
             if (envidoPlayedInCurrentHand)
             {
                 HideAllEnvidoCallButtons();
+                PanelEnvidoOptions.Visibility = Visibility.Collapsed;
             }
             else if (isTrucoClean && hasNotPlayedCards)
             {
