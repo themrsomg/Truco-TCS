@@ -1272,4 +1272,10 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextErrorChatMatch" xml:space="preserve">
     <value>Error sending message</value>
   </data>
+  <data name="BanTextReason" xml:space="preserve">
+    <value>You have been banned for 5 minutes due to toxic behavior.</value>
+  </data>
+  <data name="ExceptionTextUserBanned" xml:space="preserve">
+    <value>Your account is temporarily suspended due to toxic behavior.</value>
+  </data>
 </root>

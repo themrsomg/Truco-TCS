@@ -145,6 +145,21 @@ namespace TrucoClient.Views
 
         private async Task HandleLoginFault(FaultException<LoginFault> ex)
         {
+            if (ex.Detail.ErrorCode == "UserBanned")
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextUserBanned,
+                    Lang.GlobalTextAccessDenied,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+
+                if (this.IsLoaded)
+                {
+                    btnLogIn.IsEnabled = true;
+                    Mouse.OverrideCursor = CursorManager.Click();
+                }
+                return;
+            }
+
             if (ex.Detail.ErrorCode == "TooManyAttempts")
             {
                 CustomMessageBox.Show(Lang.ExceptionTextTooManyAttempts, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);

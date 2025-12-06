@@ -8,44 +8,27 @@ namespace TrucoClient.Utilities
 {
     public class ProfanityValidator
     {
-        private readonly HashSet<string> bannedWords;
+        private Regex bannedWordsRegex;
         private bool isInitialized = false;
 
         private static ProfanityValidator instance;
         public static ProfanityValidator Instance => instance ?? (instance = new ProfanityValidator());
 
-        private ProfanityValidator()
-        {
-            bannedWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        }
-
         public void Initialize(BannedWordList serverList)
         {
-            if (serverList?.BannedWords == null)
+            if (serverList?.BannedWords == null || !serverList.BannedWords.Any())
             {
                 return;
             }
 
-            bannedWords.Clear();
+            var escapedWords = serverList.BannedWords
+                .Where(w => !string.IsNullOrWhiteSpace(w))
+                .Select(w => Regex.Escape(w.Trim()));
 
-            bannedWords.UnionWith(
-                serverList.BannedWords
-                .Where(word => !string.IsNullOrWhiteSpace(word))
-                .Select(word => word.Trim())
-            );
+            string pattern = $@"\b({string.Join("|", escapedWords)})\b";
 
+            bannedWordsRegex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
             isInitialized = true;
-        }
-
-        public bool ContainsProfanity(string text)
-        {
-            if (!isInitialized || string.IsNullOrWhiteSpace(text))
-            {
-                return false;
-            }
-
-            var tokens = text.Split(' ');
-            return tokens.Any(token => bannedWords.Contains(token));
         }
 
         public string CensorText(string text)
@@ -55,30 +38,7 @@ namespace TrucoClient.Utilities
                 return text;
             }
 
-            string processedText = text;
-
-            var wordsFoundInText = bannedWords
-                .Where(word => processedText.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0);
-
-            foreach (var badWord in wordsFoundInText)
-            {
-                string pattern = $@"\b{Regex.Escape(badWord)}\b";
-                string replacement = new string('*', badWord.Length);
-
-                processedText = Regex.Replace(
-                    processedText,
-                    pattern,
-                    replacement,
-                    RegexOptions.IgnoreCase,
-                    TimeSpan.FromMilliseconds(500));
-            }
-
-            return processedText;
-        }
-
-        public bool IsInitialized() 
-        { 
-            return isInitialized; 
+            return bannedWordsRegex.Replace(text, match => new string('*', match.Length));
         }
     }
 }

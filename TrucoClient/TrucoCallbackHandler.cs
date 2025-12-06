@@ -260,6 +260,24 @@ namespace TrucoClient.TrucoServer
             });
         }
 
+        public void OnForcedLogout()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Helpers.Session.SessionManager.Clear();
+
+                Views.CustomMessageBox.Show(Lang.BanTextReason,
+                    Lang.GlobalTextAccessDenied,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                if (Application.Current.MainWindow is InitialWindows main)
+                {
+                    main.MainFrame.Navigate(new LogInPage());
+                }
+            });
+        }
+
         public void Ping()
         {
             /*

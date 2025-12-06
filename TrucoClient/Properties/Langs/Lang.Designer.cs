@@ -106,6 +106,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You have been banned for 5 minutes due to toxic behavior..
+        /// </summary>
+        public static string BanTextReason {
+            get {
+                return ResourceManager.GetString("BanTextReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a {0} has joined the lobby..
         /// </summary>
         public static string CallbacksTextPlayerJoinedLobby {
@@ -1073,6 +1082,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextUserAlreadyLoggedIn {
             get {
                 return ResourceManager.GetString("ExceptionTextUserAlreadyLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your account is temporarily suspended due to toxic behavior..
+        /// </summary>
+        public static string ExceptionTextUserBanned {
+            get {
+                return ResourceManager.GetString("ExceptionTextUserBanned", resourceCulture);
             }
         }
         

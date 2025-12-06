@@ -56,7 +56,7 @@ namespace TrucoClient.Views
                         return;
                     }
 
-                    this.NavigationService.Navigate(new LobbyPage(code, matchName));
+                    this.NavigationService.Navigate(new LobbyPage(code, matchName, selectedPlayers));
                 });
             }
             catch (TimeoutException ex)

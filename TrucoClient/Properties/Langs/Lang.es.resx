@@ -1272,4 +1272,10 @@
   <data name="ExceptionTextErrorChatMatch" xml:space="preserve">
     <value>Error al enviar mensaje</value>
   </data>
+  <data name="BanTextReason" xml:space="preserve">
+    <value>Has sido baneado por 5 minutos debido a comportamiento tóxico.</value>
+  </data>
+  <data name="ExceptionTextUserBanned" xml:space="preserve">
+    <value>Su cuenta está suspendida temporalmente debido a comportamiento tóxico.</value>
+  </data>
 </root>

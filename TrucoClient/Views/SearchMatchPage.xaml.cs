@@ -40,8 +40,6 @@ namespace TrucoClient.Views
         {
             if (sender is Button button && button.DataContext is MatchInfo match)
             {
-                bool joined = false;
-
                 try
                 {
                     if (button != null) 
@@ -49,13 +47,13 @@ namespace TrucoClient.Views
                         button.IsEnabled = false; 
                     }
 
-                    joined = await Task.Run(() =>
+                    int result = await Task.Run(() =>
                         ClientManager.MatchClient.JoinMatch(match.MatchCode, SessionManager.CurrentUsername)
                     );
 
-                    if (joined)
+                    if (result > 0)
                     {
-                        this.NavigationService.Navigate(new LobbyPage(match.MatchCode, match.MatchName));
+                        this.NavigationService.Navigate(new LobbyPage(match.MatchCode, match.MatchName, match.MaxPlayers));
                     }
                     else
                     {

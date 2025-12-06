@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,7 @@ namespace TrucoClient.Views
         private const int FONT_SIZE = 13;
         private readonly string matchCode;
         private readonly string matchName;
+        private readonly int maxPlayers;
         private bool isOwner = false;
 
         public class PlayerLobbyInfo
@@ -32,11 +34,12 @@ namespace TrucoClient.Views
             public bool IsCurrentUser { get; set; }
         }
 
-        public LobbyPage(string matchCode, string matchName)
+        public LobbyPage(string matchCode, string matchName, int maxPlayers)
         {
             InitializeComponent();
             this.matchCode = matchCode;
             this.matchName = matchName;
+            this.maxPlayers = maxPlayers;
 
             txtLobbyTitle.Text = $"Lobby - {this.matchName}";
             txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
@@ -87,9 +90,23 @@ namespace TrucoClient.Views
 
             string cleanMessage = ProfanityValidator.Instance.CensorText(originalMessage);
 
-            ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, cleanMessage);
-            AddChatMessage(SessionManager.CurrentUsername, cleanMessage);
+            AddChatMessage(Lang.ChatTextYou, cleanMessage);
             txtChatMessage.Clear();
+
+            try
+            {
+                ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, originalMessage);
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async void ClickSwitchTeam(object sender, RoutedEventArgs e)
@@ -251,6 +268,8 @@ namespace TrucoClient.Views
                     {
                         AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
                         PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
+
+                        btnStart.IsEnabled = false;
                         return;
                     }
 
@@ -263,6 +282,9 @@ namespace TrucoClient.Views
 
                     isOwner = players.Any(p => p.OwnerUsername == SessionManager.CurrentUsername);
                     btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
+
+                    bool isLobbyFull = players.Length == this.maxPlayers;
+                    btnStart.IsEnabled = isOwner && isLobbyFull;
                 });
             }
             catch (Exception)

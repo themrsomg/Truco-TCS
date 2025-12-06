@@ -174,12 +174,19 @@
             </Button>
 
             <Button x:Name="btnStart" Click="ClickStartGame" Content="{x:Static language:Lang.GlobalTextStartGame}" 
-                    Cursor="Hand" FontSize="22">
+                    Cursor="Hand" FontSize="22" IsEnabled="False">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400" Padding="10,5">
+                        <Border x:Name="brdBorder" CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400" Padding="10,5">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="brdBorder" Property="Background" Value="#FFCCCCCC"/>
+                                <Setter TargetName="brdBorder" Property="BorderBrush" Value="#FF999999"/>
+                                <Setter Property="Foreground" Value="#FF666666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
                 <Button.Style>

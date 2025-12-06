@@ -1613,6 +1613,11 @@ namespace TrucoClient.Views
 
         protected void ClickSendMessage(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(this.MatchCode))
+            {
+                return;
+            }
+
             string originalMessage = txtBaseChatMessage.Text.Trim();
             
             if (string.IsNullOrEmpty(originalMessage))
@@ -1627,7 +1632,7 @@ namespace TrucoClient.Views
             
             try
             {
-                ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, cleanMessage);
+                ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, originalMessage);
             }
             catch (FaultException)
             {

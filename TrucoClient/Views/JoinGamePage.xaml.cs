@@ -46,11 +46,11 @@ namespace TrucoClient.Views
 
             try
             {
-                bool joined = ClientManager.MatchClient.JoinMatch(code, player);
+                int maxPlayers = ClientManager.MatchClient.JoinMatch(code, player);
 
-                if (joined)
+                if (maxPlayers > 0)
                 {
-                    this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch));
+                    this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch, maxPlayers));
                 }
                 else
                 {
