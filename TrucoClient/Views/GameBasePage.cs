@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
+using TrucoClient.Utilities;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
@@ -106,6 +107,7 @@ namespace TrucoClient.Views
 
             InitializeMatchClient();
             ConnectToChat();
+            InitializeProfanity();
         }
 
         protected void InitializeGameEvents()
@@ -334,6 +336,27 @@ namespace TrucoClient.Views
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
+        }
+
+        private void InitializeProfanity()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    var bannedList = ClientManager.MatchClient.GetBannedWords();
+
+                    ProfanityValidator.Instance.Initialize(bannedList);
+                }
+                catch
+                {
+                    /* 
+                     * Silently ignore if banned words fail to load - 
+                     * the feature is non-critical and we don't want to 
+                     * disrupt the user experience with error messages
+                     */
                 }
             });
         }
@@ -1590,19 +1613,21 @@ namespace TrucoClient.Views
 
         protected void ClickSendMessage(object sender, RoutedEventArgs e)
         {
-            string messageText = txtBaseChatMessage.Text.Trim();
+            string originalMessage = txtBaseChatMessage.Text.Trim();
             
-            if (string.IsNullOrEmpty(messageText))
+            if (string.IsNullOrEmpty(originalMessage))
             {
                 return;
             }
 
-            AddChatMessage(Lang.ChatTextYou, messageText);
+            string cleanMessage = ProfanityValidator.Instance.CensorText(originalMessage);
+
+            AddChatMessage(Lang.ChatTextYou, cleanMessage);
             txtBaseChatMessage.Clear();
             
             try
             {
-                ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, messageText);
+                ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, cleanMessage);
             }
             catch (FaultException)
             {
