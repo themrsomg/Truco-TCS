@@ -1278,4 +1278,10 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextUserBanned" xml:space="preserve">
     <value>Your account is temporarily suspended due to toxic behavior.</value>
   </data>
+  <data name="DialogTextInvitationSent" xml:space="preserve">
+    <value>Invitation sent to {0}.</value>
+  </data>
+  <data name="ExceptionTextErrorSendingInvitation" xml:space="preserve">
+    <value>Could not send invitation.</value>
+  </data>
 </root>

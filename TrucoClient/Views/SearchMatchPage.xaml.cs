@@ -8,6 +8,7 @@ using TrucoClient.Helpers.Audio;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.DTOs;
 
 namespace TrucoClient.Views
 {
@@ -53,7 +54,15 @@ namespace TrucoClient.Views
 
                     if (result > 0)
                     {
-                        this.NavigationService.Navigate(new LobbyPage(match.MatchCode, match.MatchName, match.MaxPlayers));
+                        var arguments = new LobbyNavigationArguments
+                        {
+                            MatchCode = match.MatchCode,
+                            MatchName = match.MatchName,
+                            MaxPlayers = match.MaxPlayers,
+                            IsPrivate = false
+                        };
+
+                        this.NavigationService.Navigate(new LobbyPage(arguments));
                     }
                     else
                     {

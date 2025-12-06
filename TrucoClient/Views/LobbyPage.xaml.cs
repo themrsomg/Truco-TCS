@@ -13,6 +13,8 @@ using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Utilities;
+using TrucoClient.Helpers.DTOs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -24,33 +26,21 @@ namespace TrucoClient.Views
         private readonly string matchCode;
         private readonly string matchName;
         private readonly int maxPlayers;
+        private readonly bool isPrivateMatch;
         private bool isOwner = false;
 
-        public class PlayerLobbyInfo
-        {
-            public string Username { get; set; }
-            public BitmapImage AvatarUri { get; set; }
-            public string Team { get; set; }
-            public bool IsCurrentUser { get; set; }
-        }
-
-        public LobbyPage(string matchCode, string matchName, int maxPlayers)
+        public LobbyPage(LobbyNavigationArguments arguments)
         {
             InitializeComponent();
-            this.matchCode = matchCode;
-            this.matchName = matchName;
-            this.maxPlayers = maxPlayers;
+            this.matchCode = arguments.MatchCode;
+            this.matchName = arguments.MatchName;
+            this.maxPlayers = arguments.MaxPlayers;
+            this.isPrivateMatch = arguments.IsPrivate;
 
             txtLobbyTitle.Text = $"Lobby - {this.matchName}";
             txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
 
-            _ = LoadPlayersAsync();
             InitializeChat();
-
-            _ = Task.Delay(200).ContinueWith(_ 
-                => Application.Current.Dispatcher.Invoke(
-                    async () => await LoadPlayersAsync())
-                );
 
             this.Loaded += LobbyPage_Loaded;
         }
@@ -135,6 +125,85 @@ namespace TrucoClient.Views
             }
         }
 
+        private async void ClickInviteFriend(object sender, RoutedEventArgs e)
+        {
+            if (!TryGetButtonContext(sender, out Button btn, out FriendLobbyInfo friendInfo))
+            {
+                return;
+            }
+
+            ToggleInviteButton(btn, friendInfo, false);
+
+            try
+            {
+                var inviteOptions = CreateInviteOptions(friendInfo.Username);
+
+                bool success = await SendInvitationAsync(inviteOptions);
+
+                if (success)
+                {
+                    HandleInvitationSuccess(friendInfo);
+                }
+                else
+                {
+                    HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
+                }
+            }
+            catch (Exception)
+            {
+                HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorOcurred);
+            }
+        }
+
+        private bool TryGetButtonContext(object sender, out Button btn, out FriendLobbyInfo info)
+        {
+            btn = sender as Button;
+            info = btn?.CommandParameter as FriendLobbyInfo;
+
+            return btn != null && info != null && info.CanInvite;
+        }
+
+        private void ToggleInviteButton(Button btn, FriendLobbyInfo info, bool isEnabled)
+        {
+            btn.IsEnabled = isEnabled;
+            info.CanInvite = isEnabled;
+        }
+
+        private InviteFriendOptions CreateInviteOptions(string friendUsername)
+        {
+            return new InviteFriendOptions
+            {
+                MatchCode = this.matchCode,
+                SenderUsername = SessionManager.CurrentUsername,
+                FriendUsername = friendUsername
+            };
+        }
+
+        private async Task<bool> SendInvitationAsync(InviteFriendOptions options)
+        {
+            return await Task.Run(() => ClientManager.MatchClient.InviteFriend(options));
+        }
+
+        private void HandleInvitationSuccess(FriendLobbyInfo info)
+        {
+            CustomMessageBox.Show(string.Format(Lang.DialogTextInvitationSent, info.Username),
+                Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+
+            info.CanInvite = false;
+        }
+
+        private void HandleInvitationError(Button btn, FriendLobbyInfo info, string messageKey)
+        {
+            ToggleInviteButton(btn, info, true);
+            ShowError(messageKey);
+        }
+
+        private void ShowError(string messageKey)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+               CustomMessageBox.Show(messageKey, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
+        }
+
         private void ClickExit(object sender, RoutedEventArgs e)
         {
             bool? result = CustomMessageBox.Show(Lang.LobbyTextExitLobby, Lang.GlobalTextConfirm, 
@@ -159,6 +228,127 @@ namespace TrucoClient.Views
 
                 this.NavigationService.Navigate(new PlayPage());
             }
+        }
+
+        private async Task LoadPlayersAsync()
+        {
+            try
+            {
+                var rawPlayers = await FetchPlayersFromService();
+
+                if (rawPlayers == null || rawPlayers.Length == 0)
+                {
+                    HandleEmptyLobby();
+                    return;
+                }
+
+                var uiPlayers = await MapServerPlayersToUIAsync(rawPlayers);
+
+                await Application.Current.Dispatcher.InvokeAsync(() => UpdateLobbyUI(uiPlayers));
+            }
+            catch (Exception)
+            {
+                ShowError(Lang.ExceptionTextErrorLoadingPlayers);
+            }
+        }
+
+        private async Task<PlayerInfo[]> FetchPlayersFromService()
+        {
+            return await Task.Run(() => ClientManager.MatchClient.GetLobbyPlayers(matchCode));
+        }
+
+        private void HandleEmptyLobby()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
+                PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
+                btnStart.IsEnabled = false;
+            });
+        }
+
+        private async Task<List<PlayerLobbyInfo>> MapServerPlayersToUIAsync(PlayerInfo[] players)
+        {
+            var tasks = players.Select(p => GetSinglePlayerInfoAsync(p));
+            var results = await Task.WhenAll(tasks);
+            return results.ToList();
+        }
+
+        private void UpdateLobbyUI(List<PlayerLobbyInfo> players)
+        {
+            PlayersList.ItemsSource = null;
+            PlayersList.ItemsSource = players;
+
+            isOwner = players.Any(p => p.OwnerUsername == SessionManager.CurrentUsername);
+
+            UpdateStartButtonState(players.Count);
+            UpdateFriendsPanelState(players);
+        }
+
+        private void UpdateStartButtonState(int currentPlayerCount)
+        {
+            btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
+
+            bool isLobbyFull = currentPlayerCount == this.maxPlayers;
+            btnStart.IsEnabled = isOwner && isLobbyFull;
+        }
+
+        private void UpdateFriendsPanelState(List<PlayerLobbyInfo> currentPlayers)
+        {
+            if (isOwner && isPrivateMatch)
+            {
+                pnlFriendsContainer.Visibility = Visibility.Visible;
+                LoadFriendsForInvite(currentPlayers);
+            }
+            else
+            {
+                pnlFriendsContainer.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private async void LoadFriendsForInvite(List<PlayerLobbyInfo> currentPlayers)
+        {
+            if (!isOwner)
+            { 
+                return; 
+            }
+
+            try
+            {
+                var allFriends = await FetchAllFriends();
+
+                if (allFriends == null)
+                {
+                    return;
+                } 
+
+                var inviteableFriends = FilterFriendsNotInLobby(allFriends, currentPlayers);
+
+                FriendsList.ItemsSource = inviteableFriends;
+            }
+            catch (Exception)
+            {
+                // Log silencioso para no romper el flujo principal
+            }
+        }
+
+        private async Task<FriendData[]> FetchAllFriends()
+        {
+            return await Task.Run(() =>
+                ClientManager.FriendClient.GetFriends(SessionManager.CurrentUsername));
+        }
+
+        private List<FriendLobbyInfo> FilterFriendsNotInLobby(FriendData[] friends, List<PlayerLobbyInfo> lobbyPlayers)
+        {
+            return friends
+                .Where(f => !lobbyPlayers.Any(p => p.Username.Equals(f.Username, StringComparison.OrdinalIgnoreCase)))
+                .Select(f => new FriendLobbyInfo
+                {
+                    Username = f.Username,
+                    AvatarUri = LoadAvatar(f.AvatarId),
+                    CanInvite = true
+                })
+                .ToList();
         }
 
         private void EnterKeyDown(object sender, KeyEventArgs e)
@@ -202,97 +392,10 @@ namespace TrucoClient.Views
             ChatMessagesPanel.Children.Add(messageText);
         }
 
-        private void LobbyPage_Loaded(object sender, RoutedEventArgs e)
+        private async void LobbyPage_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        var bannedList = ClientManager.MatchClient.GetBannedWords();
-
-                        ProfanityValidator.Instance.Initialize(bannedList);
-                    }
-                    catch
-                    {
-                        /* 
-                         * Silently ignore if banned words fail to load - 
-                         * the feature is non-critical and we don't want to 
-                         * disrupt the user experience with error messages
-                         */
-                    }
-                });
-
-                Task.Run(async () => {
-                    try
-                    {
-                        if (!SessionManager.CurrentUsername.StartsWith("Guest_"))
-                        {
-                            await Task.Delay(200);
-                        }
-
-                        ClientManager.MatchClient.JoinMatchChat(matchCode, SessionManager.CurrentUsername);
-
-                        await Task.Delay(100);
-                        await Application.Current.Dispatcher.InvokeAsync(async () => await LoadPlayersAsync());
-                    }
-                    catch
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                            CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR,
-                                MessageBoxButton.OK, MessageBoxImage.Warning));
-                    }
-                });
-            }
-            catch 
-            {
-                /* 
-                 * Intentionally empty exception handler.
-                 * Any errors that might occur while trying to start 
-                 * the background task are ignored, as actual error 
-                 * handling is done within Task.Run.
-                 */
-            }
-        }
-
-        private async Task LoadPlayersAsync()
-        {
-            try
-            {
-                var players = await Task.Run(() => ClientManager.MatchClient.GetLobbyPlayers(matchCode));
-
-                await Application.Current.Dispatcher.InvokeAsync(async () =>
-                {
-                    if (players == null || players.Length == 0)
-                    {
-                        AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
-                        PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
-
-                        btnStart.IsEnabled = false;
-                        return;
-                    }
-
-                    PlayersList.ItemsSource = null;
-
-                    var playerLoadingTasks = players.Select(p => GetSinglePlayerInfoAsync(p)).ToList();
-                    var playerInfos = (await Task.WhenAll(playerLoadingTasks)).ToList();
-
-                    PlayersList.ItemsSource = playerInfos;
-
-                    isOwner = players.Any(p => p.OwnerUsername == SessionManager.CurrentUsername);
-                    btnStart.Visibility = isOwner ? Visibility.Visible : Visibility.Collapsed;
-
-                    bool isLobbyFull = players.Length == this.maxPlayers;
-                    btnStart.IsEnabled = isOwner && isLobbyFull;
-                });
-            }
-            catch (Exception)
-            {
-                await Application.Current.Dispatcher.InvokeAsync(() =>
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingPlayers, 
-                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
-            }
+            await InitializeBannedWordsAsync();
+            await JoinChatAndLoadPlayersAsync();
         }
 
         public void ReloadPlayersDeferred()
@@ -304,17 +407,102 @@ namespace TrucoClient.Views
             });
         }
 
+        private async Task InitializeBannedWordsAsync()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        var bannedList = ClientManager.MatchClient.GetBannedWords();
+                        ProfanityValidator.Instance.Initialize(bannedList);
+                    }
+                    catch
+                    {
+                        /*
+                         * Non-critical feature: Profanity filtering is optional 
+                         * and not essential to core lobby functionality. 
+                         * Silently fail to avoid disrupting the user 
+                         * experience or main application flow.
+                         */
+                    }
+                });
+            }
+            catch
+            {
+                /*
+                 * Handles potential errors in task creation or execution 
+                 * (threading issues). Kept silent as this is a background 
+                 * initialization that should not interrupt the primary 
+                 * lobby loading process.
+                 */
+            }
+        }
+
+        private async Task JoinChatAndLoadPlayersAsync()
+        {
+            try
+            {
+                if (!SessionManager.CurrentUsername.StartsWith("Guest_"))
+                {
+                    await Task.Delay(200);
+                }
+
+                await Task.Run(() =>
+                    ClientManager.MatchClient.JoinMatchChat(matchCode, SessionManager.CurrentUsername));
+
+                await Task.Delay(100);
+                await LoadPlayersAsync();
+            }
+            catch
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                    CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Warning));
+            }
+        }
+
         private static BitmapImage LoadAvatar(string avatarId)
         {
             try
             {
-                string path = $"/Resources/Avatars/{avatarId}.png";
-                
-                return new BitmapImage(new Uri(path, UriKind.Relative));
+                string path = $"pack://application:,,,/Resources/Avatars/{avatarId}.png";
+
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri(path, UriKind.Absolute);
+
+                image.CacheOption = BitmapCacheOption.OnLoad;
+
+                image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                image.EndInit();
+
+                if (image.CanFreeze)
+                {
+                    image.Freeze();
+                }
+
+                return image;
             }
-            catch
+            catch (Exception)
             {
-                return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
+                try
+                {
+                    var defaultImage = new BitmapImage();
+                    defaultImage.BeginInit();
+                    defaultImage.UriSource = new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.RelativeOrAbsolute);
+                    defaultImage.CacheOption = BitmapCacheOption.OnLoad;
+                    defaultImage.EndInit();
+
+                    if (defaultImage.CanFreeze) defaultImage.Freeze();
+
+                    return defaultImage;
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 
@@ -323,7 +511,7 @@ namespace TrucoClient.Views
             AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
         }
 
-        private async Task<PlayerLobbyInfo> GetSinglePlayerInfoAsync(TrucoServer.PlayerInfo p)
+        private async Task<PlayerLobbyInfo> GetSinglePlayerInfoAsync(PlayerInfo p)
         {
             if (p.Username.StartsWith("Guest_"))
             {
@@ -332,7 +520,8 @@ namespace TrucoClient.Views
                     Username = p.Username,
                     AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
                     Team = p.Team,
-                    IsCurrentUser = p.Username == SessionManager.CurrentUsername
+                    IsCurrentUser = p.Username == SessionManager.CurrentUsername,
+                    OwnerUsername = p.OwnerUsername
                 };
             }
 
@@ -348,7 +537,8 @@ namespace TrucoClient.Views
                     Username = profile?.Username ?? p.Username,
                     AvatarUri = LoadAvatar(avatarId),
                     Team = p.Team,
-                    IsCurrentUser = username == SessionManager.CurrentUsername
+                    IsCurrentUser = username == SessionManager.CurrentUsername,
+                    OwnerUsername = p.OwnerUsername
                 };
             }
             catch (Exception)
@@ -358,7 +548,8 @@ namespace TrucoClient.Views
                     Username = p.Username,
                     AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
                     Team = p.Team,
-                    IsCurrentUser = p.Username == SessionManager.CurrentUsername
+                    IsCurrentUser = p.Username == SessionManager.CurrentUsername,
+                    OwnerUsername = p.OwnerUsername
                 };
             }
         }

@@ -510,6 +510,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Invitation sent to {0}..
+        /// </summary>
+        public static string DialogTextInvitationSent {
+            get {
+                return ResourceManager.GetString("DialogTextInvitationSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Email is too long.
         /// </summary>
         public static string DialogTextLongEmail {
@@ -929,6 +938,15 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextErrorRestartingConnections {
             get {
                 return ResourceManager.GetString("ExceptionTextErrorRestartingConnections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Could not send invitation..
+        /// </summary>
+        public static string ExceptionTextErrorSendingInvitation {
+            get {
+                return ResourceManager.GetString("ExceptionTextErrorSendingInvitation", resourceCulture);
             }
         }
         

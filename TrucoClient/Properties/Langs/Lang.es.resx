@@ -1278,4 +1278,10 @@
   <data name="ExceptionTextUserBanned" xml:space="preserve">
     <value>Su cuenta está suspendida temporalmente debido a comportamiento tóxico.</value>
   </data>
+  <data name="DialogTextInvitationSent" xml:space="preserve">
+    <value>Invitación enviada a {0}.</value>
+  </data>
+  <data name="ExceptionTextErrorSendingInvitation" xml:space="preserve">
+    <value>No se pudo enviar la invitación.</value>
+  </data>
 </root>

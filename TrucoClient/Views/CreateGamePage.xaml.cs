@@ -7,6 +7,7 @@ using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.Exceptions;
+using TrucoClient.Helpers.DTOs;
 
 namespace TrucoClient.Views
 {
@@ -56,7 +57,15 @@ namespace TrucoClient.Views
                         return;
                     }
 
-                    this.NavigationService.Navigate(new LobbyPage(code, matchName, selectedPlayers));
+                    var arguments = new LobbyNavigationArguments
+                    {
+                        MatchCode = code,
+                        MatchName = matchName,
+                        MaxPlayers = selectedPlayers,
+                        IsPrivate = privacy == "private"
+                    };
+
+                    this.NavigationService.Navigate(new LobbyPage(arguments));
                 });
             }
             catch (TimeoutException ex)

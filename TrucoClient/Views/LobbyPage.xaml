@@ -14,113 +14,96 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="txtLobbyCode" Grid.Row="0" Grid.ColumnSpan="2" Text="" FontSize="20" 
-                    Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-        </StackPanel>
-        
-        <TextBlock x:Name="txtLobbyTitle" Grid.Row="0" Grid.ColumnSpan="2" Text="Lobby" FontSize="30" 
-                    Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-        
+
+        <TextBlock x:Name="txtLobbyCode" Grid.Row="0" Grid.Column="0" Text="" FontSize="20" 
+                 Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,20"/>
+
+        <TextBlock x:Name="txtLobbyTitle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Lobby" FontSize="30" 
+                 Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,0">
-            
             <TextBlock Text="{x:Static language:Lang.LobbyTextMatchPlayers}" Foreground="White" FontSize="22" Margin="0,0,0,15"/>
-            
+
             <ItemsControl x:Name="PlayersList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Background="#22FFFFFF" CornerRadius="10" Padding="6" Margin="3">
                             <Grid VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                
-                                <Image Grid.Column="0" Source="{Binding AvatarUri}" Width="40" Height="40" Margin="5" VerticalAlignment="Center"
-                                    Stretch="UniformToFill" />
-                                
-                                <TextBlock Grid.Column="1" Text="{Binding Username}" VerticalAlignment="Center" Foreground="White"
-                                    FontSize="20" Margin="10,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Username}"/>
-                                <TextBlock Grid.Column="2" Text="{Binding Team}" VerticalAlignment="Center" Foreground="#FFDDA81C"
-                                    FontWeight="Bold" FontSize="18" Margin="15,0,10,0" />
-                                
+
+                                <Image Grid.Column="0" Source="{Binding AvatarUri}" Width="40" Height="40" Margin="5" VerticalAlignment="Center" Stretch="UniformToFill" />
+                                <TextBlock Grid.Column="1" Text="{Binding Username}" VerticalAlignment="Center" Foreground="White" FontSize="18" Margin="5,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Username}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Team}" VerticalAlignment="Center" Foreground="#FFDDA81C" FontWeight="Bold" FontSize="16" Margin="5,0" />
+
                                 <Button Grid.Column="3" Content="{x:Static language:Lang.LobbyTextChange}" Click="ClickSwitchTeam"
-                                    CommandParameter="{Binding Username}" FontSize="15" Margin="5,0,0,0" VerticalAlignment="Center" Padding="10,3" Cursor="Hand">
+                                    CommandParameter="{Binding Username}" FontSize="13" Margin="5,0" VerticalAlignment="Center" Padding="8,3" Cursor="Hand">
                                     <Button.Style>
                                         <Style TargetType="Button">
-                                            
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Setter Property="Opacity" Value="1"/>
-                                            
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsCurrentUser}" Value="True">
                                                     <Setter Property="Visibility" Value="Visible" />
                                                 </DataTrigger>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Opacity" Value="0.7"/>
+                                                        <Setter Property="Opacity" Value="0.7"/>
                                                 </Trigger>
                                                 <Trigger Property="IsPressed" Value="True">
                                                     <Setter Property="Opacity" Value="0.5"/>
                                                 </Trigger>
                                             </Style.Triggers>
-                                            
                                         </Style>
                                     </Button.Style>
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Border CornerRadius="8" Background="#FFF3C754" BorderThickness="1" BorderBrush="#FFDDA81C">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center" />
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </Border>
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-        
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            
-            <TextBlock Text="{x:Static language:Lang.LobbyTextLobbyChat}" Foreground="White" FontSize="22" Margin="0,0,0,20"/>
-            
-            <ScrollViewer x:Name="ChatScroll" Background="White" VerticalScrollBarVisibility="Auto" Height="300" 
-                          Margin="0,0,0,10">
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,0">
+            <TextBlock Text="{x:Static language:Lang.LobbyTextLobbyChat}" Foreground="White" FontSize="22" Margin="0,0,0,15"/>
+
+            <ScrollViewer x:Name="ChatScroll" Background="White" VerticalScrollBarVisibility="Auto" Height="300" Margin="0,0,0,10">
                 <StackPanel x:Name="ChatMessagesPanel" Margin="5"/>
             </ScrollViewer>
-            
+
             <StackPanel Orientation="Horizontal">
-                <Grid Width="360" Height="40" Margin="0,0,10,0">
-                    
-                    <TextBox x:Name="txtChatMessage" Width="360" Height="40" FontSize="22" TextChanged="ChatMessageTextChanged" 
-                             HorizontalAlignment="Left" KeyDown="EnterKeyDown">
+                <Grid Width="280" Height="40" Margin="0,0,10,0">
+                    <TextBox x:Name="txtChatMessage" Width="280" Height="40" FontSize="20" TextChanged="ChatMessageTextChanged" HorizontalAlignment="Left" KeyDown="EnterKeyDown">
                         <TextBox.Template>
                             <ControlTemplate TargetType="TextBox">
-                                <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" 
-                                        BorderThickness="2" Padding="5">
+                                <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Padding="5">
                                     <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                                 </Border>
                             </ControlTemplate>
                         </TextBox.Template>
                     </TextBox>
-                    
-                    <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" Height="30" Width="345"
-                               Foreground="Gray" FontSize="22" Margin="8,2,30,0" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Visible"/>
+                    <TextBlock x:Name="blckPlaceholder" Text="{x:Static language:Lang.GlobalTextWriteHere}" Height="30" Width="270"
+                               Foreground="Gray" FontSize="20" Margin="8,2,0,0" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Visible"/>
                 </Grid>
-                
-                <Button x:Name="btnSendMessage" Content="{x:Static language:Lang.GlobalTextSend}" FontSize="22" Click="ClickSendMessage" 
-                        Cursor="Hand" Height="40" HorizontalAlignment="Left" Margin="0,10,0,10">
+
+                <Button x:Name="btnSendMessage" Content="{x:Static language:Lang.GlobalTextSend}" FontSize="20" Click="ClickSendMessage" 
+                        Cursor="Hand" Height="40" Padding="15,5">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
@@ -142,18 +125,78 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                
             </StackPanel>
         </StackPanel>
-        
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" 
-                    Margin="0,5,5,20">
-            
-            <Button Click="ClickExit" Content="{x:Static language:Lang.GlobalTextExit}" Cursor="Hand" Margin="0,0,20,0" 
-                    FontSize="22">
+
+        <Border x:Name="pnlFriendsContainer" Grid.Row="1" Grid.Column="2" Background="#CC000000" CornerRadius="10" Margin="10,0,0,0" Visibility="Collapsed">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{x:Static language:Lang.GlobalTextFriends}" Foreground="White" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Bold"/>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="FriendsList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#44FFFFFF" CornerRadius="5" Margin="0,0,0,5" Padding="5">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Grid.Column="0" Source="{Binding AvatarUri}" Width="30" Height="30" Margin="0,0,5,0"/>
+
+                                        <TextBlock Grid.Column="1" Text="{Binding Username}" Foreground="White" VerticalAlignment="Center" FontSize="16" TextTrimming="CharacterEllipsis"/>
+
+                                        <Button Grid.Column="2" Content="+" Click="ClickInviteFriend" CommandParameter="{Binding}"
+                                                Width="30" Height="30" FontSize="18" FontWeight="Bold" Cursor="Hand"
+                                                IsEnabled="{Binding CanInvite}" ToolTip="Invite to Lobby">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="brdInvite" CornerRadius="15" Background="#FF4CAF50" BorderBrush="#FF388E3C" BorderThickness="1">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter TargetName="brdInvite" Property="Background" Value="Gray"/>
+                                                            <Setter TargetName="brdInvite" Property="BorderBrush" Value="DarkGray"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Opacity" Value="0.7"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Opacity" Value="0.5"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Click="ClickExit" Content="{x:Static language:Lang.GlobalTextExit}" Cursor="Hand" Margin="0,0,20,0" FontSize="22" Padding="15,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333" Padding="10,5">
+                        <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -173,11 +216,10 @@
                 </Button.Style>
             </Button>
 
-            <Button x:Name="btnStart" Click="ClickStartGame" Content="{x:Static language:Lang.GlobalTextStartGame}" 
-                    Cursor="Hand" FontSize="22" IsEnabled="False">
+            <Button x:Name="btnStart" Click="ClickStartGame" Content="{x:Static language:Lang.GlobalTextStartGame}" Cursor="Hand" FontSize="22" IsEnabled="False" Padding="15,5">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="brdBorder" CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400" Padding="10,5">
+                        <Border x:Name="brdBorder" CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -203,7 +245,6 @@
                     </Style>
                 </Button.Style>
             </Button>
-            
         </StackPanel>
     </Grid>
 </Page>

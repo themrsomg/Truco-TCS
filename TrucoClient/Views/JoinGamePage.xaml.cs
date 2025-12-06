@@ -10,6 +10,7 @@ using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
 using TrucoClient.Helpers.Validation; 
 using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.DTOs;
 
 namespace TrucoClient.Views
 {
@@ -50,7 +51,15 @@ namespace TrucoClient.Views
 
                 if (maxPlayers > 0)
                 {
-                    this.NavigationService.Navigate(new LobbyPage(code, Lang.GlobalTextPrivateMatch, maxPlayers));
+                    var arguments = new LobbyNavigationArguments
+                    {
+                        MatchCode = code,
+                        MatchName = Lang.GlobalTextPrivateMatch,
+                        MaxPlayers = maxPlayers,
+                        IsPrivate = true
+                    };
+
+                    this.NavigationService.Navigate(new LobbyPage(arguments));
                 }
                 else
                 {
