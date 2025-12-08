@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -8,13 +9,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TrucoClient.Helpers.DTOs;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
-using TrucoClient.Utilities;
-using TrucoClient.Helpers.DTOs;
 using TrucoClient.TrucoServer;
+using TrucoClient.Utilities;
 
 namespace TrucoClient.Views
 {
@@ -45,7 +46,7 @@ namespace TrucoClient.Views
             this.Loaded += LobbyPage_Loaded;
         }
 
-        private void ClickStartGame(object sender, RoutedEventArgs e)
+        private async void ClickStartGame(object sender, RoutedEventArgs e)
         {
             if (!isOwner)
             {
@@ -59,7 +60,25 @@ namespace TrucoClient.Views
 
             try
             {
-                Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
+                await Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
+            }
+            catch (TimeoutException)
+            {
+                btnStart.IsEnabled = true;
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException)
+            {
+                btnStart.IsEnabled = true;
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (CommunicationException)
+            {
+                btnStart.IsEnabled = true;
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
@@ -118,6 +137,21 @@ namespace TrucoClient.Views
             {
                 await Task.Run(() => ClientManager.MatchClient.SwitchTeam(this.matchCode, usernameToSwitch));
             }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorSwitchingTeam,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorSwitchingTeam, 
@@ -149,13 +183,25 @@ namespace TrucoClient.Views
                     HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
                 }
             }
+            catch (TimeoutException)
+            {
+                HandleInvitationError(btn, friendInfo, Lang.ExceptionTextTimeout);
+            }
+            catch (FaultException)
+            {
+                HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
+            }
+            catch (CommunicationException)
+            {
+                HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
+            }
             catch (Exception)
             {
                 HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorOcurred);
             }
         }
 
-        private bool TryGetButtonContext(object sender, out Button btn, out FriendLobbyInfo info)
+        private static bool TryGetButtonContext(object sender, out Button btn, out FriendLobbyInfo info)
         {
             btn = sender as Button;
             info = btn?.CommandParameter as FriendLobbyInfo;
@@ -163,7 +209,7 @@ namespace TrucoClient.Views
             return btn != null && info != null && info.CanInvite;
         }
 
-        private void ToggleInviteButton(Button btn, FriendLobbyInfo info, bool isEnabled)
+        private static void ToggleInviteButton(Button btn, FriendLobbyInfo info, bool isEnabled)
         {
             btn.IsEnabled = isEnabled;
             info.CanInvite = isEnabled;
@@ -179,12 +225,12 @@ namespace TrucoClient.Views
             };
         }
 
-        private async Task<bool> SendInvitationAsync(InviteFriendOptions options)
+        private static async Task<bool> SendInvitationAsync(InviteFriendOptions options)
         {
             return await Task.Run(() => ClientManager.MatchClient.InviteFriend(options));
         }
 
-        private void HandleInvitationSuccess(FriendLobbyInfo info)
+        private static void HandleInvitationSuccess(FriendLobbyInfo info)
         {
             CustomMessageBox.Show(string.Format(Lang.DialogTextInvitationSent, info.Username),
                 Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -192,13 +238,13 @@ namespace TrucoClient.Views
             info.CanInvite = false;
         }
 
-        private void HandleInvitationError(Button btn, FriendLobbyInfo info, string messageKey)
+        private static void HandleInvitationError(Button btn, FriendLobbyInfo info, string messageKey)
         {
             ToggleInviteButton(btn, info, true);
             ShowError(messageKey);
         }
 
-        private void ShowError(string messageKey)
+        private static void ShowError(string messageKey)
         {
             Application.Current.Dispatcher.Invoke(() =>
                CustomMessageBox.Show(messageKey, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error));
@@ -219,6 +265,21 @@ namespace TrucoClient.Views
                     }
 
                     ClientManager.MatchClient.LeaveMatchChat(matchCode, SessionManager.CurrentUsername);
+                }
+                catch (TimeoutException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (FaultException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (CommunicationException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception)
                 {
@@ -245,6 +306,18 @@ namespace TrucoClient.Views
                 var uiPlayers = await MapServerPlayersToUIAsync(rawPlayers);
 
                 await Application.Current.Dispatcher.InvokeAsync(() => UpdateLobbyUI(uiPlayers));
+            }
+            catch (TimeoutException)
+            {
+                ShowError(Lang.ExceptionTextErrorLoadingPlayers);
+            }
+            catch (FaultException)
+            {
+                ShowError(Lang.ExceptionTextErrorLoadingPlayers);
+            }
+            catch (CommunicationException)
+            {
+                ShowError(Lang.ExceptionTextErrorLoadingPlayers);
             }
             catch (Exception)
             {
@@ -298,7 +371,7 @@ namespace TrucoClient.Views
             if (isOwner && isPrivateMatch)
             {
                 pnlFriendsContainer.Visibility = Visibility.Visible;
-                LoadFriendsForInvite(currentPlayers);
+                _ = LoadFriendsForInvite(currentPlayers);
             }
             else
             {
@@ -306,7 +379,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private async void LoadFriendsForInvite(List<PlayerLobbyInfo> currentPlayers)
+        private async Task LoadFriendsForInvite(List<PlayerLobbyInfo> currentPlayers)
         {
             if (!isOwner)
             { 
@@ -328,11 +401,19 @@ namespace TrucoClient.Views
             }
             catch (Exception)
             {
-                // Log silencioso para no romper el flujo principal
+                /*
+                 * Loading inviteable friends is a non-essential 
+                 * feature for the lobby's core functionality.
+                 * If fetching or filtering friends fails,
+                 * we silently ignore it to prevent disrupting 
+                 * the user experience or causing the app to crash.
+                 * The friends list will simply remain empty or unchanged, 
+                 * allowing the match to proceed without this optional UI element.
+                 */
             }
         }
 
-        private async Task<FriendData[]> FetchAllFriends()
+        private static async Task<FriendData[]> FetchAllFriends()
         {
             return await Task.Run(() =>
                 ClientManager.FriendClient.GetFriends(SessionManager.CurrentUsername));
@@ -407,7 +488,7 @@ namespace TrucoClient.Views
             });
         }
 
-        private async Task InitializeBannedWordsAsync()
+        private static async Task InitializeBannedWordsAsync()
         {
             try
             {
@@ -457,7 +538,7 @@ namespace TrucoClient.Views
             }
             catch
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                     CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Warning));
             }
@@ -465,45 +546,58 @@ namespace TrucoClient.Views
 
         private static BitmapImage LoadAvatar(string avatarId)
         {
+            string path = $"pack://application:,,,/Resources/Avatars/{avatarId}.png";
+
             try
             {
-                string path = $"pack://application:,,,/Resources/Avatars/{avatarId}.png";
-
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.UriSource = new Uri(path, UriKind.Absolute);
-
-                image.CacheOption = BitmapCacheOption.OnLoad;
-
-                image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                image.EndInit();
-
-                if (image.CanFreeze)
-                {
-                    image.Freeze();
-                }
-
-                return image;
+                return CreateImage(path);
+            }
+            catch (ArgumentNullException)
+            {
+                return LoadDefaultAvatar();
+            }
+            catch (UriFormatException)
+            {
+                return LoadDefaultAvatar();
+            }
+            catch (IOException)
+            {
+                return LoadDefaultAvatar();
             }
             catch (Exception)
             {
-                try
-                {
-                    var defaultImage = new BitmapImage();
-                    defaultImage.BeginInit();
-                    defaultImage.UriSource = new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.RelativeOrAbsolute);
-                    defaultImage.CacheOption = BitmapCacheOption.OnLoad;
-                    defaultImage.EndInit();
-
-                    if (defaultImage.CanFreeze) defaultImage.Freeze();
-
-                    return defaultImage;
-                }
-                catch
-                {
-                    return null;
-                }
+                return LoadDefaultAvatar();
             }
+        }
+
+        private static BitmapImage LoadDefaultAvatar()
+        {
+            try
+            {
+                return CreateImage(ResourcePaths.DEFAULT_AVATAR_PATH);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static BitmapImage CreateImage(string path)
+        {
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(path, UriKind.Absolute);
+
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            image.EndInit();
+
+            if (image.CanFreeze)
+            {
+                image.Freeze();
+            }
+
+            return image;
         }
 
         private void InitializeChat()
@@ -511,47 +605,57 @@ namespace TrucoClient.Views
             AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
         }
 
-        private async Task<PlayerLobbyInfo> GetSinglePlayerInfoAsync(PlayerInfo p)
+        private async Task<PlayerLobbyInfo> GetSinglePlayerInfoAsync(PlayerInfo playerInfo)
         {
-            if (p.Username.StartsWith("Guest_"))
+            if (playerInfo.Username.StartsWith("Guest_"))
             {
-                return new PlayerLobbyInfo
-                {
-                    Username = p.Username,
-                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
-                    Team = p.Team,
-                    IsCurrentUser = p.Username == SessionManager.CurrentUsername,
-                    OwnerUsername = p.OwnerUsername
-                };
+                return CreateFallbackInfo(playerInfo);
             }
 
             try
             {
-                var profile = await ClientManager.UserClient.GetUserProfileAsync(p.Username);
-               
+                var profile = await ClientManager.UserClient.GetUserProfileAsync(playerInfo.Username);
+
                 string avatarId = string.IsNullOrEmpty(profile?.AvatarId) ? DEFAUL_AVATAR_ID : profile.AvatarId;
-                string username = profile?.Username ?? p.Username;
+                string username = profile?.Username ?? playerInfo.Username;
 
                 return new PlayerLobbyInfo
                 {
-                    Username = profile?.Username ?? p.Username,
+                    Username = username,
                     AvatarUri = LoadAvatar(avatarId),
-                    Team = p.Team,
+                    Team = playerInfo.Team,
                     IsCurrentUser = username == SessionManager.CurrentUsername,
-                    OwnerUsername = p.OwnerUsername
+                    OwnerUsername = playerInfo.OwnerUsername
                 };
+            }
+            catch (TimeoutException)
+            {
+                return CreateFallbackInfo(playerInfo);
+            }
+            catch (FaultException)
+            {
+                return CreateFallbackInfo(playerInfo);
+            }
+            catch (CommunicationException)
+            {
+                return CreateFallbackInfo(playerInfo);
             }
             catch (Exception)
             {
-                return new PlayerLobbyInfo
-                {
-                    Username = p.Username,
-                    AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
-                    Team = p.Team,
-                    IsCurrentUser = p.Username == SessionManager.CurrentUsername,
-                    OwnerUsername = p.OwnerUsername
-                };
+                return CreateFallbackInfo(playerInfo);
             }
+        }
+
+        PlayerLobbyInfo CreateFallbackInfo(PlayerInfo playerInfo)
+        {
+            return new PlayerLobbyInfo
+            {
+                Username = playerInfo.Username,
+                AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
+                Team = playerInfo.Team,
+                IsCurrentUser = playerInfo.Username == SessionManager.CurrentUsername,
+                OwnerUsername = playerInfo.OwnerUsername
+            };
         }
     }
 }

@@ -5,7 +5,7 @@ namespace TrucoClient.Helpers.Validation
 {
     public static class UsernameValidator
     {
-        private static readonly Regex UsernameRegex = new Regex(
+        private static readonly Regex usernameRegex = new Regex(
             @"^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
 
         public static bool IsValidFormat(string username)
@@ -15,7 +15,7 @@ namespace TrucoClient.Helpers.Validation
                 return false;
             }
          
-            return UsernameRegex.IsMatch(username);
+            return usernameRegex.IsMatch(username);
         }
 
         public static bool ValidateLength(string username, int min, int max)

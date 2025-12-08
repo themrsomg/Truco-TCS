@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
-using TrucoClient.Properties.Langs;
+using TrucoClient.Helpers.DTOs;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
-using TrucoClient.Helpers.DTOs;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -39,50 +40,62 @@ namespace TrucoClient.Views
 
         private async void ClickJoinMatch(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.DataContext is MatchInfo match)
+            if (!(sender is Button button) || !(button.DataContext is MatchInfo match))
             {
-                try
+                return;
+            }
+
+            try
+            {
+                button.IsEnabled = false;
+
+                int result = await Task.Run(() =>
+                    ClientManager.MatchClient.JoinMatch(match.MatchCode, SessionManager.CurrentUsername)
+                );
+
+                if (result > 0)
                 {
-                    if (button != null) 
-                    { 
-                        button.IsEnabled = false; 
-                    }
-
-                    int result = await Task.Run(() =>
-                        ClientManager.MatchClient.JoinMatch(match.MatchCode, SessionManager.CurrentUsername)
-                    );
-
-                    if (result > 0)
+                    var arguments = new LobbyNavigationArguments
                     {
-                        var arguments = new LobbyNavigationArguments
-                        {
-                            MatchCode = match.MatchCode,
-                            MatchName = match.MatchName,
-                            MaxPlayers = match.MaxPlayers,
-                            IsPrivate = false
-                        };
+                        MatchCode = match.MatchCode,
+                        MatchName = match.MatchName,
+                        MaxPlayers = match.MaxPlayers,
+                        IsPrivate = false
+                    };
 
-                        this.NavigationService.Navigate(new LobbyPage(arguments));
-                    }
-                    else
-                    {
-                        CustomMessageBox.Show(Lang.PreGameJoinMatchNoSuccess, MESSAGE_ERROR, 
-                            MessageBoxButton.OK, MessageBoxImage.Warning);
-                        await LoadAvailableMatchesAsync();
-                    }
+                    this.NavigationService.Navigate(new LobbyPage(arguments));
                 }
-                catch (Exception)
+                else
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, MESSAGE_ERROR, 
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.PreGameJoinMatchNoSuccess, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    await LoadAvailableMatchesAsync();
                 }
-                finally
-                {
-                    if (button != null) 
-                    { 
-                        button.IsEnabled = true; 
-                    }
-                }
+            }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                button.IsEnabled = true;
             }
         }
 
@@ -164,6 +177,12 @@ namespace TrucoClient.Views
                     return ClientManager.MatchClient.GetPublicLobbies();
                 });
 
+                if (matchesArray == null)
+                {
+                    lstMatches.ItemsSource = null;
+                    return;
+                }
+
                 var matchesList = ConvertArrayToList(matchesArray);
 
                 lstMatches.ItemsSource = matchesList.Select(m => new MatchInfo
@@ -174,13 +193,28 @@ namespace TrucoClient.Views
                     MaxPlayers = m.MaxPlayers
                 }).ToList();
             }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
- 
+
         private static List<T> ConvertArrayToList<T>(T[] array)
         {
             if (array == null || array.Length == 0)

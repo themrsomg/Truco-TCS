@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Resources;
@@ -8,18 +9,10 @@ namespace TrucoClient.Helpers.UI
 {
     public static class CursorManager
     {
-        private static readonly Cursor clickCursor;
-        // private static readonly Cursor loadingCursor;
-        // private static readonly Cursor handCursor;
+        private static readonly string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+        private static readonly string basePath = $"pack://application:,,,/{assemblyName};component/Resources/Cursors/";
 
-        static CursorManager()
-        {
-            string basePath = "pack://application:,,,/TrucoClient;component/Resources/Cursors/";
-
-            clickCursor = LoadCustomCursor(basePath + "cursorClick.cur");
-            // loadingCursor = LoadCustomCursor(basePath + "cursorLoading.ani");
-            // handCursor = LoadCustomCursor(basePath + "cursorHand.cur");
-        }
+        public static readonly Cursor clickCursor = LoadCustomCursor(basePath + "cursorClick.cur");
 
         private static Cursor LoadCustomCursor(string resourcePath)
         {
@@ -53,17 +46,5 @@ namespace TrucoClient.Helpers.UI
         {
             return clickCursor;
         }
-
-        /*
-        public static Cursor Loading()
-        {
-            return loadingCursor;
-        }
-
-        public static Cursor Hand()
-        {
-            return handCursor;
-        }
-        */
     }
 }

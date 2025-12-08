@@ -79,9 +79,24 @@ namespace TrucoClient.Helpers.Services
                 callbackHandler = new TrucoCallbackHandler();
                 context = new InstanceContext(callbackHandler);
             }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (EndpointNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorRestartingConnections, 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorRestartingConnections,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -104,7 +119,15 @@ namespace TrucoClient.Helpers.Services
                     client.Abort();
                 }
             }
+            catch (TimeoutException)
+            {
+                client.Abort();
+            }
             catch (CommunicationException)
+            {
+                client.Abort();
+            }
+            catch (Exception)
             {
                 client.Abort();
             }

@@ -15,7 +15,7 @@ namespace TrucoClient.Helpers.UI
     public static class InputRestriction
     {
         private const string MESSAGE_ERROR = "Error";
-        private static readonly TimeSpan RegexTimeout = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan regexTimeout = TimeSpan.FromMilliseconds(500);
 
         public static void AttachRegexValidation(TextBox textBox, Regex allowedCharacters)
         {
@@ -51,11 +51,11 @@ namespace TrucoClient.Helpers.UI
 
             try
             {
-                allowed = new Regex(pattern, RegexOptions.Compiled, RegexTimeout);
+                allowed = new Regex(pattern, RegexOptions.Compiled, regexTimeout);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
-                throw new ArgumentException("Invalid regex pattern: " + ex.Message, MESSAGE_ERROR);
+                throw new ArgumentException("Invalid regex pattern");
             }
 
             AttachRegexValidation(textBox, allowed);

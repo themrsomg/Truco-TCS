@@ -60,7 +60,7 @@ namespace TrucoClient.Views
         private const int MAX_USERNAME_LENGTH = 20;
         private const string MESSAGE_ERROR = "Error";
 
-        private static readonly Regex usernameInputRegex = new Regex(@"^[a-zA-Z0-9_]*$", RegexOptions.Compiled);
+        private static readonly Regex usernameInputRegex = new Regex(@"^[a-zA-Z0-9_]*$", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
 
         public ObservableCollection<FriendDisplayData> FriendsList { get; set; } = new ObservableCollection<FriendDisplayData>();
         public ObservableCollection<FriendDisplayData> PendingList { get; set; } = new ObservableCollection<FriendDisplayData>();

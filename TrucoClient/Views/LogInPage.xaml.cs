@@ -55,7 +55,6 @@ namespace TrucoClient.Views
             }
 
             btnLogIn.IsEnabled = false;
-            // Mouse.OverrideCursor = CursorManager.Loading();
 
             await AttemptLoginAsync(identifier, password);
         }

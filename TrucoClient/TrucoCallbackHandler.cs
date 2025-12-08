@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
-using TrucoClient.Helpers.Services;
+using System.Windows.Markup;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -12,6 +11,7 @@ namespace TrucoClient.TrucoServer
 {
     public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
     {
+        private const string MESSAGE_ERROR = "Error";
         public static List<TrucoCard> BufferedHand { get; set; }
 
         private static IChatPage GetActiveChatPage()
@@ -78,32 +78,60 @@ namespace TrucoClient.TrucoServer
             {
                 try
                 {
-                    if (Application.Current.MainWindow is InitialWindows main)
-                    {
-                        if (main.MainFrame != null)
-                        {
-                            if (main.MainFrame.Content is LobbyPage lobbyPage)
-                            {
-                                List<PlayerInfo> playersList = players.ToList();
-
-                                if (playersList.Count == 2)
-                                {
-                                    main.MainFrame.Navigate(new GameTwoPlayersPage(matchCode, playersList));
-                                }
-                                else if (playersList.Count == 4)
-                                {
-                                    main.MainFrame.Navigate(new GameFourPlayersPage(matchCode, playersList));
-                                }
-                            }
-                        }
-                    }
+                    PerformNavigation(matchCode, players);
+                }
+                catch (ArgumentNullException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (XamlParseException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (InvalidOperationException)
+                {
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (Exception)
                 {
                     CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
+        }
+
+        private static void PerformNavigation(string matchCode, PlayerInfo[] players)
+        {
+            var main = Application.Current.MainWindow as InitialWindows;
+
+            if (main == null || main.MainFrame == null)
+            {
+                return;
+            }
+
+            var playersList = players.ToList();
+            Page gamePage = GetGamePage(matchCode, playersList);
+
+            if (gamePage != null)
+            {
+                main.MainFrame.Navigate(gamePage);
+            }
+        }
+
+        private static Page GetGamePage(string matchCode, List<PlayerInfo> players)
+        {
+            switch (players.Count)
+            {
+                case 2:
+                    return new GameTwoPlayersPage(matchCode, players);
+                case 4:
+                    return new GameFourPlayersPage(matchCode, players);
+                default:
+                    return null;
+            }
         }
 
         public void OnMatchEnded(string matchCode, string winner)

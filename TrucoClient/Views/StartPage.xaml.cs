@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
@@ -40,6 +41,11 @@ namespace TrucoClient.Views
                 {
                     MusicManager.ToggleMute();
                 }
+            }
+            catch (CultureNotFoundException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {

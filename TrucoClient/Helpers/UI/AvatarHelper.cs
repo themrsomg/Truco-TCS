@@ -15,7 +15,7 @@ namespace TrucoClient.Helpers.UI
     {
         private const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
         private const string MESSAGE_ERROR = "Error";   
-        private static readonly string DEFAULT_AVATAR_PACK_URI = GetPackUri(DEFAULT_AVATAR_ID);
+        private static readonly string defaultAvatarPackUri = GetPackUri(DEFAULT_AVATAR_ID);
 
         private static readonly List<string> internalAvatars = new List<string>
         {
@@ -77,13 +77,17 @@ namespace TrucoClient.Helpers.UI
             }
             catch (UriFormatException)
             {
-                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(defaultAvatarPackUri, UriKind.Absolute));
+            }
+            catch (IOException)
+            {
+                LoadDefaultAvatar(imageControl);
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(defaultAvatarPackUri, UriKind.Absolute));
             }
         }
 
@@ -91,21 +95,21 @@ namespace TrucoClient.Helpers.UI
         {
             try
             {
-                imageControl.Source = new BitmapImage(new Uri(DEFAULT_AVATAR_PACK_URI, UriKind.Absolute));
+                imageControl.Source = new BitmapImage(new Uri(defaultAvatarPackUri, UriKind.Absolute));
             }
             catch (FileNotFoundException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI), 
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, defaultAvatarPackUri), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (UriFormatException)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI), 
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, defaultAvatarPackUri), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, DEFAULT_AVATAR_PACK_URI), 
+                CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, defaultAvatarPackUri), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }

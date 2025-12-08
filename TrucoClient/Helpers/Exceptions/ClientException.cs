@@ -21,9 +21,10 @@ namespace TrucoClient.Helpers.Exceptions
 
                 userClient.LogClientException(ex.Message, ex.StackTrace, username);
             }
-            catch (Exception)
+            catch (Exception loggingEx)
             {
-                // Ignote
+                // Log locally to avoid infinite loops or network calls
+                Console.WriteLine($"Failed to send error to server: {loggingEx.Message}");
             }
         }
     }

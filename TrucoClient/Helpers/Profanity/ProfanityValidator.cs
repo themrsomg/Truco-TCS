@@ -27,7 +27,7 @@ namespace TrucoClient.Utilities
 
             string pattern = $@"\b({string.Join("|", escapedWords)})\b";
 
-            bannedWordsRegex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            bannedWordsRegex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(2));
             isInitialized = true;
         }
 

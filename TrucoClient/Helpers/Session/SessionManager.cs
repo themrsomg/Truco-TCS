@@ -32,13 +32,24 @@ namespace TrucoClient.Helpers.Session
                     return profile.Username;
                 }
             }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             catch (FaultException)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser, 
+                CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 

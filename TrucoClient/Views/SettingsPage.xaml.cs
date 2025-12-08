@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,6 +87,21 @@ namespace TrucoClient.Views
                 SessionManager.CurrentUserData.IsMusicMuted = MusicManager.IsMuted;
 
                 await ClientManager.UserClient.SaveUserProfileAsync(SessionManager.CurrentUserData);
+            }
+            catch (TimeoutException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextArgument,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException)
+            { 
+                CustomMessageBox.Show(Lang.ExceptionTextArgument,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (CommunicationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextArgument,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {

@@ -340,7 +340,7 @@ namespace TrucoClient.Views
             });
         }
 
-        private void InitializeProfanity()
+        private static void InitializeProfanity()
         {
             Task.Run(() =>
             {
@@ -837,11 +837,7 @@ namespace TrucoClient.Views
 
                     bool iAmCaller = (callerName == currentPlayer);
 
-                    if (iAmCaller)
-                    {
-                        UpdateBetPanelUI(callerName, betName, true);
-                    }
-                    else if (needsResponse)
+                    if (iAmCaller || needsResponse)
                     {
                         UpdateBetPanelUI(callerName, betName, true);
                     }
@@ -888,13 +884,7 @@ namespace TrucoClient.Views
                     {
                         UpdateEnvidoBetPanelUI(callerName, betName, true);
                     }
-                    else if (isMyTeammate)
-                    {
-                        HideEnvidoBetPanelUI();
-
-                        AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
-                    }
-                    else if (needsResponse)
+                    else if (needsResponse && !isMyTeammate)
                     {
                         UpdateEnvidoBetPanelUI(callerName, betName, true);
                     }

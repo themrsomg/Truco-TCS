@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Markup;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Audio;
 
@@ -57,41 +58,65 @@ namespace TrucoClient.Views
         private async Task NavigateAfterDelayAsync(TimeSpan delay)
         {
             await Task.Delay(delay);
-           
-            var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (s, e) =>
-            {
-                try
-                {
-                    splashPlayer?.Stop();
-                    splashPlayer?.Close();
-                    splashPlayer = null;
-                    MusicInitializer.InitializeMenuMusic();
-                    this.NavigationService?.Navigate(new StartPage());
-                }
-                catch (AnimationException)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError, 
-                        Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception)
-                {
-                    CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError, 
-                        Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            };
 
             if (this.Content is UIElement rootElement)
             {
-                rootElement.BeginAnimation(OpacityProperty, fadeOut);
+                var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
+
+                fadeOut.Completed += (s, e) => FinalizeSplash();
+
+                try
+                {
+                    rootElement.BeginAnimation(OpacityProperty, fadeOut);
+                }
+                catch (AnimationException)
+                {
+                    FinalizeSplash();
+                }
             }
             else
             {
-                splashPlayer?.Stop();
-                splashPlayer?.Close();
-                splashPlayer = null;
+                FinalizeSplash();
+            }
+        }
+
+        private void FinalizeSplash()
+        {
+            try
+            {
+                if (splashPlayer != null)
+                {
+                    splashPlayer.Stop();
+                    splashPlayer.Close();
+                    splashPlayer = null;
+                }
+
                 MusicInitializer.InitializeMenuMusic();
-                this.NavigationService?.Navigate(new StartPage());
+
+                if (this.NavigationService != null)
+                {
+                    this.NavigationService.Navigate(new StartPage());
+                }
+            }
+            catch (XamlParseException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
+                    Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
+                    Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (AnimationException)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
+                    Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
+                    Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
