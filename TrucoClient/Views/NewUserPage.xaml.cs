@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Globalization;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting;
 using System.Security;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -101,12 +106,14 @@ namespace TrucoClient.Views
                 ClientException.HandleError(ex, nameof(TryRegisterUser));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(TryRegisterUser));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (SecurityException)
+            catch (SecurityException ex)
             {
+                ClientException.HandleError(ex, nameof(TryRegisterUser));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (TimeoutException ex)
@@ -114,12 +121,14 @@ namespace TrucoClient.Views
                 ClientException.HandleError(ex, nameof(TryRegisterUser));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (ExternalException)
+            catch (ExternalException ex)
             {
+                ClientException.HandleError(ex, nameof(TryRegisterUser));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(TryRegisterUser));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -139,7 +148,7 @@ namespace TrucoClient.Views
 
             if (string.IsNullOrEmpty(code))
             {
-                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, "Error",
+                CustomMessageBox.Show(Lang.StartTextRegisterMustEnterCode, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 
                 return null;
@@ -169,10 +178,10 @@ namespace TrucoClient.Views
 
                 return emailExists || usernameExists;
             }
-            catch (FaultException)
+            catch (FaultException<CustomFault> ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-               
+                HandleRegisterFault(ex);                
+
                 return true;
             }
             catch (EndpointNotFoundException ex)
@@ -182,17 +191,41 @@ namespace TrucoClient.Views
                
                 return true;
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(EmailOrUsernameExists));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(EmailOrUsernameExists));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 
                 return true;
             }
-            catch (Exception)
+        }
+
+        private void HandleRegisterFault(FaultException<CustomFault> ex)
+        {
+            switch (ex.Detail.ErrorCode)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                
-                return true;
+                case "ServerDBErrorUser":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorUsernameExists, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerDBErrorEmail":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorEmailExists, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerSmtpError":
+                    CustomMessageBox.Show(Lang.ExceptionTextSmtpVerification, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 
@@ -209,31 +242,39 @@ namespace TrucoClient.Views
 
                 return sent;
             }
-            catch (FaultException)
+            catch (FaultException<CustomFault> ex)
             {
+                HandleRegisterFault(ex);
+
+                return true;
+            }
+            catch (FormatException ex)
+            {
+                ClientException.HandleError(ex, nameof(RequestedEmail));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                
-                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                ClientException.HandleError(ex, nameof(RequestedEmail));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (EndpointNotFoundException ex)
             {
                 ClientException.HandleError(ex, nameof(RequestedEmail));
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
-               
-                return false;
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                
-                return false;
+                ClientException.HandleError(ex, nameof(RequestedEmail));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(RequestedEmail));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-               
-                return false;
             }
+
+            return false;
         }
 
         private static bool ConfirmedEmail(string email, string code, TrucoUserServiceClient client)

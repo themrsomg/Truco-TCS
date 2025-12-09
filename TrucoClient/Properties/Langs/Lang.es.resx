@@ -1284,4 +1284,13 @@
   <data name="ExceptionTextErrorSendingInvitation" xml:space="preserve">
     <value>No se pudo enviar la invitación.</value>
   </data>
+  <data name="ExceptionTextDBErrorEmailExists" xml:space="preserve">
+    <value>No se pudo verificar la disponibilidad del correo electrónico por un error de base de datos.</value>
+  </data>
+  <data name="ExceptionTextDBErrorUsernameExists" xml:space="preserve">
+    <value>No se pudo verificar la disponibilidad del usuario por un error de base de datos.</value>
+  </data>
+  <data name="ExceptionTextSmtpVerification" xml:space="preserve">
+    <value>No se pudo enviar el correo de verificación. Inténtelo de nuevo más tarde.</value>
+  </data>
 </root>

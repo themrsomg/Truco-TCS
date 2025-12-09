@@ -1284,4 +1284,13 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextErrorSendingInvitation" xml:space="preserve">
     <value>Could not send invitation.</value>
   </data>
+  <data name="ExceptionTextDBErrorEmailExists" xml:space="preserve">
+    <value>Email availability could not be verified due to a database error.</value>
+  </data>
+  <data name="ExceptionTextDBErrorUsernameExists" xml:space="preserve">
+    <value>User availability could not be verified due to a database error.</value>
+  </data>
+  <data name="ExceptionTextSmtpVerification" xml:space="preserve">
+    <value>The verification email could not be sent. Please try again later.</value>
+  </data>
 </root>

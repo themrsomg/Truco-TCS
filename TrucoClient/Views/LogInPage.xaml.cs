@@ -76,7 +76,7 @@ namespace TrucoClient.Views
 
                 await ProcessSuccessfulLogin(identifier, userClient);
             }
-            catch (FaultException<LoginFault> ex)
+            catch (FaultException<CustomFault> ex)
             {
                 await HandleLoginFault(ex);
             }
@@ -142,7 +142,7 @@ namespace TrucoClient.Views
             Properties.Settings.Default.Save();
         }
 
-        private async Task HandleLoginFault(FaultException<LoginFault> ex)
+        private async Task HandleLoginFault(FaultException<CustomFault> ex)
         {
             if (ex.Detail.ErrorCode == "UserBanned")
             {
