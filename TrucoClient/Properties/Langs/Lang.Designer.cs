@@ -879,6 +879,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a It was not possible to log in due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorLogin {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The global top data could not be obtained due to a database error..
         /// </summary>
         public static string ExceptionTextDBErrorRanking {

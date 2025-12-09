@@ -25,9 +25,10 @@ namespace TrucoClient.Views
         private const int MIN_PASSWORD_LENGTH = 12;
         private const int MAX_PASSWORD_LENGTH = 50;
         private const int LOGIN_DELAY_MS = 5000;
+        private const int REGEX_TIMESPAN_MS = 500;
 
-        private static readonly Regex loginAllowedRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
-        private static readonly Regex passwordAllowedRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500));
+        private static readonly Regex loginAllowedRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(REGEX_TIMESPAN_MS));
+        private static readonly Regex passwordAllowedRegex = new Regex(@"^[A-Za-z\d@$!%*?&.#_+=\-]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(REGEX_TIMESPAN_MS));
         private readonly string languageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         public LogInPage()
@@ -80,17 +81,19 @@ namespace TrucoClient.Views
             {
                 await HandleLoginFault(ex);
             }
-            catch (FaultException)
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextUserAlreadyLoggedIn, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
             catch (EndpointNotFoundException ex)
             {
                 ClientException.HandleError(ex, nameof(AttemptLoginAsync));
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(AttemptLoginAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(AttemptLoginAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoggingIn, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
@@ -144,43 +147,45 @@ namespace TrucoClient.Views
 
         private async Task HandleLoginFault(FaultException<CustomFault> ex)
         {
-            if (ex.Detail.ErrorCode == "UserBanned")
+            switch (ex.Detail.ErrorCode)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextUserBanned,
-                    Lang.GlobalTextAccessDenied,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                case "UserBanned":
+                    CustomMessageBox.Show(Lang.ExceptionTextUserBanned, MESSAGE_ERROR,
+                        MessageBoxButton.OK,  MessageBoxImage.Error);
 
-                if (this.IsLoaded)
-                {
-                    btnLogIn.IsEnabled = true;
-                    Mouse.OverrideCursor = CursorManager.Click();
-                }
-                return;
-            }
+                    if (this.IsLoaded)
+                    {
+                        btnLogIn.IsEnabled = true;
+                        Mouse.OverrideCursor = CursorManager.Click();
+                    }
+                    break;
+                case "TooManyAttempts":
+                    CustomMessageBox.Show(Lang.ExceptionTextTooManyAttempts, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    btnLogIn.IsEnabled = false;
+                    await Task.Delay(LOGIN_DELAY_MS);
 
-            if (ex.Detail.ErrorCode == "TooManyAttempts")
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextTooManyAttempts, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-                btnLogIn.IsEnabled = false;
-                await Task.Delay(LOGIN_DELAY_MS);
-
-                if (this.IsLoaded)
-                {
-                    btnLogIn.IsEnabled = true;
-                    this.Cursor = CursorManager.Click();
-                }
-
-                return;
-            }
-
-            if (ex.Detail.ErrorCode == "UserAlreadyLoggedIn")
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextUserAlreadyLoggedIn, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            else
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorLoggingIn, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (this.IsLoaded)
+                    {
+                        btnLogIn.IsEnabled = true;
+                        this.Cursor = CursorManager.Click();
+                    }
+                    break;
+                case "UserAlreadyLoggedIn":
+                    CustomMessageBox.Show(Lang.ExceptionTextUserAlreadyLoggedIn, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+                case "ServerDBErrorLogin":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorLogin, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 

@@ -1314,4 +1314,7 @@
   <data name="ExceptionTextDBErrorHistory" xml:space="preserve">
     <value>No se pudieron obtener los datos de las últimas partidas por un error de base de datos.</value>
   </data>
+  <data name="ExceptionTextDBErrorLogin" xml:space="preserve">
+    <value>No fue posible iniciar sesión por un error de base de datos.</value>
+  </data>
 </root>
