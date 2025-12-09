@@ -870,6 +870,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Data from the latest games could not be obtained due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorHistory {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The global top data could not be obtained due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorRanking {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a User availability could not be verified due to a database error..
         /// </summary>
         public static string ExceptionTextDBErrorUsernameExists {

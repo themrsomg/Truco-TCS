@@ -8,6 +8,7 @@ using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -37,18 +38,55 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+            catch (FaultException<CustomFault> ex)
+            {
+                HandleFriendsFault(ex);
+            }
+            catch (TimeoutException ex)
+            {
+                ClientException.HandleError(ex, nameof(LoadTopTenPlayersAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (EndpointNotFoundException ex)
             {
                 ClientException.HandleError(ex, nameof(LoadTopTenPlayersAsync));
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
-                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (CommunicationException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(LoadTopTenPlayersAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(LoadTopTenPlayersAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void HandleFriendsFault(FaultException<CustomFault> ex)
+        {
+            switch (ex.Detail.ErrorCode)
+            {
+                case "ServerDBErrorRanking":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorRanking, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+            }
+        }
+
         private void ClickBack(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new RankingsPage());

@@ -1308,4 +1308,10 @@
   <data name="ExceptionTextFriendRequestAlreadyFriends" xml:space="preserve">
     <value>Ya eres amigo de {0}.</value>
   </data>
+  <data name="ExceptionTextDBErrorRanking" xml:space="preserve">
+    <value>No se pudieron obtener los datos del top global por un error de base de datos.</value>
+  </data>
+  <data name="ExceptionTextDBErrorHistory" xml:space="preserve">
+    <value>No se pudieron obtener los datos de las últimas partidas por un error de base de datos.</value>
+  </data>
 </root>

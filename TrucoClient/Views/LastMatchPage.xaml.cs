@@ -16,6 +16,7 @@ namespace TrucoClient.Views
     public partial class LastMatchPage : Page
     {
         private const string MESSAGE_ERROR = "Error";
+        private const string DATE_FORMAT = "dd/MM/yyyy HH:mm";
         public LastMatchPage()
         {
             InitializeComponent();
@@ -48,7 +49,7 @@ namespace TrucoClient.Views
                     {
                         MatchID = $"#{m.MatchID}",
                         Result = m.IsWin ? Lang.GlobalTextWinner : Lang.GlobalTextLoser,
-                        Date = m.EndedAt.ToString("dd/MM/yyyy HH:mm"),
+                        Date = m.EndedAt.ToString(DATE_FORMAT),
                         FinalScore = m.FinalScore
                     }).ToList();
                     dgRankings.ItemsSource = displayData;
@@ -59,16 +60,52 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+            catch (FaultException<CustomFault> ex)
+            {
+                HandleFriendsFault(ex);
+            }
+            catch (TimeoutException ex)
+            {
+                ClientException.HandleError(ex, nameof(LoadLastMatchesAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (EndpointNotFoundException ex)
             {
                 ClientException.HandleError(ex, nameof(LoadLastMatchesAsync));
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
-                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (CommunicationException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(LoadLastMatchesAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(LoadLastMatchesAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void HandleFriendsFault(FaultException<CustomFault> ex)
+        {
+            switch (ex.Detail.ErrorCode)
+            {
+                case "ServerDBErrorHistory":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorHistory, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 
