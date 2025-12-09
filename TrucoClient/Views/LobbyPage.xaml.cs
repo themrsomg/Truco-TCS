@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.DTOs;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
@@ -106,13 +107,15 @@ namespace TrucoClient.Views
             {
                 ClientManager.MatchClient.SendChatMessage(matchCode, SessionManager.CurrentUsername, originalMessage);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendMessage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendMessage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -137,23 +140,27 @@ namespace TrucoClient.Views
             {
                 await Task.Run(() => ClientManager.MatchClient.SwitchTeam(this.matchCode, usernameToSwitch));
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSwitchTeam));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeout,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSwitchTeam));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorSwitchingTeam,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSwitchTeam));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSwitchTeam));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorSwitchingTeam, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -183,20 +190,24 @@ namespace TrucoClient.Views
                     HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
                 }
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickInviteFriend));
                 HandleInvitationError(btn, friendInfo, Lang.ExceptionTextTimeout);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickInviteFriend));
                 HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickInviteFriend));
                 HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorSendingInvitation);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickInviteFriend));
                 HandleInvitationError(btn, friendInfo, Lang.ExceptionTextErrorOcurred);
             }
         }
@@ -266,23 +277,27 @@ namespace TrucoClient.Views
 
                     ClientManager.MatchClient.LeaveMatchChat(matchCode, SessionManager.CurrentUsername);
                 }
-                catch (TimeoutException)
+                catch (TimeoutException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickExit));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                catch (FaultException)
+                catch (FaultException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickExit));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                catch (CommunicationException)
+                catch (CommunicationException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickExit));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickExit));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorExitingLobby, 
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -307,21 +322,43 @@ namespace TrucoClient.Views
 
                 await Application.Current.Dispatcher.InvokeAsync(() => UpdateLobbyUI(uiPlayers));
             }
-            catch (TimeoutException)
+            catch (FaultException<CustomFault> ex)
             {
+                HandleLoadPlayersFault(ex);
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                ClientException.HandleError(ex, nameof(LoadPlayersAsync));
                 ShowError(Lang.ExceptionTextErrorLoadingPlayers);
             }
-            catch (FaultException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayersAsync));
                 ShowError(Lang.ExceptionTextErrorLoadingPlayers);
             }
-            catch (CommunicationException)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayersAsync));
                 ShowError(Lang.ExceptionTextErrorLoadingPlayers);
             }
-            catch (Exception)
+        }
+
+        private void HandleLoadPlayersFault(FaultException<CustomFault> ex)
+        {
+            switch (ex.Detail.ErrorCode)
             {
-                ShowError(Lang.ExceptionTextErrorLoadingPlayers);
+                case "ServerDBErrorGetLobbyPlayers":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorGetLobbyPlayers, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 
@@ -499,8 +536,9 @@ namespace TrucoClient.Views
                         var bannedList = ClientManager.MatchClient.GetBannedWords();
                         ProfanityValidator.Instance.Initialize(bannedList);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        ClientException.HandleError(ex, nameof(InitializeBannedWordsAsync));
                         /*
                          * Non-critical feature: Profanity filtering is optional 
                          * and not essential to core lobby functionality. 
@@ -510,8 +548,9 @@ namespace TrucoClient.Views
                     }
                 });
             }
-            catch
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(InitializeBannedWordsAsync));
                 /*
                  * Handles potential errors in task creation or execution 
                  * (threading issues). Kept silent as this is a background 
@@ -536,8 +575,9 @@ namespace TrucoClient.Views
                 await Task.Delay(100);
                 await LoadPlayersAsync();
             }
-            catch
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(JoinChatAndLoadPlayersAsync));
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                     CustomMessageBox.Show(Lang.ExceptionTextUnableConnectChat, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Warning));
@@ -552,20 +592,24 @@ namespace TrucoClient.Views
             {
                 return CreateImage(path);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 return LoadDefaultAvatar();
             }
-            catch (UriFormatException)
+            catch (UriFormatException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 return LoadDefaultAvatar();
             }
-            catch (IOException)
+            catch (IOException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 return LoadDefaultAvatar();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 return LoadDefaultAvatar();
             }
         }
@@ -576,8 +620,9 @@ namespace TrucoClient.Views
             {
                 return CreateImage(ResourcePaths.DEFAULT_AVATAR_PATH);
             }
-            catch
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadDefaultAvatar));
                 return null;
             }
         }
@@ -628,20 +673,24 @@ namespace TrucoClient.Views
                     OwnerUsername = playerInfo.OwnerUsername
                 };
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
                 return CreateFallbackInfo(playerInfo);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
                 return CreateFallbackInfo(playerInfo);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
                 return CreateFallbackInfo(playerInfo);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
                 return CreateFallbackInfo(playerInfo);
             }
         }

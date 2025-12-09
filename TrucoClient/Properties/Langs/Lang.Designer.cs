@@ -870,11 +870,38 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The player list could not be loaded due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorGetLobbyPlayers {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorGetLobbyPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The list of games could not be loaded due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorGetPublicLobbies {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorGetPublicLobbies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Data from the latest games could not be obtained due to a database error..
         /// </summary>
         public static string ExceptionTextDBErrorHistory {
             get {
                 return ResourceManager.GetString("ExceptionTextDBErrorHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You were unable to join the game due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorJoin {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorJoin", resourceCulture);
             }
         }
         

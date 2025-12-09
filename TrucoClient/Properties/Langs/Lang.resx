@@ -1317,4 +1317,13 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextDBErrorLogin" xml:space="preserve">
     <value>It was not possible to log in due to a database error.</value>
   </data>
+  <data name="ExceptionTextDBErrorJoin" xml:space="preserve">
+    <value>You were unable to join the game due to a database error.</value>
+  </data>
+  <data name="ExceptionTextDBErrorGetLobbyPlayers" xml:space="preserve">
+    <value>The player list could not be loaded due to a database error.</value>
+  </data>
+  <data name="ExceptionTextDBErrorGetPublicLobbies" xml:space="preserve">
+    <value>The list of games could not be loaded due to a database error.</value>
+  </data>
 </root>

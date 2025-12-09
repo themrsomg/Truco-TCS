@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -7,9 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.DTOs;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -73,29 +76,61 @@ namespace TrucoClient.Views
                     await LoadAvailableMatchesAsync();
                 }
             }
-            catch (TimeoutException)
+            catch (FaultException<CustomFault> ex)
             {
+                HandleJoinFault(ex);
+            }
+            catch (TimeoutException ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickJoinMatch));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FaultException)
+
+            catch (EndpointNotFoundException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            catch (CommunicationException)
-            {
+                ClientException.HandleError(ex, nameof(ClickJoinMatch));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickJoinMatch));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickJoinMatch));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
                 button.IsEnabled = true;
+            }
+        }
+
+        private void HandleJoinFault(FaultException<CustomFault> ex)
+        {
+            switch (ex.Detail.ErrorCode)
+            {
+                case "ServerDBErrorJoin":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorJoin, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerDBErrorGetPublicLobbies":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorGetPublicLobbies, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 
@@ -185,6 +220,15 @@ namespace TrucoClient.Views
 
                 var matchesList = ConvertArrayToList(matchesArray);
 
+                if (matchesList.Count == 0)
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        CustomMessageBox.Show(Lang.DialogTextNoMatches, MESSAGE_ERROR,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    });
+                }
+
                 lstMatches.ItemsSource = matchesList.Select(m => new MatchInfo
                 {
                     MatchName = m.MatchName,
@@ -193,23 +237,25 @@ namespace TrucoClient.Views
                     MaxPlayers = m.MaxPlayers
                 }).ToList();
             }
-            catch (TimeoutException)
+            catch (FaultException<CustomFault> ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                HandleJoinFault(ex);
             }
-            catch (FaultException)
+            catch (EndpointNotFoundException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                ClientException.HandleError(ex, nameof(ClickJoinMatch));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvailableMatchesAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvailableMatchesAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -224,6 +270,5 @@ namespace TrucoClient.Views
 
             return new List<T>(array);
         }
-
     }
 }

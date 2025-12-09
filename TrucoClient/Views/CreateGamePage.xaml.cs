@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.ServiceModel;
 using System.Windows.Controls;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Audio;
@@ -37,36 +38,31 @@ namespace TrucoClient.Views
                 string privacy = ((ComboBoxItem)cbPrivacy.SelectedItem).Tag.ToString();
                 string matchName = string.Format(Lang.PreGameTextHostLobby, hostPlayer);
 
-                string code = await Task.Run(() =>
-                    { 
-                        return ClientManager.MatchClient.CreateLobby(hostPlayer, selectedPlayers, privacy);
-                    }).ConfigureAwait(false);
+                string code = await ClientManager.MatchClient.CreateLobbyAsync(hostPlayer, selectedPlayers, privacy);
 
-                await Application.Current.Dispatcher.InvokeAsync(() =>
+                if (string.IsNullOrEmpty(code))
                 {
-                    if (string.IsNullOrEmpty(code))
-                    {
-                        CustomMessageBox.Show(Lang.WarningTextNoGameCreated, MESSAGE_ERROR, 
-                            MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.WarningTextNoGameCreated, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                         
-                        if (button != null)
-                        {
-                            button.IsEnabled = true;
-                        }
-
-                        return;
+                    if (button != null)
+                    {
+                        button.IsEnabled = true;
                     }
 
-                    var arguments = new LobbyNavigationArguments
-                    {
-                        MatchCode = code,
-                        MatchName = matchName,
-                        MaxPlayers = selectedPlayers,
-                        IsPrivate = privacy == "private"
-                    };
+                    return;
+                }
 
-                    this.NavigationService.Navigate(new LobbyPage(arguments));
-                });
+                var arguments = new LobbyNavigationArguments
+                {
+                    MatchCode = code,
+                    MatchName = matchName,
+                    MaxPlayers = selectedPlayers,
+                    IsPrivate = privacy == "private"
+                };
+
+                this.NavigationService.Navigate(new LobbyPage(arguments));
+
             }
             catch (TimeoutException ex)
             {
@@ -77,18 +73,27 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 });
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickCreateMatch));
                 CustomMessageBox.Show(Lang.ExceptionTextFormatErrorCreateMatch, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (System.ServiceModel.CommunicationException)
+            catch (EndpointNotFoundException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, 
+                ClientException.HandleError(ex, nameof(ClickCreateMatch));
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickCreateMatch));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickCreateMatch));
                 CustomMessageBox.Show(Lang.ExceptionTextNoGameCreated, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

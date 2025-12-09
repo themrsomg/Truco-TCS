@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Localization;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
@@ -88,23 +89,27 @@ namespace TrucoClient.Views
 
                 await ClientManager.UserClient.SaveUserProfileAsync(SessionManager.CurrentUserData);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(SavePreferencesToServer));
                 CustomMessageBox.Show(Lang.ExceptionTextArgument,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FaultException)
-            { 
+            catch (FaultException ex)
+            {
+                ClientException.HandleError(ex, nameof(SavePreferencesToServer));
                 CustomMessageBox.Show(Lang.ExceptionTextArgument,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(SavePreferencesToServer));
                 CustomMessageBox.Show(Lang.ExceptionTextArgument,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(SavePreferencesToServer));
                 CustomMessageBox.Show(Lang.ExceptionTextArgument, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }

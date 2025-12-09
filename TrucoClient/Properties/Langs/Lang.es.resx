@@ -1317,4 +1317,13 @@
   <data name="ExceptionTextDBErrorLogin" xml:space="preserve">
     <value>No fue posible iniciar sesión por un error de base de datos.</value>
   </data>
+  <data name="ExceptionTextDBErrorJoin" xml:space="preserve">
+    <value>No se pudo unir a la partida por un error de base de datos.</value>
+  </data>
+  <data name="ExceptionTextDBErrorGetLobbyPlayers" xml:space="preserve">
+    <value>No se pudo cargar la lista de jugadores por un error de base de datos.</value>
+  </data>
+  <data name="ExceptionTextDBErrorGetPublicLobbies" xml:space="preserve">
+    <value>No se pudo cargar la lista de partidas por un error de base de datos.</value>
+  </data>
 </root>
