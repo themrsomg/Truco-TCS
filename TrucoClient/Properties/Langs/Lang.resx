@@ -1293,4 +1293,19 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextSmtpVerification" xml:space="preserve">
     <value>The verification email could not be sent. Please try again later.</value>
   </data>
+  <data name="ExceptionTextDBErrorGetFriends" xml:space="preserve">
+    <value>The friends data could not be obtained due to a database error.</value>
+  </data>
+  <data name="DialogTextNoFriendsFound" xml:space="preserve">
+    <value>You have no friends added and no pending requests.</value>
+  </data>
+  <data name="ExceptionTextDBErrorFriendRequest" xml:space="preserve">
+    <value>The request could not be sent due to a database error.</value>
+  </data>
+  <data name="ExceptionTextFriendRequestUserNotFound" xml:space="preserve">
+    <value>The user {0} does not exist.</value>
+  </data>
+  <data name="ExceptionTextFriendRequestAlreadyFriends" xml:space="preserve">
+    <value>You are already friends with {0}.</value>
+  </data>
 </root>

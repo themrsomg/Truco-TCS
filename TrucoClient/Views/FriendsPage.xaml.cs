@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core;
+using System.Data.SqlClient;
+using System.Runtime.Remoting;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -119,18 +122,74 @@ namespace TrucoClient.Views
                         }
                     });
 
+                    if (FriendsList.Count == 0 && PendingList.Count == 0)
+                    {
+                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                        {
+                            CustomMessageBox.Show(Lang.DialogTextNoFriendsFound, MESSAGE_ERROR,
+                                MessageBoxButton.OK, MessageBoxImage.Information);
+                        });
+                    }
+                }
+                catch (FaultException<CustomFault> ex)
+                {
+                    HandleFriendsFault(ex, string.Empty);
+                }
+                catch (TimeoutException ex)
+                {
+                    ClientException.HandleError(ex, nameof(LoadDataAsync));
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (EndpointNotFoundException ex)
                 {
                     ClientException.HandleError(ex, nameof(LoadDataAsync));
-                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
-                        Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception)
+                catch (CommunicationException ex)
                 {
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    ClientException.HandleError(ex, nameof(LoadDataAsync));
+                    CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                catch (Exception ex)
+                {
+                    ClientException.HandleError(ex, nameof(LoadDataAsync));
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void HandleFriendsFault(FaultException<CustomFault> ex, string toUser)
+        {
+            switch (ex.Detail.ErrorCode)
+            {
+                case "ServerDBErrorGetFriends":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorGetFriends, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerDBErrorFriendRequest":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorFriendRequest, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "FriendRequestUserNotFound":
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextFriendRequestUserNotFound, toUser), MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+                case "FriendRequestAlreadyFriends":
+                    CustomMessageBox.Show(string.Format(Lang.ExceptionTextFriendRequestAlreadyFriends, toUser), MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 
@@ -164,14 +223,31 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
+            catch (FaultException<CustomFault> ex)
+            {
+                HandleFriendsFault(ex, targetUsername);
+            }
+            catch (TimeoutException ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickAddFriend));
+                CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (EndpointNotFoundException ex)
             {
                 ClientException.HandleError(ex, nameof(ClickAddFriend));
-                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
-                    Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickAddFriend));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickAddFriend));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -291,8 +367,9 @@ namespace TrucoClient.Views
                     CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                         Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickRejectRequest));
                     CustomMessageBox.Show(Lang.FriendsTextRequestAcceptedError, MESSAGE_ERROR,
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }

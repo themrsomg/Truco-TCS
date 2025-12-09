@@ -1293,4 +1293,19 @@
   <data name="ExceptionTextSmtpVerification" xml:space="preserve">
     <value>No se pudo enviar el correo de verificación. Inténtelo de nuevo más tarde.</value>
   </data>
+  <data name="ExceptionTextDBErrorGetFriends" xml:space="preserve">
+    <value>No se pudieron obtener los datos de amigos por un error de base de datos.</value>
+  </data>
+  <data name="DialogTextNoFriendsFound" xml:space="preserve">
+    <value>No tienes amigos agregados ni solicitudes pendientes.</value>
+  </data>
+  <data name="ExceptionTextDBErrorFriendRequest" xml:space="preserve">
+    <value>No se pudo enviar la solicitud por un error de base de datos.</value>
+  </data>
+  <data name="ExceptionTextFriendRequestUserNotFound" xml:space="preserve">
+    <value>El usuario {0} no existe.</value>
+  </data>
+  <data name="ExceptionTextFriendRequestAlreadyFriends" xml:space="preserve">
+    <value>Ya eres amigo de {0}.</value>
+  </data>
 </root>

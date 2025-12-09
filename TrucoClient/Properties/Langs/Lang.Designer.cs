@@ -573,6 +573,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You have no friends added and no pending requests..
+        /// </summary>
+        public static string DialogTextNoFriendsFound {
+            get {
+                return ResourceManager.GetString("DialogTextNoFriendsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No games found.
         /// </summary>
         public static string DialogTextNoMatches {
@@ -843,6 +852,24 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The request could not be sent due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorFriendRequest {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorFriendRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The friends data could not be obtained due to a database error..
+        /// </summary>
+        public static string ExceptionTextDBErrorGetFriends {
+            get {
+                return ResourceManager.GetString("ExceptionTextDBErrorGetFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a User availability could not be verified due to a database error..
         /// </summary>
         public static string ExceptionTextDBErrorUsernameExists {
@@ -1010,6 +1037,24 @@ namespace TrucoClient.Properties.Langs {
         public static string ExceptionTextFormatErrorCreateMatch {
             get {
                 return ResourceManager.GetString("ExceptionTextFormatErrorCreateMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You are already friends with {0}..
+        /// </summary>
+        public static string ExceptionTextFriendRequestAlreadyFriends {
+            get {
+                return ResourceManager.GetString("ExceptionTextFriendRequestAlreadyFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The user {0} does not exist..
+        /// </summary>
+        public static string ExceptionTextFriendRequestUserNotFound {
+            get {
+                return ResourceManager.GetString("ExceptionTextFriendRequestUserNotFound", resourceCulture);
             }
         }
         
