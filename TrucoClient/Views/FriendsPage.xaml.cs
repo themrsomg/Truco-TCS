@@ -9,56 +9,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Audio;
 using TrucoClient.Helpers.Exceptions;
-using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
+using TrucoClient.Helpers.DTOs;
 using TrucoClient.Helpers.Validation;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
-    public class FriendDisplayData
-    {
-        private const string MESSAGE_ERROR = "Error";
-        private const string AVATAR_DEFAULT_ID = "avatar_aaa_default";
-        public string Username { get; set; }
-        public string AvatarId { get; set; }
-
-        public string AvatarImagePath
-        {
-            get
-            {
-                string id = string.IsNullOrWhiteSpace(AvatarId) ? AVATAR_DEFAULT_ID : AvatarId;
-                string correctedPath = $"/Resources/Avatars/{id}.png";
-
-                try
-                {
-                    _ = new BitmapImage(new Uri(correctedPath, UriKind.Relative));
-                    return correctedPath;
-                }
-                catch (UriFormatException ex)
-                {
-                    ClientException.HandleError(ex, nameof(AvatarImagePath));
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return ResourcePaths.DEFAULT_AVATAR_PATH;
-                }
-                catch (Exception ex)
-                {
-                    ClientException.HandleError(ex, nameof(AvatarImagePath));
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
-                        MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return ResourcePaths.DEFAULT_AVATAR_PATH;
-                }
-            }
-        }
-    }
-
     public partial class FriendsPage : Page
     {
         private const int MIN_USERNAME_LENGTH = 4;

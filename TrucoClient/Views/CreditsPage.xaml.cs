@@ -27,7 +27,7 @@ namespace TrucoClient.Views
         private void ClickEgg(object sender, RoutedEventArgs e)
         {
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string fullPath = System.IO.Path.Combine(currentDirectory, RESOURCES_FOLDER, EASTER_EGG_FILE_NAME);
+            string fullPath = Path.Combine(currentDirectory, RESOURCES_FOLDER, EASTER_EGG_FILE_NAME);
 
             try
             {
