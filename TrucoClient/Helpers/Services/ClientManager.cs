@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ServiceModel;
 using System.Windows;
-using TrucoClient.TrucoServer;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 using TrucoClient.Views;
 
 namespace TrucoClient.Helpers.Services
@@ -79,23 +80,27 @@ namespace TrucoClient.Helpers.Services
                 callbackHandler = new TrucoCallbackHandler();
                 context = new InstanceContext(callbackHandler);
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(ResetConnections));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeout,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (EndpointNotFoundException)
+            catch (EndpointNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(ResetConnections));
+                CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException ex)
+            {
+                ClientException.HandleError(ex, nameof(ResetConnections));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (Exception ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextCommunication,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception)
-            {
+                ClientException.HandleError(ex, nameof(ResetConnections));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorRestartingConnections,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -139,9 +144,9 @@ namespace TrucoClient.Helpers.Services
             {
                 client?.Abort();
             }
-            catch 
+            catch (Exception)
             {
-                /* 
+                /** 
                  * Any exceptions that may occur when attempting 
                  * to abort the client are intentionally ignored, 
                  * as the main goal is simply to force the 
@@ -153,7 +158,7 @@ namespace TrucoClient.Helpers.Services
 
         internal static void SetCallbackHandler(GameBasePage gameBasePage)
         {
-            /* 
+            /** 
              * Implementation pending. This method is reserved to set
              * the reference to the 'GameBasePage' in the WCF callback handler
              * to allow game notifications on the UI thread.

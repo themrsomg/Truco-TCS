@@ -22,6 +22,8 @@ namespace TrucoClient.Views
         private const int MAX_CLICKS_ALLOWED = 5; 
         private const int TIME_WINDOW_SECONDS = 5;  
         private const int COOLDOWN_SECONDS = 10;
+        private const int COOLDOWN_MILLISECONDS = 10000;
+        private const int COOLDOWN_COUNTDOWN = 1000;
 
         private Queue<DateTime> clickTimestamps = new Queue<DateTime>();
         private bool isCooldownActive = false;
@@ -189,7 +191,7 @@ namespace TrucoClient.Views
                 for (int i = COOLDOWN_SECONDS; i > 0; i--)
                 {
                     btn.Content = $"{i}s...";
-                    await Task.Delay(1000);
+                    await Task.Delay(COOLDOWN_COUNTDOWN);
                 }
 
                 btn.Content = originalContent;
@@ -197,7 +199,7 @@ namespace TrucoClient.Views
             }
             else
             {
-                await Task.Delay(COOLDOWN_SECONDS * 1000);
+                await Task.Delay(COOLDOWN_MILLISECONDS);
             }
 
             isCooldownActive = false;

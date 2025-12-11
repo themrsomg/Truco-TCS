@@ -1,16 +1,18 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.DTOs;
 using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Helpers.UI;
 using TrucoClient.Helpers.Validation; 
 using TrucoClient.Properties.Langs;
-using TrucoClient.Helpers.DTOs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -66,11 +68,57 @@ namespace TrucoClient.Views
                     CustomMessageBox.Show(Lang.GameTextInvalidCode, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
+            catch (FaultException<CustomFault> ex)
+            {
+                HandleJoinFault(ex);
+            }
+            catch (TimeoutException ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            catch (EndpointNotFoundException ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (CommunicationException ex)
+            {
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                ClientException.HandleError(ex, nameof(JoinGamePage));
-                CustomMessageBox.Show(Lang.GameTextErrorJoining,
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void HandleJoinFault(FaultException<CustomFault> ex)
+        {
+            switch (ex.Detail.ErrorCode)
+            {
+                case "ServerDBErrorJoin":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorJoin, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerDBErrorGetPublicLobbies":
+                    CustomMessageBox.Show(Lang.ExceptionTextDBErrorGetPublicLobbies, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                case "ServerTimeout":
+                    CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                default:
+                    CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
             }
         }
 

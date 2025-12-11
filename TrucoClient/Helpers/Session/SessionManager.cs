@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
@@ -32,23 +33,27 @@ namespace TrucoClient.Helpers.Session
                     return profile.Username;
                 }
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
+                ClientException.HandleError(ex, nameof(ResolveUsernameAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(ResolveUsernameAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ResolveUsernameAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ResolveUsernameAsync));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorResolvingUser,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

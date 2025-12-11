@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -9,6 +10,7 @@ namespace TrucoClient.Views
 {
     public partial class GameFourPlayersPage : GameBasePage
     {
+        private const int NUMBER_OF_PLAYERS = 4;
         private readonly List<PlayerInfo> players;
         private string topPlayerName;
         private string leftPlayerName;
@@ -65,9 +67,9 @@ namespace TrucoClient.Views
 
                 int myIndex = players.IndexOf(self);
 
-                int topIndex = (myIndex + 2) % 4;
-                int leftIndex = (myIndex + 1) % 4;
-                int rightIndex = (myIndex + 3) % 4;
+                int topIndex = (myIndex + 2) % NUMBER_OF_PLAYERS;
+                int leftIndex = (myIndex + 1) % NUMBER_OF_PLAYERS;
+                int rightIndex = (myIndex + 3) % NUMBER_OF_PLAYERS;
 
                 imgTopAvatar.Source = LoadAvatar(players[topIndex].AvatarId);
                 topPlayerName = players[topIndex].Username;
@@ -78,18 +80,21 @@ namespace TrucoClient.Views
                 imgRightAvatar.Source = LoadAvatar(players[rightIndex].AvatarId);
                 rightPlayerName = players[rightIndex].Username;
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayerAvatars));
                 CustomMessageBox.Show(Lang.ExceptionTextArgument,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayerAvatars));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayerAvatars));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

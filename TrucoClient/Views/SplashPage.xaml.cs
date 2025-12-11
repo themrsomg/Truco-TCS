@@ -2,16 +2,37 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Markup;
-using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
     public partial class SplashPage : Page
     {
+        private const double SPLASH_NAVIGATION_DELAY_SECONDS = 5.4;
+        private const double LOGO_FADE_IN_FROM = 0.0;
+        private const double LOGO_FADE_IN_TO = 1.0;
+        private const double LOGO_FADE_IN_DURATION = 1.2;
+
+        private const double LOGO_SCALE_FROM = 0.5;
+        private const double LOGO_SCALE_TO = 1.0;
+        private const double LOGO_SCALE_DURATION = 1.2;
+
+        private const double TEXT_FADE_IN_FROM = 0.0;
+        private const double TEXT_FADE_IN_TO = 1.0;
+        private const double TEXT_FADE_IN_DURATION = 1.0;
+        private const double TEXT_FADE_IN_BEGIN = 1.5;
+
+        private const double FADE_OUT_FROM = 1.0;
+        private const double FADE_OUT_TO = 0.0;
+        private const double FADE_OUT_DURATION = 0.5;
+
+        private const int ROOT_GRID_CHILDREN_INDEX = 1;
+
         private MediaPlayer splashPlayer;
 
         public SplashPage()
@@ -25,18 +46,21 @@ namespace TrucoClient.Views
             this.Loaded -= OnSplashPageLoaded;
             splashPlayer = MusicInitializer.InitializeSplashMusic();
             StartLogoAnimation();
-            _ = NavigateAfterDelayAsync(TimeSpan.FromSeconds(5.4));
+            _ = NavigateAfterDelayAsync(TimeSpan.FromSeconds(SPLASH_NAVIGATION_DELAY_SECONDS));
         }
 
         private void StartLogoAnimation()
         {
-            var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(1.2));
+            var fadeIn = new DoubleAnimation(LOGO_FADE_IN_FROM, LOGO_FADE_IN_TO,
+                TimeSpan.FromSeconds(LOGO_FADE_IN_DURATION));
+
             imgGameLogo.BeginAnimation(OpacityProperty, fadeIn);
 
-            var scaleUp = new DoubleAnimation(0.5, 1.0, TimeSpan.FromSeconds(1.2))
-            {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-            };
+            var scaleUp = new DoubleAnimation(LOGO_SCALE_FROM, LOGO_SCALE_TO,
+                TimeSpan.FromSeconds(LOGO_SCALE_DURATION))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                };
 
             if (imgGameLogo.RenderTransform is ScaleTransform scaleTransform)
             {
@@ -44,12 +68,14 @@ namespace TrucoClient.Views
                 scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleUp);
             }
 
-            var textFadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(1.0))
-            {
-                BeginTime = TimeSpan.FromSeconds(1.5)
-            };
+            var textFadeIn = new DoubleAnimation(TEXT_FADE_IN_FROM, TEXT_FADE_IN_TO,
+                TimeSpan.FromSeconds(TEXT_FADE_IN_DURATION))
+                {
+                    BeginTime = TimeSpan.FromSeconds(TEXT_FADE_IN_BEGIN)
+                };
 
-            if (this.Content is Grid rootGrid && rootGrid.Children.Count > 1 && rootGrid.Children[1] is TextBlock textBlock)
+            if (this.Content is Grid rootGrid && rootGrid.Children.Count > 1 &&
+                rootGrid.Children[ROOT_GRID_CHILDREN_INDEX] is TextBlock textBlock)
             {
                 textBlock.BeginAnimation(OpacityProperty, textFadeIn);
             }
@@ -61,7 +87,8 @@ namespace TrucoClient.Views
 
             if (this.Content is UIElement rootElement)
             {
-                var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
+                var fadeOut = new DoubleAnimation(FADE_OUT_FROM, FADE_OUT_TO,
+                    TimeSpan.FromSeconds(FADE_OUT_DURATION));
 
                 fadeOut.Completed += (s, e) => FinalizeSplash();
 
@@ -72,6 +99,14 @@ namespace TrucoClient.Views
                 catch (AnimationException)
                 {
                     FinalizeSplash();
+                    /**
+                     * Intentionally left empty because an animation failure 
+                     * should not block the navigation flow. If the animation 
+                     * engine throws an AnimationException due to an invalid 
+                     * visual state or a rendering issue, the application must 
+                     * still proceed to FinalizeSplash() to avoid freezing the 
+                     * UI or interrupting the startup sequence.
+                     */
                 }
             }
             else
@@ -98,23 +133,27 @@ namespace TrucoClient.Views
                     this.NavigationService.Navigate(new StartPage());
                 }
             }
-            catch (XamlParseException)
+            catch (XamlParseException ex)
             {
+                ClientException.HandleError(ex, nameof(FinalizeSplash));
                 CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
                     Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(FinalizeSplash));
                 CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
                     Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (AnimationException)
+            catch (AnimationException ex)
             {
+                ClientException.HandleError(ex, nameof(FinalizeSplash));
                 CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
                     Lang.GlobalTextAnimationError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(FinalizeSplash));
                 CustomMessageBox.Show(Lang.ExceptionTextSplashAnimationError,
                     Lang.DialogTextError, MessageBoxButton.OK, MessageBoxImage.Error);
             }

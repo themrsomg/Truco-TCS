@@ -123,6 +123,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Audio\MusicInitializer.cs" />
     <Compile Include="Helpers\DTOs\FriendLobbyInfo.cs" />
     <Compile Include="Helpers\DTOs\LobbyNavigationArguments.cs" />
     <Compile Include="Helpers\DTOs\PlayerLobbyInfo.cs" />

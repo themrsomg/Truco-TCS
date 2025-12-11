@@ -23,8 +23,8 @@ namespace TrucoClient.Helpers.Exceptions
             }
             catch (Exception loggingEx)
             {
-                // Log locally to avoid infinite loops or network calls
                 Console.WriteLine($"Failed to send error to server: {loggingEx.Message}");
+                // Log locally to avoid infinite loops or network calls
             }
         }
     }

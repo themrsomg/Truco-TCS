@@ -24,7 +24,7 @@ namespace TrucoClient.Views
         private const int MAX_TEXT_LENGTH = 250;
         private const int MIN_PASSWORD_LENGTH = 12;
         private const int MAX_PASSWORD_LENGTH = 50;
-        private const int LOGIN_DELAY_MS = 5000;
+        private const int MILLISECONDS_DELAY = 5000;
         private const int REGEX_TIMESPAN_MS = 500;
 
         private static readonly Regex loginAllowedRegex = new Regex(@"^(?!.*@.*@)[a-zA-Z0-9._%+\-@]*$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(REGEX_TIMESPAN_MS));
@@ -162,7 +162,7 @@ namespace TrucoClient.Views
                 case "TooManyAttempts":
                     CustomMessageBox.Show(Lang.ExceptionTextTooManyAttempts, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                     btnLogIn.IsEnabled = false;
-                    await Task.Delay(LOGIN_DELAY_MS);
+                    await Task.Delay(MILLISECONDS_DELAY);
 
                     if (this.IsLoaded)
                     {

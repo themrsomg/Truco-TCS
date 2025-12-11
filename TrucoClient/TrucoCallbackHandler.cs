@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
 
@@ -80,23 +81,27 @@ namespace TrucoClient.TrucoServer
                 {
                     PerformNavigation(matchCode, players);
                 }
-                catch (ArgumentNullException)
+                catch (ArgumentNullException ex)
                 {
+                    ClientException.HandleError(ex, nameof(OnMatchStarted));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (XamlParseException)
+                catch (XamlParseException ex)
                 {
+                    ClientException.HandleError(ex, nameof(OnMatchStarted));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (InvalidOperationException)
+                catch (InvalidOperationException ex)
                 {
+                    ClientException.HandleError(ex, nameof(OnMatchStarted));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ClientException.HandleError(ex, nameof(OnMatchStarted));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -308,7 +313,7 @@ namespace TrucoClient.TrucoServer
 
         public void Ping()
         {
-            /*
+            /**
              * This method is invoked by the server solely to verify the connection vitality.
              * No logic is required inside because the successful return of the call itself
              * acts as the confirmation (ACK) that the client session is active and reachable.

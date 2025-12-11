@@ -25,10 +25,15 @@ namespace TrucoClient.Views
         private const string DEFAUL_AVATAR_ID = "avatar_aaa_default";
         private const string MESSAGE_ERROR = "Error";
         private const int FONT_SIZE = 13;
+        private const int DELAY_RELOAD_PLAYERS = 250;
+        private const int DELAY_JOIN_CHAT_GUEST = 200;
+        private const int DELAY_JOIN_CHAT_PLAYER = 100;
+
         private readonly string matchCode;
         private readonly string matchName;
         private readonly int maxPlayers;
         private readonly bool isPrivateMatch;
+
         private bool isOwner = false;
 
         public LobbyPage(LobbyNavigationArguments arguments)
@@ -63,27 +68,31 @@ namespace TrucoClient.Views
             {
                 await Task.Run(() => ClientManager.MatchClient.StartMatch(matchCode));
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
                 btnStart.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickStartGame));
                 CustomMessageBox.Show(Lang.ExceptionTextTimeout,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
                 btnStart.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickStartGame));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
                 btnStart.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickStartGame));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 btnStart.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickStartGame));
                 CustomMessageBox.Show(Lang.GameTextErrorStartingMatch, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -438,7 +447,7 @@ namespace TrucoClient.Views
             }
             catch (Exception)
             {
-                /*
+                /**
                  * Loading inviteable friends is a non-essential 
                  * feature for the lobby's core functionality.
                  * If fetching or filtering friends fails,
@@ -520,7 +529,7 @@ namespace TrucoClient.Views
         {
             _ = Task.Run(async () =>
             {
-                await Task.Delay(250);
+                await Task.Delay(DELAY_RELOAD_PLAYERS);
                 await LoadPlayersAsync();
             });
         }
@@ -539,7 +548,7 @@ namespace TrucoClient.Views
                     catch (Exception ex)
                     {
                         ClientException.HandleError(ex, nameof(InitializeBannedWordsAsync));
-                        /*
+                        /**
                          * Non-critical feature: Profanity filtering is optional 
                          * and not essential to core lobby functionality. 
                          * Silently fail to avoid disrupting the user 
@@ -551,7 +560,7 @@ namespace TrucoClient.Views
             catch (Exception ex)
             {
                 ClientException.HandleError(ex, nameof(InitializeBannedWordsAsync));
-                /*
+                /**
                  * Handles potential errors in task creation or execution 
                  * (threading issues). Kept silent as this is a background 
                  * initialization that should not interrupt the primary 
@@ -566,13 +575,13 @@ namespace TrucoClient.Views
             {
                 if (!SessionManager.CurrentUsername.StartsWith("Guest_"))
                 {
-                    await Task.Delay(200);
+                    await Task.Delay(DELAY_JOIN_CHAT_GUEST);
                 }
 
                 await Task.Run(() =>
                     ClientManager.MatchClient.JoinMatchChat(matchCode, SessionManager.CurrentUsername));
 
-                await Task.Delay(100);
+                await Task.Delay(DELAY_JOIN_CHAT_PLAYER);
                 await LoadPlayersAsync();
             }
             catch (Exception ex)

@@ -41,14 +41,16 @@ namespace TrucoClient.Views
                     _ = new BitmapImage(new Uri(correctedPath, UriKind.Relative));
                     return correctedPath;
                 }
-                catch (UriFormatException)
+                catch (UriFormatException ex)
                 {
+                    ClientException.HandleError(ex, nameof(AvatarImagePath));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                     return ResourcePaths.DEFAULT_AVATAR_PATH;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ClientException.HandleError(ex, nameof(AvatarImagePath));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                     return ResourcePaths.DEFAULT_AVATAR_PATH;

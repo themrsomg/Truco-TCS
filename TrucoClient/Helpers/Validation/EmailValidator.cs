@@ -26,7 +26,7 @@ namespace TrucoClient.Helpers.Validation
                 return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", 
                     RegexOptions.None, TimeSpan.FromMilliseconds(500)) && addr.Address == email;
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }

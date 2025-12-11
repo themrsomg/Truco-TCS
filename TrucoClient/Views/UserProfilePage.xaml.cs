@@ -194,13 +194,15 @@ namespace TrucoClient.Views
 
                 e.Handled = !allowed.IsMatch(e.Text);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(GenericPreviewTextInput));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                ClientException.HandleError(ex, nameof(GenericPreviewTextInput));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
@@ -210,18 +212,15 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
-            catch (ExternalException)
+            catch (SecurityException ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(GenericPreviewTextInput));
+                CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
-            catch (SecurityException)
+            catch (Exception ex)
             {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                e.Handled = true;
-            }
-            catch (Exception)
-            {
+                ClientException.HandleError(ex, nameof(GenericPreviewTextInput));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }
@@ -236,8 +235,9 @@ namespace TrucoClient.Views
                     e.Handled = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(GenericPreviewKeyDown));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -275,18 +275,21 @@ namespace TrucoClient.Views
                     e.CancelCommand();
                 }
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
@@ -296,18 +299,21 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (ExternalException)
+            catch (ExternalException ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 e.CancelCommand();
             }
-            catch (SecurityException)
+            catch (SecurityException ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 e.CancelCommand();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(UsernamePasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
@@ -346,20 +352,23 @@ namespace TrucoClient.Views
                     e.CancelCommand();
                 }
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
@@ -371,20 +380,23 @@ namespace TrucoClient.Views
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
             }
-            catch (ExternalException)
+            catch (ExternalException ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 e.CancelCommand();
             }
-            catch (SecurityException)
+            catch (SecurityException ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 e.CancelCommand();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(SocialPasting));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 e.CancelCommand();
@@ -424,6 +436,7 @@ namespace TrucoClient.Views
             }
             catch (ArgumentException ex)
             {
+                ClientException.HandleError(ex, nameof(SanitizeAndRestrictTextBox));
                 CustomMessageBox.Show(Lang.ExceptionTextDataReadingError + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (RegexMatchTimeoutException ex)
@@ -433,14 +446,17 @@ namespace TrucoClient.Views
             }
             catch (ExternalException ex)
             {
+                ClientException.HandleError(ex, nameof(SanitizeAndRestrictTextBox));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (SecurityException ex)
             {
+                ClientException.HandleError(ex, nameof(SanitizeAndRestrictTextBox));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(SanitizeAndRestrictTextBox));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred + ": " + ex.Message, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -461,16 +477,19 @@ namespace TrucoClient.Views
                     });
                 }
             }
-            catch (Win32Exception)
+            catch (Win32Exception ex)
             {
+                ClientException.HandleError(ex, nameof(OpenSocialLink));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                ClientException.HandleError(ex, nameof(OpenSocialLink));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(OpenSocialLink));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }

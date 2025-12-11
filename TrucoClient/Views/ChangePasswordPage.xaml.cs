@@ -80,8 +80,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSave));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Localization;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties;
@@ -42,13 +43,15 @@ namespace TrucoClient.Views
                     MusicManager.ToggleMute();
                 }
             }
-            catch (CultureNotFoundException)
+            catch (CultureNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(ApplyDefaultLanguageAndAudio));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ApplyDefaultLanguageAndAudio));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }

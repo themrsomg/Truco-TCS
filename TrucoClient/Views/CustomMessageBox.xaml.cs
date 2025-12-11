@@ -107,7 +107,7 @@ namespace TrucoClient.Views
             }
             catch (Exception)
             {
-                /* 
+                /** 
                  * The exception is ignored to prevent the application from crashing.
                  * If a visual resource is missing, the window will be displayed without a background image.
                  * But it will still be functional.

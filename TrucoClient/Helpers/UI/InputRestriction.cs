@@ -81,7 +81,7 @@ namespace TrucoClient.Helpers.UI
                 }
                 catch (RegexMatchTimeoutException)
                 {
-                    /*
+                    /**
                      * It is ignored to avoid UI blocking: if the regular 
                      * expression exceeds the timeout (500 ms) by one 
                      * character, it is skipped to keep the application 
@@ -113,18 +113,18 @@ namespace TrucoClient.Helpers.UI
                 string normalized = e.Text.Normalize(NormalizationForm.FormC);
                 e.Handled = !allowedCharacters.IsMatch(normalized);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                HandleInputError(e);
+                HandleInputError(e, ex);
             }
             catch (RegexMatchTimeoutException ex)
             {
                 ClientException.HandleError(ex, nameof(HandlePreviewTextInput));
                 e.Handled = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                HandleInputError(e);
+                HandleInputError(e, ex);
             }
         }
 
@@ -161,40 +161,42 @@ namespace TrucoClient.Helpers.UI
                     e.CancelCommand();
                 }
             }
-            catch (ArgumentNullException) 
+            catch (ArgumentNullException ex) 
             { 
-                HandlePasteError(e); 
+                HandlePasteError(e, ex); 
             }
-            catch (ArgumentException) 
-            { 
-                HandlePasteError(e); 
+            catch (ArgumentException ex)
+            {
+                HandlePasteError(e, ex);
             }
-            catch (RegexMatchTimeoutException ex) 
+            catch (RegexMatchTimeoutException ex)
             {
                 ClientException.HandleError(ex, nameof(HandlePasting));
             }
-            catch (ExternalException) 
-            { 
-                HandlePasteError(e); 
+            catch (ExternalException ex)
+            {
+                HandlePasteError(e, ex);
             }
-            catch (SecurityException) 
-            { 
-                HandlePasteError(e); 
+            catch (SecurityException ex)
+            {
+                HandlePasteError(e, ex);
             }
-            catch (Exception) 
-            { 
-                HandlePasteError(e); 
+            catch (Exception ex)
+            {
+                HandlePasteError(e, ex);
             }
         }
 
-        private static void HandleInputError(TextCompositionEventArgs e)
+        private static void HandleInputError(TextCompositionEventArgs e, Exception ex)
         {
+            ClientException.HandleError(ex, nameof(HandlePreviewTextInput));
             CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
         }
 
-        private static void HandlePasteError(DataObjectPastingEventArgs e)
+        private static void HandlePasteError(DataObjectPastingEventArgs e, Exception ex)
         {
+            ClientException.HandleError(ex, nameof(HandlePasting));
             CustomMessageBox.Show(Lang.ExceptionTextDataReadingError, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             e.CancelCommand();
         }

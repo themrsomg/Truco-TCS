@@ -65,8 +65,9 @@ namespace TrucoClient.Views
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendCode));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -76,8 +77,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendCode));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (TimeoutException ex)
@@ -86,8 +88,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextTimeout,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendCode));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -118,18 +121,15 @@ namespace TrucoClient.Views
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show("Null argument in sanitizer: " + ex.Message,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(ApplyInputSanitization));
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show("Invalid regex pattern: " + ex.Message,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(ApplyInputSanitization));
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unexpected sanitizer error: " + ex.Message,
-                    MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(ApplyInputSanitization));
             }
         }
 

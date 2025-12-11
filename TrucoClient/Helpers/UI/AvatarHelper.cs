@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Properties.Langs;
 using TrucoClient.Views;
@@ -83,8 +84,9 @@ namespace TrucoClient.Helpers.UI
             {
                 LoadDefaultAvatar(imageControl);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatarImage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
                 imageControl.Source = new BitmapImage(new Uri(defaultAvatarPackUri, UriKind.Absolute));
@@ -97,18 +99,21 @@ namespace TrucoClient.Helpers.UI
             {
                 imageControl.Source = new BitmapImage(new Uri(defaultAvatarPackUri, UriKind.Absolute));
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadDefaultAvatar));
                 CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, defaultAvatarPackUri), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (UriFormatException)
+            catch (UriFormatException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadDefaultAvatar));
                 CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, defaultAvatarPackUri), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadDefaultAvatar));
                 CustomMessageBox.Show(string.Format(Lang.ExceptionTextAvatarIdFailedToLoadDefault, defaultAvatarPackUri), 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
             }

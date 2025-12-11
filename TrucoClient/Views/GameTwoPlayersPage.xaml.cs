@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -61,18 +62,21 @@ namespace TrucoClient.Views
 
                 imgRivalAvatar.Source = LoadAvatar(rival != null ? rival.AvatarId : DEFAULT_AVATAR_ID);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayerAvatars));
                 CustomMessageBox.Show(Lang.ExceptionTextArgument,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayerAvatars));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadPlayerAvatars));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }

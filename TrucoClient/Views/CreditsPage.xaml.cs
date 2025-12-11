@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.IO;
-using TrucoClient.Properties.Langs;
 using TrucoClient.Helpers.Audio;
+using TrucoClient.Helpers.Exceptions;
+using TrucoClient.Properties.Langs;
 
 namespace TrucoClient.Views
 {
@@ -43,13 +44,15 @@ namespace TrucoClient.Views
                     this.NavigationService.Navigate(new SettingsPage());
                 }
             }
-            catch (System.ComponentModel.Win32Exception)
+            catch (System.ComponentModel.Win32Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickEgg));
                 CustomMessageBox.Show(Lang.EasterEggTextExecuteError, Lang.GlobalTextCriticalError, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickEgg));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, Lang.GlobalTextRuntimeError, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }

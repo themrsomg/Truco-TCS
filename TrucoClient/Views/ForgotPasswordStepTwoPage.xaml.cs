@@ -96,8 +96,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     Lang.GlobalTextConnectionError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSave));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -107,8 +108,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextTimeout, MESSAGE_ERROR, 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSave));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -138,17 +140,17 @@ namespace TrucoClient.Views
                 InputRestriction.AttachRegexValidation(txtVisiblePassword, passwordAllowedRegex);
                 InputRestriction.AttachRegexValidation(txtVisiblePasswordConfirm, passwordAllowedRegex);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
-                MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(InitializeValidation));
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(InitializeValidation));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                ClientException.HandleError(ex, nameof(InitializeValidation));
             }
         }
 

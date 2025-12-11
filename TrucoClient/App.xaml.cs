@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using System.Windows;
+using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Localization;
 
 namespace TrucoClient
@@ -33,8 +34,9 @@ namespace TrucoClient
                 this.MainWindow = mainWindow;
                 mainWindow.Show();
             }
-            catch (CultureNotFoundException)
+            catch (CultureNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(OnStartup));
                 CultureInfo fallbackCulture = new CultureInfo("es-MX");
                 Thread.CurrentThread.CurrentCulture = fallbackCulture;
                 Thread.CurrentThread.CurrentUICulture = fallbackCulture;

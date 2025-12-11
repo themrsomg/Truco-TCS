@@ -279,8 +279,9 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(InitializeMatchClient));
                 CustomMessageBox.Show(Lang.ExceptionTextConnectionError, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -290,13 +291,15 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(InitializeMatchClient));
                 CustomMessageBox.Show(Lang.ExceptionTextInvalid,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(InitializeMatchClient));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -352,7 +355,7 @@ namespace TrucoClient.Views
                 }
                 catch
                 {
-                    /* 
+                    /** 
                      * Silently ignore if banned words fail to load - 
                      * the feature is non-critical and we don't want to 
                      * disrupt the user experience with error messages
@@ -378,7 +381,7 @@ namespace TrucoClient.Views
             } 
             catch 
             {
-                /* 
+                /** 
                  * The exception is ignored to prevent the application from crashing.
                  * If a visual resource is missing, the window will be displayed without a background image.
                  * But it will still be functional.
@@ -551,8 +554,9 @@ namespace TrucoClient.Views
             {
                 MatchClient.CallEnvido(MatchCode, betType);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallEnvidoCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -562,13 +566,15 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (ObjectDisposedException)
+            catch (ObjectDisposedException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallEnvidoCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallEnvidoCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -670,8 +676,9 @@ namespace TrucoClient.Views
 
                 MatchClient.CallFlor(MatchCode, betType);
             }
-            catch (CommunicationException)
+            catch (CommunicationException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallFlorCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -681,13 +688,15 @@ namespace TrucoClient.Views
                 CustomMessageBox.Show(Lang.ExceptionTextTimeoutChat,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (ObjectDisposedException)
+            catch (ObjectDisposedException ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallFlorCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextCommunication,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(SendCallFlorCommand));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -710,18 +719,21 @@ namespace TrucoClient.Views
                     ClearTableUI();
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(ReceiveCards));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(ReceiveCards));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ReceiveCards));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -733,18 +745,21 @@ namespace TrucoClient.Views
             {
                 Dispatcher.Invoke(() => UpdatePlayedCardUI(playerName, cardFileName, isLastCardOfRound));
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyCardPlayed));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyCardPlayed));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyCardPlayed));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -782,18 +797,21 @@ namespace TrucoClient.Views
                     }
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyTurnChange));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyTurnChange));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyTurnChange));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -809,18 +827,21 @@ namespace TrucoClient.Views
                     TxtScoreTeam2.Text = team2Score.ToString();
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyScoreUpdate));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyScoreUpdate));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyScoreUpdate));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -849,18 +870,21 @@ namespace TrucoClient.Views
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyTrucoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyTrucoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyTrucoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -895,18 +919,21 @@ namespace TrucoClient.Views
                     }
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyEnvidoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyEnvidoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyEnvidoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -947,18 +974,21 @@ namespace TrucoClient.Views
                     AddChatMessage(null, string.Format(Lang.GameTextPlayerCalledBet, callerName, betName));
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyFlorCall));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyFlorCall));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyFlorCall));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -975,18 +1005,21 @@ namespace TrucoClient.Views
                     AddChatMessage(null, string.Format(Lang.GameTextBetWonBy, winnerName, score));
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyEnvidoFlorResult));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyEnvidoFlorResult));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyEnvidoFlorResult));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1030,18 +1063,21 @@ namespace TrucoClient.Views
                     }
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyResponse));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyResponse));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyResponse));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1059,18 +1095,21 @@ namespace TrucoClient.Views
                     ClearTableUI();
                 });
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyRoundEnd));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyRoundEnd));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(NotifyRoundEnd));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1102,13 +1141,15 @@ namespace TrucoClient.Views
                     HandleOpponentTurn();
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateTurnButtons));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateTurnButtons));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, 
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1306,13 +1347,15 @@ namespace TrucoClient.Views
                     PanelBetOptions.Visibility = Visibility.Collapsed;
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1383,13 +1426,15 @@ namespace TrucoClient.Views
                     PanelEnvidoOptions.Visibility = Visibility.Collapsed;
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateEnvidoBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateEnvidoBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1430,13 +1475,15 @@ namespace TrucoClient.Views
                     PanelFlorOptions.Visibility = Visibility.Collapsed;
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateFlorBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(UpdateFlorBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1463,13 +1510,15 @@ namespace TrucoClient.Views
 
                 trucoPendingResponse = false;
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(HideBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(HideBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1482,13 +1531,15 @@ namespace TrucoClient.Views
                 TxtEnvidoCaller.Visibility = Visibility.Collapsed;
                 PanelEnvidoOptions.Visibility = Visibility.Collapsed;
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(HideEnvidoBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(HideEnvidoBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1500,13 +1551,15 @@ namespace TrucoClient.Views
             {
                 PanelFlorOptions.Visibility = Visibility.Collapsed;
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(HideFlorBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(HideFlorBetPanelUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1518,13 +1571,15 @@ namespace TrucoClient.Views
             {
                 PanelTableCards.Children.Clear();
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                ClientException.HandleError(ex, nameof(ClearTableUI));
                 CustomMessageBox.Show(Lang.ExceptionTextThreadsDispatch,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClearTableUI));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1624,13 +1679,15 @@ namespace TrucoClient.Views
             {
                 ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, originalMessage);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendMessage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(ClickSendMessage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -1657,13 +1714,15 @@ namespace TrucoClient.Views
                 {
                     ClientManager.MatchClient.SendChatMessage(this.MatchCode, currentPlayer, emoji);
                 }
-                catch (FaultException) 
+                catch (FaultException ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickGesture));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorSendingMessage,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ClientException.HandleError(ex, nameof(ClickGesture));
                     CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                         MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -1746,29 +1805,33 @@ namespace TrucoClient.Views
             {
                 return new BitmapImage(new Uri($"/Resources/Avatars/{avatarId}.png", UriKind.Relative));
             }
-            catch (UriFormatException)
+            catch (UriFormatException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 CustomMessageBox.Show(Lang.ExceptionTextAvatarIdFailedToLoad,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 CustomMessageBox.Show(Lang.ExceptionTextFileNotFound,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadAvatar));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -1787,29 +1850,33 @@ namespace TrucoClient.Views
             {
                 return new BitmapImage(new Uri($"/Resources/Cards/{cardFileName}.png", UriKind.Relative));
             }
-            catch (UriFormatException)
+            catch (UriFormatException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadCardImage));
                 CustomMessageBox.Show(Lang.ExceptionTextAvatarIdFailedToLoad,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadCardImage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingAvatar,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
+                ClientException.HandleError(ex, nameof(LoadCardImage));
                 CustomMessageBox.Show(Lang.ExceptionTextFileNotFound,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return new BitmapImage(new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Relative));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ClientException.HandleError(ex, nameof(LoadCardImage));
                 CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
