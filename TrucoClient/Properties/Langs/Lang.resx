@@ -1326,4 +1326,7 @@ Register today and set up a proper game!</value>
   <data name="ExceptionTextDBErrorGetPublicLobbies" xml:space="preserve">
     <value>The list of games could not be loaded due to a database error.</value>
   </data>
+  <data name="DialogTextDisconnectedInactivity" xml:space="preserve">
+    <value>You have been disconnected due to inactivity.</value>
+  </data>
 </root>

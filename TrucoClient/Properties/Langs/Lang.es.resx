@@ -1326,4 +1326,7 @@
   <data name="ExceptionTextDBErrorGetPublicLobbies" xml:space="preserve">
     <value>No se pudo cargar la lista de partidas por un error de base de datos.</value>
   </data>
+  <data name="DialogTextDisconnectedInactivity" xml:space="preserve">
+    <value>Ha sido desconectado por inactividad.</value>
+  </data>
 </root>

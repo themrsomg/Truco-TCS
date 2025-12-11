@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using System.Text.RegularExpressions;
+using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +14,6 @@ using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
-using TrucoClient.Helpers.UI;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 using TrucoClient.Utilities;
@@ -24,13 +23,7 @@ namespace TrucoClient.Views
     public abstract class GameBasePage : Page, IChatPage
     {
         private const int MESSAGE_FONT_SIZE = 13;
-        private const int WIDTH_IMAGE = 100;
-        private const int HEIGHT_IMAGE = 150;
-        private const int THICKNESS = 10;
-        private const int CHAT_THICKNESS = 5;
-        private const int MARGIN_THICKNESS = 2;
-        private const int PLAYERS_2V2 = 4;
-        private const int MAX_CARDS = 3;
+        private const int TIME_FOR_INACTIVITY = 30;
         protected const double OPACITY_ACTIVE = 1.0;
         protected const double OPACITY_INACTIVE = 0.5;
 
@@ -66,6 +59,8 @@ namespace TrucoClient.Views
         protected bool envidoPlayedInCurrentHand = false;
         protected bool envidoPendingResponse = false;
         protected bool trucoPendingResponse = false;
+
+        private DispatcherTimer inactivityTimer;
 
         protected Image[] PlayerCardImages { get; set; }
         protected Button BtnBack { get; set; }
@@ -113,6 +108,12 @@ namespace TrucoClient.Views
             this.txtBaseChatMessage = txtChatMessage;
             this.chatMessagesPanel = chatMessagesPanel;
             this.blckBasePlaceholder = blckPlaceholder;
+
+            inactivityTimer = new DispatcherTimer();
+            inactivityTimer.Interval = TimeSpan.FromSeconds(TIME_FOR_INACTIVITY);
+            inactivityTimer.Tick += OnInactivityTick;
+
+            Application.Current.Exit += OnAppExit;
 
             InitializeMatchClient();
             ConnectToChat();
@@ -194,12 +195,14 @@ namespace TrucoClient.Views
 
         private void OnBtnCallTrucoClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             string betToSend = BtnCallTruco.Content.ToString();
             SendCallTrucoCommand(betToSend);
         }
 
         private void OnBtnRespondQuieroClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             if (sender == BtnEnvidoRespondQuiero)
             {
                 SendRespondToEnvidoCommand(RESPOND_QUIERO);
@@ -219,6 +222,7 @@ namespace TrucoClient.Views
 
         private void OnBtnRespondNoQuieroClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             if (sender == BtnEnvidoRespondNoQuiero)
             {
                 SendRespondToEnvidoCommand(RESPOND_NO_QUIERO);
@@ -238,26 +242,32 @@ namespace TrucoClient.Views
 
         private void OnBtnGoToDeckClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             SendGoToDeckCommand();
         }
         private void OnBtnCallEnvidoClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             SendCallEnvidoCommand(BET_ENVIDO);
         }
         private void OnBtnCallRealEnvidoClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             SendCallEnvidoCommand(BET_REAL_ENVIDO);
         }
         private void OnBtnCallFaltaEnvidoClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             SendCallEnvidoCommand(BET_FALTA_ENVIDO);
         }
         private void OnBtnCallFlorClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             SendCallFlorCommand(BET_FLOR);
         }
         private void OnBtnCallContraFlorClick(object sender, RoutedEventArgs e)
         {
+            inactivityTimer.Stop();
             SendRespondToFlorCommand(BET_CONTRA_FLOR);
         }
 
@@ -383,6 +393,8 @@ namespace TrucoClient.Views
 
         private void GameBasePage_Unloaded(object sender, RoutedEventArgs e)
         {
+            Application.Current.Exit -= OnAppExit;
+
             try 
             { 
                 MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername); 
@@ -390,10 +402,13 @@ namespace TrucoClient.Views
             catch 
             {
                 /** 
-                 * The exception is ignored to prevent the application from crashing.
-                 * If a visual resource is missing, the window will be displayed without a background image.
-                 * But it will still be functional.
-                 */
+               * The catch block is intentionally left empty to 
+               * ignore any exceptions that might occur when 
+               * trying to exit the match and chat. 
+               * This is because the user is already 
+               * being disconnected for inactivity, and a failure 
+               * in these calls should not interrupt the flow.
+               */
             }
         }
 
@@ -443,11 +458,12 @@ namespace TrucoClient.Views
             {
                 if (envidoPendingResponse || trucoPendingResponse)
                 {
-                    return;
+                    return; 
                 }
 
                 if (sender is Image clickedCard && clickedCard.Tag is TrucoCard card)
                 {
+                    inactivityTimer.Stop();
                     clickedCard.Visibility = Visibility.Collapsed;
                     SendPlayCardCommand(card.FileName);
                 }
@@ -785,6 +801,8 @@ namespace TrucoClient.Views
 
                     if (!isMyTurn)
                     {
+                        inactivityTimer.Stop();
+
                         HideFlorBetPanelUI();
                         HideEnvidoBetPanelUI();
                         HideBetPanelUI();
@@ -796,6 +814,8 @@ namespace TrucoClient.Views
                     }
                     else
                     {
+                        inactivityTimer.Start();
+                        
                         HideFlorBetPanelUI();
 
                         if (!trucoPendingResponse && !envidoPendingResponse)
@@ -889,7 +909,7 @@ namespace TrucoClient.Views
                 ClientException.HandleError(ex, nameof(NotifyTrucoCall));
                 CustomMessageBox.Show(Lang.ExceptionTextTaskCanceled,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }   
             catch (Exception ex)
             {
                 ClientException.HandleError(ex, nameof(NotifyTrucoCall));
@@ -1744,6 +1764,53 @@ namespace TrucoClient.Views
             {
                 ClickSendMessage(sender, null);
                 e.Handled = true;
+            }
+        }
+
+        private void OnInactivityTick(object sender, EventArgs e)
+        {
+            inactivityTimer.Stop();
+
+            try
+            {
+                MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername);
+            }
+            catch
+            { 
+               /** 
+               * The catch block is intentionally left empty to 
+               * ignore any exceptions that might occur when 
+               * trying to exit the match and chat. 
+               * This is because the user is already 
+               * being disconnected for inactivity, and a failure 
+               * in these calls should not interrupt the flow.
+               */
+            }
+
+            CustomMessageBox.Show(Lang.DialogTextDisconnectedInactivity, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            Dispatcher.Invoke(() =>
+            {
+                this.NavigationService.Navigate(new MainPage());
+            });
+        }
+
+        private void OnAppExit(object sender, ExitEventArgs e)
+        {
+            try
+            {
+                MatchClient.LeaveMatchChat(this.MatchCode, SessionManager.CurrentUsername);
+            }
+            catch
+            {
+                /**
+                 * The catch block is intentionally left empty to 
+                 * ignore any exceptions that might occur when 
+                 * trying to exit the application. 
+                 * This is because the application is 
+                 * already exiting, and a failure in these calls 
+                 * should not interrupt the flow.
+                 */
             }
         }
 
