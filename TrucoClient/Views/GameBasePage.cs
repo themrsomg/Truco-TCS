@@ -25,6 +25,13 @@ namespace TrucoClient.Views
         private const int MESSAGE_FONT_SIZE = 13;
         private const int TIME_FOR_INACTIVITY = 30;
         protected const double OPACITY_ACTIVE = 1.0;
+        protected const int PLAYERS_2V2 = 4;
+        protected const int MARGIN_THICKNESS = 2;
+        protected const int MAX_CARDS = 3;
+        protected const int WIDTH_IMAGE = 100;
+        protected const int HEIGHT_IMAGE = 150;
+        protected const int THICKNESS = 10;
+        protected const int CHAT_THICKNESS = 5;
         protected const double OPACITY_INACTIVE = 0.5;
 
         protected const string DEFAULT_AVATAR_ID = "avatar_aaa_default";
