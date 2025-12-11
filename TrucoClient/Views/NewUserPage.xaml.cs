@@ -212,7 +212,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private void HandleRegisterFault(FaultException<CustomFault> ex)
+        private static void HandleRegisterFault(FaultException<CustomFault> ex)
         {
             switch (ex.Detail.ErrorCode)
             {

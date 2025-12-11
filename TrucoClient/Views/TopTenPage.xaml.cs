@@ -68,7 +68,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private void HandleFriendsFault(FaultException<CustomFault> ex)
+        private static void HandleFriendsFault(FaultException<CustomFault> ex)
         {
             switch (ex.Detail.ErrorCode)
             {

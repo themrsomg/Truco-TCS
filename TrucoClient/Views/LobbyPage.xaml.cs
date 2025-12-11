@@ -352,7 +352,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private void HandleLoadPlayersFault(FaultException<CustomFault> ex)
+        private static void HandleLoadPlayersFault(FaultException<CustomFault> ex)
         {
             switch (ex.Detail.ErrorCode)
             {

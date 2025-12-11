@@ -99,7 +99,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private void HandleJoinFault(FaultException<CustomFault> ex)
+        private static void HandleJoinFault(FaultException<CustomFault> ex)
         {
             switch (ex.Detail.ErrorCode)
             {
