@@ -29,6 +29,15 @@ namespace TrucoClient.Helpers.UI
             DataObject.AddPastingHandler(textBox, (s, e) => HandlePasting(e, allowedCharacters));
         }
 
+        public static void AttachRegexValidation(PasswordBox passwordBox, Regex allowedCharacters)
+        {
+            ValidateArguments(passwordBox, allowedCharacters);
+
+            passwordBox.PreviewTextInput += (s, e) => HandlePreviewTextInput(e, allowedCharacters);
+            passwordBox.PreviewKeyDown += HandlePreviewKeyDown;
+            DataObject.AddPastingHandler(passwordBox, (s, e) => HandlePasting(e, allowedCharacters));
+        }
+
         public static void AttachChatValidation(TextBox textBox, int maxCharacters)
         {
             if (textBox == null)
@@ -51,15 +60,6 @@ namespace TrucoClient.Helpers.UI
             {
                 ClientException.HandleError(ex, nameof(AttachChatValidation));
             }
-        }
-
-        public static void AttachRegexValidation(PasswordBox passwordBox, Regex allowedCharacters)
-        {
-            ValidateArguments(passwordBox, allowedCharacters);
-
-            passwordBox.PreviewTextInput += (s, e) => HandlePreviewTextInput(e, allowedCharacters);
-            passwordBox.PreviewKeyDown += HandlePreviewKeyDown;
-            DataObject.AddPastingHandler(passwordBox, (s, e) => HandlePasting(e, allowedCharacters));
         }
 
         public static void AttachTextBoxValidation(TextBox textBox, string pattern)
