@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using TrucoClient.Helpers.Exceptions;
+using TrucoClient.Helpers.UI;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -11,11 +13,11 @@ namespace TrucoClient.Views
     public partial class GameTwoPlayersPage : GameBasePage
     {
         private readonly List<PlayerInfo> players;
+        private const int MAX_CHAT_CHARS = 200;
 
         public GameTwoPlayersPage(string matchCode, List<PlayerInfo> players)
         {
             InitializeComponent();
-
             MapUiControls();
 
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
@@ -32,9 +34,11 @@ namespace TrucoClient.Views
 
             InitializeGameEvents();
             InitializeCardEvents();
-
+            InputRestriction.AttachChatValidation(this.txtChatMessage, MAX_CHAT_CHARS);
             PanelPlayerCards.IsEnabled = false;
         }
+
+        
 
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
         {

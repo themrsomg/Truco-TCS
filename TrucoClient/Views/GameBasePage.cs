@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,10 +13,11 @@ using System.Windows.Media.Imaging;
 using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
-using TrucoClient.Utilities;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.UI;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
+using TrucoClient.Utilities;
 
 namespace TrucoClient.Views
 {
@@ -182,7 +184,6 @@ namespace TrucoClient.Views
                 BtnCallContraFlor.Click -= OnBtnCallContraFlorClick; BtnCallContraFlor.Click += OnBtnCallContraFlorClick; 
             }
         }
-
 
         private void OnBtnCallTrucoClick(object sender, RoutedEventArgs e)
         {
@@ -1658,6 +1659,7 @@ namespace TrucoClient.Views
 
         protected void ClickSendMessage(object sender, RoutedEventArgs e)
         {
+
             if (string.IsNullOrEmpty(this.MatchCode))
             {
                 return;

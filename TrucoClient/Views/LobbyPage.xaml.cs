@@ -14,6 +14,7 @@ using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Paths;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
+using TrucoClient.Helpers.UI;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 using TrucoClient.Utilities;
@@ -28,7 +29,7 @@ namespace TrucoClient.Views
         private const int DELAY_RELOAD_PLAYERS = 250;
         private const int DELAY_JOIN_CHAT_GUEST = 200;
         private const int DELAY_JOIN_CHAT_PLAYER = 100;
-
+        private const int MAX_CHAT_CHARS = 200;
         private readonly string matchCode;
         private readonly string matchName;
         private readonly int maxPlayers;
@@ -48,6 +49,7 @@ namespace TrucoClient.Views
             txtLobbyCode.Text = string.Format(Lang.GameTextLobbyCode, matchCode);
 
             InitializeChat();
+            InputRestriction.AttachChatValidation(this.txtChatMessage, MAX_CHAT_CHARS);
 
             this.Loaded += LobbyPage_Loaded;
         }

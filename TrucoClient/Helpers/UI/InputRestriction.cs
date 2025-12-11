@@ -15,7 +15,10 @@ namespace TrucoClient.Helpers.UI
     public static class InputRestriction
     {
         private const string MESSAGE_ERROR = "Error";
+        private const double TIME_SPAM = 250;
         private static readonly TimeSpan regexTimeout = TimeSpan.FromMilliseconds(500);
+
+        private static readonly Regex chatCharRegex = new Regex(@"^[A-Za-z0-9\-\._:/\?#\[\]@!$&'()*+,;=% ]$", RegexOptions.Compiled, TimeSpan.FromMilliseconds(TIME_SPAM));
 
         public static void AttachRegexValidation(TextBox textBox, Regex allowedCharacters)
         {
@@ -24,6 +27,26 @@ namespace TrucoClient.Helpers.UI
             textBox.PreviewTextInput += (s, e) => HandlePreviewTextInput(e, allowedCharacters);
             textBox.PreviewKeyDown += HandlePreviewKeyDown;
             DataObject.AddPastingHandler(textBox, (s, e) => HandlePasting(e, allowedCharacters));
+        }
+
+        public static void AttachChatValidation(TextBox textBox, int maxCharacters)
+        {
+            if (textBox == null)
+            {
+                throw new ArgumentNullException(nameof(textBox));
+            }
+
+            try
+            {
+                textBox.MaxLength = maxCharacters;
+
+                AttachRegexValidation(textBox, chatCharRegex);
+                textBox.PreviewKeyDown -= HandlePreviewKeyDown;
+            }
+            catch (Exception ex)
+            {
+                ClientException.HandleError(ex, nameof(AttachChatValidation));
+            }
         }
 
         public static void AttachRegexValidation(PasswordBox passwordBox, Regex allowedCharacters)

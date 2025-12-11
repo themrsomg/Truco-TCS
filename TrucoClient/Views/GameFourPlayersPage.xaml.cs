@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using TrucoClient.Helpers.Exceptions;
+using TrucoClient.Helpers.UI;
 using TrucoClient.Properties.Langs;
 using TrucoClient.TrucoServer;
 
@@ -10,6 +12,8 @@ namespace TrucoClient.Views
 {
     public partial class GameFourPlayersPage : GameBasePage
     {
+        private const int MAX_CHAT_CHARS = 200;
+
         private const int NUMBER_OF_PLAYERS = 4;
         private readonly List<PlayerInfo> players;
         private string topPlayerName;
@@ -30,13 +34,13 @@ namespace TrucoClient.Views
             base.PlayerCardImages = new[] 
             { 
                 imgPlayerCard1, 
-                imgPlayerCard2, 
+                imgPlayerCard2,
                 imgPlayerCard3 
             };
 
             InitializeGameEvents();
             InitializeCardEvents();
-
+            InputRestriction.AttachChatValidation(this.txtChatMessage, MAX_CHAT_CHARS);
             PanelPlayerCards.IsEnabled = false;
         }
 
