@@ -25,7 +25,7 @@ namespace TrucoClient.Views
     public class FriendDisplayData
     {
         private const string MESSAGE_ERROR = "Error";
-
+        private const string AVATAR_DEFAULT_ID = "avatar_aaa_default";
         public string Username { get; set; }
         public string AvatarId { get; set; }
 
@@ -33,7 +33,7 @@ namespace TrucoClient.Views
         {
             get
             {
-                string id = string.IsNullOrWhiteSpace(AvatarId) ? "avatar_aaa_default" : AvatarId;
+                string id = string.IsNullOrWhiteSpace(AvatarId) ? AVATAR_DEFAULT_ID : AvatarId;
                 string correctedPath = $"/Resources/Avatars/{id}.png";
 
                 try
@@ -110,7 +110,11 @@ namespace TrucoClient.Views
                     {
                         foreach (var friend in friends)
                         {
-                            FriendsList.Add(new FriendDisplayData { Username = friend.Username, AvatarId = friend.AvatarId });
+                            FriendsList.Add(new FriendDisplayData 
+                            { 
+                                Username = friend.Username,
+                                AvatarId = friend.AvatarId 
+                            });
                         }
                     });
 
@@ -120,7 +124,11 @@ namespace TrucoClient.Views
                     {
                         foreach (var req in pending)
                         {
-                            PendingList.Add(new FriendDisplayData { Username = req.Username, AvatarId = req.AvatarId });
+                            PendingList.Add(new FriendDisplayData 
+                            {
+                                Username = req.Username,
+                                AvatarId = req.AvatarId 
+                            });
                         }
                     });
 

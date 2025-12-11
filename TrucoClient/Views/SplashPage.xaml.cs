@@ -20,6 +20,7 @@ namespace TrucoClient.Views
 
         private const double LOGO_SCALE_FROM = 0.5;
         private const double LOGO_SCALE_TO = 1.0;
+        private const int GRID = 1;
         private const double LOGO_SCALE_DURATION = 1.2;
 
         private const double TEXT_FADE_IN_FROM = 0.0;
@@ -74,7 +75,7 @@ namespace TrucoClient.Views
                     BeginTime = TimeSpan.FromSeconds(TEXT_FADE_IN_BEGIN)
                 };
 
-            if (this.Content is Grid rootGrid && rootGrid.Children.Count > 1 &&
+            if (this.Content is Grid rootGrid && rootGrid.Children.Count > GRID &&
                 rootGrid.Children[ROOT_GRID_CHILDREN_INDEX] is TextBlock textBlock)
             {
                 textBlock.BeginAnimation(OpacityProperty, textFadeIn);

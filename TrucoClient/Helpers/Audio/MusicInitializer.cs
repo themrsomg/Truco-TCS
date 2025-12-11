@@ -13,6 +13,7 @@ namespace TrucoClient.Helpers.Audio
         private const string MENU_MUSIC_FILE_NAME = "music_in_menus.mp3";
         private const string START_MUSIC_FILE_NAME = "music_in_start.mp3";
         private const double DEFAULT_VOLUME = 0.3;
+        private const double SPLASH_PAGE_VOLUME = 0.6;
         private const string MESSAGE_ERROR = "Error";
         private const string RESOURCES_NAME = "Resources";
         private const string SONGS_NAME = "Songs";
@@ -44,7 +45,7 @@ namespace TrucoClient.Helpers.Audio
             try
             {
                 splashPlayer.Open(new Uri(splashPath, UriKind.Absolute));
-                splashPlayer.Volume = 0.6;
+                splashPlayer.Volume = SPLASH_PAGE_VOLUME;
                 splashPlayer.Play();
             }
             catch (UriFormatException ex)

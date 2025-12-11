@@ -18,7 +18,8 @@ namespace TrucoClient.Views
     public partial class SettingsPage : Page
     {
         private const String MESSAGE_ERROR = "Error";
-
+        private const int ENGLISH_INDEX = 0;
+        private const int SPANISH_INDEX = 1;
         public SettingsPage()
         {
             InitializeComponent();
@@ -120,11 +121,11 @@ namespace TrucoClient.Views
             
             if (currentLang == "es-MX")
             {
-                cbLanguages.SelectedIndex = 1;
+                cbLanguages.SelectedIndex = SPANISH_INDEX;
             }
             else
             {
-                cbLanguages.SelectedIndex = 0;
+                cbLanguages.SelectedIndex = ENGLISH_INDEX;
             }
         }
 
@@ -136,7 +137,7 @@ namespace TrucoClient.Views
             }
 
             int selectedIndex = cbLanguages.SelectedIndex;
-            string newLang = (selectedIndex == 0) ? "en-US" : "es-MX";
+            string newLang = (selectedIndex == ENGLISH_INDEX) ? "en-US" : "es-MX";
 
             if (Settings.Default.languageCode == newLang)
             {

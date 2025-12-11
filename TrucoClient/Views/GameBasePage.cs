@@ -24,6 +24,13 @@ namespace TrucoClient.Views
     public abstract class GameBasePage : Page, IChatPage
     {
         private const int MESSAGE_FONT_SIZE = 13;
+        private const int WIDTH_IMAGE = 100;
+        private const int HEIGHT_IMAGE = 150;
+        private const int THICKNESS = 10;
+        private const int CHAT_THICKNESS = 5;
+        private const int MARGIN_THICKNESS = 2;
+        private const int PLAYERS_2V2 = 4;
+        private const int MAX_CARDS = 3;
         protected const double OPACITY_ACTIVE = 1.0;
         protected const double OPACITY_INACTIVE = 0.5;
 
@@ -1121,9 +1128,9 @@ namespace TrucoClient.Views
             Image cardImage = new Image
             {
                 Source = LoadCardImage(cardFileName),
-                Width = 100,
-                Height = 150,
-                Margin = new Thickness(10),
+                Width = WIDTH_IMAGE,
+                Height = HEIGHT_IMAGE,
+                Margin = new Thickness(THICKNESS),
                 VerticalAlignment = VerticalAlignment.Top
             };
             PanelTableCards.Children.Add(cardImage);
@@ -1227,7 +1234,7 @@ namespace TrucoClient.Views
 
         private void ConfigureEnvidoButtons(string currentBetState)
         {
-            bool hasNotPlayedCards = playerHand.Count == 3;
+            bool hasNotPlayedCards = playerHand.Count == MAX_CARDS;
             bool isTrucoClean = currentBetState == BET_STATUS_NONE;
 
             if (envidoPlayedInCurrentHand)
@@ -1600,8 +1607,8 @@ namespace TrucoClient.Views
         {
             Border messageBubble = new Border
             {
-                Padding = new Thickness(5),
-                Margin = new Thickness(2)
+                Padding = new Thickness(CHAT_THICKNESS),
+                Margin = new Thickness(MARGIN_THICKNESS)
             };
             TextBlock messageText = new TextBlock
             {
@@ -1768,7 +1775,7 @@ namespace TrucoClient.Views
 
         protected string GetNextOpponentName(string callerName)
         {
-            if (CurrentMatchPlayers == null || CurrentMatchPlayers.Count != 4)
+            if (CurrentMatchPlayers == null || CurrentMatchPlayers.Count != PLAYERS_2V2)
             {
                 return null;
             }

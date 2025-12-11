@@ -100,7 +100,7 @@ namespace TrucoClient.Views
                 return;
             }
 
-            var avatarPage = new AvatarSelectionPage(AvatarHelper.availableAvatars.ToList(), localEditingData.AvatarId);
+            var avatarPage = new AvatarSelectionPage(AvatarHelper.AvailableAvatars.ToList(), localEditingData.AvatarId);
             avatarPage.AvatarSelected += AvatarSelectedHandler;
             NavigationService.Navigate(avatarPage);
         }

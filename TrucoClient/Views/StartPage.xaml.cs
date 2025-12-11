@@ -15,6 +15,10 @@ namespace TrucoClient.Views
     public partial class StartPage : Page
     {
         private const string MESSAGE_ERROR = "Error";
+        private const string DEFAULT_LANG = "es-MX";
+        private const string GUEST_NAME = "Guest_";
+
+
         public StartPage()
         {
             InitializeComponent();
@@ -28,7 +32,6 @@ namespace TrucoClient.Views
         {
             try
             {
-                const string DEFAULT_LANG = "es-MX";
 
                 if (Settings.Default.languageCode != DEFAULT_LANG)
                 {
@@ -64,7 +67,7 @@ namespace TrucoClient.Views
 
         private void ClickPlayAsGuest(object sender, RoutedEventArgs e)
         {
-            string guestName = "Guest_" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            string guestName = GUEST_NAME + Guid.NewGuid().ToString("N").Substring(0, 6);
             SessionManager.CurrentUsername = guestName;
             this.NavigationService.Navigate(new MainPage());
         }

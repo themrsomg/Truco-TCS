@@ -13,19 +13,22 @@ namespace TrucoClient.Helpers.Audio
         private const double VOLUME_EPSILON = 0.000001;
         private const string MESSAGE_ERROR = "Error";
         private const string MENU_MUSIC_FILE_NAME = "music_in_menus.mp3";
+        private const double MIN_VOLUME = 0.0;
+        private const double MAX_VOLUME = 1.0;
+        private const double PLAYER_VOLUME = 0.5;
 
         private static MediaPlayer player = new MediaPlayer();
         private static string currentTrack = string.Empty;
         private static double lastVolume = 0.3;
-        public static bool IsMuted => Math.Abs(player.Volume - 0.0) < VOLUME_EPSILON;
+        public static bool IsMuted => Math.Abs(player.Volume - MIN_VOLUME) < VOLUME_EPSILON;
 
         public static double Volume
         {
             get => player.Volume;
             set
             {
-                player.Volume = Clamp(value, 0.0, 1.0);
-                if (value > 0)
+                player.Volume = Clamp(value, MIN_VOLUME, MAX_VOLUME);
+                if (value > MIN_VOLUME)
                 {
                     lastVolume = player.Volume;
                 }
@@ -39,7 +42,7 @@ namespace TrucoClient.Helpers.Audio
             else
             {
                 lastVolume = player.Volume;
-                player.Volume = 0.0;
+                player.Volume = MIN_VOLUME;
             }
         }
 
@@ -70,7 +73,7 @@ namespace TrucoClient.Helpers.Audio
 
                 currentTrack = fullPath;
                 player.Open(new Uri(fullPath, UriKind.Absolute));
-                player.Volume = 0.5;
+                player.Volume = PLAYER_VOLUME;
                 player.MediaEnded -= LoopHandler;
                 player.MediaEnded += LoopHandler;
                 player.MediaFailed -= OnMediaFailed;

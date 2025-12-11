@@ -43,6 +43,10 @@ namespace TrucoClient.Helpers.UI
                 AttachRegexValidation(textBox, chatCharRegex);
                 textBox.PreviewKeyDown -= HandlePreviewKeyDown;
             }
+            catch (ArgumentException ex)
+            {
+                ClientException.HandleError(ex, nameof(AttachChatValidation));
+            }
             catch (Exception ex)
             {
                 ClientException.HandleError(ex, nameof(AttachChatValidation));

@@ -16,5 +16,6 @@ namespace TrucoClient.Helpers.Paths
         public const string INSTAGRAM_BASE_URL = "https://www.instagram.com/";
         public const String VOLUME_ICON_MUTED_PATH = "/Resources/Logos/logo_muted.png";
         public const String VOLUME_ICON_VOLUME_PATH = "/Resources/Logos/logo_volume.png";
+        public const string MANIFEST_RESOURCE_NAME = "TrucoClient.Resources.Avatars.json";
     }
 }

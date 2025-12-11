@@ -8,6 +8,7 @@ namespace TrucoClient.Helpers.Localization
     public static class LanguageManager
     {
         public static event Action LanguageChanged;
+        private const string SPANISH_CODE = "es-MX";
 
         public static void ChangeLanguage(string languageCode)
         {
@@ -28,7 +29,7 @@ namespace TrucoClient.Helpers.Localization
 
             if (string.IsNullOrWhiteSpace(code))
             {
-                code = "es-MX";
+                code = SPANISH_CODE;
                 Properties.Settings.Default.languageCode = code;
                 Properties.Settings.Default.Save();
             }
