@@ -245,8 +245,8 @@ namespace TrucoClient.Views
             }
             catch (EndpointNotFoundException ex)
             {
-                ClientException.HandleError(ex, nameof(ClickJoinMatch));
-                CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch,
+                ClientException.HandleError(ex, nameof(LoadAvailableMatchesAsync));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorLoadingMatches,
                     MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (CommunicationException ex)
