@@ -513,14 +513,45 @@
                     <Image.RenderTransform>
                         <RotateTransform Angle="-5"/>
                     </Image.RenderTransform>
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
                 </Image>
                 <Image x:Name="imgPlayerCard2" 
-                           Width="150" Height="225" Margin="10,0,10,30"/>
+                           Width="150" Height="225" Margin="10,0,10,30">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
                 <Image x:Name="imgPlayerCard3" 
                            Width="150" Height="225" Margin="10,5,10,20" RenderTransformOrigin="0.5,1">
                     <Image.RenderTransform>
                         <RotateTransform Angle="5"/>
                     </Image.RenderTransform>
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
                 </Image>
             </StackPanel>
 

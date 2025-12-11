@@ -420,6 +420,15 @@ namespace TrucoClient.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You have been disconnected due to inactivity..
+        /// </summary>
+        public static string DialogTextDisconnectedInactivity {
+            get {
+                return ResourceManager.GetString("DialogTextDisconnectedInactivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Password cannot be empty..
         /// </summary>
         public static string DialogTextEmptyPassword {
