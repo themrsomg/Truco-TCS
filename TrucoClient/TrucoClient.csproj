@@ -125,9 +125,9 @@
     </Compile>
     <Compile Include="Helpers\Audio\MusicInitializer.cs" />
     <Compile Include="Helpers\DTOs\FriendDisplayData.cs" />
-    <Compile Include="Helpers\DTOs\FriendLobbyInfo.cs" />
+    <Compile Include="Helpers\DTOs\FriendLobbyInformation.cs" />
     <Compile Include="Helpers\DTOs\LobbyNavigationArguments.cs" />
-    <Compile Include="Helpers\DTOs\PlayerLobbyInfo.cs" />
+    <Compile Include="Helpers\DTOs\PlayerLobbyInformation.cs" />
     <Compile Include="Helpers\Exceptions\ClientException.cs" />
     <Compile Include="Helpers\Paths\ResourcePaths.cs" />
     <Compile Include="Helpers\Profanity\ProfanityValidator.cs" />

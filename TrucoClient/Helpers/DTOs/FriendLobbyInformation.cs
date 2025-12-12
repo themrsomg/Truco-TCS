@@ -2,7 +2,7 @@
 
 namespace TrucoClient.Helpers.DTOs
 {
-    public class FriendLobbyInfo
+    public class FriendLobbyInformation
     {
         public string Username { get; set; }
         public BitmapImage AvatarUri { get; set; }

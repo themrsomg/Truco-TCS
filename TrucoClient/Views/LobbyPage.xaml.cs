@@ -179,7 +179,7 @@ namespace TrucoClient.Views
 
         private async void ClickInviteFriend(object sender, RoutedEventArgs e)
         {
-            if (!TryGetButtonContext(sender, out Button btn, out FriendLobbyInfo friendInfo))
+            if (!TryGetButtonContext(sender, out Button btn, out FriendLobbyInformation friendInfo))
             {
                 return;
             }
@@ -223,15 +223,15 @@ namespace TrucoClient.Views
             }
         }
 
-        private static bool TryGetButtonContext(object sender, out Button btn, out FriendLobbyInfo info)
+        private static bool TryGetButtonContext(object sender, out Button btn, out FriendLobbyInformation info)
         {
             btn = sender as Button;
-            info = btn?.CommandParameter as FriendLobbyInfo;
+            info = btn?.CommandParameter as FriendLobbyInformation;
 
             return btn != null && info != null && info.CanInvite;
         }
 
-        private static void ToggleInviteButton(Button btn, FriendLobbyInfo info, bool isEnabled)
+        private static void ToggleInviteButton(Button btn, FriendLobbyInformation info, bool isEnabled)
         {
             btn.IsEnabled = isEnabled;
             info.CanInvite = isEnabled;
@@ -252,7 +252,7 @@ namespace TrucoClient.Views
             return await Task.Run(() => ClientManager.MatchClient.InviteFriend(options));
         }
 
-        private static void HandleInvitationSuccess(FriendLobbyInfo info)
+        private static void HandleInvitationSuccess(FriendLobbyInformation info)
         {
             CustomMessageBox.Show(string.Format(Lang.DialogTextInvitationSent, info.Username),
                 Lang.GlobalTextSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -260,7 +260,7 @@ namespace TrucoClient.Views
             info.CanInvite = false;
         }
 
-        private static void HandleInvitationError(Button btn, FriendLobbyInfo info, string messageKey)
+        private static void HandleInvitationError(Button btn, FriendLobbyInformation info, string messageKey)
         {
             ToggleInviteButton(btn, info, true);
             ShowError(messageKey);
@@ -383,19 +383,19 @@ namespace TrucoClient.Views
             Application.Current.Dispatcher.Invoke(() =>
             {
                 AddChatMessage(string.Empty, Lang.LobbyTextNoPlayersYet);
-                PlayersList.ItemsSource = new List<PlayerLobbyInfo>();
+                PlayersList.ItemsSource = new List<PlayerLobbyInformation>();
                 btnStart.IsEnabled = false;
             });
         }
 
-        private async Task<List<PlayerLobbyInfo>> MapServerPlayersToUIAsync(PlayerInfo[] players)
+        private async Task<List<PlayerLobbyInformation>> MapServerPlayersToUIAsync(PlayerInfo[] players)
         {
             var tasks = players.Select(p => GetSinglePlayerInfoAsync(p));
             var results = await Task.WhenAll(tasks);
             return results.ToList();
         }
 
-        private void UpdateLobbyUI(List<PlayerLobbyInfo> players)
+        private void UpdateLobbyUI(List<PlayerLobbyInformation> players)
         {
             PlayersList.ItemsSource = null;
             PlayersList.ItemsSource = players;
@@ -414,7 +414,7 @@ namespace TrucoClient.Views
             btnStart.IsEnabled = isOwner && isLobbyFull;
         }
 
-        private void UpdateFriendsPanelState(List<PlayerLobbyInfo> currentPlayers)
+        private void UpdateFriendsPanelState(List<PlayerLobbyInformation> currentPlayers)
         {
             if (isOwner && isPrivateMatch)
             {
@@ -427,7 +427,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private async Task LoadFriendsForInvite(List<PlayerLobbyInfo> currentPlayers)
+        private async Task LoadFriendsForInvite(List<PlayerLobbyInformation> currentPlayers)
         {
             if (!isOwner)
             { 
@@ -467,11 +467,11 @@ namespace TrucoClient.Views
                 ClientManager.FriendClient.GetFriends(SessionManager.CurrentUsername));
         }
 
-        private List<FriendLobbyInfo> FilterFriendsNotInLobby(FriendData[] friends, List<PlayerLobbyInfo> lobbyPlayers)
+        private List<FriendLobbyInformation> FilterFriendsNotInLobby(FriendData[] friends, List<PlayerLobbyInformation> lobbyPlayers)
         {
             return friends
                 .Where(f => !lobbyPlayers.Any(p => p.Username.Equals(f.Username, StringComparison.OrdinalIgnoreCase)))
-                .Select(f => new FriendLobbyInfo
+                .Select(f => new FriendLobbyInformation
                 {
                     Username = f.Username,
                     AvatarUri = LoadAvatar(f.AvatarId),
@@ -661,7 +661,7 @@ namespace TrucoClient.Views
             AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
         }
 
-        private async Task<PlayerLobbyInfo> GetSinglePlayerInfoAsync(PlayerInfo playerInfo)
+        private async Task<PlayerLobbyInformation> GetSinglePlayerInfoAsync(PlayerInfo playerInfo)
         {
             if (playerInfo.Username.StartsWith("Guest_"))
             {
@@ -675,7 +675,7 @@ namespace TrucoClient.Views
                 string avatarId = string.IsNullOrEmpty(profile?.AvatarId) ? DEFAUL_AVATAR_ID : profile.AvatarId;
                 string username = profile?.Username ?? playerInfo.Username;
 
-                return new PlayerLobbyInfo
+                return new PlayerLobbyInformation
                 {
                     Username = username,
                     AvatarUri = LoadAvatar(avatarId),
@@ -706,9 +706,9 @@ namespace TrucoClient.Views
             }
         }
 
-        PlayerLobbyInfo CreateFallbackInfo(PlayerInfo playerInfo)
+        PlayerLobbyInformation CreateFallbackInfo(PlayerInfo playerInfo)
         {
-            return new PlayerLobbyInfo
+            return new PlayerLobbyInformation
             {
                 Username = playerInfo.Username,
                 AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
