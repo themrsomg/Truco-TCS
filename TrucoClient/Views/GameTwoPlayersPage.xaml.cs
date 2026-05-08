@@ -12,10 +12,10 @@ namespace TrucoClient.Views
 {
     public partial class GameTwoPlayersPage : GameBasePage
     {
-        private readonly List<PlayerInfo> players;
+        private readonly List<PlayerInformation> players;
         private const int MAX_CHAT_CHARS = 200;
 
-        public GameTwoPlayersPage(string matchCode, List<PlayerInfo> players)
+        public GameTwoPlayersPage(string matchCode, List<PlayerInformation> players)
         {
             InitializeComponent();
             MapUiControls();
@@ -47,7 +47,7 @@ namespace TrucoClient.Views
             this.Loaded -= GamePage_Loaded;
         }
 
-        protected override void LoadPlayerAvatars(List<PlayerInfo> players)
+        protected override void LoadPlayerAvatars(List<PlayerInformation> players)
         {
             if (players == null || players.Count == 0)
             {

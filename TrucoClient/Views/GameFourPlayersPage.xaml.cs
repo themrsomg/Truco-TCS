@@ -15,18 +15,18 @@ namespace TrucoClient.Views
         private const int MAX_CHAT_CHARS = 200;
 
         private const int NUMBER_OF_PLAYERS = 4;
-        private readonly List<PlayerInfo> players;
+        private readonly List<PlayerInformation> players;
         private string topPlayerName;
         private string leftPlayerName;
         private string rightPlayerName;
 
-        public GameFourPlayersPage(string matchCode, List<PlayerInfo> players)
+        public GameFourPlayersPage(string matchCode, List<PlayerInformation> players)
         {
             InitializeComponent();
             MapUiControls();
             base.InitializeBase(matchCode, this.txtChatMessage, this.ChatMessagesPanel, this.blckPlaceholder);
 
-            this.players = players ?? new List<PlayerInfo>();
+            this.players = players ?? new List<PlayerInformation>();
             base.CurrentMatchPlayers = this.players;
 
             this.Loaded += GamePage_Loaded;
@@ -51,7 +51,7 @@ namespace TrucoClient.Views
             this.Loaded -= GamePage_Loaded;
         }
 
-        protected override void LoadPlayerAvatars(List<PlayerInfo> players)
+        protected override void LoadPlayerAvatars(List<PlayerInformation> players)
         {
             try
             {

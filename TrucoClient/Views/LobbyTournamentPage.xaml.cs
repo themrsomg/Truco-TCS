@@ -33,7 +33,7 @@ namespace TrucoClient.Views
             ClientManager.SetCallbackHandler(null);
         }
 
-        public void OnPlayerJoined(string username, int currentCapacity)
+        public void OnTournamentPlayerJoined(string username, int currentCapacity)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {

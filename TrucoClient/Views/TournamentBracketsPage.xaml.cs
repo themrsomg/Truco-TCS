@@ -23,7 +23,7 @@ namespace TrucoClient.Views
             this.CheckForActiveMatch(initialTree);
         }
 
-        public void OnPlayerJoined(string username, int currentCapacity)
+        public void OnTournamentPlayerJoined(string username, int currentCapacity)
         {
         }
 

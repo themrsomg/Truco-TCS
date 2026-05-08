@@ -373,7 +373,7 @@ namespace TrucoClient.Views
             }
         }
 
-        private async Task<PlayerInfo[]> FetchPlayersFromService()
+        private async Task<PlayerInformation[]> FetchPlayersFromService()
         {
             return await Task.Run(() => ClientManager.MatchClient.GetLobbyPlayers(matchCode));
         }
@@ -388,7 +388,7 @@ namespace TrucoClient.Views
             });
         }
 
-        private async Task<List<PlayerLobbyInformation>> MapServerPlayersToUIAsync(PlayerInfo[] players)
+        private async Task<List<PlayerLobbyInformation>> MapServerPlayersToUIAsync(PlayerInformation[] players)
         {
             var tasks = players.Select(p => GetSinglePlayerInfoAsync(p));
             var results = await Task.WhenAll(tasks);
@@ -661,60 +661,60 @@ namespace TrucoClient.Views
             AddChatMessage(string.Empty, string.Format(Lang.LobbyTextJoinedRoom, matchCode));
         }
 
-        private async Task<PlayerLobbyInformation> GetSinglePlayerInfoAsync(PlayerInfo playerInfo)
+        private async Task<PlayerLobbyInformation> GetSinglePlayerInfoAsync(PlayerInformation PlayerInformation)
         {
-            if (playerInfo.Username.StartsWith("Guest_"))
+            if (PlayerInformation.Username.StartsWith("Guest_"))
             {
-                return CreateFallbackInfo(playerInfo);
+                return CreateFallbackInfo(PlayerInformation);
             }
 
             try
             {
-                var profile = await ClientManager.UserClient.GetUserProfileAsync(playerInfo.Username);
+                var profile = await ClientManager.UserClient.GetUserProfileAsync(PlayerInformation.Username);
 
                 string avatarId = string.IsNullOrEmpty(profile?.AvatarId) ? DEFAUL_AVATAR_ID : profile.AvatarId;
-                string username = profile?.Username ?? playerInfo.Username;
+                string username = profile?.Username ?? PlayerInformation.Username;
 
                 return new PlayerLobbyInformation
                 {
                     Username = username,
                     AvatarUri = LoadAvatar(avatarId),
-                    Team = playerInfo.Team,
+                    Team = PlayerInformation.Team,
                     IsCurrentUser = username == SessionManager.CurrentUsername,
-                    OwnerUsername = playerInfo.OwnerUsername
+                    OwnerUsername = PlayerInformation.OwnerUsername
                 };
             }
             catch (TimeoutException ex)
             {
                 ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
-                return CreateFallbackInfo(playerInfo);
+                return CreateFallbackInfo(PlayerInformation);
             }
             catch (FaultException ex)
             {
                 ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
-                return CreateFallbackInfo(playerInfo);
+                return CreateFallbackInfo(PlayerInformation);
             }
             catch (CommunicationException ex)
             {
                 ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
-                return CreateFallbackInfo(playerInfo);
+                return CreateFallbackInfo(PlayerInformation);
             }
             catch (Exception ex)
             {
                 ClientException.HandleError(ex, nameof(GetSinglePlayerInfoAsync));
-                return CreateFallbackInfo(playerInfo);
+                return CreateFallbackInfo(PlayerInformation);
             }
         }
 
-        PlayerLobbyInformation CreateFallbackInfo(PlayerInfo playerInfo)
+        PlayerLobbyInformation CreateFallbackInfo(PlayerInformation PlayerInformation)
         {
             return new PlayerLobbyInformation
             {
-                Username = playerInfo.Username,
+                Username = PlayerInformation.Username,
                 AvatarUri = LoadAvatar(DEFAUL_AVATAR_ID),
-                Team = playerInfo.Team,
-                IsCurrentUser = playerInfo.Username == SessionManager.CurrentUsername,
-                OwnerUsername = playerInfo.OwnerUsername
+                Team = PlayerInformation.Team,
+                IsCurrentUser = PlayerInformation.Username == SessionManager.CurrentUsername,
+                OwnerUsername = PlayerInformation.OwnerUsername
             };
         }
     }

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using TrucoClient.Helpers.DTOs;
 using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
+using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
@@ -55,7 +56,7 @@ namespace TrucoClient.Views
 
         private async Task<List<TournamentDTO>> FetchTournaments()
         {
-            return await Task.Run(() => ClientManager.TournamentClient.GetAvailableTournaments());
+            return await Task.Run(() => ClientManager.TournamentClient.GetAvailableTournaments().ToList());
         }
 
         private void UpdateTournamentsUI(List<TournamentDTO> tournaments)
@@ -92,15 +93,9 @@ namespace TrucoClient.Views
         {
             Button button = sender as Button;
 
-            if (button == null)
-            {
-                return;
-            }
+            if (button == null) return;
 
-            if (!(button.CommandParameter is int tournamentId))
-            {
-                return;
-            }
+            if (!(button.CommandParameter is int tournamentId)) return;
 
             button.IsEnabled = false;
 
@@ -111,7 +106,7 @@ namespace TrucoClient.Views
         {
             try
             {
-                int userId = SessionManager.CurrentUserData.PlayerID;
+                int userId = SessionManager.CurrentUserData.PlayerId;
                 bool success = await Task.Run(() => ClientManager.TournamentClient.SubscribeToTournament(tournamentId, userId));
 
                 ProcessJoinResult(success, tournamentId, button);

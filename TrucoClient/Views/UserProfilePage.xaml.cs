@@ -528,7 +528,7 @@ namespace TrucoClient.Views
             try
             {
                 var userClient = ClientManager.UserClient;
-                bool success = await userClient.UpdateUserAvatarAsync(SessionManager.CurrentUsername, newAvatarId);
+                bool success = userClient.UpdateUserAvatarAsync(SessionManager.CurrentUsername, newAvatarId);
 
                 if (success)
                 {

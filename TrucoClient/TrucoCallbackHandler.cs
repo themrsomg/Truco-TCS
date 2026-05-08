@@ -10,7 +10,7 @@ using TrucoClient.Views;
 
 namespace TrucoClient.TrucoServer
 {
-    public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback
+    public class TrucoCallbackHandler : ITrucoUserServiceCallback, ITrucoFriendServiceCallback, ITrucoMatchServiceCallback, ITrucoTournamentServiceCallback
     {
         private const string MESSAGE_ERROR = "Error";
         public static List<TrucoCard> BufferedHand { get; set; }
@@ -21,7 +21,6 @@ namespace TrucoClient.TrucoServer
             {
                 return chatPage;
             }
-          
             return null;
         }
 
@@ -31,7 +30,16 @@ namespace TrucoClient.TrucoServer
             {
                 return gamePage;
             }
-            
+            return null;
+        }
+
+        private static ITrucoTournamentCallback GetActiveTournamentPage()
+        {
+            if (Application.Current.MainWindow is InitialWindows main &&
+                main.MainFrame.Content is ITrucoTournamentCallback tournamentPage)
+            {
+                return tournamentPage;
+            }
             return null;
         }
 
@@ -73,7 +81,7 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void OnMatchStarted(string matchCode, PlayerInfo[] players)
+        public void OnMatchStarted(string matchCode, PlayerInformation[] players)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -108,7 +116,7 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        private static void PerformNavigation(string matchCode, PlayerInfo[] players)
+        private static void PerformNavigation(string matchCode, PlayerInformation[] players)
         {
             var main = Application.Current.MainWindow as InitialWindows;
 
@@ -126,7 +134,7 @@ namespace TrucoClient.TrucoServer
             }
         }
 
-        private static Page GetGamePage(string matchCode, List<PlayerInfo> players)
+        private static Page GetGamePage(string matchCode, List<PlayerInformation> players)
         {
             switch (players.Count)
             {
@@ -142,7 +150,7 @@ namespace TrucoClient.TrucoServer
         public void OnMatchEnded(string matchCode, string winner)
         {
             BufferedHand = null;
-            
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 CustomMessageBox.Show(string.Format(Lang.GameTextMatchEnded, winner),
@@ -152,7 +160,7 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void OnCardPlayed(string matchCode, string player, string card) 
+        public void OnCardPlayed(string matchCode, string player, string card)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -172,7 +180,7 @@ namespace TrucoClient.TrucoServer
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                CustomMessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser), 
+                CustomMessageBox.Show(string.Format(Lang.NotificactionDialogTextFriendRequest, fromUser),
                     Lang.NotificactionDialogTextFriendRequestTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
@@ -203,12 +211,12 @@ namespace TrucoClient.TrucoServer
             });
         }
 
-        public void ReceiveCards(TrucoCard[] hand) 
+        public void ReceiveCards(TrucoCard[] hand)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var gamePage = GetActiveGamePage();
-                var handAsList = hand.ToList(); 
+                var handAsList = hand.ToList();
 
                 if (gamePage != null)
                 {
@@ -313,11 +321,30 @@ namespace TrucoClient.TrucoServer
 
         public void Ping()
         {
-            /**
-             * This method is invoked by the server solely to verify the connection vitality.
-             * No logic is required inside because the successful return of the call itself
-             * acts as the confirmation (ACK) that the client session is active and reachable.
-             */
+        }
+
+        public void OnTournamentPlayerJoined(string username, int currentCapacity)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveTournamentPage()?.OnTournamentPlayerJoined(username, currentCapacity);
+            });
+        }
+
+        public void OnTournamentStarted(BracketDTO[] initialBrackets)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveTournamentPage()?.OnTournamentStarted(initialBrackets.ToList());
+            });
+        }
+
+        public void OnBracketUpdated(BracketDTO updatedBracket)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveTournamentPage()?.OnBracketUpdated(updatedBracket);
+            });
         }
     }
 }

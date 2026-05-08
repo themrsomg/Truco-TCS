@@ -51,7 +51,7 @@ namespace TrucoClient.Views
         protected const string BET_CONTRA_FLOR = "ContraFlor";
 
         protected static string currentPlayer => SessionManager.CurrentUsername;
-        protected List<PlayerInfo> CurrentMatchPlayers { get; set; }
+        protected List<PlayerInformation> CurrentMatchPlayers { get; set; }
 
         protected List<TrucoCard> playerHand = new List<TrucoCard>();
         protected TextBox txtBaseChatMessage;
@@ -98,7 +98,7 @@ namespace TrucoClient.Views
         protected Button BtnCallFlor { get; set; }
         protected Button BtnCallContraFlor { get; set; }
 
-        protected abstract void LoadPlayerAvatars(List<PlayerInfo> players);
+        protected abstract void LoadPlayerAvatars(List<PlayerInformation> players);
         
         protected abstract void UpdateTurnUI(string nextPlayerName, string currentBetState);
 
