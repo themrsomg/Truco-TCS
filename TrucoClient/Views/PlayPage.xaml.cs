@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TrucoClient.Helpers.Audio;
-using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 
 namespace TrucoClient.Views
@@ -34,6 +33,11 @@ namespace TrucoClient.Views
         private void ClickSearchMatch(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new SearchMatchPage());
+        }
+
+        private void ClickTournaments(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new JoinTournamentPage());
         }
     }
 }

@@ -1,0 +1,121 @@
+﻿<Page x:Class="TrucoClient.Views.LobbyTournamentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      xmlns:language="clr-namespace:TrucoClient.Properties.Langs"
+      Title="Lobby de torneo" FontFamily="Book Antiqua" FontSize="20" Width="800" Height="600">
+
+    <Border CornerRadius="40" BorderThickness="2" BorderBrush="#555" SnapsToDevicePixels="True">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/wallpaper.png" Stretch="UniformToFill" Opacity="1"/>
+        </Border.Background>
+
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" Opacity="0.6" ShadowDepth="0" Color="Black"/>
+        </Border.Effect>
+
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Lobby de torneo" FontSize="40" Foreground="White" 
+                       HorizontalAlignment="Left" Margin="0,0,0,20"/>
+
+            <TextBlock x:Name="txtPlayerCount" Grid.Row="0" Grid.Column="1" Text="1/8 jugadores" FontSize="25" Foreground="White" 
+                       HorizontalAlignment="Right" Margin="0,0,0,20" VerticalAlignment="Center"/>
+
+            <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,0,20,0" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="LobbyPlayersList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#E6FFFFFF" CornerRadius="10" Margin="0,0,0,10" Padding="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Grid.Column="0" Source="{Binding AvatarUri}" Width="40" Height="40" Margin="5">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20"/>
+                                        </Image.Clip>
+                                    </Image>
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Username}" Foreground="Black" 
+                                               FontSize="22" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Border Grid.Row="1" Grid.Column="1" Background="#E6FFFFFF" CornerRadius="10" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{x:Static language:Lang.LobbyTextLobbyChat}" Foreground="Black" FontSize="22" Margin="0,0,0,10" FontWeight="Bold"/>
+
+                    <ScrollViewer x:Name="ChatScroll" Grid.Row="1" Background="Transparent" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                        <StackPanel x:Name="ChatMessagesPanel"/>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="txtChatMessage" Grid.Column="0" Height="40" FontSize="20" Background="White" BorderThickness="1" 
+                                 BorderBrush="Gray" Padding="5" KeyDown="EnterKeyDown">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="White" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="5">
+                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+
+                        <Button x:Name="btnSendMessage" Grid.Column="1" Click="ClickSendMessage" Content="{x:Static language:Lang.GlobalTextSend}" 
+                                Width="80" Height="40" Cursor="Hand" Margin="5,0,0,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="10" Background="#FF5FE4FA" BorderThickness="2" BorderBrush="#FF3AB8CE">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.7"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Page>

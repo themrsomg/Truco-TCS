@@ -18,6 +18,7 @@ namespace TrucoClient.Helpers.Services
         private static TrucoUserServiceClient userClient;
         private static TrucoMatchServiceClient matchClient;
         private static TrucoFriendServiceClient friendClient;
+        private static TrucoTournamentServiceClient tournamentClient;
 
         public static TrucoUserServiceClient UserClient
         {
@@ -28,7 +29,7 @@ namespace TrucoClient.Helpers.Services
                     SafeAbort(userClient);
                     userClient = new TrucoUserServiceClient(context, "NetTcpBinding_ITrucoUserService");
                 }
-                
+
                 return userClient;
             }
         }
@@ -42,7 +43,7 @@ namespace TrucoClient.Helpers.Services
                     SafeAbort(matchClient);
                     matchClient = new TrucoMatchServiceClient(context, "NetTcpBinding_ITrucoMatchService");
                 }
-                
+
                 return matchClient;
             }
         }
@@ -56,8 +57,22 @@ namespace TrucoClient.Helpers.Services
                     SafeAbort(friendClient);
                     friendClient = new TrucoFriendServiceClient(context, "NetTcpBinding_ITrucoFriendService");
                 }
-                
+
                 return friendClient;
+            }
+        }
+
+        public static TrucoTournamentServiceClient TournamentClient
+        {
+            get
+            {
+                if (tournamentClient == null || tournamentClient.State == CommunicationState.Faulted || tournamentClient.State == CommunicationState.Closed)
+                {
+                    SafeAbort(tournamentClient);
+                    tournamentClient = new TrucoTournamentServiceClient(context, "NetTcpBinding_ITrucoTournamentService");
+                }
+
+                return tournamentClient;
             }
         }
 
@@ -66,10 +81,12 @@ namespace TrucoClient.Helpers.Services
             SafeClose(userClient);
             SafeClose(matchClient);
             SafeClose(friendClient);
+            SafeClose(tournamentClient);
 
             userClient = null;
             matchClient = null;
             friendClient = null;
+            tournamentClient = null;
         }
 
         public static void ResetConnections()
@@ -142,27 +159,18 @@ namespace TrucoClient.Helpers.Services
         {
             try
             {
-                client?.Abort();
+                if (client != null)
+                {
+                    client.Abort();
+                }
             }
             catch (Exception)
             {
-                /** 
-                 * Any exceptions that may occur when attempting 
-                 * to abort the client are intentionally ignored, 
-                 * as the main goal is simply to force the 
-                 * release of resources and assume the client 
-                 * is unusable.
-                 */
             }
         }
 
         internal static void SetCallbackHandler(GameBasePage gameBasePage)
         {
-            /** 
-             * Implementation pending. This method is reserved to set
-             * the reference to the 'GameBasePage' in the WCF callback handler
-             * to allow game notifications on the UI thread.
-             */
         }
     }
 }
