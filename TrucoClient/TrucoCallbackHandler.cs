@@ -331,11 +331,27 @@ namespace TrucoClient.TrucoServer
             });
         }
 
+        public void OnTournamentPlayerLeft(string username, int currentCapacity)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveTournamentPage()?.OnTournamentPlayerLeft(username, currentCapacity);
+            });
+        }
+
         public void OnTournamentStarted(BracketDTO[] initialBrackets)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 GetActiveTournamentPage()?.OnTournamentStarted(initialBrackets.ToList());
+            });
+        }
+
+        public void OnTournamentCancelled(string reason)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                GetActiveTournamentPage()?.OnTournamentCancelled(reason);
             });
         }
 

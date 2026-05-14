@@ -20,6 +20,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -27,12 +28,19 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- Header izquierdo: título -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Lobby de torneo" FontSize="40" Foreground="White" 
                        HorizontalAlignment="Left" Margin="0,0,0,20"/>
 
-            <TextBlock x:Name="txtPlayerCount" Grid.Row="0" Grid.Column="1" Text="1/8 jugadores" FontSize="25" Foreground="White" 
-                       HorizontalAlignment="Right" Margin="0,0,0,20" VerticalAlignment="Center"/>
+            <!-- Header derecho: código + conteo -->
+            <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,20" VerticalAlignment="Center">
+                <TextBlock x:Name="txtTournamentCode" FontSize="18" Foreground="#FFD4D4D4"
+                           HorizontalAlignment="Right"/>
+                <TextBlock x:Name="txtPlayerCount" Text="0 jugadores" FontSize="25" Foreground="White" 
+                           HorizontalAlignment="Right"/>
+            </StackPanel>
 
+            <!-- Lista de jugadores -->
             <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0,0,20,0" VerticalScrollBarVisibility="Auto">
                 <ItemsControl x:Name="LobbyPlayersList">
                     <ItemsControl.ItemTemplate>
@@ -59,6 +67,7 @@
                 </ItemsControl>
             </ScrollViewer>
 
+            <!-- Chat -->
             <Border Grid.Row="1" Grid.Column="1" Background="#E6FFFFFF" CornerRadius="10" Padding="10">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -116,6 +125,61 @@
                     </Grid>
                 </Grid>
             </Border>
+
+            <!-- Botones inferiores -->
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" 
+                        HorizontalAlignment="Right" Margin="0,15,0,0">
+
+                <Button x:Name="btnStartTournament" Click="ClickStartTournament" Content="Iniciar torneo"
+                        Cursor="Hand" Height="45" FontSize="20" Padding="20,0" Margin="0,0,15,0"
+                        Visibility="Collapsed">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FF2EF457" BorderThickness="2" BorderBrush="#FF03D400">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Click="ClickLeaveTournament" Content="Salir" Cursor="Hand" 
+                        Height="45" FontSize="20" Padding="20,0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="#FFFF9595" BorderThickness="2" BorderBrush="#FFBF3333">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
         </Grid>
     </Border>
 </Page>

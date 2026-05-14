@@ -2071,109 +2071,145 @@ namespace TrucoClient.TrucoServer
             return base.Channel.GetPendingFriendRequestsAsync(username);
         }
     }
-    
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TrucoClient.TrucoServer.ITrucoTournamentService", CallbackContract=typeof(TrucoClient.TrucoServer.ITrucoTournamentServiceCallback))]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName = "TrucoClient.TrucoServer.ITrucoTournamentService", CallbackContract = typeof(TrucoClient.TrucoServer.ITrucoTournamentServiceCallback))]
     public interface ITrucoTournamentService
     {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoTournamentService/GetAvailableTournaments", ReplyAction="http://tempuri.org/ITrucoTournamentService/GetAvailableTournamentsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action="http://tempuri.org/ITrucoTournamentService/GetAvailableTournamentsCustomFaultFaul" +
-            "t", Name="CustomFault", Namespace="http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
-        TrucoClient.TrucoServer.TournamentDTO[] GetAvailableTournaments();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoTournamentService/GetAvailableTournaments", ReplyAction="http://tempuri.org/ITrucoTournamentService/GetAvailableTournamentsResponse")]
-        System.Threading.Tasks.Task<TrucoClient.TrucoServer.TournamentDTO[]> GetAvailableTournamentsAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoTournamentService/SubscribeToTournament", ReplyAction="http://tempuri.org/ITrucoTournamentService/SubscribeToTournamentResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action="http://tempuri.org/ITrucoTournamentService/SubscribeToTournamentCustomFaultFault", Name="CustomFault", Namespace="http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
-        bool SubscribeToTournament(int tournamentId, int userId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoTournamentService/SubscribeToTournament", ReplyAction="http://tempuri.org/ITrucoTournamentService/SubscribeToTournamentResponse")]
-        System.Threading.Tasks.Task<bool> SubscribeToTournamentAsync(int tournamentId, int userId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoTournamentService/GetTournamentTree", ReplyAction="http://tempuri.org/ITrucoTournamentService/GetTournamentTreeResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action="http://tempuri.org/ITrucoTournamentService/GetTournamentTreeCustomFaultFault", Name="CustomFault", Namespace="http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/CreateTournament", ReplyAction = "http://tempuri.org/ITrucoTournamentService/CreateTournamentResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action = "http://tempuri.org/ITrucoTournamentService/CreateTournamentCustomFaultFault", Name = "CustomFault", Namespace = "http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
+        string CreateTournament(int capacity, int hostUserId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/CreateTournament", ReplyAction = "http://tempuri.org/ITrucoTournamentService/CreateTournamentResponse")]
+        System.Threading.Tasks.Task<string> CreateTournamentAsync(int capacity, int hostUserId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/JoinTournamentByCode", ReplyAction = "http://tempuri.org/ITrucoTournamentService/JoinTournamentByCodeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action = "http://tempuri.org/ITrucoTournamentService/JoinTournamentByCodeCustomFaultFault", Name = "CustomFault", Namespace = "http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
+        bool JoinTournamentByCode(string code, int userId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/JoinTournamentByCode", ReplyAction = "http://tempuri.org/ITrucoTournamentService/JoinTournamentByCodeResponse")]
+        System.Threading.Tasks.Task<bool> JoinTournamentByCodeAsync(string code, int userId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/StartTournament", ReplyAction = "http://tempuri.org/ITrucoTournamentService/StartTournamentResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action = "http://tempuri.org/ITrucoTournamentService/StartTournamentCustomFaultFault", Name = "CustomFault", Namespace = "http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
+        bool StartTournament(string code, int hostUserId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/StartTournament", ReplyAction = "http://tempuri.org/ITrucoTournamentService/StartTournamentResponse")]
+        System.Threading.Tasks.Task<bool> StartTournamentAsync(string code, int hostUserId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/LeaveTournament", ReplyAction = "http://tempuri.org/ITrucoTournamentService/LeaveTournamentResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action = "http://tempuri.org/ITrucoTournamentService/LeaveTournamentCustomFaultFault", Name = "CustomFault", Namespace = "http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
+        bool LeaveTournament(string code, int userId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/LeaveTournament", ReplyAction = "http://tempuri.org/ITrucoTournamentService/LeaveTournamentResponse")]
+        System.Threading.Tasks.Task<bool> LeaveTournamentAsync(string code, int userId);
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/GetTournamentTree", ReplyAction = "http://tempuri.org/ITrucoTournamentService/GetTournamentTreeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(TrucoClient.TrucoServer.CustomFault), Action = "http://tempuri.org/ITrucoTournamentService/GetTournamentTreeCustomFaultFault", Name = "CustomFault", Namespace = "http://schemas.datacontract.org/2004/07/TrucoServer.Data.DTOs")]
         TrucoClient.TrucoServer.BracketDTO[] GetTournamentTree(int tournamentId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITrucoTournamentService/GetTournamentTree", ReplyAction="http://tempuri.org/ITrucoTournamentService/GetTournamentTreeResponse")]
+
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/ITrucoTournamentService/GetTournamentTree", ReplyAction = "http://tempuri.org/ITrucoTournamentService/GetTournamentTreeResponse")]
         System.Threading.Tasks.Task<TrucoClient.TrucoServer.BracketDTO[]> GetTournamentTreeAsync(int tournamentId);
     }
-    
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ITrucoTournamentServiceCallback
     {
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoTournamentService/OnTournamentPlayerJoined")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay = true, Action = "http://tempuri.org/ITrucoTournamentService/OnTournamentPlayerJoined")]
         void OnTournamentPlayerJoined(string username, int currentCapacity);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoTournamentService/OnTournamentStarted")]
+
+        [System.ServiceModel.OperationContractAttribute(IsOneWay = true, Action = "http://tempuri.org/ITrucoTournamentService/OnTournamentPlayerLeft")]
+        void OnTournamentPlayerLeft(string username, int currentCapacity);
+
+        [System.ServiceModel.OperationContractAttribute(IsOneWay = true, Action = "http://tempuri.org/ITrucoTournamentService/OnTournamentStarted")]
         void OnTournamentStarted(TrucoClient.TrucoServer.BracketDTO[] initialBrackets);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ITrucoTournamentService/OnBracketUpdated")]
+
+        [System.ServiceModel.OperationContractAttribute(IsOneWay = true, Action = "http://tempuri.org/ITrucoTournamentService/OnTournamentCancelled")]
+        void OnTournamentCancelled(string reason);
+
+        [System.ServiceModel.OperationContractAttribute(IsOneWay = true, Action = "http://tempuri.org/ITrucoTournamentService/OnBracketUpdated")]
         void OnBracketUpdated(TrucoClient.TrucoServer.BracketDTO updatedBracket);
     }
-    
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ITrucoTournamentServiceChannel : TrucoClient.TrucoServer.ITrucoTournamentService, System.ServiceModel.IClientChannel
     {
     }
-    
+
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class TrucoTournamentServiceClient : System.ServiceModel.DuplexClientBase<TrucoClient.TrucoServer.ITrucoTournamentService>, TrucoClient.TrucoServer.ITrucoTournamentService
     {
-        
-        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance) :
                 base(callbackInstance)
         {
         }
-        
-        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+
+        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) :
                 base(callbackInstance, endpointConfigurationName)
         {
         }
-        
-        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+
+        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) :
                 base(callbackInstance, endpointConfigurationName, remoteAddress)
         {
         }
-        
-        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+
+        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
                 base(callbackInstance, endpointConfigurationName, remoteAddress)
         {
         }
-        
-        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+
+        public TrucoTournamentServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
                 base(callbackInstance, binding, remoteAddress)
         {
         }
-        
-        public TrucoClient.TrucoServer.TournamentDTO[] GetAvailableTournaments()
+
+        public string CreateTournament(int capacity, int hostUserId)
         {
-            return base.Channel.GetAvailableTournaments();
+            return base.Channel.CreateTournament(capacity, hostUserId);
         }
-        
-        public System.Threading.Tasks.Task<TrucoClient.TrucoServer.TournamentDTO[]> GetAvailableTournamentsAsync()
+
+        public System.Threading.Tasks.Task<string> CreateTournamentAsync(int capacity, int hostUserId)
         {
-            return base.Channel.GetAvailableTournamentsAsync();
+            return base.Channel.CreateTournamentAsync(capacity, hostUserId);
         }
-        
-        public bool SubscribeToTournament(int tournamentId, int userId)
+
+        public bool JoinTournamentByCode(string code, int userId)
         {
-            return base.Channel.SubscribeToTournament(tournamentId, userId);
+            return base.Channel.JoinTournamentByCode(code, userId);
         }
-        
-        public System.Threading.Tasks.Task<bool> SubscribeToTournamentAsync(int tournamentId, int userId)
+
+        public System.Threading.Tasks.Task<bool> JoinTournamentByCodeAsync(string code, int userId)
         {
-            return base.Channel.SubscribeToTournamentAsync(tournamentId, userId);
+            return base.Channel.JoinTournamentByCodeAsync(code, userId);
         }
-        
+
+        public bool StartTournament(string code, int hostUserId)
+        {
+            return base.Channel.StartTournament(code, hostUserId);
+        }
+
+        public System.Threading.Tasks.Task<bool> StartTournamentAsync(string code, int hostUserId)
+        {
+            return base.Channel.StartTournamentAsync(code, hostUserId);
+        }
+
+        public bool LeaveTournament(string code, int userId)
+        {
+            return base.Channel.LeaveTournament(code, userId);
+        }
+
+        public System.Threading.Tasks.Task<bool> LeaveTournamentAsync(string code, int userId)
+        {
+            return base.Channel.LeaveTournamentAsync(code, userId);
+        }
+
         public TrucoClient.TrucoServer.BracketDTO[] GetTournamentTree(int tournamentId)
         {
             return base.Channel.GetTournamentTree(tournamentId);
         }
-        
+
         public System.Threading.Tasks.Task<TrucoClient.TrucoServer.BracketDTO[]> GetTournamentTreeAsync(int tournamentId)
         {
             return base.Channel.GetTournamentTreeAsync(tournamentId);

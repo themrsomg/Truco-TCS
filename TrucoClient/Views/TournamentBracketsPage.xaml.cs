@@ -23,13 +23,13 @@ namespace TrucoClient.Views
             this.CheckForActiveMatch(initialTree);
         }
 
-        public void OnTournamentPlayerJoined(string username, int currentCapacity)
-        {
-        }
+        public void OnTournamentPlayerJoined(string username, int currentCapacity) { }
 
-        public void OnTournamentStarted(List<BracketDTO> initialBrackets)
-        {
-        }
+        public void OnTournamentPlayerLeft(string username, int currentCapacity) { }
+
+        public void OnTournamentStarted(List<BracketDTO> initialBrackets) { }
+
+        public void OnTournamentCancelled(string reason) { }
 
         public void OnBracketUpdated(BracketDTO updatedBracket)
         {
@@ -148,10 +148,7 @@ namespace TrucoClient.Views
 
         private void HighlightIfMine(Border border, string playerName)
         {
-            if (string.IsNullOrEmpty(playerName))
-            {
-                return;
-            }
+            if (string.IsNullOrEmpty(playerName)) return;
 
             if (playerName == SessionManager.CurrentUsername)
             {

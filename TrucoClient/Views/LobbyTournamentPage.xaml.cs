@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,19 +20,25 @@ namespace TrucoClient.Views
     public partial class LobbyTournamentPage : Page, ITrucoTournamentCallback
     {
         private const int MAX_CHAT_CHARS = 200;
-        private readonly int currentTournamentId;
+        private const string MESSAGE_ERROR = "Error";
+        private readonly string tournamentCode;
+        private readonly bool isHost;
         private ObservableCollection<PlayerDisplay> participants;
 
-        public LobbyTournamentPage(int tournamentId)
+        public LobbyTournamentPage(string code, bool isHost)
         {
             InitializeComponent();
-            this.currentTournamentId = tournamentId;
+            this.tournamentCode = code;
+            this.isHost = isHost;
             this.participants = new ObservableCollection<PlayerDisplay>();
 
             LobbyPlayersList.ItemsSource = this.participants;
             InputRestriction.AttachChatValidation(this.txtChatMessage, MAX_CHAT_CHARS);
 
             ClientManager.SetCallbackHandler(null);
+
+            txtTournamentCode.Text = $"Código: {code}";
+            btnStartTournament.Visibility = isHost ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void OnTournamentPlayerJoined(string username, int currentCapacity)
@@ -45,8 +53,18 @@ namespace TrucoClient.Views
 
                 this.participants.Add(newPlayer);
                 this.txtPlayerCount.Text = $"{currentCapacity} jugadores";
-
                 AddSystemMessage($"{username} se ha unido al torneo.");
+            });
+        }
+
+        public void OnTournamentPlayerLeft(string username, int currentCapacity)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var player = this.participants.FirstOrDefault(p => p.Username == username);
+                if (player != null) this.participants.Remove(player);
+                this.txtPlayerCount.Text = $"{currentCapacity} jugadores";
+                AddSystemMessage($"{username} salió del torneo.");
             });
         }
 
@@ -54,7 +72,16 @@ namespace TrucoClient.Views
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.NavigationService.Navigate(new TournamentBracketsPage(this.currentTournamentId, tree));
+                this.NavigationService.Navigate(new TournamentBracketsPage(tree));
+            });
+        }
+
+        public void OnTournamentCancelled(string reason)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                CustomMessageBox.Show(reason, "Torneo cancelado", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.NavigationService.Navigate(new PlayPage());
             });
         }
 
@@ -62,22 +89,61 @@ namespace TrucoClient.Views
         {
         }
 
+        private async void ClickStartTournament(object sender, RoutedEventArgs e)
+        {
+            btnStartTournament.IsEnabled = false;
+            try
+            {
+                int userId = SessionManager.CurrentUserData.PlayerId;
+                bool success = await Task.Run(() => ClientManager.TournamentClient.StartTournament(this.tournamentCode, userId));
+
+                if (!success)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        CustomMessageBox.Show("No se puede iniciar. Verifica que el torneo esté lleno.", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                        btnStartTournament.IsEnabled = true;
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    CustomMessageBox.Show("Error al iniciar el torneo.", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    btnStartTournament.IsEnabled = true;
+                });
+            }
+        }
+
+        private async void ClickLeaveTournament(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int userId = SessionManager.CurrentUserData.PlayerId;
+                await Task.Run(() => ClientManager.TournamentClient.LeaveTournament(this.tournamentCode, userId));
+            }
+            catch (Exception)
+            {
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.NavigationService.Navigate(new PlayPage());
+            });
+        }
+
         private void ClickSendMessage(object sender, RoutedEventArgs e)
         {
             string message = txtChatMessage.Text.Trim();
-
-            if (string.IsNullOrEmpty(message))
-            {
-                return;
-            }
-
+            if (string.IsNullOrEmpty(message)) return;
             AddUserMessage(SessionManager.CurrentUsername, message);
             txtChatMessage.Clear();
         }
 
         private void AddSystemMessage(string message)
         {
-            TextBlock messageText = new TextBlock
+            ChatMessagesPanel.Children.Add(new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 16,
@@ -85,24 +151,20 @@ namespace TrucoClient.Views
                 Foreground = Brushes.DarkGray,
                 FontStyle = FontStyles.Italic,
                 Margin = new Thickness(0, 0, 0, 5)
-            };
-
-            ChatMessagesPanel.Children.Add(messageText);
+            });
             ChatScroll.ScrollToEnd();
         }
 
         private void AddUserMessage(string senderName, string message)
         {
-            TextBlock messageText = new TextBlock
+            ChatMessagesPanel.Children.Add(new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 18,
                 Text = $"{senderName}: {message}",
                 Foreground = Brushes.Black,
                 Margin = new Thickness(0, 0, 0, 5)
-            };
-
-            ChatMessagesPanel.Children.Add(messageText);
+            });
             ChatScroll.ScrollToEnd();
         }
 
