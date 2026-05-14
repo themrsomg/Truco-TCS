@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,150 +7,69 @@ using TrucoClient.Helpers.Exceptions;
 using TrucoClient.Helpers.Services;
 using TrucoClient.Helpers.Session;
 using TrucoClient.Properties.Langs;
-using TrucoClient.TrucoServer;
 
 namespace TrucoClient.Views
 {
     public partial class JoinTournamentPage : Page
     {
         private const string MESSAGE_ERROR = "Error";
-        private const string CAPACITY_FORMAT = "0/{0}";
 
         public JoinTournamentPage()
         {
             InitializeComponent();
-            this.Loaded += PageLoaded;
         }
 
-        private async void PageLoaded(object sender, RoutedEventArgs e)
+        private async void ClickJoin(object sender, RoutedEventArgs e)
         {
-            this.Loaded -= PageLoaded;
-            await LoadTournamentsAsync();
-        }
+            string code = txtCode.Text.Trim().ToUpper();
 
-        private async Task LoadTournamentsAsync()
-        {
-            try
+            if (code.Length != 6)
             {
-                var serverTournaments = await FetchTournaments();
-                UpdateTournamentsUI(serverTournaments);
-            }
-            catch (FaultException ex)
-            {
-                ClientException.HandleError(ex, nameof(LoadTournamentsAsync));
-                ShowErrorDialog();
-            }
-            catch (CommunicationException ex)
-            {
-                ClientException.HandleError(ex, nameof(LoadTournamentsAsync));
-                ShowErrorDialog();
-            }
-            catch (Exception ex)
-            {
-                ClientException.HandleError(ex, nameof(LoadTournamentsAsync));
-                ShowErrorDialog();
-            }
-        }
-
-        private async Task<List<TournamentDTO>> FetchTournaments()
-        {
-            return await Task.Run(() => ClientManager.TournamentClient.GetAvailableTournaments().ToList());
-        }
-
-        private void UpdateTournamentsUI(List<TournamentDTO> tournaments)
-        {
-            var displayList = new List<object>();
-
-            foreach (var tournament in tournaments)
-            {
-                var displayItem = new
-                {
-                    Id = tournament.Id,
-                    Name = tournament.Name,
-                    CapacityText = string.Format(CAPACITY_FORMAT, tournament.Capacity)
-                };
-
-                displayList.Add(displayItem);
+                CustomMessageBox.Show("El código debe tener 6 caracteres.", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
+            if (SessionManager.CurrentUserData == null)
             {
-                TournamentsList.ItemsSource = displayList;
-            });
-        }
+                CustomMessageBox.Show("Debes iniciar sesión para unirte a un torneo.", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-        private void ShowErrorDialog()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            });
-        }
+            btnJoin.IsEnabled = false;
 
-        private async void ClickJoinTournament(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-
-            if (button == null) return;
-
-            if (!(button.CommandParameter is int tournamentId)) return;
-
-            button.IsEnabled = false;
-
-            await AttemptJoinTournament(tournamentId, button);
-        }
-
-        private async Task AttemptJoinTournament(int tournamentId, Button button)
-        {
             try
             {
                 int userId = SessionManager.CurrentUserData.PlayerId;
-                bool success = await Task.Run(() => ClientManager.TournamentClient.SubscribeToTournament(tournamentId, userId));
+                bool success = await Task.Run(() => ClientManager.TournamentClient.JoinTournamentByCode(code, userId));
 
-                ProcessJoinResult(success, tournamentId, button);
+                if (success)
+                {
+                    this.NavigationService.Navigate(new LobbyTournamentPage(code, false));
+                }
+                else
+                {
+                    btnJoin.IsEnabled = true;
+                    CustomMessageBox.Show("No se encontró el torneo o ya está lleno.", MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
             catch (FaultException ex)
             {
-                HandleJoinError(ex, button);
+                btnJoin.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (CommunicationException ex)
             {
-                HandleJoinError(ex, button);
+                btnJoin.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextCommunication, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                HandleJoinError(ex, button);
+                btnJoin.IsEnabled = true;
+                ClientException.HandleError(ex, nameof(ClickJoin));
+                CustomMessageBox.Show(Lang.ExceptionTextErrorOcurred, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void ProcessJoinResult(bool success, int tournamentId, Button button)
-        {
-            if (success)
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.NavigationService.Navigate(new LobbyTournamentPage(tournamentId));
-                });
-            }
-            else
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    button.IsEnabled = true;
-                    CustomMessageBox.Show(Lang.ExceptionTextErrorJoiningMatch, MESSAGE_ERROR, MessageBoxButton.OK, MessageBoxImage.Warning);
-                });
-            }
-        }
-
-        private void HandleJoinError(Exception ex, Button button)
-        {
-            ClientException.HandleError(ex, nameof(AttemptJoinTournament));
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                button.IsEnabled = true;
-                ShowErrorDialog();
-            });
         }
 
         private void ClickBack(object sender, RoutedEventArgs e)

@@ -11,14 +11,11 @@ namespace TrucoClient.Views
 {
     public partial class TournamentBracketsPage : Page, ITrucoTournamentCallback
     {
-        private readonly int currentTournamentId;
         private readonly SolidColorBrush highlightBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2EF457"));
 
-        public TournamentBracketsPage(int tournamentId, List<BracketDTO> initialTree)
+        public TournamentBracketsPage(List<BracketDTO> initialTree)
         {
             InitializeComponent();
-            this.currentTournamentId = tournamentId;
-
             this.RenderTree(initialTree);
             this.CheckForActiveMatch(initialTree);
         }
