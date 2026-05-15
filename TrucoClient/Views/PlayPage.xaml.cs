@@ -37,7 +37,7 @@ namespace TrucoClient.Views
 
         private void ClickTournaments(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new JoinTournamentPage());
+            this.NavigationService.Navigate(new TournamentMenuPage());
         }
     }
 }

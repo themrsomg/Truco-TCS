@@ -169,6 +169,9 @@
     <Compile Include="Views\CreateGamePage.xaml.cs">
       <DependentUpon>CreateGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CreateTournamentPage.xaml.cs">
+      <DependentUpon>CreateTournamentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,9 @@
     <Compile Include="Views\TournamentBracketsPage.xaml.cs">
       <DependentUpon>TournamentBracketsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TournamentMenuPage.xaml.cs">
+      <DependentUpon>TournamentMenuPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
@@ -283,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreateGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateTournamentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -404,6 +414,10 @@
     <Page Include="Views\TournamentBracketsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TournamentMenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserProfilePage.xaml">
       <SubType>Designer</SubType>

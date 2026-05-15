@@ -74,7 +74,7 @@ namespace TrucoClient.Views
 
         private void ClickBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new PlayPage());
+            this.NavigationService.Navigate(new TournamentMenuPage());
         }
     }
 }

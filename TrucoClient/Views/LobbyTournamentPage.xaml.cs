@@ -39,6 +39,16 @@ namespace TrucoClient.Views
 
             txtTournamentCode.Text = $"Código: {code}";
             btnStartTournament.Visibility = isHost ? Visibility.Visible : Visibility.Collapsed;
+
+            if (isHost)
+            {
+                participants.Add(new PlayerDisplay
+                {
+                    Username = SessionManager.CurrentUsername,
+                    AvatarUri = LoadDefaultAvatar()
+                });
+                txtPlayerCount.Text = "1 jugadores";
+            }
         }
 
         public void OnTournamentPlayerJoined(string username, int currentCapacity)
@@ -129,7 +139,7 @@ namespace TrucoClient.Views
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.NavigationService.Navigate(new PlayPage());
+                this.NavigationService.Navigate(new TournamentMenuPage());
             });
         }
 
@@ -181,7 +191,7 @@ namespace TrucoClient.Views
         {
             var image = new BitmapImage();
             image.BeginInit();
-            image.UriSource = new Uri(ResourcePaths.DEFAULT_AVATAR_PATH, UriKind.Absolute);
+            image.UriSource = new Uri($"pack://application:,,,{ResourcePaths.DEFAULT_AVATAR_PATH}", UriKind.Absolute);
             image.CacheOption = BitmapCacheOption.OnLoad;
             image.EndInit();
             image.Freeze();
